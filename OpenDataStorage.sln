@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDataStorage", "OpenDataStorage\OpenDataStorage.csproj", "{48DA2A1E-EB91-4203-9565-39596FDC66E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDataStorageCore", "OpenDataStorageCore\OpenDataStorageCore.csproj", "{0A729AF8-691B-4761-9CF4-D135E9F635D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{48DA2A1E-EB91-4203-9565-39596FDC66E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48DA2A1E-EB91-4203-9565-39596FDC66E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48DA2A1E-EB91-4203-9565-39596FDC66E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A729AF8-691B-4761-9CF4-D135E9F635D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A729AF8-691B-4761-9CF4-D135E9F635D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A729AF8-691B-4761-9CF4-D135E9F635D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A729AF8-691B-4761-9CF4-D135E9F635D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
