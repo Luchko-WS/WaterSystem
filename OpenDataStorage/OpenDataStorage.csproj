@@ -202,19 +202,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\BaseApiController.cs" />
+    <Compile Include="API\LanguageController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Common\IApplicationDbContext.cs" />
+    <Compile Include="Common\ILogger.cs" />
+    <Compile Include="Common\LanguageManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Lexicon.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Lexicon.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Common\ApplicationDbContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -230,6 +241,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <None Include="Scripts\libs\jquery\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\libs\jquery\jquery-1.12.4.js" />
+    <Content Include="Scripts\libs\jquery\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\libs\angularjs\angular-translate-loader-url.js" />
+    <Content Include="Scripts\libs\angularjs\angular-translate-loader-url.min.js" />
+    <Content Include="Scripts\libs\angularjs\angular-translate.js" />
+    <Content Include="Scripts\libs\angularjs\angular-translate.min.js" />
     <Content Include="Scripts\libs\angularjs\angular-animate.js" />
     <Content Include="Scripts\libs\angularjs\angular-animate.min.js" />
     <Content Include="Scripts\libs\angularjs\angular-aria.js" />
@@ -279,7 +297,7 @@
     <Content Include="Scripts\libs\angularjs\angular-cookies.min.js.map" />
     <Content Include="Scripts\libs\angularjs\angular-aria.min.js.map" />
     <Content Include="Scripts\libs\angularjs\angular-animate.min.js.map" />
-    <None Include="Scripts\libs\jquery\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\libs\jquery\jquery-1.12.4.min.map" />
     <Content Include="Scripts\libs\angularjs\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\libs\angularjs\i18n\angular-locale_af-za.js" />
     <Content Include="Scripts\libs\angularjs\i18n\angular-locale_af.js" />
@@ -1018,10 +1036,6 @@
     <Content Include="Scripts\libs\angularjs\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\libs\angularjs\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\libs\angularjs\i18n\angular-locale_zu.js" />
-    <Content Include="Scripts\libs\jquery\jquery-3.3.1.js" />
-    <Content Include="Scripts\libs\jquery\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\libs\jquery\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\libs\jquery\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\libs\jquery\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\libs\jquery\jquery.validate.js" />
     <Content Include="Scripts\libs\jquery\jquery.validate.min.js" />
@@ -1067,6 +1081,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -1078,14 +1093,21 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\libs\jquery\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\libs\jquery\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenDataStorageCore\OpenDataStorageCore.csproj">
       <Project>{0a729af8-691b-4761-9cf4-d135e9f635d4}</Project>
       <Name>OpenDataStorageCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Lexicon.en.resx" />
+    <EmbeddedResource Include="Resources\Lexicon.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Lexicon.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Lexicon.ru.resx" />
+    <EmbeddedResource Include="Resources\Lexicon.ua.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
