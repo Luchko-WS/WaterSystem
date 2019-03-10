@@ -219,6 +219,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903101132426_Init.cs" />
+    <Compile Include="Migrations\201903101132426_Init.Designer.cs">
+      <DependentUpon>201903101132426_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Resources\Lexicon.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1101,6 +1106,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903101132426_Init.resx">
+      <DependentUpon>201903101132426_Init.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.en.resx" />
     <EmbeddedResource Include="Resources\Lexicon.resx">
       <Generator>ResXFileCodeGenerator</Generator>

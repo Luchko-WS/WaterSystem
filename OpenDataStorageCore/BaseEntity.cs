@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenDataStorageCore
 {
@@ -10,9 +6,11 @@ namespace OpenDataStorageCore
     {
         public BaseEntity()
         {
-            Id = new Guid();
+            this.Id = new Guid();
         }
 
         public Guid Id { get; set; }
+
+        public string OwnerId { get; set; }
     }
 }
