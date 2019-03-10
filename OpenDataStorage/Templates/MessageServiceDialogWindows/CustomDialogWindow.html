@@ -1,0 +1,11 @@
+﻿<div class="modal-window">
+    <div class="modal-header">
+        <h3 class="modal-title">{{vm.modalParams.header | translate}}</h3>
+    </div>
+    <div class="modal-body">
+        {{vm.modalParams.message | translate}}
+    </div>
+    <div class="modal-footer modal-window-custom-footer">
+        <button ng-repeat='btn in vm.modalParams.buttons' class="{{btn.btnClass}}" type="button" ng-click="vm.closeForResult(btn.result)">{{'btn.text' | translate}}</button>
+    </div>
+</div>
