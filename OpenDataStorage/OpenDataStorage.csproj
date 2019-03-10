@@ -254,15 +254,23 @@
     <Compile Include="ViewModels\ManageViewModels\VerifyPhoneNumberViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="Content\css\angular-block-ui\angular-block-ui.css" />
+    <Content Include="Content\css\angular-block-ui\angular-block-ui.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap.css" />
+    <Content Include="Content\css\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\images\ajax-loader.gif" />
+    <Content Include="Content\css\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\css\Site.css" />
+    <Content Include="Scripts\libs\angularjs\angular-block-ui\angular-block-ui.js" />
+    <Content Include="Scripts\libs\angularjs\angular-block-ui\angular-block-ui.min.js" />
+    <Content Include="Scripts\libs\angularjs\angular-block-ui\angular-block-ui.min.js.map" />
+    <Content Include="Scripts\libs\angularjs\angular-block-ui\angular-block-ui.js.map" />
+    <Content Include="Content\css\angular-block-ui\angular-block-ui.css.map" />
     <None Include="Scripts\libs\jquery\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\app\Common\Directives\AsyncPageWithLoaderDirective.js" />
     <Content Include="Scripts\app\Common\Directives\ExtraBootstrapNavbarDirective.js" />
@@ -1117,10 +1125,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\css\bootstrap\bootstrap.min.css.map" />
+    <Content Include="Content\css\bootstrap\bootstrap.css.map" />
+    <Content Include="Content\css\bootstrap\bootstrap-theme.min.css.map" />
+    <Content Include="Content\css\bootstrap\bootstrap-theme.css.map" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

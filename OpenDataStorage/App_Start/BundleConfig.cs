@@ -14,7 +14,8 @@ namespace OpenDataStorage
                 .Include("~/Scripts/libs/angularjs/angular-cookies.js")
                 .Include("~/Scripts/libs/angularjs/angular-translate.js")
                 .Include("~/Scripts/libs/angularjs/angular-translate-loader-url.js")
-                .IncludeDirectory("~/Scripts/libs/angularjs/angular-ui", "*.js", true));
+                .IncludeDirectory("~/Scripts/libs/angularjs/angular-ui", "*.js", true)
+                .IncludeDirectory("~/Scripts/libs/angularjs/angular-block-ui", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/libs/jquery/jquery.validate*"));
@@ -28,8 +29,10 @@ namespace OpenDataStorage
                       "~/Scripts/libs/bootstrap/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/css/bootstrap/bootstrap.css",
+                      "~/Content/css/angular-block-ui/angular-block-ui.css",
+                      "~/Content/css/ui-bootstrap-csp.css",
+                      "~/Content/css/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                         "~/Scripts/app/app.js"));
