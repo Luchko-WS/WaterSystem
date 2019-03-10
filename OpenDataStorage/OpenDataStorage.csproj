@@ -213,6 +213,7 @@
     <Compile Include="Common\IApplicationDbContext.cs" />
     <Compile Include="Common\ILogger.cs" />
     <Compile Include="Common\LanguageManager.cs" />
+    <Compile Include="Common\Mapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\SelectedListHelper.cs" />
     <Compile Include="Migrations\201903101132426_Init.cs" />
     <Compile Include="Migrations\201903101132426_Init.Designer.cs">
       <DependentUpon>201903101132426_Init.cs</DependentUpon>
@@ -230,12 +232,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Lexicon.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Common\ApplicationDbContext.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="ViewModels\AccountViewModels\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels\ExternalLoginListViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels\ForgotPasswordViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels\ForgotViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels\SendCodeViewModel.cs" />
+    <Compile Include="ViewModels\AccountViewModels\VerifyCodeViewModel.cs" />
+    <Compile Include="ViewModels\ManageViewModels\AddPhoneNumberViewModel.cs" />
+    <Compile Include="ViewModels\ManageViewModels\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\ManageViewModels\ConfigureTwoFactorViewModel.cs" />
+    <Compile Include="ViewModels\ManageViewModels\FactorViewModel.cs" />
+    <Compile Include="ViewModels\ManageViewModels\IndexViewModel.cs" />
+    <Compile Include="ViewModels\ManageViewModels\ManageLoginsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ManageViewModels\SetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\ManageViewModels\VerifyPhoneNumberViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -248,6 +264,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <None Include="Scripts\libs\jquery\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\app\Common\Directives\AsyncPageWithLoaderDirective.js" />
+    <Content Include="Scripts\app\Common\Directives\ExtraBootstrapNavbarDirective.js" />
+    <Content Include="Scripts\app\Common\Services\MessageService.js" />
     <Content Include="Scripts\libs\jquery\jquery-1.12.4.js" />
     <Content Include="Scripts\libs\jquery\jquery-1.12.4.min.js" />
     <Content Include="Scripts\libs\angularjs\angular-translate-loader-url.js" />
@@ -1049,6 +1068,11 @@
     <Content Include="Scripts\libs\jquery\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\libs\modernizr-2.8.3.js" />
     <Content Include="Scripts\libs\sitemap.xml" />
+    <Content Include="Templates\DirectivesTemplates\ExtraBootstrapNavbar.html" />
+    <Content Include="Templates\DirectivesTemplates\LoadingSpinnerTemplate.html" />
+    <Content Include="Templates\MessageServiceDialogWindows\CustomDialogWindow.html" />
+    <Content Include="Templates\MessageServiceDialogWindows\OkDialogWindow.html" />
+    <Content Include="Templates\MessageServiceDialogWindows\YesNoDialogWindow.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

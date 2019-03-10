@@ -5,8 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using OpenDataStorage.Models;
+using OpenDataStorage.ViewModels.ManageViewModels;
 using OpenDataStorage.Common;
+using OpenDataStorageCore;
 
 namespace OpenDataStorage
 {

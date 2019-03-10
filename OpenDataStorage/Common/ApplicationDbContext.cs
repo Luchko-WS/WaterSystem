@@ -3,7 +3,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
-using OpenDataStorage.Models;
 using OpenDataStorageCore;
 
 namespace OpenDataStorage.Common
