@@ -47,7 +47,7 @@ namespace OpenDataStorage.API
                         }
                     }
                 }
-                return this.language ?? "en";
+                return this.language ?? "ua";
             }
         }
     }
