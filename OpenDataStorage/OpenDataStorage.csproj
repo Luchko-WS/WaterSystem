@@ -1141,13 +1141,20 @@
     <EmbeddedResource Include="Migrations\201903101132426_Init.resx">
       <DependentUpon>201903101132426_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Lexicon.en.resx" />
+    <EmbeddedResource Include="Resources\Lexicon.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Lexicon.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Lexicon.ru.resx" />
-    <EmbeddedResource Include="Resources\Lexicon.ua.resx" />
+    <EmbeddedResource Include="Resources\Lexicon.ru.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Lexicon.uk.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
