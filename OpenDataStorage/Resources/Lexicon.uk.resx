@@ -118,174 +118,174 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="LogIn" xml:space="preserve">
-    <value>Войти</value>
+    <value>Увійти</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Зарегистрироватся</value>
+    <value>Зареєструватися</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Привет, {0}!</value>
+    <value>Привіт, {0}!</value>
   </data>
   <data name="LogOff" xml:space="preserve">
-    <value>Выйти</value>
+    <value>Вийти</value>
   </data>
   <data name="UserName" xml:space="preserve">
-    <value>Имя пользователя</value>
+    <value>Ім'я користувача</value>
   </data>
   <data name="FirstName" xml:space="preserve">
-    <value>Имя</value>
+    <value>Ім'я</value>
   </data>
   <data name="LastName" xml:space="preserve">
-    <value>Фамилия</value>
+    <value>Прізвище</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Эл. почта</value>
+    <value>Ел. пошта</value>
   </data>
   <data name="BirthDate" xml:space="preserve">
-    <value>Дата рождения</value>
+    <value>Дата народження</value>
   </data>
   <data name="Day" xml:space="preserve">
     <value>День</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Месяц</value>
+    <value>Місяць</value>
   </data>
   <data name="Year" xml:space="preserve">
-    <value>Год</value>
+    <value>Рік</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Страна</value>
+    <value>Країна</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Язык</value>
+    <value>Мова</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
-    <value>Подтверждение пароля</value>
+    <value>Підтвердження паролю</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Сохранить</value>
+    <value>Зберегти</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Отменить</value>
+    <value>Скасувати</value>
   </data>
   <data name="ChangeYourPassword" xml:space="preserve">
-    <value>Изменить Ваш пароль</value>
+    <value>Змінити Ваш пароль</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Создать</value>
+    <value>Створити</value>
   </data>
   <data name="ChangeYourPersonalAccountSettings" xml:space="preserve">
-    <value>Изменение персональных настроек Вашей учетной записи</value>
+    <value>Зміна персональних налаштувань Вашого облікового запису</value>
   </data>
   <data name="AccountManagement" xml:space="preserve">
-    <value>Управление учетной записью</value>
+    <value>Керування обліковим записом</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Описание</value>
+    <value>Опис</value>
   </data>
   <data name="CreationDate" xml:space="preserve">
-    <value>Дата создания</value>
+    <value>Дата створення</value>
   </data>
   <data name="LastChangedDate" xml:space="preserve">
-    <value>Дата последнего изменения</value>
+    <value>Дата останньої зміни</value>
   </data>
   <data name="Review" xml:space="preserve">
-    <value>Просмотреть</value>
+    <value>Переглянути</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Редактировать</value>
+    <value>Редагувати</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>Удалить</value>
+    <value>Видалити</value>
   </data>
   <data name="Owner" xml:space="preserve">
-    <value>Владелец</value>
+    <value>Власник</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Да</value>
+    <value>Так</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>Нет</value>
+    <value>Ні</value>
   </data>
   <data name="NoDescription" xml:space="preserve">
-    <value>Нет описания</value>
+    <value>Немає опису</value>
   </data>
   <data name="YourPasswordHasBeenChanged" xml:space="preserve">
-    <value>Ваш пароль был изменен.</value>
+    <value>Ваш пароль був змінений.</value>
   </data>
   <data name="YourPasswordHasBeenSet" xml:space="preserve">
-    <value>Ваш пароль установлен.</value>
+    <value>Ваш пароль встановлений.</value>
   </data>
   <data name="AnErrorHasOccurred" xml:space="preserve">
-    <value>Произошла ошибка.</value>
+    <value>Сталася помилка.</value>
   </data>
   <data name="YourInformationIsSaved" xml:space="preserve">
-    <value>Ваша информация сохранена.</value>
+    <value>Ваша інформація збережена.</value>
   </data>
   <data name="CurrentPassword" xml:space="preserve">
-    <value>Текущий пароль</value>
+    <value>Поточний пароль</value>
   </data>
   <data name="NewPassword" xml:space="preserve">
-    <value>Новый пароль</value>
+    <value>Новий пароль</value>
   </data>
   <data name="ConfirmNewPassword" xml:space="preserve">
-    <value>Подтверждение нового пароля</value>
+    <value>Підтвердження нового паролю</value>
   </data>
   <data name="PasswordLengthErrorMessage" xml:space="preserve">
-    <value>Длина {0} должна быть не менее {2} символов.</value>
+    <value>Довжина {0} має бути щонайменше {2} символів.</value>
   </data>
   <data name="PasswordCompareErrorMessage" xml:space="preserve">
-    <value>Новый пароль и пароль подтверждения не совпадают.</value>
+    <value>Новий пароль і пароль підтвердження не збігаються.</value>
   </data>
   <data name="RememberMeQuestion" xml:space="preserve">
-    <value>Запомнить меня?</value>
+    <value>Запам'ятати мене?</value>
   </data>
   <data name="ChangePassword" xml:space="preserve">
-    <value>Изменить пароль</value>
+    <value>Змінити пароль</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Зарегистрироваться</value>
+    <value>Зареєструватися</value>
   </data>
   <data name="RequiredErrorMessage" xml:space="preserve">
-    <value>Требуется поле {0}</value>
+    <value>Потребується поле {0}</value>
   </data>
   <data name="RegisterAsANewUser" xml:space="preserve">
-    <value>Зарегистрироваться как новый пользователь</value>
+    <value>Зареєструватися як новий користувач</value>
   </data>
   <data name="InvalidLoginAttempt" xml:space="preserve">
-    <value>Недействительна попытка входа в систему.</value>
+    <value>Недійсна спроба входу в систему.</value>
   </data>
   <data name="IncorrectPassword" xml:space="preserve">
-    <value>Неверный пароль.</value>
+    <value>Невірний пароль.</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Поиск</value>
+    <value>Пошук</value>
   </data>
   <data name="ExtendedSearch" xml:space="preserve">
-    <value>Расширенный поиск</value>
+    <value>Розширений пошук</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>Добавить</value>
+    <value>Додати</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value>Фильтр</value>
+    <value>Фільтр</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Ошибка</value>
+    <value>Помилка</value>
   </data>
   <data name="CommonErrorMessage" xml:space="preserve">
-    <value>Произошла ошибка! Попробуйте позже.</value>
+    <value>Виникла помилка! Спробуйте ще раз пізніше.</value>
   </data>
   <data name="ClearUp" xml:space="preserve">
-    <value>Очистить</value>
+    <value>Очистити</value>
   </data>
   <data name="NothingToShow" xml:space="preserve">
-    <value>Ничего показывать</value>
+    <value>Нічого показувати</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Сбросить</value>
+    <value>Скинути</value>
   </data>
 </root>

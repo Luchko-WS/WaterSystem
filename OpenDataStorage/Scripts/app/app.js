@@ -18,7 +18,7 @@
 
         var lang = $cookies.get('culture');
         if (!lang) {
-            lang = 'ua';
+            lang = 'uk';
         }
         $translateProvider.preferredLanguage(lang);
         */
