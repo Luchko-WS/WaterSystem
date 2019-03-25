@@ -12,27 +12,18 @@ namespace OpenDataStorage.Common.DbContext
             : base(dbContext.HierarchyObjects)
         {
             _dbContext = dbContext;
+            TableName = "HierarchyObject";
         }
 
-        protected override Task PostAdd(HierarchyObject @object, NestedSetsFolder parentFolder)
+        protected override Task PostAdd(HierarchyObject @object, NestedSetsFileSystemEntity parentFolder)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override Task PostAddFolder(NestedSetsFolder folder, NestedSetsFolder parentFolder)
+        protected override Task PostAddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
         {
             throw new System.NotImplementedException();
         }
-
-        /*
-         [DbFunction("BeeDbContext", "GetAppPublicStatistic")]
-		public IQueryable<AppPublicStatistic> GetAppPublicStatistic()
-		{
-			return
-				((IObjectContextAdapter)this).ObjectContext.CreateQuery<AppPublicStatistic>(
-					$"[{GetType().Name}].{"[GetAppPublicStatistic]()"}");
-		}
-             */
 
         protected override Task PostMove()
         {
@@ -49,17 +40,17 @@ namespace OpenDataStorage.Common.DbContext
             throw new System.NotImplementedException();
         }
 
-        protected override Task PostRemoveFolder(NestedSetsFolder folder)
+        protected override Task PostRemoveFolder(NestedSetsFileSystemEntity folder)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override Task PreAdd(HierarchyObject @object, NestedSetsFolder parentFolder)
+        protected override Task PreAdd(HierarchyObject @object, NestedSetsFileSystemEntity parentFolder)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override Task PreAddFolder(NestedSetsFolder folder, NestedSetsFolder parentFolder)
+        protected override Task PreAddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
         {
             throw new System.NotImplementedException();
         }
@@ -79,7 +70,7 @@ namespace OpenDataStorage.Common.DbContext
             throw new System.NotImplementedException();
         }
 
-        protected override Task PreRemoveFolder(NestedSetsFolder folder)
+        protected override Task PreRemoveFolder(NestedSetsFileSystemEntity folder)
         {
             throw new System.NotImplementedException();
         }

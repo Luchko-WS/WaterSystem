@@ -3,25 +3,25 @@
 
     angular
         .module('MainApp')
-        .controller('CreateDictionaryCtrl', CreateDictionaryCtrl);
+        .controller('CreateCharacteristicCtrl', CreateCharacteristicCtrl);
 
-    CreateDictionaryCtrl.$inject = ['$uibModalInstance', 'DictionariesService', 'MessageService'];
+    CreateCharacteristicCtrl.$inject = ['$uibModalInstance', 'CharacteristicService', 'MessageService'];
 
-    function CreateDictionaryCtrl($uibModalInstance, DictionariesService, MessageService) {
+    function CreateCharacteristicCtrl($uibModalInstance, CharacteristicService, MessageService) {
         var vm = this;
 
-        vm.dictionary = {};
-        vm.cancel = function () { $uibModalInstance.dismiss('cancel'); }
-        vm.createDictionary = createDictionary;
+        vm.characteristic = {};
+        vm.cancel = function () { $uibModalInstance.dismiss('cancel'); };
+        vm.createCharacteristic = createCharacteristic;
 
         init();
 
         function init() {
-            console.log('create dictionary ctrl init');
+            
         }
 
-        function createDictionary() {
-            DictionariesService.createDictionary(vm.dictionary)
+        function createCharacteristic() {
+            CharacteristicService.createDictionary(vm.characteristic)
                 .success(function (data) {
                     $uibModalInstance.close(data);
                 })

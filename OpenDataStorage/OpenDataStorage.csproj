@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201903101645118_Init1.Designer.cs">
       <DependentUpon>201903101645118_Init1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903251553513_Pilot_v1.cs" />
+    <Compile Include="Migrations\201903251553513_Pilot_v1.Designer.cs">
+      <DependentUpon>201903251553513_Pilot_v1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Resources\Lexicon.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1174,6 +1178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903101645118_Init1.resx">
       <DependentUpon>201903101645118_Init1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903251553513_Pilot_v1.resx">
+      <DependentUpon>201903251553513_Pilot_v1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.en.resx">
       <SubType>Designer</SubType>

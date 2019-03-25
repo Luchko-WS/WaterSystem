@@ -16,22 +16,22 @@ namespace OpenDataStorage.Common.DbContext
             TableName = "Characteristics";
         }
 
-        protected override async Task PreAdd(Characteristic @object, NestedSetsFolder parentFolder)
+        protected override async Task PreAdd(Characteristic @object, NestedSetsFileSystemEntity parentFolder)
         {
             await PreCreateNestedNode(parentFolder.RightKey);
         }
 
-        protected override async Task PostAdd(Characteristic @object, NestedSetsFolder parentFolder)
+        protected override async Task PostAdd(Characteristic @object, NestedSetsFileSystemEntity parentFolder)
         {
             await PostCreateNestedNode(parentFolder.RightKey);
         }
 
-        protected override async Task PreAddFolder(NestedSetsFolder folder, NestedSetsFolder parentFolder)
+        protected override async Task PreAddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
         {
             await PreCreateNestedNode(parentFolder.RightKey);
         }
 
-        protected override async Task PostAddFolder(NestedSetsFolder folder, NestedSetsFolder parentFolder)
+        protected override async Task PostAddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
         {
             await PostCreateNestedNode(parentFolder.RightKey);
         }
@@ -59,11 +59,11 @@ namespace OpenDataStorage.Common.DbContext
             await PostRemoveNestedSetsNode(@object.LeftKey, @object.RightKey);
         }
 
-        protected override async Task PreRemoveFolder(NestedSetsFolder folder)
+        protected override async Task PreRemoveFolder(NestedSetsFileSystemEntity folder)
         {
         }
 
-        protected override async Task PostRemoveFolder(NestedSetsFolder folder)
+        protected override async Task PostRemoveFolder(NestedSetsFileSystemEntity folder)
         {
             await PostRemoveNestedSetsNode(folder.LeftKey, folder.RightKey);
         }

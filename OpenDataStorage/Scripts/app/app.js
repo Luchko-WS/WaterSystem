@@ -8,7 +8,7 @@
         ]);
 
     app.config(['$translateProvider', function ($translateProvider) {
-        $translateProvider.useUrlLoader('/api/Languages');
+        /*$translateProvider.useUrlLoader('/api/Languages');
         $translateProvider.useSanitizeValueStrategy('escapeParameters');
         
         var $cookies;
@@ -20,6 +20,6 @@
         if (!lang) {
             lang = 'uk';
         }
-        $translateProvider.preferredLanguage(lang);
+        $translateProvider.preferredLanguage(lang);*/
     }]);
 })();

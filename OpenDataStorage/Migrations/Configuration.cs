@@ -17,27 +17,29 @@ namespace OpenDataStorage.Migrations
         {
             if(!context.Characteristics.Any(c => c.Level == 0))
             {
-                context.Characteristics.Add(new NestedSetsFolder()
+                context.Characteristics.Add(new Characteristic()
                 {
                     Level = 0,
                     LeftKey = 1,
                     RightKey = 2,
                     Name = "root",
                     Description = "root node",
-                    OwnerId = "system"
+                    OwnerId = "system",
+                    Type = EntityType.Folder
                 });
             }
 
             if(!context.HierarchyObjects.Any(o => o.Level == 0))
             {
-                context.HierarchyObjects.Add(new NestedSetsFolder()
+                context.HierarchyObjects.Add(new HierarchyObject()
                 {
                     Level = 0,
                     LeftKey = 1,
                     RightKey = 2,
                     Name = "root",
                     Description = "root node",
-                    OwnerId = "system"
+                    OwnerId = "system",
+                    Type = EntityType.Folder
                 });
             }
 

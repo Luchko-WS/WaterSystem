@@ -41,13 +41,13 @@ namespace OpenDataStorage.Common.DbContext
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<NestedSetsEntity> HierarchyObjects { get; set; }
+        public DbSet<HierarchyObject> HierarchyObjects { get; set; }
 
-        public DbSet<NestedSetsEntity> Characteristics { get; set; }
+        public DbSet<Characteristic> Characteristics { get; set; }
 
-        IQueryable<NestedSetsEntity> IApplicationDbContext.HierarchyObjects => this.HierarchyObjects;
+        IQueryable<HierarchyObject> IApplicationDbContext.HierarchyObjects => this.HierarchyObjects;
 
-        IQueryable<NestedSetsEntity> IApplicationDbContext.Characteristics => this.Characteristics;
+        IQueryable<Characteristic> IApplicationDbContext.Characteristics => this.Characteristics;
 
         public async Task SaveDbChangesAsync()
         {
@@ -65,17 +65,6 @@ namespace OpenDataStorage.Common.DbContext
                 }
             }
         }
-
-        public async Task CreateCharacteristicsFolder(NestedSetsFolder folder, Guid parentFolderId)
-        {
-            await _characteristicDbContextManager.AddFolder(folder, parentFolderId);
-        }
-
-        public Task CreateCharacteristics(Characteristic characteristic, Guid parentFolderId)
-        {
-            throw new NotImplementedException();
-        }
-
 
         /*
 #region NestedSets
