@@ -10,7 +10,7 @@ using System.Web.Http;
 namespace OpenDataStorage.API
 {
     [RoutePrefix("api/Characteristics")]
-    public class CharacteristicsController : BaseApiController
+    public class CharacteristicController : BaseApiController
     {
         [Route("GetCharacteristicTree")]
         [HttpGet]
@@ -54,7 +54,7 @@ namespace OpenDataStorage.API
             return Request.CreateResponse(HttpStatusCode.OK, res);*/
         }
 
-        [Route("CreateCharacteristic")]
+        [Route("Create")]
         [HttpPost]
         public async Task<HttpResponseMessage> CreateCharacteristic(CharacteristicViewModel vm)
         {
@@ -76,7 +76,7 @@ namespace OpenDataStorage.API
             return Request.CreateResponse(HttpStatusCode.OK, newDictionary);*/
         }
 
-        [Route("EditCharacteristic/{characteristicId}")]
+        [Route("Edit/{characteristicId}")]
         [HttpPut]
         public async Task<HttpResponseMessage> EditCharacteristic([FromUri]Guid characteristicId, CharacteristicViewModel vm)
         {
@@ -95,7 +95,7 @@ namespace OpenDataStorage.API
             return Request.CreateResponse(HttpStatusCode.NotFound);*/
         }
 
-        [Route("RemoveCharacteristicId/{id}")]
+        [Route("Remove/{id}")]
         [HttpDelete]
         public async Task<HttpResponseMessage> RemoveCharacteristic(Guid id)
         {

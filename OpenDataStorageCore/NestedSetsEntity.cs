@@ -2,6 +2,9 @@
 {
     public class NestedSetsEntity : BaseEntity
     {
+        public NestedSetsEntity() : base()
+        { }
+
         public int Level { get; set; }
 
         public int LeftKey { get; set; }

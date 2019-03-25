@@ -202,7 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\BaseApiController.cs" />
-    <Compile Include="API\CharacteristicsController.cs" />
+    <Compile Include="API\CharacteristicController.cs" />
     <Compile Include="API\LanguageController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -222,6 +222,8 @@
     <Compile Include="Common\Mapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CharacteristicController.cs" />
+    <Compile Include="Controllers\HierarchyObjectController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -277,6 +279,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\css\Site.css" />
+    <Content Include="Scripts\app\Characteristic\CharacterisitcCtrl.js" />
+    <Content Include="Scripts\app\Characteristic\CharacterisitcService.js" />
+    <Content Include="Scripts\app\Characteristic\CharacterisitcTreeCtrl.js" />
+    <Content Include="Scripts\app\Characteristic\CreateCharacterisitcCtrl.js" />
+    <Content Include="Scripts\app\Characteristic\EditCharacterisitcCtrl.js" />
+    <Content Include="Scripts\app\HierarchyObject\CreateHierarchyObjectCtrl.js" />
+    <Content Include="Scripts\app\HierarchyObject\EditHierarchyObjectCtrl.js" />
+    <Content Include="Scripts\app\HierarchyObject\HierarchyObjectCtrl.js" />
+    <Content Include="Scripts\app\HierarchyObject\HierarchyObjectService.js" />
+    <Content Include="Scripts\app\HierarchyObject\HierarchyObjectTreeCtrl.js" />
     <Content Include="Scripts\libs\angularjs\angular-block-ui\angular-block-ui.js" />
     <Content Include="Scripts\libs\angularjs\angular-block-ui\angular-block-ui.min.js" />
     <Content Include="Scripts\libs\angularjs\angular-block-ui\angular-block-ui.min.js.map" />
@@ -1127,6 +1139,14 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Scripts\libs\version.json" />
+    <Content Include="Views\Characteristic\CharacteristicTree.cshtml" />
+    <Content Include="Views\Characteristic\Characteristic.cshtml" />
+    <Content Include="Views\Characteristic\CreateCharacteristic.cshtml" />
+    <Content Include="Views\Characteristic\EditCharacteristic.cshtml" />
+    <Content Include="Views\HierarchyObject\HierarchyObjectTree.cshtml" />
+    <Content Include="Views\HierarchyObject\HierarchyObject.cshtml" />
+    <Content Include="Views\HierarchyObject\CreateHierarchyObject.cshtml" />
+    <Content Include="Views\HierarchyObject\EditHierarchyObject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
