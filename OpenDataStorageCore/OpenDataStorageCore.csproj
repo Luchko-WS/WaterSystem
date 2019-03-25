@@ -59,6 +59,8 @@
     <Compile Include="HierarchyObject.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="NestedSetsEntity.cs" />
+    <Compile Include="NestedSetsFolder.cs" />
+    <Compile Include="NestedSetsObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

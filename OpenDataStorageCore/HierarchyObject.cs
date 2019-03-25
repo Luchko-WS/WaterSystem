@@ -1,18 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace OpenDataStorageCore
+﻿namespace OpenDataStorageCore
 {
-    public class HierarchyObject : NestedSetsEntity
+    public class HierarchyObject : NestedSetsObject
     {
-        public HierarchyObject()
-        {
-            this.Characteristics = new List<Characteristic>();
-        }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public ICollection<Characteristic> Characteristics { get; set; }
     }
 }
