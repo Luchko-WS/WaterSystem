@@ -1,4 +1,4 @@
-﻿angular.module('OnlineDictionary').directive('asyncPageWithLoader', function ($compile, $templateRequest) {
+﻿angular.module('MainApp').directive('asyncPageWithLoader', function ($compile, $templateRequest) {
     return {
         transclude: true,
         replace: true,

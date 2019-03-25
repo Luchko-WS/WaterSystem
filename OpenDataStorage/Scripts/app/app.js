@@ -8,9 +8,9 @@
         ]);
 
     app.config(['$translateProvider', function ($translateProvider) {
-        //$translateProvider.useUrlLoader('/api/Languages');
-        //$translateProvider.useSanitizeValueStrategy('escapeParameters');
-        /*
+        $translateProvider.useUrlLoader('/api/Languages');
+        $translateProvider.useSanitizeValueStrategy('escapeParameters');
+        
         var $cookies;
         angular.injector(['ngCookies']).invoke(['$cookies', function (_$cookies_) {
             $cookies = _$cookies_;
@@ -21,6 +21,5 @@
             lang = 'uk';
         }
         $translateProvider.preferredLanguage(lang);
-        */
     }]);
 })();

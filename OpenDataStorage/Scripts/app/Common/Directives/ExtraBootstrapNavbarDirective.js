@@ -1,4 +1,4 @@
-﻿angular.module('OnlineDictionary').directive('extraBootstrapNavbar', function ($compile, $templateRequest) {
+﻿angular.module('MainApp').directive('extraBootstrapNavbar', function ($compile, $templateRequest) {
     return {
         transclude: true,
         replace: true,

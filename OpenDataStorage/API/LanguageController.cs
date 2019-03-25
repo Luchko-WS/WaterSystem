@@ -1,11 +1,8 @@
 ﻿using OpenDataStorage.Resources;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace OpenDataStorage.API

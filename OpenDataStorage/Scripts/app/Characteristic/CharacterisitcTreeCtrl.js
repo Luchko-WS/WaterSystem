@@ -13,12 +13,14 @@
 
         function init() {
             vm.loaded = false;
+
             CharacteristicService.getCharacteristicTree()
-                .success(function (data) {
-                    vm.tree = data;
+                .then(function (response) {
+                    vm.tree = response.data;
+                    console.dir(vm.tree);
                     vm.loaded = true;
                 })
-                .error(function (error) {
+                .catch(function (error) {
                     errorHandler(error);
                     vm.loaded = true;
                 });

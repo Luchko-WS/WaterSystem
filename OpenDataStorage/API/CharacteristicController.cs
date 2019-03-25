@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace OpenDataStorage.API
 {
-    [RoutePrefix("api/Characteristics")]
+    [RoutePrefix("api/Characteristic")]
     public class CharacteristicController : BaseApiController
     {
         [Route("GetCharacteristicTree")]
@@ -17,7 +17,7 @@ namespace OpenDataStorage.API
         [AllowAnonymous]
         public async Task<dynamic> GetCharacteristicTree()
         {
-            throw new NotImplementedException();
+            return 1;
             /*var query = _dbContext.Dictionaries.Where(d => d.IsPublic);
             query = PrepareQueryByFilter(query, filter);
             var dictionaries = await query.OrderByDescending(d => d.CreationDate).ToListAsync();

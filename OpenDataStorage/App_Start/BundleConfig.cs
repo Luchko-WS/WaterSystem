@@ -6,8 +6,8 @@ namespace OpenDataStorage
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/libs/jquery/jquery-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery")
+                .Include("~/Scripts/libs/jquery/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs")
                 .Include("~/Scripts/libs/angularjs/angular.js")
@@ -17,25 +17,33 @@ namespace OpenDataStorage
                 .IncludeDirectory("~/Scripts/libs/angularjs/angular-ui", "*.js", true)
                 .IncludeDirectory("~/Scripts/libs/angularjs/angular-block-ui", "*.js", true));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/libs/jquery/jquery.validate*"));
+            bundles.Add(new ScriptBundle("~/bundles/jqueryval")
+                .Include("~/Scripts/libs/jquery/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/libs/modernizr-*"));
+            bundles.Add(new ScriptBundle("~/bundles/modernizr")
+                .Include("~/Scripts/libs/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/libs/bootstrap/bootstrap.js"));
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap")
+                .Include("~/Scripts/libs/bootstrap/bootstrap.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/Content/css")
+                .Include(
                       "~/Content/css/bootstrap/bootstrap.css",
                       "~/Content/css/angular-block-ui/angular-block-ui.css",
                       "~/Content/css/ui-bootstrap-csp.css",
                       "~/Content/css/site.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/app").Include(
-                        "~/Scripts/app/app.js"));
+            bundles.Add(new ScriptBundle("~/bundles/app")
+                .Include("~/Scripts/app/app.js")
+                .IncludeDirectory("~/Scripts/app/Common", "*.js", true));
+
+            bundles.Add(new ScriptBundle("~/bundles/app/Characteristic")
+                .IncludeDirectory("~/Scripts/app/Characteristic", "*.js", true));
+
+            bundles.Add(new ScriptBundle("~/bundles/app/HierarchyObject")
+                .IncludeDirectory("~/Scripts/app/HierarchyObject", "*.js", true));
         }
     }
 }

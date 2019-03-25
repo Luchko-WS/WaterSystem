@@ -57,13 +57,13 @@
         return {
             showMessage: showMessage,
             showMessageYesNo: showMessageYesNo,
-            showMessageCustom: showMessageCustom,
+            showMessageCustom: showMessageCustom
         };
     }
 
     //controller
     angular
-        .module('OnlineDictionary')
+        .module('MainApp')
         .controller('MessageCtrl', MessageCtrl);
     MessageCtrl.$inject = ['$translate', '$uibModalInstance', 'modalParams'];
 

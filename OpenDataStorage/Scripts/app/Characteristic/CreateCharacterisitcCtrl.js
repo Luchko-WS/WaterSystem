@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('OnlineDictionary')
+        .module('MainApp')
         .controller('CreateDictionaryCtrl', CreateDictionaryCtrl);
 
     CreateDictionaryCtrl.$inject = ['$uibModalInstance', 'DictionariesService', 'MessageService'];
