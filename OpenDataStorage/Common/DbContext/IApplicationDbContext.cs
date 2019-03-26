@@ -1,14 +1,13 @@
 ﻿using OpenDataStorageCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext
 {
     public interface IApplicationDbContext
     {
-        IQueryable<HierarchyObject> HierarchyObjects { get; }
+        INestedSetsObjectContext<HierarchyObject> HierarchyObjectContext { get; }
 
-        IQueryable<Characteristic> Characteristics { get; }
+        INestedSetsObjectContext<Characteristic> CharacteristicObjectContext { get; }
 
         Task SaveDbChangesAsync();
     }

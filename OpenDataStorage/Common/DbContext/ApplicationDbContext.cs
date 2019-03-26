@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OpenDataStorageCore;
@@ -15,8 +14,8 @@ namespace OpenDataStorage.Common.DbContext
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            _objectDbContextManager = new HierarchyObjectDbContextManager(this);
-            _characteristicDbContextManager = new CharacteristicDbContextManager(this);
+            _objectDbContextManager = new HierarchyObjectDbContextManager(this, HierarchyObjects);
+            _characteristicDbContextManager = new CharacteristicDbContextManager(this, Characteristics);
         }
 
         public static ApplicationDbContext Create()
@@ -45,9 +44,9 @@ namespace OpenDataStorage.Common.DbContext
 
         public DbSet<Characteristic> Characteristics { get; set; }
 
-        IQueryable<HierarchyObject> IApplicationDbContext.HierarchyObjects => this.HierarchyObjects;
+        INestedSetsObjectContext<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbContextManager;
 
-        IQueryable<Characteristic> IApplicationDbContext.Characteristics => this.Characteristics;
+        INestedSetsObjectContext<Characteristic> IApplicationDbContext.CharacteristicObjectContext => this._characteristicDbContextManager;
 
         public async Task SaveDbChangesAsync()
         {

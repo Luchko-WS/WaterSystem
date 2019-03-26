@@ -89,18 +89,18 @@ namespace OpenDataStorage.Migrations
                 @RightKey int
             AS
             BEGIN
-                UPDATE dbo.[@TableName] SET RightKey = RightKey – (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey AND LeftKey < @LeftKey;
-                UPDATE dbo.[@TableName] SET LeftKey = LeftKey – (@RightKey - @LeftKey + 1), RightKey = RightKey – (@RightKey - @LeftKey + 1) WHERE LeftKey > @RightKey;
-                UPDATE dbo.[@TableName] SET LeftKey = CASE WHEN LeftKey > @LeftKey THEN LeftKey – (@RightKey - @LeftKey + 1) ELSE LeftKey END RightKey = RightKey – (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey;
+                UPDATE dbo.[@TableName] SET RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey AND LeftKey < @LeftKey;
+                UPDATE dbo.[@TableName] SET LeftKey = LeftKey - (@RightKey - @LeftKey + 1), RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE LeftKey > @RightKey;
+                UPDATE dbo.[@TableName] SET LeftKey = CASE WHEN LeftKey > @LeftKey THEN LeftKey - (@RightKey - @LeftKey + 1) ELSE LeftKey END, RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey;
             END");
         }
 
         private void CreateStoredProcedurePreMoveNestedSetsNode(ApplicationDbContext context)
         {
             context.Database.ExecuteSqlCommand(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PreMoveNestedSetsNode]') AND type in (N'P', N'PC'))
-            DROP PROCEDURE [dbo].[PostRemoveNestedSetsNode]");
+            DROP PROCEDURE [dbo].[PreMoveNestedSetsNode]");
 
-            context.Database.ExecuteSqlCommand(@"CREATE PROCEDURE [dbo].[PostRemoveNestedSetsNode]
+            context.Database.ExecuteSqlCommand(@"CREATE PROCEDURE [dbo].[PreMoveNestedSetsNode]
                 @TableName nvarchar(50),
                 @ObjectId uniqueidentifier,
                 @NewRightKey int,

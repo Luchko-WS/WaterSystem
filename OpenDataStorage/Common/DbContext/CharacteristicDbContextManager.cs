@@ -1,5 +1,6 @@
 ﻿using OpenDataStorageCore;
 using System;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -7,92 +8,40 @@ namespace OpenDataStorage.Common.DbContext
 {
     public class CharacteristicDbContextManager : BaseNestedSetsDbContextManager<Characteristic>
     {
-        private ApplicationDbContext _dbContext;
-
-        public CharacteristicDbContextManager(ApplicationDbContext dbContext)
-            : base(dbContext.Characteristics)
+        public CharacteristicDbContextManager(ApplicationDbContext dbContext, DbSet<Characteristic> entities)
+            : base(dbContext, entities)
         {
-            _dbContext = dbContext;
             TableName = "Characteristics";
         }
 
-        protected override async Task PreAdd(Characteristic @object, NestedSetsFileSystemEntity parentFolder)
+        protected override Task AddObjectInternal(Characteristic @object)
         {
-            await PreCreateNestedNode(parentFolder.RightKey);
+            throw new NotImplementedException();
+            //insert into employee (ID, name, salary, start_date, city, region)
+            //values(6, 'James', 70060, '09/06/99', 'Toronto', 'N')
         }
 
-        protected override async Task PostAdd(Characteristic @object, NestedSetsFileSystemEntity parentFolder)
-        {
-            await PostCreateNestedNode(parentFolder.RightKey);
-        }
-
-        protected override async Task PreAddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
-        {
-            await PreCreateNestedNode(parentFolder.RightKey);
-        }
-
-        protected override async Task PostAddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
-        {
-            await PostCreateNestedNode(parentFolder.RightKey);
-        }
-
-        private async Task PreCreateNestedNode(int parentRightKey)
-        {
-            var tableNameParam = new SqlParameter { ParameterName = "TableName", Value = TableName };
-            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = parentRightKey };
-            await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo.PreCreateNestedSetsNode @TableName, @RightKey", tableNameParam, rightKeyParam);
-        }
-
-        private async Task PostCreateNestedNode(int parentRightKey)
-        {
-            var tableNameParam = new SqlParameter { ParameterName = "TableName", Value = TableName };
-            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = parentRightKey };
-            await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo.PostCreateNestedSetsNode @TableName, @RightKey", tableNameParam, rightKeyParam);
-        }
-
-        protected override async Task PreRemove(Characteristic @object)
-        {
-        }
-
-        protected override async Task PostRemove(Characteristic @object)
-        {
-            await PostRemoveNestedSetsNode(@object.LeftKey, @object.RightKey);
-        }
-
-        protected override async Task PreRemoveFolder(NestedSetsFileSystemEntity folder)
-        {
-        }
-
-        protected override async Task PostRemoveFolder(NestedSetsFileSystemEntity folder)
-        {
-            await PostRemoveNestedSetsNode(folder.LeftKey, folder.RightKey);
-        }
-
-        private async Task PostRemoveNestedSetsNode(int leftKey, int rightKey)
-        {
-            var tableNameParam = new SqlParameter { ParameterName = "TableName", Value = TableName };
-            var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = leftKey };
-            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = rightKey };
-            await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo.PostRemoveNestedSetsNode @TableName, @LeftKey, @RightKey", tableNameParam, leftKeyParam, rightKeyParam);
-        }
-
-
-        protected override Task PreMove()
+        protected override Task MoveObjetInternal()
         {
             throw new NotImplementedException();
         }
 
-        protected override Task PostMove()
+        protected override Task RemoveObjectInternal(Characteristic @object)
         {
             throw new NotImplementedException();
         }
 
-        protected override Task PreMoveFolder()
+        protected override Task AddFolderInternal(NestedSetsFileSystemEntity folder)
         {
             throw new NotImplementedException();
         }
 
-        protected override Task PostMoveFolder()
+        protected override Task MoveFolderInternal()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task RemoveFolderInternal(NestedSetsFileSystemEntity folder)
         {
             throw new NotImplementedException();
         }
