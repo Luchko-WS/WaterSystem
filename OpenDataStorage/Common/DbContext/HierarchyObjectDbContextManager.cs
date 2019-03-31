@@ -1,4 +1,5 @@
 ﻿using OpenDataStorageCore;
+using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
 
@@ -12,34 +13,44 @@ namespace OpenDataStorage.Common.DbContext
             TableName = "HierarchyObject";
         }
 
-        protected override Task AddObjectInternal(HierarchyObject @object)
+        protected override async Task AddObjectInternal(HierarchyObject @object)
         {
-            throw new System.NotImplementedException();
+            await ExecuteInsertSqlCommand(@object);
         }
 
-        protected override Task MoveObjetInternal()
+        protected override async Task UpdateObjectInternal(HierarchyObject @object)
         {
-            throw new System.NotImplementedException();
+            await ExecuteUpdateSqlCommand(@object);
         }
 
-        protected override Task RemoveObjectInternal(HierarchyObject @object)
+        protected override async Task MoveObjetInternal()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        protected override Task AddFolderInternal(NestedSetsFileSystemEntity folder)
+        protected override async Task RemoveObjectInternal(HierarchyObject @object)
         {
-            throw new System.NotImplementedException();
+            await ExecuteDeleteSqlCommand(@object);
         }
 
-        protected override Task MoveFolderInternal()
+        protected override async Task AddFolderInternal(NestedSetsFileSystemEntity folder)
         {
-            throw new System.NotImplementedException();
+            await ExecuteInsertSqlCommand(folder);
         }
 
-        protected override Task RemoveFolderInternal(NestedSetsFileSystemEntity folder)
+        protected override async Task UpdateFolderInternal(NestedSetsFileSystemEntity folder)
         {
-            throw new System.NotImplementedException();
+            await ExecuteUpdateSqlCommand(folder);
+        }
+
+        protected override async Task MoveFolderInternal()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override async Task RemoveFolderInternal(NestedSetsFileSystemEntity folder)
+        {
+            await ExecuteDeleteSqlCommand(folder);
         }
     }
 }

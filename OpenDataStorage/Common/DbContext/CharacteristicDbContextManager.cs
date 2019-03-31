@@ -1,7 +1,6 @@
 ﻿using OpenDataStorageCore;
 using System;
 using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext
@@ -19,14 +18,19 @@ namespace OpenDataStorage.Common.DbContext
             await ExecuteInsertSqlCommand(@object);
         }
 
-        protected override Task MoveObjetInternal()
+        protected override async Task UpdateObjectInternal(Characteristic @object)
+        {
+            await ExecuteUpdateSqlCommand(@object);
+        }
+
+        protected override async Task MoveObjetInternal()
         {
             throw new NotImplementedException();
         }
 
-        protected override Task RemoveObjectInternal(Characteristic @object)
+        protected override async Task RemoveObjectInternal(Characteristic @object)
         {
-            throw new NotImplementedException();
+            await ExecuteDeleteSqlCommand(@object);
         }
 
         protected override async Task AddFolderInternal(NestedSetsFileSystemEntity folder)
@@ -34,14 +38,19 @@ namespace OpenDataStorage.Common.DbContext
             await ExecuteInsertSqlCommand(folder);
         }
 
-        protected override Task MoveFolderInternal()
+        protected override async Task UpdateFolderInternal(NestedSetsFileSystemEntity folder)
+        {
+            await ExecuteUpdateSqlCommand(folder);
+        }
+
+        protected override async Task MoveFolderInternal()
         {
             throw new NotImplementedException();
         }
 
-        protected override Task RemoveFolderInternal(NestedSetsFileSystemEntity folder)
+        protected override async Task RemoveFolderInternal(NestedSetsFileSystemEntity folder)
         {
-            throw new NotImplementedException();
+            await ExecuteDeleteSqlCommand(folder);
         }
     }
 }

@@ -56,6 +56,24 @@ namespace OpenDataStorage.Common.DbContext
             throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", folderId, TableName));
         }
 
+        protected abstract Task UpdateObjectInternal(T @object);
+        public async Task UpdateObject(T @object)
+        {
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await UpdateObjectInternal(@object);
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
         protected abstract Task MoveObjetInternal();
         public async Task MoveObject(T @object, NestedSetsFileSystemEntity newFolder)
         {
@@ -137,6 +155,24 @@ namespace OpenDataStorage.Common.DbContext
                 await AddFolder(folder, parentFolder);
             }
             throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", parentFolderId, TableName));
+        }
+
+        protected abstract Task UpdateFolderInternal(NestedSetsFileSystemEntity folder);
+        public async Task UpdatFolder(NestedSetsFileSystemEntity folder)
+        {
+            using (var transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    await UpdateFolderInternal(folder);
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
         }
 
         protected abstract Task MoveFolderInternal();
@@ -232,8 +268,8 @@ namespace OpenDataStorage.Common.DbContext
 
         protected async Task ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsFileSystemEntity
         {
-            var columnsSB = new List<string>();
-            var parametersSB = new List<string>();
+            var columns = new List<string>();
+            var parameters = new List<string>();
             var sqlParameters = new List<SqlParameter>();
 
             var sourceType = instance.GetType();
@@ -242,18 +278,47 @@ namespace OpenDataStorage.Common.DbContext
             {
                 var sourcePropInfo = sourceType.GetProperty(prop.Name);
                 var value = sourcePropInfo.GetValue(instance, null);
-
                 if (value != null)
                 {
-                    columnsSB.Add(prop.Name);
-                    parametersSB.Add(string.Format("@{0}", prop.Name));
+                    columns.Add(prop.Name);
+                    parameters.Add("@" + prop.Name);
                     sqlParameters.Add(new SqlParameter { ParameterName = prop.Name, Value = value });
                 }
             }
 
             var commandText = string.Format(@"INSERT INTO {0} ({1}) VALUES ({2})",
-                TableName, string.Join(",", columnsSB), string.Join(",", parametersSB));
+                TableName, string.Join(",", columns), string.Join(",", parameters));
             await _dbContext.Database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
+        }
+
+        protected async Task ExecuteUpdateSqlCommand<NS>(NS instance) where NS : NestedSetsFileSystemEntity
+        {
+            var expressions = new List<string>();
+            var sqlParameters = new List<SqlParameter>();
+
+            var sourceType = instance.GetType();
+            var resPropertiesInfo = sourceType.GetProperties();
+            foreach (var prop in resPropertiesInfo)
+            {
+                var sourcePropInfo = sourceType.GetProperty(prop.Name);
+                var value = sourcePropInfo.GetValue(instance, null);
+                if (value != null)
+                {
+                    expressions.Add(prop.Name + "= @" + prop.Name);
+                    sqlParameters.Add(new SqlParameter { ParameterName = prop.Name, Value = value });
+                }
+            }
+
+            var commandText = string.Format(@"UPDATE {0} SET {1} WHERE Id='{2}'",
+                TableName, string.Join(",", expressions), instance.Id.ToString());
+            await _dbContext.Database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
+        }
+
+        protected async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsFileSystemEntity
+        {
+            var commandText = string.Format(@"DELETE FROM {0} WHERE Id='{1}'",
+                TableName, instance.Id.ToString());
+            await _dbContext.Database.ExecuteSqlCommandAsync(commandText);
         }
 
         #endregion
