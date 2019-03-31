@@ -224,7 +224,7 @@ namespace OpenDataStorage.Common.DbContext
         }
 
         //relations
-        public async Task<ICollection<NestedSetsEntity>> GetChildNodes(Guid id)
+        public async Task<ICollection<NestedSetsFileSystemEntity>> GetChildNodes(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node != null)
@@ -234,27 +234,12 @@ namespace OpenDataStorage.Common.DbContext
             throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
         }
 
-        public async Task<ICollection<NestedSetsEntity>> GetChildNodes(NestedSetsEntity entity)
+        public async Task<ICollection<NestedSetsFileSystemEntity>> GetChildNodes(NestedSetsFileSystemEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<string> GetPath(Guid id)
-        {
-            var node = _dbSet.FirstOrDefault(f => f.Id == id);
-            if (node != null)
-            {
-                return await GetPath(node);
-            }
-            throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
-        }
-
-        public async Task<string> GetPath(NestedSetsEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<NestedSetsEntity> GetRootdNode(Guid id)
+        public async Task<NestedSetsFileSystemEntity> GetRootNode(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node != null)
@@ -264,12 +249,12 @@ namespace OpenDataStorage.Common.DbContext
             throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
         }
 
-        public async Task<NestedSetsEntity> GetRootNode(NestedSetsEntity entity)
+        public async Task<NestedSetsFileSystemEntity> GetRootNode(NestedSetsFileSystemEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<NestedSetsEntity>> GetRootNodes(Guid id)
+        public async Task<ICollection<NestedSetsFileSystemEntity>> GetRootNodes(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node != null)
@@ -279,7 +264,7 @@ namespace OpenDataStorage.Common.DbContext
             throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
         }
 
-        public async Task<ICollection<NestedSetsEntity>> GetRootNodes(NestedSetsEntity entity)
+        public async Task<ICollection<NestedSetsFileSystemEntity>> GetRootNodes(NestedSetsFileSystemEntity entity)
         {
             throw new NotImplementedException();
         }
