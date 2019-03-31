@@ -24,7 +24,16 @@ namespace OpenDataStorage.Common.DbContext
         public IQueryable<T> Entities => this._dbSet;
 
         protected abstract Task AddObjectInternal(T @object);
-        public async Task AddObject(T @object, NestedSetsFileSystemEntity parentFolder)
+        public async Task AddObject(T @object, Guid folderId)
+        {
+            var folder = _dbSet.FirstOrDefault(f => f.Id == folderId && f.Type == EntityType.Folder);
+            if (folder != null)
+            {
+                await AddObject(@object, folder);
+            }
+            throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", folderId, TableName));
+        }
+        private async Task AddObject(T @object, NestedSetsFileSystemEntity parentFolder)
         {
             @object.LeftKey = parentFolder.RightKey;
             @object.RightKey = parentFolder.RightKey + 1;
@@ -46,15 +55,6 @@ namespace OpenDataStorage.Common.DbContext
                 }
             }
         }
-        public async Task AddObject(T @object, Guid folderId)
-        {
-            var folder = _dbSet.FirstOrDefault(f => f.Id == folderId && f.Type == EntityType.Folder);
-            if (folder != null)
-            {
-                await AddObject(@object, folder);
-            }
-            throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", folderId, TableName));
-        }
 
         protected abstract Task UpdateObjectInternal(T @object);
         public async Task UpdateObject(T @object)
@@ -75,7 +75,16 @@ namespace OpenDataStorage.Common.DbContext
         }
 
         protected abstract Task MoveObjetInternal();
-        public async Task MoveObject(T @object, NestedSetsFileSystemEntity newFolder)
+        public async Task MoveObject(T @bject, Guid newFolderId)
+        {
+            var folder = _dbSet.FirstOrDefault(f => f.Id == newFolderId && f.Type == EntityType.Folder);
+            if (folder != null)
+            {
+                await MoveObject(@bject, folder);
+            }
+            throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", newFolderId, TableName));
+        }
+        private async Task MoveObject(T @object, NestedSetsFileSystemEntity newFolder)
         {
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
@@ -91,18 +100,18 @@ namespace OpenDataStorage.Common.DbContext
                 }
             }
         }
-        public async Task MoveObject(T @bject, Guid newFolderId)
-        {
-            var folder = _dbSet.FirstOrDefault(f => f.Id == newFolderId && f.Type == EntityType.Folder);
-            if (folder != null)
-            {
-                await MoveObject(@bject, folder);
-            }
-            throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", newFolderId, TableName));
-        }
 
         protected abstract Task RemoveObjectInternal(T @object);
-        public async Task RemoveObject(T @object)
+        public async Task RemoveObject(Guid objectId)
+        {
+            var @object = _dbSet.FirstOrDefault(f => f.Id == objectId && f.Type == EntityType.File);
+            if (@object != null)
+            {
+                await RemoveObject(@object);
+            }
+            throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", objectId, TableName));
+        }
+        private async Task RemoveObject(T @object)
         {
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
@@ -124,7 +133,16 @@ namespace OpenDataStorage.Common.DbContext
 
         //folder
         protected abstract Task AddFolderInternal(NestedSetsFileSystemEntity folder);
-        public async Task AddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
+        public async Task AddFolder(NestedSetsFileSystemEntity folder, Guid parentFolderId)
+        {
+            var parentFolder = _dbSet.FirstOrDefault(f => f.Id == parentFolderId && f.Type == EntityType.Folder);
+            if (parentFolder != null)
+            {
+                await AddFolder(folder, parentFolder);
+            }
+            throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", parentFolderId, TableName));
+        }
+        private async Task AddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
         {
             folder.LeftKey = parentFolder.RightKey;
             folder.RightKey = parentFolder.RightKey + 1;
@@ -147,15 +165,6 @@ namespace OpenDataStorage.Common.DbContext
                 }
             }
         }
-        public async Task AddFolder(NestedSetsFileSystemEntity folder, Guid parentFolderId)
-        {
-            var parentFolder = _dbSet.FirstOrDefault(f => f.Id == parentFolderId && f.Type == EntityType.Folder);
-            if (parentFolder != null)
-            {
-                await AddFolder(folder, parentFolder);
-            }
-            throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", parentFolderId, TableName));
-        }
 
         protected abstract Task UpdateFolderInternal(NestedSetsFileSystemEntity folder);
         public async Task UpdatFolder(NestedSetsFileSystemEntity folder)
@@ -176,7 +185,16 @@ namespace OpenDataStorage.Common.DbContext
         }
 
         protected abstract Task MoveFolderInternal();
-        public async Task MoveFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity newFolder)
+        public async Task MoveFolder(NestedSetsFileSystemEntity folder, Guid newFolderId)
+        {
+            var newFolder = _dbSet.FirstOrDefault(f => f.Id == newFolderId && f.Type == EntityType.Folder);
+            if (newFolder != null)
+            {
+                await MoveFolder(folder, newFolder);
+            }
+            throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", newFolderId, TableName));
+        }
+        private async Task MoveFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity newFolder)
         {
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
@@ -192,18 +210,18 @@ namespace OpenDataStorage.Common.DbContext
                 }
             }
         }
-        public async Task MoveFolder(NestedSetsFileSystemEntity folder, Guid newFolderId)
-        {
-            var newFolder = _dbSet.FirstOrDefault(f => f.Id == newFolderId && f.Type == EntityType.Folder);
-            if (newFolder != null)
-            {
-                await MoveFolder(folder, newFolder);
-            }
-            throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", newFolderId, TableName));
-        }
 
         protected abstract Task RemoveFolderInternal(NestedSetsFileSystemEntity folder);
-        public async Task RemoveFolder(NestedSetsFileSystemEntity folder)
+        public async Task RemoveFolder(Guid folderId)
+        {
+            var folder = _dbSet.FirstOrDefault(o => o.Id == folderId && o.Type == EntityType.Folder);
+            if (folder != null)
+            {
+                await RemoveFolder(folder);
+            }
+            throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", folder, TableName));
+        }
+        private async Task RemoveFolder(NestedSetsFileSystemEntity folder)
         {
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
@@ -233,8 +251,7 @@ namespace OpenDataStorage.Common.DbContext
             }
             throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
         }
-
-        public async Task<ICollection<NestedSetsFileSystemEntity>> GetChildNodes(NestedSetsFileSystemEntity entity)
+        private async Task<ICollection<NestedSetsFileSystemEntity>> GetChildNodes(NestedSetsFileSystemEntity entity)
         {
             throw new NotImplementedException();
         }
@@ -248,8 +265,7 @@ namespace OpenDataStorage.Common.DbContext
             }
             throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
         }
-
-        public async Task<NestedSetsFileSystemEntity> GetRootNode(NestedSetsFileSystemEntity entity)
+        private async Task<NestedSetsFileSystemEntity> GetRootNode(NestedSetsFileSystemEntity entity)
         {
             throw new NotImplementedException();
         }
@@ -263,8 +279,7 @@ namespace OpenDataStorage.Common.DbContext
             }
             throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
         }
-
-        public async Task<ICollection<NestedSetsFileSystemEntity>> GetRootNodes(NestedSetsFileSystemEntity entity)
+        private async Task<ICollection<NestedSetsFileSystemEntity>> GetRootNodes(NestedSetsFileSystemEntity entity)
         {
             throw new NotImplementedException();
         }

@@ -9,14 +9,8 @@ namespace OpenDataStorage.Common.DbContext
     {
         Task<NestedSetsFileSystemEntity> GetRootNode(Guid id);
 
-        Task<NestedSetsFileSystemEntity> GetRootNode(NestedSetsFileSystemEntity entity);
-
         Task<ICollection<NestedSetsFileSystemEntity>> GetRootNodes(Guid id);
 
-        Task<ICollection<NestedSetsFileSystemEntity>> GetRootNodes(NestedSetsFileSystemEntity entity);
-
         Task<ICollection<NestedSetsFileSystemEntity>> GetChildNodes(Guid id);
-
-        Task<ICollection<NestedSetsFileSystemEntity>> GetChildNodes(NestedSetsFileSystemEntity entity);
     }
 }

@@ -11,14 +11,12 @@ namespace OpenDataStorage.Common.DbContext
 
         string TableName { get; }
 
-        Task AddObject(T @object, NestedSetsFileSystemEntity parentFolder);
-
         Task AddObject(T @object, Guid folderId);
 
-        Task MoveObject(T @object, NestedSetsFileSystemEntity newFolder);
+        Task UpdateObject(T @object);
 
         Task MoveObject(T @object, Guid newFolderId);
 
-        Task RemoveObject(T @object);
+        Task RemoveObject(Guid objectId);
     }
 }

@@ -70,7 +70,7 @@ namespace OpenDataStorage.API
                 Type = EntityType.File,
                 OwnerId = User.Identity.Name
             };
-            await _dbContext.CharacteristicObjectContext.AddObject(characteristic, parentFolder);
+            await _dbContext.CharacteristicObjectContext.AddObject(characteristic, parentFolder.Id);
             return Request.CreateResponse(HttpStatusCode.OK, characteristic);
         }
 
@@ -78,37 +78,17 @@ namespace OpenDataStorage.API
         [HttpPut]
         public async Task<HttpResponseMessage> EditCharacteristic([FromUri]Guid characteristicId, CharacteristicViewModel vm)
         {
-            throw new NotImplementedException();
-            /*var dictionary = await _dbContext.Dictionaries.FirstOrDefaultAsync(d => d.Id == dictionaryId);
-            if (dictionary != null)
-            {
-                dictionary.Name = vm.Name;
-                dictionary.Description = vm.Description;
-                dictionary.IsPublic = vm.IsPublic;
-                dictionary.LastChangeDate = DateTime.Now;
-
-                await _dbContext.SaveDbChangesAsync();
-                return Request.CreateResponse(HttpStatusCode.OK, dictionary);
-            }
-            return Request.CreateResponse(HttpStatusCode.NotFound);*/
+            var characteristic = Mapper.CreateInstanceAndMapProperties<Characteristic>(vm);
+            await _dbContext.CharacteristicObjectContext.UpdateObject(characteristic);
+            return Request.CreateResponse(HttpStatusCode.OK, characteristic);
         }
 
         [Route("Remove/{id}")]
         [HttpDelete]
         public async Task<HttpResponseMessage> RemoveCharacteristic(Guid id)
         {
-            throw new NotImplementedException();
-            /*var dictionaryToRemove = await _dbContext.Dictionaries.FirstOrDefaultAsync(d => d.Id == id);
-            if (dictionaryToRemove != null)
-            {
-                var res = await _dbContext.RemoveDictionary(dictionaryToRemove);
-                await _dbContext.SaveDbChangesAsync();
-                return Request.CreateResponse(HttpStatusCode.OK, res);
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
-            }*/
+            await _dbContext.CharacteristicObjectContext.RemoveObject(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

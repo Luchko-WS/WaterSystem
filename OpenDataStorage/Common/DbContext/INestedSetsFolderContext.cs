@@ -6,13 +6,11 @@ namespace OpenDataStorage.Common.DbContext
 {
     public interface INestedSetsFolderContext
     {
-        Task AddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder);
-
         Task AddFolder(NestedSetsFileSystemEntity folder, Guid parentFolderId);
 
-        Task RemoveFolder(NestedSetsFileSystemEntity folder);
+        Task UpdatFolder(NestedSetsFileSystemEntity folder);
 
-        Task MoveFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity newFolder);
+        Task RemoveFolder(Guid folderId);
 
         Task MoveFolder(NestedSetsFileSystemEntity folder, Guid newFolderId);
     }
