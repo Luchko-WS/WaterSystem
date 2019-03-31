@@ -21,7 +21,7 @@
         return service;
 
         function getCharacteristicTree() {
-            return $http.get('/api/Characteristic/GetCharacteristicTree', {
+            return $http.get('/api/Characteristics/GetCharacteristicTree', {
                 /*params: {
                     Name: filter.name,
                     SourceLanguage: filter.sourceLanguage,
@@ -32,7 +32,7 @@
         }
 
         function getCharacteristicSubTree() {
-            return $http.get('/api/Characteristic/GetCharacteristicSubTree', {
+            return $http.get('/api/Characteristics/GetCharacteristicSubTree', {
                 /*params: {
                     Name: filter.name,
                     SourceLanguage: filter.sourceLanguage,
@@ -43,7 +43,7 @@
         }
 
         function getCharacteristic(characteristicId) {
-            return $http.get('/api/Characteristic/Characteristic/' + characteristicId, {
+            return $http.get('/api/Characteristics/Characteristic/' + characteristicId, {
                 /*params: {
                     SourceLanguageValue: phrasesPairsFilter.sourceLanguageValue,
                     TargetLanguageValue: phrasesPairsFilter.targetLanguageValue
@@ -54,7 +54,7 @@
         function createCharacteristic(characteristic) {
             return $http({
                 method: 'POST',
-                url: '/api/Characteristic/CreateCharacteristic',
+                url: '/api/Characteristics/CreateCharacteristic',
                 data: characteristic
             });
         }
@@ -62,7 +62,7 @@
         function createCharacteristicFolder(folder) {
             return $http({
                 method: 'POST',
-                url: '/api/Characteristic/CreateFolder',
+                url: '/api/Characteristics/CreateFolder',
                 data: folder
             });
         }
@@ -70,7 +70,7 @@
         function editCharacteristic(characteristicId, characteristicData) {
             return $http({
                 method: 'PUT',
-                url: '/api/Characteristic/Edit/' + characteristicId,
+                url: '/api/Characteristics/Edit/' + characteristicId,
                 data: characteristicData
             });
         }
@@ -78,7 +78,7 @@
         function removeCharacteristic(characteristicId) {
             return $http({
                 method: 'DELETE',
-                url: '/api/Characteristic/Remove/' + characteristicId
+                url: '/api/Characteristics/Remove/' + characteristicId
             });
         }
     }
