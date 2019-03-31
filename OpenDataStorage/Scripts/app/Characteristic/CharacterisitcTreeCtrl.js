@@ -44,8 +44,8 @@
             });
 
             modalInstance.result.then(function (response) {
-                
-            });
+                console.log(response);
+            }, function () { });
         }
 
         function editCharacteristic(characteristic) {
@@ -62,7 +62,7 @@
 
             modalInstance.result.then(function (response) {
                 init(response.id);
-            });
+            }, function () { });
         }
 
         function removeCharacteristic(characteristic) {

@@ -14,11 +14,9 @@ namespace OpenDataStorage.Common.DbContext
             TableName = "Characteristics";
         }
 
-        protected override Task AddObjectInternal(Characteristic @object)
+        protected override async Task AddObjectInternal(Characteristic @object)
         {
-            throw new NotImplementedException();
-            //insert into employee (ID, name, salary, start_date, city, region)
-            //values(6, 'James', 70060, '09/06/99', 'Toronto', 'N')
+            await ExecuteInsertSqlCommand(@object);
         }
 
         protected override Task MoveObjetInternal()
@@ -31,9 +29,9 @@ namespace OpenDataStorage.Common.DbContext
             throw new NotImplementedException();
         }
 
-        protected override Task AddFolderInternal(NestedSetsFileSystemEntity folder)
+        protected override async Task AddFolderInternal(NestedSetsFileSystemEntity folder)
         {
-            throw new NotImplementedException();
+            await ExecuteInsertSqlCommand(folder);
         }
 
         protected override Task MoveFolderInternal()

@@ -16,16 +16,13 @@
 
         init();
 
-        function init() {
-            
-        }
+        function init() { }
 
         function createCharacteristic() {
-            CharacteristicService.createDictionary(vm.characteristic)
-                .success(function (data) {
+            CharacteristicService.createCharacteristic(vm.characteristic)
+                .then(function (data) {
                     $uibModalInstance.close(data);
-                })
-                .error(errorHandler);
+                }, errorHandler);
         }
 
         function errorHandler(error) {

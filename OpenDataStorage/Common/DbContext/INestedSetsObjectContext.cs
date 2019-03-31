@@ -9,6 +9,8 @@ namespace OpenDataStorage.Common.DbContext
     {
         IQueryable<T> Entities { get; }
 
+        string TableName { get; }
+
         Task AddObject(T @object, NestedSetsFileSystemEntity parentFolder);
 
         Task AddObject(T @object, Guid folderId);

@@ -13,6 +13,7 @@
             getCharacteristicSubTree: getCharacteristicSubTree,
             getCharacteristic: getCharacteristic,
             createCharacteristic: createCharacteristic,
+            createCharacteristicFolder: createCharacteristicFolder,
             editCharacteristic: editCharacteristic,
             removeCharacteristic: removeCharacteristic
         };
@@ -53,8 +54,16 @@
         function createCharacteristic(characteristic) {
             return $http({
                 method: 'POST',
-                url: '/api/Characteristic/Create',
+                url: '/api/Characteristic/CreateCharacteristic',
                 data: characteristic
+            });
+        }
+
+        function createCharacteristicFolder(folder) {
+            return $http({
+                method: 'POST',
+                url: '/api/Characteristic/CreateFolder',
+                data: folder
             });
         }
 

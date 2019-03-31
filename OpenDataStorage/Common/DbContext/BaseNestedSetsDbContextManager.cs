@@ -26,16 +26,17 @@ namespace OpenDataStorage.Common.DbContext
         protected abstract Task AddObjectInternal(T @object);
         public async Task AddObject(T @object, NestedSetsFileSystemEntity parentFolder)
         {
-            var tableNameParam = new SqlParameter { ParameterName = "TableName", Value = TableName };
-            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = parentFolder.RightKey };
+            @object.LeftKey = parentFolder.RightKey;
+            @object.RightKey = parentFolder.RightKey + 1;
+            @object.Level = parentFolder.Level + 1;
 
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo.PreCreateNestedSetsNode @TableName, @RightKey", tableNameParam, rightKeyParam);
+                    var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = parentFolder.RightKey };
+                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
                     await AddObjectInternal(@object);
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo.PostCreateNestedSetsNode @TableName, @RightKey", tableNameParam, rightKeyParam);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -90,10 +91,9 @@ namespace OpenDataStorage.Common.DbContext
                 try
                 {
                     await RemoveObjectInternal(@object);
-                    var tableNameParam = new SqlParameter { ParameterName = "TableName", Value = TableName };
                     var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = @object.LeftKey };
                     var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = @object.RightKey };
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo.PostRemoveNestedSetsNode @TableName, @LeftKey, @RightKey", tableNameParam, leftKeyParam, rightKeyParam);
+                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -108,15 +108,18 @@ namespace OpenDataStorage.Common.DbContext
         protected abstract Task AddFolderInternal(NestedSetsFileSystemEntity folder);
         public async Task AddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
         {
+            folder.LeftKey = parentFolder.RightKey;
+            folder.RightKey = parentFolder.RightKey + 1;
+            folder.Level = parentFolder.Level + 1;
+
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    var tableNameParam = new SqlParameter { ParameterName = "TableName", Value = TableName };
                     var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = parentFolder.RightKey };
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo.PreCreateNestedSetsNode @TableName, @RightKey", tableNameParam, rightKeyParam);
+                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
                     await AddFolderInternal(folder);
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo.PostCreateNestedSetsNode @TableName, @RightKey", tableNameParam, rightKeyParam);
+                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostCreateNestedSetsNode @RightKey", rightKeyParam);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -170,10 +173,9 @@ namespace OpenDataStorage.Common.DbContext
             {
                 try
                 {
-                    var tableNameParam = new SqlParameter { ParameterName = "TableName", Value = TableName };
                     var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = folder.LeftKey };
                     var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = folder.RightKey };
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo.PostRemoveNestedSetsNode @TableName, @LeftKey, @RightKey", tableNameParam, leftKeyParam, rightKeyParam);
+                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
                     await RemoveFolderInternal(folder);
                     transaction.Commit();
                 }
@@ -225,5 +227,35 @@ namespace OpenDataStorage.Common.DbContext
         {
             throw new NotImplementedException();
         }
+
+        #region Protected methods
+
+        protected async Task ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsFileSystemEntity
+        {
+            var columnsSB = new List<string>();
+            var parametersSB = new List<string>();
+            var sqlParameters = new List<SqlParameter>();
+
+            var sourceType = instance.GetType();
+            var resPropertiesInfo = sourceType.GetProperties();
+            foreach (var prop in resPropertiesInfo)
+            {
+                var sourcePropInfo = sourceType.GetProperty(prop.Name);
+                var value = sourcePropInfo.GetValue(instance, null);
+
+                if (value != null)
+                {
+                    columnsSB.Add(prop.Name);
+                    parametersSB.Add(string.Format("@{0}", prop.Name));
+                    sqlParameters.Add(new SqlParameter { ParameterName = prop.Name, Value = value });
+                }
+            }
+
+            var commandText = string.Format(@"INSERT INTO {0} ({1}) VALUES ({2})",
+                TableName, string.Join(",", columnsSB), string.Join(",", parametersSB));
+            await _dbContext.Database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
+        }
+
+        #endregion
     }
 }

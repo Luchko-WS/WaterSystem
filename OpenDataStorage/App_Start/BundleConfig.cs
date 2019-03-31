@@ -14,7 +14,8 @@ namespace OpenDataStorage
                 .Include("~/Scripts/libs/angularjs/angular-cookies.js")
                 .Include("~/Scripts/libs/angularjs/angular-translate.js")
                 .Include("~/Scripts/libs/angularjs/angular-translate-loader-url.js")
-                .IncludeDirectory("~/Scripts/libs/angularjs/angular-ui", "*.js", true)
+                .Include("~/Scripts/libs/angularjs/angular-ui/ui-bootstrap.js")
+                .Include("~/Scripts/libs/angularjs/angular-ui/ui-bootstrap-tpls.js")
                 .IncludeDirectory("~/Scripts/libs/angularjs/angular-block-ui", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval")

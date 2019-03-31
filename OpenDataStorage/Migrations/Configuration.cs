@@ -3,6 +3,7 @@ namespace OpenDataStorage.Migrations
     using OpenDataStorage.Common;
     using OpenDataStorage.Common.DbContext;
     using OpenDataStorageCore;
+    using System;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -43,77 +44,80 @@ namespace OpenDataStorage.Migrations
                 });
             }
 
-            CreateStoredProcedurePreCreateNestedSetsNode(context);
-            CreateStoredProcedurePostCreateNestedSetsNode(context);
-            CreateStoredProcedurePostRemoveNestedSetsNode(context);
-            CreateStoredProcedurePreMoveNestedSetsNode(context);
+            PrepateStoredProceduresForCharacteristics(context);
+            PrepateStoredProceduresForHierarchyObjects(context);
         }
 
-        private void CreateStoredProcedurePreCreateNestedSetsNode(ApplicationDbContext context)
+        private void PrepateStoredProceduresForHierarchyObjects(ApplicationDbContext context)
         {
-            context.Database.ExecuteSqlCommand(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PreCreateNestedSetsNode]') AND type in (N'P', N'PC'))
-            DROP PROCEDURE [dbo].[PreCreateNestedSetsNode]");
+            string tableName = ((IApplicationDbContext)context).HierarchyObjectContext.TableName;
+            CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
+            CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
+            CreateStoredProcedurePreMoveNestedSetsNode(context, tableName);
+        }
 
-            context.Database.ExecuteSqlCommand(@"CREATE PROCEDURE [dbo].[PreCreateNestedSetsNode]
-                @TableName nvarchar(50),
+        private void PrepateStoredProceduresForCharacteristics(ApplicationDbContext context)
+        {
+            string tableName = ((IApplicationDbContext)context).CharacteristicObjectContext.TableName;
+            CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
+            CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
+            CreateStoredProcedurePreMoveNestedSetsNode(context, tableName);
+        }
+
+        private void CreateStoredProcedurePreCreateNestedSetsNode(ApplicationDbContext context, string tableName)
+        {
+            string procedureName = string.Format("{0}PreCreateNestedSetsNode", tableName);
+
+            context.Database.ExecuteSqlCommand(string.Format(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[{0}]') AND type in (N'P', N'PC'))
+            DROP PROCEDURE [dbo].[{0}]", procedureName));
+
+            context.Database.ExecuteSqlCommand(string.Format(@"CREATE PROCEDURE [dbo].[{0}]
                 @RightKey int
             AS
             BEGIN
-                UPDATE dbo.[@TableName] SET LeftKey = LeftKey + 2, RightKey = RightKey + 2 WHERE LeftKey > @RightKey;
-                UPDATE dbo.[@TableName] SET RightKey = RightKey + 2 WHERE RightKey >= @RightKey AND LeftKey < @RightKey;
-            END");
+                UPDATE dbo.[{1}] SET LeftKey = LeftKey + 2, RightKey = RightKey + 2 WHERE LeftKey > @RightKey;
+                UPDATE dbo.[{1}] SET RightKey = RightKey + 2 WHERE RightKey >= @RightKey AND LeftKey < @RightKey;
+            END", procedureName, tableName));
         }
 
-        private void CreateStoredProcedurePostCreateNestedSetsNode(ApplicationDbContext context)
+        private void CreateStoredProcedurePostRemoveNestedSetsNode(ApplicationDbContext context, string tableName)
         {
-            context.Database.ExecuteSqlCommand(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PostCreateNestedSetsNode]') AND type in (N'P', N'PC'))
-            DROP PROCEDURE [dbo].[PostCreateNestedSetsNode]");
+            string procedureName = string.Format("{0}PostRemoveNestedSetsNode", tableName);
 
-            context.Database.ExecuteSqlCommand(@"CREATE PROCEDURE [dbo].[PostCreateNestedSetsNode]
-                    @TableName nvarchar(50),
-                    @RightKey int
-            AS
-            BEGIN
-                UPDATE dbo.[@TableName] SET RightKey = RightKey + 2, LeftKey = CASE WHEN LeftKey > @RightKey THEN LeftKey + 2 ELSE LeftKey END WHERE RightKey >= @RightKey;
-            END");
-        }
+            context.Database.ExecuteSqlCommand(string.Format(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[{0}]') AND type in (N'P', N'PC'))
+            DROP PROCEDURE [dbo].[{0}]", procedureName));
 
-        private void CreateStoredProcedurePostRemoveNestedSetsNode(ApplicationDbContext context)
-        {
-            context.Database.ExecuteSqlCommand(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PostRemoveNestedSetsNode]') AND type in (N'P', N'PC'))
-            DROP PROCEDURE [dbo].[PostRemoveNestedSetsNode]");
-
-            context.Database.ExecuteSqlCommand(@"CREATE PROCEDURE [dbo].[PostRemoveNestedSetsNode]
-                @TableName nvarchar(50),
+            context.Database.ExecuteSqlCommand(string.Format(@"CREATE PROCEDURE [dbo].[{0}]
                 @LeftKey int,
                 @RightKey int
             AS
             BEGIN
-                UPDATE dbo.[@TableName] SET RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey AND LeftKey < @LeftKey;
-                UPDATE dbo.[@TableName] SET LeftKey = LeftKey - (@RightKey - @LeftKey + 1), RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE LeftKey > @RightKey;
-                UPDATE dbo.[@TableName] SET LeftKey = CASE WHEN LeftKey > @LeftKey THEN LeftKey - (@RightKey - @LeftKey + 1) ELSE LeftKey END, RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey;
-            END");
+                UPDATE dbo.[{1}] SET RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey AND LeftKey < @LeftKey;
+                UPDATE dbo.[{1}] SET LeftKey = LeftKey - (@RightKey - @LeftKey + 1), RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE LeftKey > @RightKey;
+                UPDATE dbo.[{1}] SET LeftKey = CASE WHEN LeftKey > @LeftKey THEN LeftKey - (@RightKey - @LeftKey + 1) ELSE LeftKey END, RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey;
+            END", procedureName, tableName));
         }
 
-        private void CreateStoredProcedurePreMoveNestedSetsNode(ApplicationDbContext context)
+        private void CreateStoredProcedurePreMoveNestedSetsNode(ApplicationDbContext context, string tableName)
         {
-            context.Database.ExecuteSqlCommand(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PreMoveNestedSetsNode]') AND type in (N'P', N'PC'))
-            DROP PROCEDURE [dbo].[PreMoveNestedSetsNode]");
+            string procedureName = string.Format("{0}PreMoveNestedSetsNode", tableName);
 
-            context.Database.ExecuteSqlCommand(@"CREATE PROCEDURE [dbo].[PreMoveNestedSetsNode]
-                @TableName nvarchar(50),
+            context.Database.ExecuteSqlCommand(string.Format(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[{0}]') AND type in (N'P', N'PC'))
+            DROP PROCEDURE [dbo].[{0}]", procedureName));
+
+            context.Database.ExecuteSqlCommand(string.Format(@"CREATE PROCEDURE [dbo].[{0}]
                 @ObjectId uniqueidentifier,
                 @NewRightKey int,
                 @NewLevel int,
                 @oldRightKey int
             AS
             BEGIN
-                UPDATE dbo.[@TableName] SET LeftKey=LeftKey+2, RightKey=RightKey+2 WHERE LeftKey > @NewRightKey;
-                UPDATE dbo.[@TableName] SET RightKey = RightKey + 2 WHERE RightKey >= @NewRightKey AND LeftKey < @NewRightKey;
-                UPDATE dbo.[@TableName] SET LeftKey = @NewRightKey, RightKey = @NewRightKey + 1, node_Level = @NewLevel + 1 WHERE Id = @ObjectId;
-                UPDATE dbo.[@TableName] SET RightKey = RightKey - 2 WHERE RightKey > @oldRightKey;
-                UPDATE dbo.[@TableName] SET LeftKey = LeftKey - 2 WHERE LeftKey > @oldRightKey;
-            END");
+                UPDATE dbo.[{1}] SET LeftKey=LeftKey+2, RightKey=RightKey+2 WHERE LeftKey > @NewRightKey;
+                UPDATE dbo.[{1}] SET RightKey = RightKey + 2 WHERE RightKey >= @NewRightKey AND LeftKey < @NewRightKey;
+                UPDATE dbo.[{1}] SET LeftKey = @NewRightKey, RightKey = @NewRightKey + 1, Level = @NewLevel + 1 WHERE Id = @ObjectId;
+                UPDATE dbo.[{1}] SET RightKey = RightKey - 2 WHERE RightKey > @oldRightKey;
+                UPDATE dbo.[{1}] SET LeftKey = LeftKey - 2 WHERE LeftKey > @oldRightKey;
+            END", procedureName, tableName));
         }
 
         /*

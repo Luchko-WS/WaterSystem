@@ -4,7 +4,7 @@ namespace OpenDataStorage.Common
 {
     public static class Mapper
     {
-        public static TRes MapProperties<TRes>(object sourceObj)
+        public static TRes CreateInstanceAndMapProperties<TRes>(object sourceObj)
         {
             TRes resObj = (TRes)Activator.CreateInstance(typeof(TRes));
             var resPropertiesInfo = typeof(TRes).GetProperties();

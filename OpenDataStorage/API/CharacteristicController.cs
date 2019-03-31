@@ -1,4 +1,6 @@
-﻿using OpenDataStorage.ViewModels.CharacteristicViewModel;
+﻿using OpenDataStorage.Common;
+using OpenDataStorage.ViewModels.CharacteristicViewModel;
+using OpenDataStorageCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,8 @@ namespace OpenDataStorage.API
         [AllowAnonymous]
         public async Task<dynamic> GetCharacteristicTree()
         {
-            return 1;
+            var collection = _dbContext.CharacteristicObjectContext.Entities;
+            return collection;
             /*var query = _dbContext.Dictionaries.Where(d => d.IsPublic);
             query = PrepareQueryByFilter(query, filter);
             var dictionaries = await query.OrderByDescending(d => d.CreationDate).ToListAsync();
@@ -54,26 +57,21 @@ namespace OpenDataStorage.API
             return Request.CreateResponse(HttpStatusCode.OK, res);*/
         }
 
-        [Route("Create")]
+        [Route("CreateCharacteristic")]
         [HttpPost]
         public async Task<HttpResponseMessage> CreateCharacteristic(CharacteristicViewModel vm)
         {
-            throw new NotImplementedException();
-            /*Dictionary newDictionary = new Dictionary()
+            var parentFolder = _dbContext.CharacteristicObjectContext.Entities.Where(e => e.Type == EntityType.Folder).FirstOrDefault();
+
+            var characteristic = new Characteristic
             {
                 Name = vm.Name,
                 Description = vm.Description,
-                SourceLanguage = vm.SourceLanguage,
-                TargetLanguage = vm.TargetLanguage,
-                IsPublic = vm.IsPublic,
-                CreationDate = DateTime.Now,
-                LastChangeDate = DateTime.Now,
+                Type = EntityType.File,
                 OwnerId = User.Identity.Name
             };
-
-            _dbContext.CreateDictionary(newDictionary);
-            await _dbContext.SaveDbChangesAsync();
-            return Request.CreateResponse(HttpStatusCode.OK, newDictionary);*/
+            await _dbContext.CharacteristicObjectContext.AddObject(characteristic, parentFolder);
+            return Request.CreateResponse(HttpStatusCode.OK, characteristic);
         }
 
         [Route("Edit/{characteristicId}")]

@@ -6,7 +6,7 @@ namespace OpenDataStorageCore
     {
         public BaseEntity()
         {
-            this.Id = new Guid();
+            this.Id = Guid.NewGuid();
         }
 
         public Guid Id { get; set; }
