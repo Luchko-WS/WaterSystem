@@ -7,8 +7,8 @@ namespace OpenDataStorage.Common.DbContext
 {
     public class CharacteristicDbContextManager : BaseNestedSetsDbContextManager<Characteristic>
     {
-        public CharacteristicDbContextManager(ApplicationDbContext dbContext, DbSet<Characteristic> entities)
-            : base(dbContext, entities)
+        public CharacteristicDbContextManager(DbSet<Characteristic> entities, Database database)
+            : base(entities, database)
         {
             TableName = "Characteristics";
         }

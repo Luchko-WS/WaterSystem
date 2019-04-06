@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext
 {
-    public interface INestedSetsObjectContext<T>  : INestedSetsFolderContext, INestedSetsFileSystemContext where T : NestedSetsObject
+    public interface INestedSetsObjectContext<T>  : INestedSetsFolderContext, INestedSetsEntityRelationContext<T> where T : NestedSetsObject
     {
         IQueryable<T> Entities { get; }
 

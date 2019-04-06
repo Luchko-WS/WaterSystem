@@ -11,13 +11,13 @@ namespace OpenDataStorage.Common.DbContext
     public abstract class BaseNestedSetsDbContextManager<T> : INestedSetsObjectContext<T> where T : NestedSetsObject
     {
         protected DbSet<T> _dbSet;
-        protected ApplicationDbContext _dbContext;
+        protected Database _database;
 
         public string TableName { get; protected set; }
 
-        public BaseNestedSetsDbContextManager(ApplicationDbContext dbContext, DbSet<T> dbSet)
+        public BaseNestedSetsDbContextManager(DbSet<T> dbSet, Database database)
         {
-            _dbContext = dbContext;
+            _database = database;
             _dbSet = dbSet;
         }
 
@@ -39,12 +39,12 @@ namespace OpenDataStorage.Common.DbContext
             @object.RightKey = parentFolder.RightKey + 1;
             @object.Level = parentFolder.Level + 1;
 
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
                     var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = parentFolder.RightKey };
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
+                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
                     await AddObjectInternal(@object);
                     transaction.Commit();
                 }
@@ -59,7 +59,7 @@ namespace OpenDataStorage.Common.DbContext
         protected abstract Task UpdateObjectInternal(T @object);
         public async Task UpdateObject(T @object)
         {
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
@@ -86,7 +86,7 @@ namespace OpenDataStorage.Common.DbContext
         }
         private async Task MoveObject(T @object, NestedSetsFileSystemEntity newFolder)
         {
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
@@ -113,14 +113,14 @@ namespace OpenDataStorage.Common.DbContext
         }
         private async Task RemoveObject(T @object)
         {
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
                     await RemoveObjectInternal(@object);
                     var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = @object.LeftKey };
                     var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = @object.RightKey };
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
+                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -148,14 +148,14 @@ namespace OpenDataStorage.Common.DbContext
             folder.RightKey = parentFolder.RightKey + 1;
             folder.Level = parentFolder.Level + 1;
 
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
                     var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = parentFolder.RightKey };
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
+                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
                     await AddFolderInternal(folder);
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostCreateNestedSetsNode @RightKey", rightKeyParam);
+                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostCreateNestedSetsNode @RightKey", rightKeyParam);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -169,7 +169,7 @@ namespace OpenDataStorage.Common.DbContext
         protected abstract Task UpdateFolderInternal(NestedSetsFileSystemEntity folder);
         public async Task UpdatFolder(NestedSetsFileSystemEntity folder)
         {
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
@@ -196,7 +196,7 @@ namespace OpenDataStorage.Common.DbContext
         }
         private async Task MoveFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity newFolder)
         {
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
@@ -223,13 +223,13 @@ namespace OpenDataStorage.Common.DbContext
         }
         private async Task RemoveFolder(NestedSetsFileSystemEntity folder)
         {
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
                     var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = folder.LeftKey };
                     var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = folder.RightKey };
-                    await _dbContext.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
+                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
                     await RemoveFolderInternal(folder);
                     transaction.Commit();
                 }
@@ -242,7 +242,7 @@ namespace OpenDataStorage.Common.DbContext
         }
 
         //relations
-        public async Task<ICollection<NestedSetsFileSystemEntity>> GetChildNodes(Guid id)
+        public async Task<ICollection<T>> GetChildNodes(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
@@ -251,12 +251,20 @@ namespace OpenDataStorage.Common.DbContext
             }
             return await GetChildNodes(node);
         }
-        private async Task<ICollection<NestedSetsFileSystemEntity>> GetChildNodes(NestedSetsFileSystemEntity entity)
+        private async Task<ICollection<T>> GetChildNodes(NestedSetsFileSystemEntity entity)
         {
-            throw new NotImplementedException();
+            return await _dbSet
+                .Where(e => e.LeftKey >= entity.LeftKey && e.RightKey <= entity.RightKey)
+                .OrderBy(n => n.LeftKey)
+                .ToListAsync();
         }
 
-        public async Task<NestedSetsFileSystemEntity> GetRootNode(Guid id)
+        public async Task<ICollection<T>> GetTree()
+        {
+            return await _dbSet.OrderBy(n => n.LeftKey).ToListAsync();
+        }
+
+        public async Task<T> GetRootNode(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
@@ -265,12 +273,13 @@ namespace OpenDataStorage.Common.DbContext
             }
             return await GetRootNode(node);
         }
-        private async Task<NestedSetsFileSystemEntity> GetRootNode(NestedSetsFileSystemEntity entity)
+        private async Task<T> GetRootNode(NestedSetsFileSystemEntity entity)
         {
-            throw new NotImplementedException();
+            return await _dbSet
+                .FirstOrDefaultAsync(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
         }
 
-        public async Task<ICollection<NestedSetsFileSystemEntity>> GetRootNodes(Guid id)
+        public async Task<ICollection<T>> GetRootNodes(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
@@ -279,9 +288,12 @@ namespace OpenDataStorage.Common.DbContext
             }
             return await GetRootNodes(node);
         }
-        private async Task<ICollection<NestedSetsFileSystemEntity>> GetRootNodes(NestedSetsFileSystemEntity entity)
+        private async Task<ICollection<T>> GetRootNodes(NestedSetsFileSystemEntity entity)
         {
-            throw new NotImplementedException();
+            return await _dbSet
+                .Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey)
+                .OrderBy(e => e.LeftKey)
+                .ToListAsync();
         }
 
         #region Protected methods
@@ -308,7 +320,7 @@ namespace OpenDataStorage.Common.DbContext
 
             var commandText = string.Format(@"INSERT INTO {0} ({1}) VALUES ({2})",
                 TableName, string.Join(",", columns), string.Join(",", parameters));
-            await _dbContext.Database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
+            await _database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
         }
 
         protected async Task ExecuteUpdateSqlCommand<NS>(NS instance) where NS : NestedSetsFileSystemEntity
@@ -331,14 +343,14 @@ namespace OpenDataStorage.Common.DbContext
 
             var commandText = string.Format(@"UPDATE {0} SET {1} WHERE Id='{2}'",
                 TableName, string.Join(",", expressions), instance.Id.ToString());
-            await _dbContext.Database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
+            await _database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
         }
 
         protected async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsFileSystemEntity
         {
-            var commandText = string.Format(@"DELETE FROM {0} WHERE Id='{1}'",
-                TableName, instance.Id.ToString());
-            await _dbContext.Database.ExecuteSqlCommandAsync(commandText);
+            var commandText = string.Format(@"DELETE FROM {0} WHERE LeftKey >= {1} AND RightKey <= {2}",
+                TableName, instance.LeftKey, instance.RightKey);
+            await _database.ExecuteSqlCommandAsync(commandText);
         }
 
         #endregion
