@@ -242,7 +242,7 @@ namespace OpenDataStorage.Common.DbContext
         }
 
         //relations
-        public async Task<ICollection<T>> GetChildNodes(Guid id)
+        public virtual async Task<ICollection<T>> GetChildNodes(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
@@ -253,18 +253,25 @@ namespace OpenDataStorage.Common.DbContext
         }
         private async Task<ICollection<T>> GetChildNodes(NestedSetsFileSystemEntity entity)
         {
-            return await _dbSet
-                .Where(e => e.LeftKey >= entity.LeftKey && e.RightKey <= entity.RightKey)
-                .OrderBy(n => n.LeftKey)
-                .ToListAsync();
+            return await GetChildNodesQuery(entity).ToListAsync();
         }
-
-        public async Task<ICollection<T>> GetTree()
+        private IQueryable<T> GetChildNodesQuery(NestedSetsFileSystemEntity entity)
         {
-            return await _dbSet.OrderBy(n => n.LeftKey).ToListAsync();
+            return _dbSet
+               .Where(e => e.LeftKey >= entity.LeftKey && e.RightKey <= entity.RightKey)
+               .OrderBy(n => n.LeftKey);
         }
 
-        public async Task<T> GetRootNode(Guid id)
+        public virtual async Task<ICollection<T>> GetTree()
+        {
+            return await GetTreeQuery().ToListAsync();
+        }
+        private IQueryable<T> GetTreeQuery()
+        {
+            return _dbSet.OrderBy(n => n.LeftKey);
+        }
+
+        public virtual async Task<T> GetRootNode(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
@@ -275,11 +282,14 @@ namespace OpenDataStorage.Common.DbContext
         }
         private async Task<T> GetRootNode(NestedSetsFileSystemEntity entity)
         {
-            return await _dbSet
-                .FirstOrDefaultAsync(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
+            return await GetRootNodeQuery(entity).FirstOrDefaultAsync();
+        }
+        private IQueryable<T> GetRootNodeQuery(NestedSetsFileSystemEntity entity)
+        {
+            return _dbSet.Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
         }
 
-        public async Task<ICollection<T>> GetRootNodes(Guid id)
+        public virtual async Task<ICollection<T>> GetRootNodes(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
@@ -290,10 +300,13 @@ namespace OpenDataStorage.Common.DbContext
         }
         private async Task<ICollection<T>> GetRootNodes(NestedSetsFileSystemEntity entity)
         {
-            return await _dbSet
+            return await GetRootNodesQuery(entity).ToListAsync();
+        }
+        private IQueryable<T> GetRootNodesQuery(NestedSetsFileSystemEntity entity)
+        {
+            return _dbSet
                 .Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey)
-                .OrderBy(e => e.LeftKey)
-                .ToListAsync();
+                .OrderBy(e => e.LeftKey);
         }
 
         #region Protected methods
