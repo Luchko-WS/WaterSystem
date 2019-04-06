@@ -6,7 +6,7 @@ using OpenDataStorageCore;
 
 namespace OpenDataStorage.Common.DbContext
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+    public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         private HierarchyObjectDbContextManager _objectDbContextManager;
         private CharacteristicDbContextManager _characteristicDbContextManager;
@@ -37,12 +37,30 @@ namespace OpenDataStorage.Common.DbContext
                 m.ToTable(_objectDbContextManager.TableName);
             });
 
+            modelBuilder.Entity<CharacteristicValue>().Map(m =>
+            {
+               m.MapInheritedProperties();
+               m.ToTable("Values");
+            });
+
+            modelBuilder.Entity<CharacteristicValue>()
+                .HasRequired(v => v.Characteristic)
+                .WithMany();
+
+            modelBuilder.Entity<CharacteristicValue>()
+                .HasRequired(c => c.HierarchyObject)
+                .WithMany();
+
+            base.OnModelCreating(modelBuilder);
+
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<HierarchyObject> HierarchyObjects { get; set; }
 
         public DbSet<Characteristic> Characteristics { get; set; }
+
+        public DbSet<CharacteristicValue> CharacteristicValues { get; set; }
 
         INestedSetsObjectContext<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbContextManager;
 
