@@ -32,10 +32,10 @@
             return $http.get('/api/Characteristics/Get/' + id);
         }
 
-        function _create(vm) {
+        function _create(parentId, vm) {
             return $http({
                 method: 'POST',
-                url: '/api/Characteristics/Create',
+                url: '/api/Characteristics/Create/' + parentId,
                 data: vm
             });
         }

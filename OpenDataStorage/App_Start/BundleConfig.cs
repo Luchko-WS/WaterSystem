@@ -27,7 +27,8 @@ namespace OpenDataStorage
                 .Include("~/Scripts/libs/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
-                .Include("~/Scripts/libs/bootstrap/bootstrap.js"));
+                .Include("~/Scripts/libs/bootstrap/bootstrap.js")
+                .Include("~/Scripts/libs/bootstrap/bootstrap-treeview.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include(
@@ -38,7 +39,8 @@ namespace OpenDataStorage
 
             bundles.Add(new ScriptBundle("~/bundles/app")
                 .Include("~/Scripts/app/app.js")
-                .IncludeDirectory("~/Scripts/app/Common", "*.js", true));
+                .IncludeDirectory("~/Scripts/app/Common/Services", "*.js", true)
+                .IncludeDirectory("~/Scripts/app/Common/Directives", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/app/Characteristic")
                 .IncludeDirectory("~/Scripts/app/Characteristic", "*.js", true));

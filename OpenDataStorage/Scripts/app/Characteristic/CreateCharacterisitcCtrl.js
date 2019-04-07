@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('CreateCharacteristicCtrl', CreateCharacteristicCtrl);
 
-    CreateCharacteristicCtrl.$inject = ['$uibModalInstance', 'CharacteristicService', 'MessageService'];
+    CreateCharacteristicCtrl.$inject = ['$uibModalInstance', 'CharacteristicService', 'MessageService', '_model'];
 
-    function CreateCharacteristicCtrl($uibModalInstance, CharacteristicService, MessageService) {
+    function CreateCharacteristicCtrl($uibModalInstance, CharacteristicService, MessageService, _model) {
         var vm = this;
 
         vm.characteristic = {};
@@ -16,10 +16,12 @@
 
         init();
 
-        function init() { }
+        function init() {
+            console.dir(_model);
+        }
 
         function createCharacteristic() {
-            CharacteristicService.create(vm.characteristic)
+            CharacteristicService.create(_model.parentNode.id, vm.characteristic)
                 .then(function (data) {
                     $uibModalInstance.close(data);
                 }, errorHandler);

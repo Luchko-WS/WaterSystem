@@ -273,6 +273,7 @@
     <Content Include="Content\css\angular-block-ui\angular-block-ui.min.css" />
     <Content Include="Content\css\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\css\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-treeview.css" />
     <Content Include="Content\css\bootstrap\bootstrap.css" />
     <Content Include="Content\css\bootstrap\bootstrap.min.css" />
     <Content Include="Content\images\ajax-loader.gif" />
@@ -286,6 +287,7 @@
     <Content Include="Scripts\app\Characteristic\CharacterisitcTreeCtrl.js" />
     <Content Include="Scripts\app\Characteristic\CreateCharacterisitcCtrl.js" />
     <Content Include="Scripts\app\Characteristic\EditCharacterisitcCtrl.js" />
+    <Content Include="Scripts\app\Common\Directives\TreeViewDirective.js" />
     <Content Include="Scripts\app\HierarchyObject\CreateHierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\HierarchyObject\EditHierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectCtrl.js" />
@@ -300,6 +302,7 @@
     <Content Include="Scripts\app\Common\Directives\AsyncPageWithLoaderDirective.js" />
     <Content Include="Scripts\app\Common\Directives\ExtraBootstrapNavbarDirective.js" />
     <Content Include="Scripts\app\Common\Services\MessageService.js" />
+    <Content Include="Scripts\libs\bootstrap\bootstrap-treeview.min.js" />
     <Content Include="Scripts\libs\jquery\jquery-1.12.4.js" />
     <Content Include="Scripts\libs\jquery\jquery-1.12.4.min.js" />
     <Content Include="Scripts\libs\angularjs\angular-translate-loader-url.js" />
@@ -1103,6 +1106,7 @@
     <Content Include="Scripts\libs\sitemap.xml" />
     <Content Include="Templates\DirectivesTemplates\ExtraBootstrapNavbar.html" />
     <Content Include="Templates\DirectivesTemplates\LoadingSpinnerTemplate.html" />
+    <Content Include="Templates\DirectivesTemplates\TreeView.html" />
     <Content Include="Templates\MessageServiceDialogWindows\CustomDialogWindow.html" />
     <Content Include="Templates\MessageServiceDialogWindows\OkDialogWindow.html" />
     <Content Include="Templates\MessageServiceDialogWindows\YesNoDialogWindow.html" />

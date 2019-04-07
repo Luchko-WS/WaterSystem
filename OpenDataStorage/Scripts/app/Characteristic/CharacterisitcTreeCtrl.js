@@ -9,6 +9,20 @@
 
     function CharacteristicTreeCtrl($uibModal, CharacteristicService, MessageService) {
         var vm = this;
+
+        vm.tree = [];
+        vm.state = {
+            currentNode: null
+        };
+        //define into different service
+        vm.treeParserConfig = {
+            textFieldName: "name",
+            levelFieldName: "level",
+            nodeTypeFieldName: "type",
+            nodeSelectedCallback: nodeSelectedCallback,
+            nodeUnselectedCallback: nodeUnselectedCallback
+        };
+
         vm.createCharacteristic = createCharacteristic;
         vm.editCharacteristic = editCharacteristic;
         vm.removeCharacteristic = removeCharacteristic;
@@ -17,16 +31,13 @@
 
         function init() {
             vm.loaded = false;
-
-            CharacteristicService.getTree()
+            vm.tree = CharacteristicService.getTree()
                 .then(function (response) {
                     vm.tree = response.data;
-                    console.dir(vm.tree);
                     vm.loaded = true;
                 })
                 .catch(function (error) {
                     errorHandler(error);
-                    vm.loaded = true;
                 });
         }
 
@@ -38,7 +49,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
-
+                        parentNode: vm.state.currentNode
                     }
                 }
             });
@@ -81,6 +92,15 @@
         function errorHandler(error) {
             console.error(error);
             MessageService.showMessage('commonErrorMessage', 'error');
+            vm.loaded = true;
+        }
+
+        function nodeSelectedCallback(event, data) {
+            vm.state.currentNode = data;
+        }
+
+        function nodeUnselectedCallback(event, data) {
+            vm.state.currentNode = null;
         }
     }
 

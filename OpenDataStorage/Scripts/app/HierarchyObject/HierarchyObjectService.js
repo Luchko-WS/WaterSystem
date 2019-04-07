@@ -32,10 +32,10 @@
             return $http.get('/api/HierarchyObjects/Get/' + id);
         }
 
-        function _create(vm) {
+        function _create(parentId, vm) {
             return $http({
                 method: 'POST',
-                url: '/api/HierarchyObjects/Create',
+                url: '/api/HierarchyObjects/Create/' + parentId,
                 data: vm
             });
         }
