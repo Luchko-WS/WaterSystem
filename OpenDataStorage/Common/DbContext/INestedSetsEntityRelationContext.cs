@@ -7,12 +7,14 @@ namespace OpenDataStorage.Common.DbContext
 {
     public interface INestedSetsEntityRelationContext<T> where T : NestedSetsFileSystemEntity
     {
-        Task<T> GetRootNode(Guid id);
+        Task<T> GetNode(Guid id);
 
-        Task<ICollection<T>> GetRootNodes(Guid id);
+        Task<ICollection<T>> GetTree();
 
         Task<ICollection<T>> GetChildNodes(Guid id);
 
-        Task<ICollection<T>> GetTree();
+        Task<T> GetRootNode(Guid id);
+
+        Task<ICollection<T>> GetRootNodes(Guid id);
     }
 }

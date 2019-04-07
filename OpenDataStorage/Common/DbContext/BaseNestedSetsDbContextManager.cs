@@ -242,24 +242,18 @@ namespace OpenDataStorage.Common.DbContext
         }
 
         //relations
-        public virtual async Task<ICollection<T>> GetChildNodes(Guid id)
+        public virtual async Task<T> GetNode(Guid id)
         {
-            var node = _dbSet.FirstOrDefault(f => f.Id == id);
-            if (node == null)
+            var node = await GetNodeQuery(id).FirstOrDefaultAsync();
+            if(node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetChildNodes(node);
+            return node;
         }
-        private async Task<ICollection<T>> GetChildNodes(NestedSetsFileSystemEntity entity)
+        private IQueryable<T> GetNodeQuery(Guid id)
         {
-            return await GetChildNodesQuery(entity).ToListAsync();
-        }
-        private IQueryable<T> GetChildNodesQuery(NestedSetsFileSystemEntity entity)
-        {
-            return _dbSet
-               .Where(e => e.LeftKey >= entity.LeftKey && e.RightKey <= entity.RightKey)
-               .OrderBy(n => n.LeftKey);
+            return _dbSet.Where(e => e.Id == id);
         }
 
         public virtual async Task<ICollection<T>> GetTree()
@@ -271,6 +265,26 @@ namespace OpenDataStorage.Common.DbContext
             return _dbSet.OrderBy(n => n.LeftKey);
         }
 
+        public virtual async Task<ICollection<T>> GetChildNodes(Guid id)
+        {
+            var node = _dbSet.FirstOrDefault(f => f.Id == id && f.Type == EntityType.Folder);
+            if (node == null)
+            {
+                throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", id, TableName));
+            }
+            return await GetChildNodes(node);
+        }
+        private async Task<ICollection<T>> GetChildNodes(T entity)
+        {
+            return await GetChildNodesQuery(entity).ToListAsync();
+        }
+        private IQueryable<T> GetChildNodesQuery(T entity)
+        {
+            return _dbSet
+               .Where(e => e.LeftKey >= entity.LeftKey && e.RightKey <= entity.RightKey)
+               .OrderBy(n => n.LeftKey);
+        }
+        
         public virtual async Task<T> GetRootNode(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
@@ -280,11 +294,11 @@ namespace OpenDataStorage.Common.DbContext
             }
             return await GetRootNode(node);
         }
-        private async Task<T> GetRootNode(NestedSetsFileSystemEntity entity)
+        private async Task<T> GetRootNode(T entity)
         {
             return await GetRootNodeQuery(entity).FirstOrDefaultAsync();
         }
-        private IQueryable<T> GetRootNodeQuery(NestedSetsFileSystemEntity entity)
+        private IQueryable<T> GetRootNodeQuery(T entity)
         {
             return _dbSet.Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
         }
@@ -298,11 +312,11 @@ namespace OpenDataStorage.Common.DbContext
             }
             return await GetRootNodes(node);
         }
-        private async Task<ICollection<T>> GetRootNodes(NestedSetsFileSystemEntity entity)
+        private async Task<ICollection<T>> GetRootNodes(T entity)
         {
             return await GetRootNodesQuery(entity).ToListAsync();
         }
-        private IQueryable<T> GetRootNodesQuery(NestedSetsFileSystemEntity entity)
+        private IQueryable<T> GetRootNodesQuery(T entity)
         {
             return _dbSet
                 .Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey)

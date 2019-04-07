@@ -2,7 +2,8 @@
 using OpenDataStorage.ViewModels.CharacteristicViewModel;
 using OpenDataStorageCore;
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,65 +14,120 @@ namespace OpenDataStorage.API
     [RoutePrefix("api/Characteristics")]
     public class CharacteristicController : BaseApiController
     {
-        [Route("GetCharacteristicTree")]
+        [Route("GetTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<dynamic> GetCharacteristicTree()
+        public async Task<ICollection<Characteristic>> GetTree()
         {
-            //test
-            var collection = _dbContext.CharacteristicObjectContext.Entities;
-            return collection;
+            return await _dbContext.CharacteristicObjectContext.GetTree();
         }
 
-        [Route("GetCharacteristicSubTree")]
+        [Route("GetSubTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<dynamic> GetCharacteristicSubTree([FromUri]CharacteristicViewModel filter)
+        public async Task<HttpResponseMessage> GetSubTree([FromUri]CharacteristicViewModel vm)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await _dbContext.CharacteristicObjectContext.GetChildNodes(vm.Id);
+                return Request.CreateResponse(HttpStatusCode.OK, res);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
         }
 
-        [Route("Characteristic/{characteristicId}")]
+        [Route("Get/{id}")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<HttpResponseMessage> GetCharacteristic([FromUri]Guid characteristicId)
+        public async Task<HttpResponseMessage> Get([FromUri]Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await _dbContext.CharacteristicObjectContext.GetNode(id);
+                return Request.CreateResponse(HttpStatusCode.OK, res);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
         }
 
-        [Route("CreateCharacteristic")]
+        [Route("Create/{parentFolderId}")]
         [HttpPost]
-        public async Task<HttpResponseMessage> CreateCharacteristic(CharacteristicViewModel vm)
+        public async Task<HttpResponseMessage> CreateCharacteristic([FromUri]Guid parentFolderId, CharacteristicViewModel vm)
         {
-            //test
-            var parentFolder = _dbContext.CharacteristicObjectContext.Entities.Where(e => e.Type == EntityType.Folder).FirstOrDefault();
-
-            var characteristic = new Characteristic
+            var entity = new Characteristic
             {
                 Name = vm.Name,
                 Description = vm.Description,
-                Type = EntityType.File,
+                Type = vm.Type,
                 OwnerId = User.Identity.Name
             };
-            await _dbContext.CharacteristicObjectContext.AddObject(characteristic, parentFolder.Id);
-            return Request.CreateResponse(HttpStatusCode.OK, characteristic);
+            try
+            {
+                if (entity.Type == EntityType.File)
+                {
+                    await _dbContext.CharacteristicObjectContext.AddObject(entity, parentFolderId);
+                }
+                else
+                {
+                    await _dbContext.CharacteristicObjectContext.AddFolder(entity, parentFolderId);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, entity);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
-        [Route("Edit/{characteristicId}")]
+        [Route("Edit")]
         [HttpPut]
-        public async Task<HttpResponseMessage> EditCharacteristic([FromUri]Guid characteristicId, CharacteristicViewModel vm)
+        public async Task<HttpResponseMessage> EditCharacteristic(CharacteristicViewModel vm)
         {
-            var characteristic = Mapper.CreateInstanceAndMapProperties<Characteristic>(vm);
-            await _dbContext.CharacteristicObjectContext.UpdateObject(characteristic);
-            return Request.CreateResponse(HttpStatusCode.OK, characteristic);
+            try
+            {
+                var entity = Mapper.CreateInstanceAndMapProperties<Characteristic>(vm);
+                if (entity.Type == EntityType.File)
+                {
+                    await _dbContext.CharacteristicObjectContext.UpdateObject(entity);
+                }
+                else
+                {
+                    await _dbContext.CharacteristicObjectContext.UpdatFolder(entity);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, entity);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
-        [Route("Remove/{id}")]
+        [Route("Delete/{id}")]
         [HttpDelete]
-        public async Task<HttpResponseMessage> RemoveCharacteristic(Guid id)
+        public async Task<HttpResponseMessage> Delete(Guid id)
         {
-            await _dbContext.CharacteristicObjectContext.RemoveObject(id);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            try
+            {
+                //redundant call
+                var entity = await _dbContext.CharacteristicObjectContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
+                if (entity.Type == EntityType.File)
+                {
+                    await _dbContext.CharacteristicObjectContext.RemoveObject(id);
+                }
+                else
+                {
+                    await _dbContext.CharacteristicObjectContext.RemoveFolder(id);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 using OpenDataStorage.ViewModels.HierarchyObjectViewModels;
 using OpenDataStorageCore;
 using System;
-using System.Linq;
+using System.Data.Entity;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,65 +13,121 @@ namespace OpenDataStorage.API
     [RoutePrefix("api/HierarchyObjects")]
     public class HierarchyObjectController : BaseApiController
     {
-        [Route("GetHierarchyObjectTree")]
+        [Route("GetTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<dynamic> GetHierarchyObjectTree()
+        public async Task<dynamic> GetTree()
         {
-            //test
-            var collection = _dbContext.HierarchyObjectContext.Entities;
-            return collection;
+            return await _dbContext.HierarchyObjectContext.GetTree();
         }
 
-        [Route("GetHierarchyObjectSubTree")]
+        [Route("GetSubTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<dynamic> GetHierarchyObjectSubTree([FromUri]HierarchyObjectViewModel filter)
+        public async Task<HttpResponseMessage> GetSubTree([FromUri]HierarchyObjectViewModel vm)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await _dbContext.HierarchyObjectContext.GetChildNodes(vm.Id);
+                return Request.CreateResponse(HttpStatusCode.OK, res);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
         }
 
-        [Route("HierarchyObject/{HierarchyObjectId}")]
+        [Route("Get/{hierarchyObjectId}")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<HttpResponseMessage> GetHierarchyObject([FromUri]Guid HierarchyObjectId)
+        public async Task<HttpResponseMessage> Get([FromUri]Guid hierarchyObjectId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = await _dbContext.HierarchyObjectContext.GetNode(hierarchyObjectId);
+                return Request.CreateResponse(HttpStatusCode.OK, res);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
         }
 
-        [Route("CreateHierarchyObject")]
+        [Route("Create/{parentFolderId}")]
         [HttpPost]
-        public async Task<HttpResponseMessage> CreateHierarchyObject(HierarchyObjectViewModel vm)
+        public async Task<HttpResponseMessage> Create([FromUri]Guid parentFolderId, HierarchyObjectViewModel vm)
         {
-            //test
-            var parentFolder = _dbContext.HierarchyObjectContext.Entities.Where(e => e.Type == EntityType.Folder).FirstOrDefault();
-
-            var HierarchyObject = new HierarchyObject
+            var entity = new HierarchyObject
             {
                 Name = vm.Name,
                 Description = vm.Description,
-                Type = EntityType.File,
+                Type = vm.Type,
                 OwnerId = User.Identity.Name
             };
-            await _dbContext.HierarchyObjectContext.AddObject(HierarchyObject, parentFolder.Id);
-            return Request.CreateResponse(HttpStatusCode.OK, HierarchyObject);
+
+            try
+            {
+                if (entity.Type == EntityType.File)
+                {
+                    await _dbContext.HierarchyObjectContext.AddObject(entity, parentFolderId);
+                }
+                else
+                {
+                    await _dbContext.HierarchyObjectContext.AddFolder(entity, parentFolderId);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, entity);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
-        [Route("Edit/{HierarchyObjectId}")]
+        [Route("Update")]
         [HttpPut]
-        public async Task<HttpResponseMessage> EditHierarchyObject([FromUri]Guid HierarchyObjectId, HierarchyObjectViewModel vm)
+        public async Task<HttpResponseMessage> Update(HierarchyObjectViewModel vm)
         {
-            var HierarchyObject = Mapper.CreateInstanceAndMapProperties<HierarchyObject>(vm);
-            await _dbContext.HierarchyObjectContext.UpdateObject(HierarchyObject);
-            return Request.CreateResponse(HttpStatusCode.OK, HierarchyObject);
+            try
+            {
+                var entity = Mapper.CreateInstanceAndMapProperties<HierarchyObject>(vm);
+                if (entity.Type == EntityType.File)
+                {
+                    await _dbContext.HierarchyObjectContext.UpdateObject(entity);
+                }
+                else
+                {
+                    await _dbContext.HierarchyObjectContext.UpdatFolder(entity);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, entity);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
-        [Route("Remove/{id}")]
+        [Route("Delete/{id}")]
         [HttpDelete]
-        public async Task<HttpResponseMessage> RemoveHierarchyObject(Guid id)
+        public async Task<HttpResponseMessage> Delete(Guid id)
         {
-            await _dbContext.HierarchyObjectContext.RemoveObject(id);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            try
+            {
+                //redundant call
+                var node = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
+                if (node.Type == EntityType.File)
+                {
+                    await _dbContext.HierarchyObjectContext.RemoveObject(id);
+                }
+                else
+                {
+                    await _dbContext.HierarchyObjectContext.RemoveFolder(id);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, id);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
     }
 }
