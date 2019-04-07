@@ -18,7 +18,7 @@
         function init() {
             vm.loaded = false;
 
-            CharacteristicService.getCharacteristicTree()
+            CharacteristicService.getTree()
                 .then(function (response) {
                     vm.tree = response.data;
                     console.dir(vm.tree);

@@ -19,7 +19,7 @@
         function init() { }
 
         function createCharacteristic() {
-            CharacteristicService.createCharacteristic(vm.characteristic)
+            CharacteristicService.create(vm.characteristic)
                 .then(function (data) {
                     $uibModalInstance.close(data);
                 }, errorHandler);

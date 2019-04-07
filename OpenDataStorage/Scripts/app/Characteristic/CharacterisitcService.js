@@ -8,77 +8,50 @@
     CharacteristicService.$inject = ['$http'];
 
     function CharacteristicService($http) {
-        var service = {
-            getCharacteristicTree: getCharacteristicTree,
-            getCharacteristicSubTree: getCharacteristicSubTree,
-            getCharacteristic: getCharacteristic,
-            createCharacteristic: createCharacteristic,
-            createCharacteristicFolder: createCharacteristicFolder,
-            editCharacteristic: editCharacteristic,
-            removeCharacteristic: removeCharacteristic
+        var _service = {
+            getTree: _getTree,
+            getSubTree: _getSubTree,
+            get: _get,
+            create: _create,
+            update: _update,
+            delete: _delete
         };
+        return _service;
 
-        return service;
+        function _getTree() {
+            return $http.get('/api/Characteristics/GetTree');
+        }
 
-        function getCharacteristicTree() {
-            return $http.get('/api/Characteristics/GetCharacteristicTree', {
-                /*params: {
-                    Name: filter.name,
-                    SourceLanguage: filter.sourceLanguage,
-                    TargetLanguage: filter.targetLanguage,
-                    OwnerId: filter.ownerId
-                }*/
+        function _getSubTree(vm) {
+            return $http.get('/api/Characteristics/GetSubTree', {
+                params: vm
             });
         }
 
-        function getCharacteristicSubTree() {
-            return $http.get('/api/Characteristics/GetCharacteristicSubTree', {
-                /*params: {
-                    Name: filter.name,
-                    SourceLanguage: filter.sourceLanguage,
-                    TargetLanguage: filter.targetLanguage,
-                    OwnerId: filter.ownerId
-                }*/
-            });
+        function _get(id) {
+            return $http.get('/api/Characteristics/Get/' + id);
         }
 
-        function getCharacteristic(characteristicId) {
-            return $http.get('/api/Characteristics/Characteristic/' + characteristicId, {
-                /*params: {
-                    SourceLanguageValue: phrasesPairsFilter.sourceLanguageValue,
-                    TargetLanguageValue: phrasesPairsFilter.targetLanguageValue
-                }*/
-            });
-        }
-
-        function createCharacteristic(characteristic) {
+        function _create(vm) {
             return $http({
                 method: 'POST',
-                url: '/api/Characteristics/CreateCharacteristic',
-                data: characteristic
+                url: '/api/Characteristics/Create',
+                data: vm
             });
         }
 
-        function createCharacteristicFolder(folder) {
-            return $http({
-                method: 'POST',
-                url: '/api/Characteristics/CreateFolder',
-                data: folder
-            });
-        }
-
-        function editCharacteristic(characteristicId, characteristicData) {
+        function _update(vm) {
             return $http({
                 method: 'PUT',
-                url: '/api/Characteristics/Edit/' + characteristicId,
-                data: characteristicData
+                url: '/api/Characteristics/Update',
+                data: vm
             });
         }
 
-        function removeCharacteristic(characteristicId) {
+        function _delete(id) {
             return $http({
                 method: 'DELETE',
-                url: '/api/Characteristics/Remove/' + characteristicId
+                url: '/api/Characteristics/Delete/' + id
             });
         }
     }
