@@ -1,5 +1,5 @@
 ﻿using OpenDataStorage.Common;
-using OpenDataStorage.ViewModels.CharacteristicViewModel;
+using OpenDataStorage.ViewModels.HierarchyObjectTypeViewModels;
 using OpenDataStorageCore;
 using System;
 using System.Collections.Generic;
@@ -11,25 +11,25 @@ using System.Web.Http;
 
 namespace OpenDataStorage.API
 {
-    [RoutePrefix("api/Characteristics")]
-    public class CharacteristicController : BaseApiController
+    [RoutePrefix("api/ObjectTypeController")]
+    public class ObjectTypeController : BaseApiController
     {
         [Route("GetTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ICollection<Characteristic>> GetTree()
+        public async Task<ICollection<HierarchyObjectType>> GetTree()
         {
-            return await _dbContext.CharacteristicObjectContext.GetTree();
+            return await _dbContext.HierarchyObjectTypeContext.GetTree();
         }
 
         [Route("GetSubTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<HttpResponseMessage> GetSubTree([FromUri]CharacteristicViewModel vm)
+        public async Task<HttpResponseMessage> GetSubTree([FromUri]HierarchyObjectTypeViewModel vm)
         {
             try
             {
-                var res = await _dbContext.CharacteristicObjectContext.GetChildNodes(vm.Id);
+                var res = await _dbContext.HierarchyObjectTypeContext.GetChildNodes(vm.Id);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -45,7 +45,7 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.CharacteristicObjectContext.GetNode(id);
+                var res = await _dbContext.HierarchyObjectTypeContext.GetNode(id);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -56,9 +56,9 @@ namespace OpenDataStorage.API
 
         [Route("Create/{parentFolderId}")]
         [HttpPost]
-        public async Task<HttpResponseMessage> Create([FromUri]Guid parentFolderId, CharacteristicViewModel vm)
+        public async Task<HttpResponseMessage> Create([FromUri]Guid parentFolderId, HierarchyObjectTypeViewModel vm)
         {
-            var entity = new Characteristic
+            var entity = new HierarchyObjectType
             {
                 Name = vm.Name,
                 Description = vm.Description,
@@ -69,11 +69,11 @@ namespace OpenDataStorage.API
             {
                 if (entity.Type == EntityType.File)
                 {
-                    await _dbContext.CharacteristicObjectContext.AddObject(entity, parentFolderId);
+                    await _dbContext.HierarchyObjectTypeContext.AddObject(entity, parentFolderId);
                 }
                 else
                 {
-                    await _dbContext.CharacteristicObjectContext.AddFolder(entity, parentFolderId);
+                    await _dbContext.HierarchyObjectTypeContext.AddFolder(entity, parentFolderId);
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
@@ -85,14 +85,14 @@ namespace OpenDataStorage.API
 
         [Route("Edit")]
         [HttpPut]
-        public async Task<HttpResponseMessage> Edit(CharacteristicViewModel vm)
+        public async Task<HttpResponseMessage> Edit(HierarchyObjectTypeViewModel vm)
         {
             try
             {
-                var entity = Mapper.CreateInstanceAndMapProperties<Characteristic>(vm);
+                var entity = Mapper.CreateInstanceAndMapProperties<HierarchyObjectType>(vm);
                 if (entity.Type == EntityType.File)
                 {
-                    await _dbContext.CharacteristicObjectContext.UpdateObject(entity);
+                    await _dbContext.HierarchyObjectTypeContext.UpdateObject(entity);
                 }
                 else
                 {
@@ -113,14 +113,14 @@ namespace OpenDataStorage.API
             try
             {
                 //redundant call
-                var entity = await _dbContext.CharacteristicObjectContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
+                var entity = await _dbContext.HierarchyObjectTypeContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
                 if (entity.Type == EntityType.File)
                 {
-                    await _dbContext.CharacteristicObjectContext.RemoveObject(id);
+                    await _dbContext.HierarchyObjectTypeContext.RemoveObject(id);
                 }
                 else
                 {
-                    await _dbContext.CharacteristicObjectContext.RemoveFolder(id);
+                    await _dbContext.HierarchyObjectTypeContext.RemoveFolder(id);
                 }
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
