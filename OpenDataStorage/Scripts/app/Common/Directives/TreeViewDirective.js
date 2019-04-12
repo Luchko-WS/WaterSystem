@@ -12,7 +12,7 @@
                     const FOLDERS_MODE = 2;
 
                     $('#tree').treeview({
-                        data: parseArrayToTree(scope.array, scope.fieldsNames, scope.fsConfig)
+                        data: parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.fsConfig)
                     });
                     $('#tree').on('nodeUnselected', function (event, data) {
                         if (scope.nodeUnselectedCallback) {
@@ -107,8 +107,7 @@
                 },
                 scope: {
                     array: '=ngModel',
-                    fieldsNames: '=',
-                    fsConfig: '=',
+                    config: '=',
                     filterPairsPromise: '=',
                     nodeSelectedCallback: '=',
                     nodeUnselectedCallback: '='

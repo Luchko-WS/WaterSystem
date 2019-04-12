@@ -293,6 +293,7 @@
     <Content Include="Scripts\app\Characteristic\CreateCharacterisitcCtrl.js" />
     <Content Include="Scripts\app\Characteristic\EditCharacterisitcCtrl.js" />
     <Content Include="Scripts\app\Common\Directives\TreeViewDirective.js" />
+    <Content Include="Scripts\app\Common\Services\TreeViewConfigService.js" />
     <Content Include="Scripts\app\HierarchyObject\CreateHierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\HierarchyObject\EditHierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectCtrl.js" />

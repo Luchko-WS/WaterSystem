@@ -5,31 +5,15 @@
         .module('MainApp')
         .controller('CharacteristicTreeCtrl', CharacteristicTreeCtrl);
 
-    CharacteristicTreeCtrl.$inject = ['$uibModal', 'CharacteristicService', 'MessageService'];
+    CharacteristicTreeCtrl.$inject = ['$uibModal', 'CharacteristicService', 'MessageService', 'TreeViewConfigService'];
 
-    function CharacteristicTreeCtrl($uibModal, CharacteristicService, MessageService) {
+    function CharacteristicTreeCtrl($uibModal, CharacteristicService, MessageService, TreeViewConfigService) {
         var vm = this;
 
         vm.tree = [];
         vm.state = {
             currentNode: null
         };
-        //define into different service
-        vm.treeParserConfig = {
-            fieldsNames: {
-                textFieldName: "name",
-                levelFieldName: "level"
-            },
-            fsConfig: {
-                nodeTypeFieldName: "type",
-                folderNodeTypeValue: 0,
-                fileNodeTypeValue: 1,
-                mode: 1
-            },
-            nodeSelectedCallback: nodeSelectedCallback,
-            nodeUnselectedCallback: nodeUnselectedCallback
-        };
-
         vm.createCharacteristic = createCharacteristic;
         vm.editCharacteristic = editCharacteristic;
         vm.removeCharacteristic = removeCharacteristic;
@@ -37,6 +21,8 @@
         init();
 
         function init() {
+            vm.treeParserConfig = TreeViewConfigService.getCharactersiticTreeConfig();
+
             vm.loaded = false;
             vm.tree = CharacteristicService.getTree()
                 .then(function (response) {

@@ -20,8 +20,7 @@
         <async-page-with-loader is-loaded="vm.loaded">
             <div class="row">
                 <tree-view ng-model="vm.tree"
-                           fields-names="vm.treeParserConfig.fieldsNames"
-                           fs-config="vm.treeParserConfig.fsConfig"
+                           config="vm.treeParserConfig"
                            node-selected-callback="vm.treeParserConfig.nodeSelectedCallback"
                            node-unselected-callback="vm.treeParserConfig.nodeUnselectedCallback">
                 </tree-view>
