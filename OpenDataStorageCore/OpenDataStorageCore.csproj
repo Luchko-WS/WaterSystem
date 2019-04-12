@@ -60,8 +60,7 @@
     <Compile Include="HierarchyObject.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="NestedSetsEntity.cs" />
-    <Compile Include="NestedSetsFileSystemEntity.cs" />
-    <Compile Include="NestedSetsObject.cs" />
+    <Compile Include="NestedSetsFSEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -16,9 +16,16 @@
         };
         //define into different service
         vm.treeParserConfig = {
-            textFieldName: "name",
-            levelFieldName: "level",
-            nodeTypeFieldName: "type",
+            fieldsNames: {
+                textFieldName: "name",
+                levelFieldName: "level"
+            },
+            fsConfig: {
+                nodeTypeFieldName: "type",
+                folderNodeTypeValue: 0,
+                fileNodeTypeValue: 1,
+                mode: 1
+            },
             nodeSelectedCallback: nodeSelectedCallback,
             nodeUnselectedCallback: nodeUnselectedCallback
         };

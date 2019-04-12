@@ -39,8 +39,7 @@ namespace OpenDataStorage.Migrations
                     RightKey = 2,
                     Name = "root",
                     Description = "root node",
-                    OwnerId = "system",
-                    Type = EntityType.Folder
+                    OwnerId = "system"
                 });
             }
 

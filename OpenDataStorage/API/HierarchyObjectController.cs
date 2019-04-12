@@ -61,20 +61,12 @@ namespace OpenDataStorage.API
             {
                 Name = vm.Name,
                 Description = vm.Description,
-                Type = vm.Type,
                 OwnerId = User.Identity.Name
             };
 
             try
             {
-                if (entity.Type == EntityType.File)
-                {
-                    await _dbContext.HierarchyObjectContext.AddObject(entity, parentFolderId);
-                }
-                else
-                {
-                    await _dbContext.HierarchyObjectContext.AddFolder(entity, parentFolderId);
-                }
+                await _dbContext.HierarchyObjectContext.AddObject(entity, parentFolderId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -90,14 +82,7 @@ namespace OpenDataStorage.API
             try
             {
                 var entity = Mapper.CreateInstanceAndMapProperties<HierarchyObject>(vm);
-                if (entity.Type == EntityType.File)
-                {
-                    await _dbContext.HierarchyObjectContext.UpdateObject(entity);
-                }
-                else
-                {
-                    await _dbContext.HierarchyObjectContext.UpdatFolder(entity);
-                }
+                await _dbContext.HierarchyObjectContext.UpdateObject(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -114,14 +99,7 @@ namespace OpenDataStorage.API
             {
                 //redundant call
                 var node = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
-                if (node.Type == EntityType.File)
-                {
-                    await _dbContext.HierarchyObjectContext.RemoveObject(id);
-                }
-                else
-                {
-                    await _dbContext.HierarchyObjectContext.RemoveFolder(id);
-                }
+                await _dbContext.HierarchyObjectContext.RemoveObject(id);
                 return Request.CreateResponse(HttpStatusCode.OK, id);
             }
             catch (Exception ex)

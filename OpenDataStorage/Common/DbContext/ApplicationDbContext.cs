@@ -64,7 +64,7 @@ namespace OpenDataStorage.Common.DbContext
 
         INestedSetsObjectContext<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbContextManager;
 
-        INestedSetsObjectContext<Characteristic> IApplicationDbContext.CharacteristicObjectContext => this._characteristicDbContextManager;
+        INestedSetsFSContext<Characteristic> IApplicationDbContext.CharacteristicObjectContext => this._characteristicDbContextManager;
 
         public async Task SaveDbChangesAsync()
         {

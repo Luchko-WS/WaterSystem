@@ -20,14 +20,10 @@
         <async-page-with-loader is-loaded="vm.loaded">
             <div class="row">
                 <tree-view ng-model="vm.tree"
-                           text-field-name="vm.treeParserConfig.textFieldName"
-                           level-field-name="vm.treeParserConfig.levelFieldName"
-                           node-type-field-name="vm.treeParserConfig.nodeTypeFieldName"
-                           folder-node-type-value=0
-                           file-node-type-value=1
+                           fields-names="vm.treeParserConfig.fieldsNames"
+                           fs-config="vm.treeParserConfig.fsConfig"
                            node-selected-callback="vm.treeParserConfig.nodeSelectedCallback"
-                           node-unselected-callback="vm.treeParserConfig.nodeUnselectedCallback"
-                           mode=1>
+                           node-unselected-callback="vm.treeParserConfig.nodeUnselectedCallback">
                 </tree-view>
                 <button class="btn btn-primary" ng-click="vm.createCharacteristic()" ng-disabled="!vm.state.currentNode || vm.state.currentNode.type !== 0">Create</button>
             </div>

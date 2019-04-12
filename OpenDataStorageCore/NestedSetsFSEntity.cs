@@ -1,8 +1,8 @@
 ﻿namespace OpenDataStorageCore
 {
-    public class NestedSetsFileSystemEntity: NestedSetsEntity
+    public class NestedSetsFSEntity: NestedSetsEntity
     {
-        public NestedSetsFileSystemEntity() : base()
+        public NestedSetsFSEntity() : base()
         { }
 
         public EntityType Type { get; set; }

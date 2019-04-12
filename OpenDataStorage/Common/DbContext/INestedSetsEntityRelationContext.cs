@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext
 {
-    public interface INestedSetsEntityRelationContext<T> where T : NestedSetsFileSystemEntity
+    public interface INestedSetsEntityRelationContext<T> where T : NestedSetsEntity
     {
         Task<T> GetNode(Guid id);
 

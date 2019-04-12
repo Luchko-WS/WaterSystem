@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext
 {
-    public abstract class BaseNestedSetsDbContextManager<T> : INestedSetsObjectContext<T> where T : NestedSetsObject
+    public abstract class BaseNestedSetsDbContextManager<T> : INestedSetsObjectContext<T> where T : NestedSetsEntity
     {
         protected DbSet<T> _dbSet;
         protected Database _database;
@@ -23,29 +23,27 @@ namespace OpenDataStorage.Common.DbContext
 
         public IQueryable<T> Entities => this._dbSet;
 
-        protected abstract Task AddObjectInternal(T @object);
-        public async Task AddObject(T @object, Guid folderId)
+        public async Task AddObject(T @object, Guid parentId)
         {
-            var folder = _dbSet.FirstOrDefault(f => f.Id == folderId && f.Type == EntityType.Folder);
-            if (folder == null)
+            var parentNode = _dbSet.FirstOrDefault(f => f.Id == parentId);
+            if (parentNode == null)
             {
-                throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", folderId, TableName));
+                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
             }
-            await AddObject(@object, folder);
+            await AddObjectInternal(@object, parentNode);
         }
-        private async Task AddObject(T @object, NestedSetsFileSystemEntity parentFolder)
+        protected virtual async Task AddObjectInternal(T @object, NestedSetsEntity parentNode)
         {
-            @object.LeftKey = parentFolder.RightKey;
-            @object.RightKey = parentFolder.RightKey + 1;
-            @object.Level = parentFolder.Level + 1;
+            @object.LeftKey = parentNode.RightKey;
+            @object.RightKey = parentNode.RightKey + 1;
+            @object.Level = parentNode.Level + 1;
 
             using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
-                    var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = parentFolder.RightKey };
-                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
-                    await AddObjectInternal(@object);
+                    await ExecutePreInsertSqlCommand(parentNode.RightKey);
+                    await ExecuteInsertSqlCommand(@object);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -56,14 +54,17 @@ namespace OpenDataStorage.Common.DbContext
             }
         }
 
-        protected abstract Task UpdateObjectInternal(T @object);
         public async Task UpdateObject(T @object)
         {
+            await UpdateObjectInternal(@object);
+        }
+        protected virtual async Task UpdateObjectInternal(T @object)
+        {
             using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
-                    await UpdateObjectInternal(@object);
+                    await ExecuteUpdateSqlCommand(@object);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -74,23 +75,22 @@ namespace OpenDataStorage.Common.DbContext
             }
         }
 
-        protected abstract Task MoveObjetInternal();
-        public async Task MoveObject(T @bject, Guid newFolderId)
+        public async Task MoveObject(T @bject, Guid newParentId)
         {
-            var folder = _dbSet.FirstOrDefault(f => f.Id == newFolderId && f.Type == EntityType.Folder);
-            if (folder == null)
+            var parentNode = _dbSet.FirstOrDefault(f => f.Id == newParentId);
+            if (parentNode == null)
             {
-                throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", newFolderId, TableName));
+                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", newParentId, TableName));
             }
-            await MoveObject(@bject, folder);
+            await MoveObjectInternal(@bject, parentNode);
         }
-        private async Task MoveObject(T @object, NestedSetsFileSystemEntity newFolder)
+        protected virtual async Task MoveObjectInternal(T @object, NestedSetsEntity newParentNode)
         {
             using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
-                    await MoveObjetInternal();
+                    throw new NotImplementedException();
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -101,26 +101,23 @@ namespace OpenDataStorage.Common.DbContext
             }
         }
 
-        protected abstract Task RemoveObjectInternal(T @object);
         public async Task RemoveObject(Guid objectId)
         {
-            var @object = _dbSet.FirstOrDefault(f => f.Id == objectId && f.Type == EntityType.File);
+            var @object = _dbSet.FirstOrDefault(f => f.Id == objectId);
             if (@object == null)
             {
-                throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", objectId, TableName));
+                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", objectId, TableName));
             }
-            await RemoveObject(@object);
+            await RemoveObjectInternal(@object);
         }
-        private async Task RemoveObject(T @object)
+        protected virtual async Task RemoveObjectInternal(T @object)
         {
             using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
-                    await RemoveObjectInternal(@object);
-                    var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = @object.LeftKey };
-                    var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = @object.RightKey };
-                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
+                    await ExecuteDeleteSqlCommand(@object);
+                    await ExecutePostDeleteSqlCommand(@object.LeftKey, @object.RightKey);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -131,117 +128,7 @@ namespace OpenDataStorage.Common.DbContext
             }
         }
 
-        //folder
-        protected abstract Task AddFolderInternal(NestedSetsFileSystemEntity folder);
-        public async Task AddFolder(NestedSetsFileSystemEntity folder, Guid parentFolderId)
-        {
-            var parentFolder = _dbSet.FirstOrDefault(f => f.Id == parentFolderId && f.Type == EntityType.Folder);
-            if (parentFolder == null)
-            {
-                throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", parentFolderId, TableName));
-            }
-            await AddFolder(folder, parentFolder);
-        }
-        private async Task AddFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity parentFolder)
-        {
-            folder.LeftKey = parentFolder.RightKey;
-            folder.RightKey = parentFolder.RightKey + 1;
-            folder.Level = parentFolder.Level + 1;
-
-            using (var transaction = _database.BeginTransaction())
-            {
-                try
-                {
-                    var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = parentFolder.RightKey };
-                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
-                    await AddFolderInternal(folder);
-                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostCreateNestedSetsNode @RightKey", rightKeyParam);
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw ex;
-                }
-            }
-        }
-
-        protected abstract Task UpdateFolderInternal(NestedSetsFileSystemEntity folder);
-        public async Task UpdatFolder(NestedSetsFileSystemEntity folder)
-        {
-            using (var transaction = _database.BeginTransaction())
-            {
-                try
-                {
-                    await UpdateFolderInternal(folder);
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw ex;
-                }
-            }
-        }
-
-        protected abstract Task MoveFolderInternal();
-        public async Task MoveFolder(NestedSetsFileSystemEntity folder, Guid newFolderId)
-        {
-            var newFolder = _dbSet.FirstOrDefault(f => f.Id == newFolderId && f.Type == EntityType.Folder);
-            if (newFolder == null)
-            {
-                throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", newFolderId, TableName));
-            }
-            await MoveFolder(folder, newFolder);
-        }
-        private async Task MoveFolder(NestedSetsFileSystemEntity folder, NestedSetsFileSystemEntity newFolder)
-        {
-            using (var transaction = _database.BeginTransaction())
-            {
-                try
-                {
-                    await MoveFolderInternal();
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw ex;
-                }
-            }
-        }
-
-        protected abstract Task RemoveFolderInternal(NestedSetsFileSystemEntity folder);
-        public async Task RemoveFolder(Guid folderId)
-        {
-            var folder = _dbSet.FirstOrDefault(o => o.Id == folderId && o.Type == EntityType.Folder);
-            if (folder == null)
-            {
-                throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", folder, TableName));
-            }
-            await RemoveFolder(folder);
-        }
-        private async Task RemoveFolder(NestedSetsFileSystemEntity folder)
-        {
-            using (var transaction = _database.BeginTransaction())
-            {
-                try
-                {
-                    var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = folder.LeftKey };
-                    var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = folder.RightKey };
-                    await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
-                    await RemoveFolderInternal(folder);
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw ex;
-                }
-            }
-        }
-
-        //relations
+        #region Nested Sets Relation
         public virtual async Task<T> GetNode(Guid id)
         {
             var node = await GetNodeQuery(id).FirstOrDefaultAsync();
@@ -267,10 +154,10 @@ namespace OpenDataStorage.Common.DbContext
 
         public virtual async Task<ICollection<T>> GetChildNodes(Guid id)
         {
-            var node = _dbSet.FirstOrDefault(f => f.Id == id && f.Type == EntityType.Folder);
+            var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
             {
-                throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", id, TableName));
+                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
             return await GetChildNodes(node);
         }
@@ -323,9 +210,17 @@ namespace OpenDataStorage.Common.DbContext
                 .OrderBy(e => e.LeftKey);
         }
 
+        #endregion
+
         #region Protected methods
 
-        protected async Task ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsFileSystemEntity
+        protected async Task ExecutePreInsertSqlCommand(int nodeRightKey)
+        {
+            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = nodeRightKey };
+            await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
+        }
+
+        protected async Task ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             var columns = new List<string>();
             var parameters = new List<string>();
@@ -350,7 +245,7 @@ namespace OpenDataStorage.Common.DbContext
             await _database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
         }
 
-        protected async Task ExecuteUpdateSqlCommand<NS>(NS instance) where NS : NestedSetsFileSystemEntity
+        protected async Task ExecuteUpdateSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             var expressions = new List<string>();
             var sqlParameters = new List<SqlParameter>();
@@ -373,11 +268,18 @@ namespace OpenDataStorage.Common.DbContext
             await _database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
         }
 
-        protected async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsFileSystemEntity
+        protected async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             var commandText = string.Format(@"DELETE FROM {0} WHERE LeftKey >= {1} AND RightKey <= {2}",
                 TableName, instance.LeftKey, instance.RightKey);
             await _database.ExecuteSqlCommandAsync(commandText);
+        }
+
+        protected async Task ExecutePostDeleteSqlCommand(int nodeLeftKey, int nodeRightKey)
+        {
+            var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = nodeLeftKey };
+            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = nodeRightKey };
+            await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
         }
 
         #endregion
