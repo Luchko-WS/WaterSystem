@@ -202,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\BaseApiController.cs" />
+    <Compile Include="API\ObjectTypeController.cs" />
     <Compile Include="API\HierarchyObjectController.cs" />
     <Compile Include="API\CharacteristicController.cs" />
     <Compile Include="API\LanguageController.cs" />
@@ -266,6 +267,7 @@
     <Compile Include="ViewModels\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicViewModel.cs" />
+    <Compile Include="ViewModels\HierarchyObjectTypeViewModels\HierarchyObjectTypeViewModel.cs" />
     <Compile Include="ViewModels\HierarchyObjectViewModels\HierarchyObjectViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\ChangePasswordViewModel.cs" />
@@ -299,6 +301,7 @@
     <Content Include="Scripts\app\Characteristic\EditCharacterisitcCtrl.js" />
     <Content Include="Scripts\app\Common\Directives\TreeViewDirective.js" />
     <Content Include="Scripts\app\Common\Services\TreeViewConfigService.js" />
+    <Content Include="Scripts\app\HierarchyObjectType\HierarchyObjectTypeService.js" />
     <Content Include="Scripts\app\HierarchyObject\CreateHierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\HierarchyObject\EditHierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectCtrl.js" />
