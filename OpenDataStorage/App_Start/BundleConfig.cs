@@ -40,6 +40,7 @@ namespace OpenDataStorage
             bundles.Add(new ScriptBundle("~/bundles/app")
                 .Include("~/Scripts/app/app.js")
                 .IncludeDirectory("~/Scripts/app/Common/Services", "*.js", true)
+                .IncludeDirectory("~/Scripts/app/Common/Controllers", "*.js", true)
                 .IncludeDirectory("~/Scripts/app/Common/Directives", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/app/Characteristic")

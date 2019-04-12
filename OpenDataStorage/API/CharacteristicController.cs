@@ -83,9 +83,9 @@ namespace OpenDataStorage.API
             }
         }
 
-        [Route("Edit")]
+        [Route("Update")]
         [HttpPut]
-        public async Task<HttpResponseMessage> Edit(CharacteristicViewModel vm)
+        public async Task<HttpResponseMessage> Update(CharacteristicViewModel vm)
         {
             try
             {

@@ -5,40 +5,45 @@
         .module('MainApp')
         .controller('CharacteristicTreeCtrl', CharacteristicTreeCtrl);
 
-    CharacteristicTreeCtrl.$inject = ['$uibModal', 'CharacteristicService', 'MessageService', 'TreeViewConfigService'];
+    CharacteristicTreeCtrl.$inject = ['$uibModal', 'CharacteristicService', 'MessageService', 'AppConstantsService'];
 
-    function CharacteristicTreeCtrl($uibModal, CharacteristicService, MessageService, TreeViewConfigService) {
+    function CharacteristicTreeCtrl($uibModal, CharacteristicService, MessageService, AppConstantsService) {
         var vm = this;
 
         vm.tree = [];
         vm.state = {
             currentNode: null
         };
+
         vm.createCharacteristic = createCharacteristic;
-        vm.editCharacteristic = editCharacteristic;
-        vm.removeCharacteristic = removeCharacteristic;
+        vm.createFolder = createFolder;
+        vm.edit = edit;
+        vm.remove = remove;
+        vm.nodeSelectedCallback = nodeSelectedCallback;
+        vm.nodeUnselectedCallback = nodeUnselectedCallback;
 
         init();
 
         function init() {
-            vm.treeParserConfig = TreeViewConfigService.getCharactersiticTreeConfig();
+            vm.fsNodeTypes = AppConstantsService.getFSNodeTypes();
+            vm.treeParserConfig = AppConstantsService.getCharactersiticTreeConfig();
+            loadData();
+        }
 
+        function loadData() {
             vm.loaded = false;
             vm.tree = CharacteristicService.getTree()
                 .then(function (response) {
                     vm.tree = response.data;
                     vm.loaded = true;
                 })
-                .catch(function (error) {
-                    errorHandler(error);
-                });
+                .catch(_errorHandler);
         }
 
         function createCharacteristic() {
-
             var modalInstance = $uibModal.open({
-                templateUrl: '/Characteristic/CreateCharacteristic',
-                controller: 'CreateCharacteristicCtrl',
+                templateUrl: '/Characteristic/CreateEditCharacteristic',
+                controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
@@ -47,42 +52,89 @@
                 }
             });
 
-            modalInstance.result.then(function (response) {
-                console.log(response);
-            }, function () { });
+            modalInstance.result
+                .then(function (model) {
+                    var parentNodeId = model.parentNode.id;
+                    var node = model.node;
+                    node.type = vm.fsNodeTypes.file;
+                    _createCharacteristicNode(parentNodeId, node);
+                })
+                .catch(_errorHandler);
         }
 
-        function editCharacteristic(characteristic) {
+        function createFolder() {
             var modalInstance = $uibModal.open({
-                templateUrl: '/Characteristic/EditCharacteristic',
-                controller: 'EditCharacteristicCtrl',
+                templateUrl: '/Characteristic/CreateEditFolder',
+                controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
-                        characteristic: characteristic
+                        parentNode: vm.state.currentNode
                     }
                 }
             });
 
-            modalInstance.result.then(function (response) {
-                init(response.id);
-            }, function () { });
+            modalInstance.result
+                .then(function (model) {
+                    var parentNodeId = model.parentNode.id;
+                    var node = model.node;
+                    node.type = vm.fsNodeTypes.folder;
+                    _createCharacteristicNode(parentNodeId, node);
+                })
+                .catch(_errorHandler);
         }
 
-        function removeCharacteristic(characteristic) {
+        function _createCharacteristicNode(parentNodeId, node) {
+            CharacteristicService.create(parentNodeId, node)
+                .then(function (data) {
+                    loadData();
+                })
+                .catch(_errorHandler);
+        }
+
+        function edit() {
+            var modalInstance = $uibModal.open({
+                templateUrl: vm.state.currentNode.type === vm.fsNodeTypes.folder
+                    ? '/Characteristic/CreateEditFolder'
+                    : '/Characteristic/CreateEditCharacteristic',
+                controller: 'CreateEditModelCtrl',
+                controllerAs: 'vm',
+                resolve: {
+                    _model: {
+                        node: vm.state.currentNode
+                    }
+                }
+            });
+
+            modalInstance.result
+                .then(function (model) {
+                    _editCharacteristicNode(model.node);
+                })
+                .catch(_errorHandler);
+        }
+
+        function _editCharacteristicNode(node) {
+            CharacteristicService.update(node)
+                .then(function (data) {
+                    loadData();
+                })
+                .catch(_errorHandler);
+        }
+
+        function remove() {
             MessageService.showMessageYesNo('removeDictionaryQuestion', 'removeDictionary')
                 .then(function (result) {
                     if (result === 'OK') {
-                        CharacteristicService.removeCharacteristic(characteristic.id)
-                            .success(function (data) {
-                                console.log('remove');
+                        CharacteristicService.delete(vm.state.currentNode.id)
+                            .then(function (data) {
+                                loadData();
                             })
-                            .error(errorHerrorHandlerandling(error));
+                            .catch(_errorHandler);
                     }
                 });
         }
 
-        function errorHandler(error) {
+        function _errorHandler(error) {
             console.error(error);
             MessageService.showMessage('commonErrorMessage', 'error');
             vm.loaded = true;

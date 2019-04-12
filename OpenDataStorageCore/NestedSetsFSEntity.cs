@@ -10,7 +10,7 @@
 
     public enum EntityType
     {
-        Folder,
-        File
+        Folder = 0,
+        File = 1
     }
 }

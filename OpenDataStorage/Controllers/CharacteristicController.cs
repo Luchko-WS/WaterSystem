@@ -17,14 +17,14 @@ namespace OpenDataStorage.Controllers
             return View(id);
         }
 
-        public ActionResult CreateCharacteristic()
+        public ActionResult CreateEditCharacteristic()
         {
-            return PartialView();
+            return PartialView("CreateEditCharacteristic");
         }
 
-        public ActionResult EditCharacteristic()
+        public ActionResult CreateEditFolder()
         {
-            return PartialView();
+            return PartialView("CreateEditFolder");
         }
     }
 }

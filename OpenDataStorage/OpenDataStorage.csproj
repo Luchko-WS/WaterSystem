@@ -228,6 +228,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CharacteristicController.cs" />
     <Compile Include="Controllers\HierarchyObjectController.cs" />
+    <Compile Include="Controllers\HierarchyObjectTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -297,10 +298,10 @@
     <Content Include="Scripts\app\Characteristic\CharacterisitcCtrl.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcService.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcTreeCtrl.js" />
-    <Content Include="Scripts\app\Characteristic\CreateCharacterisitcCtrl.js" />
-    <Content Include="Scripts\app\Characteristic\EditCharacterisitcCtrl.js" />
+    <Content Include="Scripts\app\Common\Controllers\CreateEditModelCtrl.js" />
+    <Content Include="Scripts\app\Common\Controllers\MessageCtrl.js" />
     <Content Include="Scripts\app\Common\Directives\TreeViewDirective.js" />
-    <Content Include="Scripts\app\Common\Services\TreeViewConfigService.js" />
+    <Content Include="Scripts\app\Common\Services\AppConstantsService.js" />
     <Content Include="Scripts\app\HierarchyObjectType\HierarchyObjectTypeService.js" />
     <Content Include="Scripts\app\HierarchyObject\CreateHierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\HierarchyObject\EditHierarchyObjectCtrl.js" />
@@ -1161,15 +1162,17 @@
     <Content Include="Scripts\libs\version.json" />
     <Content Include="Views\Characteristic\CharacteristicTree.cshtml" />
     <Content Include="Views\Characteristic\Characteristic.cshtml" />
-    <Content Include="Views\Characteristic\CreateCharacteristic.cshtml" />
-    <Content Include="Views\Characteristic\EditCharacteristic.cshtml" />
+    <Content Include="Views\Characteristic\CreateEditCharacteristic.cshtml" />
     <Content Include="Views\HierarchyObject\HierarchyObjectTree.cshtml" />
     <Content Include="Views\HierarchyObject\HierarchyObject.cshtml" />
     <Content Include="Views\HierarchyObject\CreateHierarchyObject.cshtml" />
     <Content Include="Views\HierarchyObject\EditHierarchyObject.cshtml" />
+    <Content Include="Views\Characteristic\EditFolder.cshtml" />
+    <Content Include="Views\Characteristic\CreateEditFolder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\HierarchyObjectType\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\fonts\glyphicons-halflings-regular.woff2" />
