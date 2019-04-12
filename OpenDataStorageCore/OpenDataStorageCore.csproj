@@ -58,6 +58,7 @@
     <Compile Include="Characteristic.cs" />
     <Compile Include="CharacteristicValue.cs" />
     <Compile Include="HierarchyObject.cs" />
+    <Compile Include="HierarchyObjectType.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="NestedSetsEntity.cs" />
     <Compile Include="NestedSetsFSEntity.cs" />

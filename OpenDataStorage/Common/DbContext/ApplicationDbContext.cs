@@ -10,12 +10,14 @@ namespace OpenDataStorage.Common.DbContext
     {
         private HierarchyObjectDbContextManager _objectDbContextManager;
         private CharacteristicDbContextManager _characteristicDbContextManager;
+        private HierarchyObjectTypeDbContextManager _objectTypeContextManager;
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
             _objectDbContextManager = new HierarchyObjectDbContextManager(HierarchyObjects, this.Database);
             _characteristicDbContextManager = new CharacteristicDbContextManager(Characteristics, this.Database);
+            _objectTypeContextManager = new HierarchyObjectTypeDbContextManager(HierarchyObjectTypes, this.Database);
         }
 
         public static ApplicationDbContext Create()
@@ -35,6 +37,12 @@ namespace OpenDataStorage.Common.DbContext
             {
                 m.MapInheritedProperties();
                 m.ToTable(_objectDbContextManager.TableName);
+            });
+
+            modelBuilder.Entity<HierarchyObjectType>().Map(m =>
+            {
+                m.MapInheritedProperties();
+                m.ToTable(_objectTypeContextManager.TableName);
             });
 
             modelBuilder.Entity<CharacteristicValue>().Map(m =>
@@ -60,11 +68,15 @@ namespace OpenDataStorage.Common.DbContext
 
         public DbSet<Characteristic> Characteristics { get; set; }
 
+        public DbSet<HierarchyObjectType> HierarchyObjectTypes { get; set; }
+
         public DbSet<CharacteristicValue> CharacteristicValues { get; set; }
 
         INestedSetsObjectContext<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbContextManager;
 
         INestedSetsFSContext<Characteristic> IApplicationDbContext.CharacteristicObjectContext => this._characteristicDbContextManager;
+
+        INestedSetsFSContext<HierarchyObjectType> IApplicationDbContext.HierarchyObjectTypeContext => this._objectTypeContextManager;
 
         public async Task SaveDbChangesAsync()
         {

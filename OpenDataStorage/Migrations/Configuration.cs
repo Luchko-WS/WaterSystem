@@ -18,7 +18,7 @@ namespace OpenDataStorage.Migrations
         {
             if(!context.Characteristics.Any(c => c.Level == 0))
             {
-                context.Characteristics.Add(new Characteristic()
+                context.Characteristics.Add(new Characteristic
                 {
                     Level = 0,
                     LeftKey = 1,
@@ -32,7 +32,7 @@ namespace OpenDataStorage.Migrations
 
             if(!context.HierarchyObjects.Any(o => o.Level == 0))
             {
-                context.HierarchyObjects.Add(new HierarchyObject()
+                context.HierarchyObjects.Add(new HierarchyObject
                 {
                     Level = 0,
                     LeftKey = 1,
@@ -43,8 +43,23 @@ namespace OpenDataStorage.Migrations
                 });
             }
 
+            if(!context.HierarchyObjectTypes.Any(t => t.Level == 0))
+            {
+                context.HierarchyObjectTypes.Add(new HierarchyObjectType
+                {
+                    Level = 0,
+                    LeftKey = 1,
+                    RightKey = 2,
+                    Name = "root",
+                    Description = "root node",
+                    OwnerId = "system",
+                    Type = EntityType.Folder
+                });
+            }
+
             PrepateStoredProceduresForCharacteristics(context);
             PrepateStoredProceduresForHierarchyObjects(context);
+            PrepateStoredProceduresForHierarchyObjectsTypes(context);
         }
 
         private void PrepateStoredProceduresForHierarchyObjects(ApplicationDbContext context)
@@ -58,6 +73,14 @@ namespace OpenDataStorage.Migrations
         private void PrepateStoredProceduresForCharacteristics(ApplicationDbContext context)
         {
             string tableName = ((IApplicationDbContext)context).CharacteristicObjectContext.TableName;
+            CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
+            CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
+            CreateStoredProcedurePreMoveNestedSetsNode(context, tableName);
+        }
+
+        private void PrepateStoredProceduresForHierarchyObjectsTypes(ApplicationDbContext context)
+        {
+            string tableName = ((IApplicationDbContext)context).HierarchyObjectTypeContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
             CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
             CreateStoredProcedurePreMoveNestedSetsNode(context, tableName);

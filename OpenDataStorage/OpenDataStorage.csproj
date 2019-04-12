@@ -213,6 +213,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Common\DbContext\BaseFSNestedSetsDbContextManager.cs" />
     <Compile Include="Common\DbContext\BaseNestedSetsDbContextManager.cs" />
+    <Compile Include="Common\DbContext\HierarchyObjectTypeDbContextManager.cs" />
     <Compile Include="Common\DbContext\CharacteristicDbContextManager.cs" />
     <Compile Include="Common\DbContext\HierarchyObjectDbContextManager.cs" />
     <Compile Include="Common\DbContext\IApplicationDbContext.cs" />
@@ -243,6 +244,10 @@
     <Compile Include="Migrations\201904121046597_fs-DbContext.cs" />
     <Compile Include="Migrations\201904121046597_fs-DbContext.Designer.cs">
       <DependentUpon>201904121046597_fs-DbContext.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904121201275_objects types.cs" />
+    <Compile Include="Migrations\201904121201275_objects types.Designer.cs">
+      <DependentUpon>201904121201275_objects types.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Resources\Lexicon.Designer.cs">
@@ -1189,6 +1194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904121046597_fs-DbContext.resx">
       <DependentUpon>201904121046597_fs-DbContext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904121201275_objects types.resx">
+      <DependentUpon>201904121201275_objects types.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.en.resx">
       <SubType>Designer</SubType>
