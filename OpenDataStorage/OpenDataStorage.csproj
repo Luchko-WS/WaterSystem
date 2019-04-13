@@ -258,6 +258,21 @@
       <DependentUpon>Lexicon.resx</DependentUpon>
     </Compile>
     <Compile Include="Common\DbContext\ApplicationDbContext.cs" />
+    <Compile Include="Resources\Lexicon.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Lexicon.en.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Lexicon.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Lexicon.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Lexicon.uk.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Lexicon.uk.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AccountViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\ExternalLoginListViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\ForgotPasswordViewModel.cs" />
@@ -1165,9 +1180,6 @@
     <Content Include="Views\Characteristic\Characteristic.cshtml" />
     <Content Include="Views\Characteristic\CreateEditCharacteristic.cshtml" />
     <Content Include="Views\HierarchyObject\HierarchyObjectTree.cshtml" />
-    <Content Include="Views\HierarchyObject\HierarchyObject.cshtml" />
-    <Content Include="Views\HierarchyObject\CreateHierarchyObject.cshtml" />
-    <Content Include="Views\HierarchyObject\EditHierarchyObject.cshtml" />
     <Content Include="Views\Characteristic\CreateEditFolder.cshtml" />
     <Content Include="Views\ObjectType\Tree.cshtml" />
     <Content Include="Views\ObjectType\Type.cshtml" />
@@ -1209,17 +1221,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.en.resx">
       <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Lexicon.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Lexicon.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <CustomToolNamespace>OpenDataStorage.Resources</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.ru.resx">
       <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Lexicon.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.uk.resx">
       <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Lexicon.uk.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

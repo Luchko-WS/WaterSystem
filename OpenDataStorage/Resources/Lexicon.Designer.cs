@@ -22,7 +22,7 @@ namespace OpenDataStorage.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Lexicon {
+    public class Lexicon {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace OpenDataStorage.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenDataStorage.Resources.Lexicon", typeof(Lexicon).Assembly);
@@ -51,7 +51,7 @@ namespace OpenDataStorage.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Account management.
         /// </summary>
-        internal static string AccountManagement {
+        public static string AccountManagement {
             get {
                 return ResourceManager.GetString("AccountManagement", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
-        internal static string Add {
+        public static string Add {
             get {
                 return ResourceManager.GetString("Add", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to An error has occurred..
         /// </summary>
-        internal static string AnErrorHasOccurred {
+        public static string AnErrorHasOccurred {
             get {
                 return ResourceManager.GetString("AnErrorHasOccurred", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Birth date.
         /// </summary>
-        internal static string BirthDate {
+        public static string BirthDate {
             get {
                 return ResourceManager.GetString("BirthDate", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string Cancel {
+        public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Change password.
         /// </summary>
-        internal static string ChangePassword {
+        public static string ChangePassword {
             get {
                 return ResourceManager.GetString("ChangePassword", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Change your password.
         /// </summary>
-        internal static string ChangeYourPassword {
+        public static string ChangeYourPassword {
             get {
                 return ResourceManager.GetString("ChangeYourPassword", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Change your personal account settings.
         /// </summary>
-        internal static string ChangeYourPersonalAccountSettings {
+        public static string ChangeYourPersonalAccountSettings {
             get {
                 return ResourceManager.GetString("ChangeYourPersonalAccountSettings", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Clear up.
         /// </summary>
-        internal static string ClearUp {
+        public static string ClearUp {
             get {
                 return ResourceManager.GetString("ClearUp", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to An error occurred! Try again later..
         /// </summary>
-        internal static string CommonErrorMessage {
+        public static string CommonErrorMessage {
             get {
                 return ResourceManager.GetString("CommonErrorMessage", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
-        internal static string ConfirmNewPassword {
+        public static string ConfirmNewPassword {
             get {
                 return ResourceManager.GetString("ConfirmNewPassword", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Confirm password.
         /// </summary>
-        internal static string ConfirmPassword {
+        public static string ConfirmPassword {
             get {
                 return ResourceManager.GetString("ConfirmPassword", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Country.
         /// </summary>
-        internal static string Country {
+        public static string Country {
             get {
                 return ResourceManager.GetString("Country", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
-        internal static string Create {
+        public static string Create {
             get {
                 return ResourceManager.GetString("Create", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Creation date.
         /// </summary>
-        internal static string CreationDate {
+        public static string CreationDate {
             get {
                 return ResourceManager.GetString("CreationDate", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Current password.
         /// </summary>
-        internal static string CurrentPassword {
+        public static string CurrentPassword {
             get {
                 return ResourceManager.GetString("CurrentPassword", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Day.
         /// </summary>
-        internal static string Day {
+        public static string Day {
             get {
                 return ResourceManager.GetString("Day", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
-        internal static string Description {
+        public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
-        internal static string Edit {
+        public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
-        internal static string Email {
+        public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
-        internal static string Error {
+        public static string Error {
             get {
                 return ResourceManager.GetString("Error", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Extended search.
         /// </summary>
-        internal static string ExtendedSearch {
+        public static string ExtendedSearch {
             get {
                 return ResourceManager.GetString("ExtendedSearch", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
-        internal static string Filter {
+        public static string Filter {
             get {
                 return ResourceManager.GetString("Filter", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
-        internal static string FirstName {
+        public static string FirstName {
             get {
                 return ResourceManager.GetString("FirstName", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Hello {0}!.
         /// </summary>
-        internal static string Hello {
+        public static string Hello {
             get {
                 return ResourceManager.GetString("Hello", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Incorrect password..
         /// </summary>
-        internal static string IncorrectPassword {
+        public static string IncorrectPassword {
             get {
                 return ResourceManager.GetString("IncorrectPassword", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Invalid login attempt..
         /// </summary>
-        internal static string InvalidLoginAttempt {
+        public static string InvalidLoginAttempt {
             get {
                 return ResourceManager.GetString("InvalidLoginAttempt", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
-        internal static string Language {
+        public static string Language {
             get {
                 return ResourceManager.GetString("Language", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Last changed date.
         /// </summary>
-        internal static string LastChangedDate {
+        public static string LastChangedDate {
             get {
                 return ResourceManager.GetString("LastChangedDate", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Last name.
         /// </summary>
-        internal static string LastName {
+        public static string LastName {
             get {
                 return ResourceManager.GetString("LastName", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Log in.
         /// </summary>
-        internal static string LogIn {
+        public static string LogIn {
             get {
                 return ResourceManager.GetString("LogIn", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Log off.
         /// </summary>
-        internal static string LogOff {
+        public static string LogOff {
             get {
                 return ResourceManager.GetString("LogOff", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Month.
         /// </summary>
-        internal static string Month {
+        public static string Month {
             get {
                 return ResourceManager.GetString("Month", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to New password.
         /// </summary>
-        internal static string NewPassword {
+        public static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
-        internal static string No {
+        public static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to No description.
         /// </summary>
-        internal static string NoDescription {
+        public static string NoDescription {
             get {
                 return ResourceManager.GetString("NoDescription", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Nothing to show.
         /// </summary>
-        internal static string NothingToShow {
+        public static string NothingToShow {
             get {
                 return ResourceManager.GetString("NothingToShow", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Owner.
         /// </summary>
-        internal static string Owner {
+        public static string Owner {
             get {
                 return ResourceManager.GetString("Owner", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
-        internal static string Password {
+        public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to The new password and confirmation password do not match..
         /// </summary>
-        internal static string PasswordCompareErrorMessage {
+        public static string PasswordCompareErrorMessage {
             get {
                 return ResourceManager.GetString("PasswordCompareErrorMessage", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to The {0} must be at least {2} characters long..
         /// </summary>
-        internal static string PasswordLengthErrorMessage {
+        public static string PasswordLengthErrorMessage {
             get {
                 return ResourceManager.GetString("PasswordLengthErrorMessage", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Register.
         /// </summary>
-        internal static string Register {
+        public static string Register {
             get {
                 return ResourceManager.GetString("Register", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Register as a new user.
         /// </summary>
-        internal static string RegisterAsANewUser {
+        public static string RegisterAsANewUser {
             get {
                 return ResourceManager.GetString("RegisterAsANewUser", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Remember me?.
         /// </summary>
-        internal static string RememberMeQuestion {
+        public static string RememberMeQuestion {
             get {
                 return ResourceManager.GetString("RememberMeQuestion", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
-        internal static string Remove {
+        public static string Remove {
             get {
                 return ResourceManager.GetString("Remove", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Required field {0}.
         /// </summary>
-        internal static string RequiredErrorMessage {
+        public static string RequiredErrorMessage {
             get {
                 return ResourceManager.GetString("RequiredErrorMessage", resourceCulture);
             }
@@ -477,7 +477,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Reset.
         /// </summary>
-        internal static string Reset {
+        public static string Reset {
             get {
                 return ResourceManager.GetString("Reset", resourceCulture);
             }
@@ -486,7 +486,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Review.
         /// </summary>
-        internal static string Review {
+        public static string Review {
             get {
                 return ResourceManager.GetString("Review", resourceCulture);
             }
@@ -495,7 +495,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
-        internal static string Save {
+        public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
             }
@@ -504,7 +504,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
-        internal static string Search {
+        public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
             }
@@ -513,7 +513,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to User name.
         /// </summary>
-        internal static string UserName {
+        public static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
             }
@@ -522,7 +522,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Year.
         /// </summary>
-        internal static string Year {
+        public static string Year {
             get {
                 return ResourceManager.GetString("Year", resourceCulture);
             }
@@ -531,7 +531,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
-        internal static string Yes {
+        public static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
             }
@@ -540,7 +540,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Your information is saved..
         /// </summary>
-        internal static string YourInformationIsSaved {
+        public static string YourInformationIsSaved {
             get {
                 return ResourceManager.GetString("YourInformationIsSaved", resourceCulture);
             }
@@ -549,7 +549,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Your password has been changed..
         /// </summary>
-        internal static string YourPasswordHasBeenChanged {
+        public static string YourPasswordHasBeenChanged {
             get {
                 return ResourceManager.GetString("YourPasswordHasBeenChanged", resourceCulture);
             }
@@ -558,7 +558,7 @@ namespace OpenDataStorage.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Your password has been set..
         /// </summary>
-        internal static string YourPasswordHasBeenSet {
+        public static string YourPasswordHasBeenSet {
             get {
                 return ResourceManager.GetString("YourPasswordHasBeenSet", resourceCulture);
             }

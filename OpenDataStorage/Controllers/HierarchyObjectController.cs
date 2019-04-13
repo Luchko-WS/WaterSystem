@@ -10,21 +10,5 @@ namespace OpenDataStorage.Controllers
         {
             return View();
         }
-
-        [AllowAnonymous]
-        public ActionResult HierarchyObject(Guid id)
-        {
-            return View(id);
-        }
-
-        public ActionResult CreateHierarchyObject()
-        {
-            return PartialView();
-        }
-
-        public ActionResult EditHierarchyObject()
-        {
-            return PartialView();
-        }
     }
 }
