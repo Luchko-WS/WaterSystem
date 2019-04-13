@@ -22,7 +22,7 @@
             };
         }
 
-        function getCharactersiticTreeConfig() {
+        function getDefaultFsTreeConfig() {
             return {
                 fieldsNames: {
                     textFieldName: TEXT_FIELD_NAME,
@@ -39,7 +39,7 @@
 
         return {
             getFSNodeTypes: getFSNodeTypes,
-            getCharactersiticTreeConfig: getCharactersiticTreeConfig
+            getDefaultFsTreeConfig: getDefaultFsTreeConfig
         };
     }
 })();

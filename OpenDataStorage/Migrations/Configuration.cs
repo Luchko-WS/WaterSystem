@@ -43,9 +43,9 @@ namespace OpenDataStorage.Migrations
                 });
             }
 
-            if(!context.HierarchyObjectTypes.Any(t => t.Level == 0))
+            if(!context.ObjectTypes.Any(t => t.Level == 0))
             {
-                context.HierarchyObjectTypes.Add(new HierarchyObjectType
+                context.ObjectTypes.Add(new ObjectType
                 {
                     Level = 0,
                     LeftKey = 1,
@@ -80,7 +80,7 @@ namespace OpenDataStorage.Migrations
 
         private void PrepateStoredProceduresForHierarchyObjectsTypes(ApplicationDbContext context)
         {
-            string tableName = ((IApplicationDbContext)context).HierarchyObjectTypeContext.TableName;
+            string tableName = ((IApplicationDbContext)context).ObjectTypeContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
             CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
             CreateStoredProcedurePreMoveNestedSetsNode(context, tableName);

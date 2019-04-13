@@ -1,9 +1,8 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
-    public class CharacteristicController : BaseController
+    public class ObjectTypeController : BaseController
     {
         [AllowAnonymous]
         public ActionResult Tree()
@@ -12,12 +11,12 @@ namespace OpenDataStorage.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Characteristic()
+        public ActionResult Type()
         {
             return PartialView();
         }
 
-        public ActionResult CreateEditCharacteristic()
+        public ActionResult CreateEditType()
         {
             return PartialView();
         }

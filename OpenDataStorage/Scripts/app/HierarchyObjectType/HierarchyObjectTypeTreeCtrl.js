@@ -3,11 +3,11 @@
 
     angular
         .module('MainApp')
-        .controller('CharacteristicTreeCtrl', CharacteristicTreeCtrl);
+        .controller('HierarchyObjectTypeTreeCtrl', HierarchyObjectTypeTreeCtrl);
 
-    CharacteristicTreeCtrl.$inject = ['$uibModal', 'CharacteristicService', 'MessageService', 'AppConstantsService'];
+    HierarchyObjectTypeTreeCtrl.$inject = ['$uibModal', 'HierarchyObjectTypeService', 'MessageService', 'AppConstantsService'];
 
-    function CharacteristicTreeCtrl($uibModal, CharacteristicService, MessageService, AppConstantsService) {
+    function HierarchyObjectTypeTreeCtrl($uibModal, HierarchyObjectTypeService, MessageService, AppConstantsService) {
         var vm = this;
 
         vm.tree = [];
@@ -15,7 +15,7 @@
             currentNode: null
         };
 
-        vm.createCharacteristic = createCharacteristic;
+        vm.createType = createType;
         vm.createFolder = createFolder;
         vm.edit = edit;
         vm.remove = remove;
@@ -32,7 +32,7 @@
 
         function loadData() {
             vm.loaded = false;
-            vm.tree = CharacteristicService.getTree()
+            vm.tree = HierarchyObjectTypeService.getTree()
                 .then(function (response) {
                     vm.tree = response.data;
                     vm.loaded = true;
@@ -40,9 +40,9 @@
                 .catch(_errorHandler);
         }
 
-        function createCharacteristic() {
+        function createType() {
             var modalInstance = $uibModal.open({
-                templateUrl: '/Characteristic/CreateEditCharacteristic',
+                templateUrl: '/HierarchyObjectType/CreateEditType',
                 controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
@@ -57,14 +57,14 @@
                     var parentNodeId = model.parentNode.id;
                     var node = model.node;
                     node.type = vm.fsNodeTypes.file;
-                    _createCharacteristicNode(parentNodeId, node);
+                    _createTypeNode(parentNodeId, node);
                 })
                 .catch(_errorHandler);
         }
 
         function createFolder() {
             var modalInstance = $uibModal.open({
-                templateUrl: '/Characteristic/CreateEditFolder',
+                templateUrl: '/HierarchyObjectType/CreateEditFolder',
                 controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
@@ -79,13 +79,13 @@
                     var parentNodeId = model.parentNode.id;
                     var node = model.node;
                     node.type = vm.fsNodeTypes.folder;
-                    _createCharacteristicNode(parentNodeId, node);
+                    _createTypeNode(parentNodeId, node);
                 })
                 .catch(_errorHandler);
         }
 
-        function _createCharacteristicNode(parentNodeId, node) {
-            CharacteristicService.create(parentNodeId, node)
+        function _createTypeNode(parentNodeId, node) {
+            HierarchyObjectTypeService.create(parentNodeId, node)
                 .then(function (data) {
                     loadData();
                 })
@@ -95,8 +95,8 @@
         function edit() {
             var modalInstance = $uibModal.open({
                 templateUrl: vm.state.currentNode.type === vm.fsNodeTypes.folder
-                    ? '/Characteristic/CreateEditFolder'
-                    : '/Characteristic/CreateEditCharacteristic',
+                    ? '/HierarchyObjectType/CreateEditFolder'
+                    : '/HierarchyObjectType/CreateEditCharacteristic',
                 controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
@@ -108,13 +108,13 @@
 
             modalInstance.result
                 .then(function (model) {
-                    _editCharacteristicNode(model.node);
+                    _editTypeNode(model.node);
                 })
                 .catch(_errorHandler);
         }
 
-        function _editCharacteristicNode(node) {
-            CharacteristicService.update(node)
+        function _editTypeNode(node) {
+            HierarchyObjectTypeService.update(node)
                 .then(function (data) {
                     loadData();
                 })
@@ -122,10 +122,10 @@
         }
 
         function remove() {
-            MessageService.showMessageYesNo('removeDictionaryQuestion', 'removeDictionary')
+            MessageService.showMessageYesNo('removeQuestion', 'removeDictionary')
                 .then(function (result) {
                     if (result === 'OK') {
-                        CharacteristicService.delete(vm.state.currentNode.id)
+                        HierarchyObjectTypeService.delete(vm.state.currentNode.id)
                             .then(function (data) {
                                 loadData();
                             })

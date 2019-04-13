@@ -214,12 +214,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Common\DbContext\BaseFSNestedSetsDbContextManager.cs" />
     <Compile Include="Common\DbContext\BaseNestedSetsDbContextManager.cs" />
-    <Compile Include="Common\DbContext\HierarchyObjectTypeDbContextManager.cs" />
     <Compile Include="Common\DbContext\CharacteristicDbContextManager.cs" />
     <Compile Include="Common\DbContext\HierarchyObjectDbContextManager.cs" />
     <Compile Include="Common\DbContext\IApplicationDbContext.cs" />
     <Compile Include="Common\DbContext\INestedSetsEntityRelationContext.cs" />
     <Compile Include="Common\DbContext\INestedSetsFSContext.cs" />
+    <Compile Include="Common\DbContext\ObjectTypeDbContextManager.cs" />
     <Compile Include="Common\ILogger.cs" />
     <Compile Include="Common\DbContext\INestedSetsObjectContext.cs" />
     <Compile Include="Common\LanguageManager.cs" />
@@ -228,7 +228,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CharacteristicController.cs" />
     <Compile Include="Controllers\HierarchyObjectController.cs" />
-    <Compile Include="Controllers\HierarchyObjectTypeController.cs" />
+    <Compile Include="Controllers\ObjectTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -268,7 +268,7 @@
     <Compile Include="ViewModels\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicViewModel.cs" />
-    <Compile Include="ViewModels\HierarchyObjectTypeViewModels\HierarchyObjectTypeViewModel.cs" />
+    <Compile Include="ViewModels\HierarchyObjectTypeViewModels\ObjectTypeViewModel.cs" />
     <Compile Include="ViewModels\HierarchyObjectViewModels\HierarchyObjectViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\ChangePasswordViewModel.cs" />
@@ -302,6 +302,7 @@
     <Content Include="Scripts\app\Common\Controllers\MessageCtrl.js" />
     <Content Include="Scripts\app\Common\Directives\TreeViewDirective.js" />
     <Content Include="Scripts\app\Common\Services\AppConstantsService.js" />
+    <Content Include="Scripts\app\HierarchyObjectType\HierarchyObjectTypeTreeCtrl.js" />
     <Content Include="Scripts\app\HierarchyObjectType\HierarchyObjectTypeService.js" />
     <Content Include="Scripts\app\HierarchyObject\CreateHierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\HierarchyObject\EditHierarchyObjectCtrl.js" />
@@ -1160,19 +1161,21 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Scripts\libs\version.json" />
-    <Content Include="Views\Characteristic\CharacteristicTree.cshtml" />
+    <Content Include="Views\Characteristic\Tree.cshtml" />
     <Content Include="Views\Characteristic\Characteristic.cshtml" />
     <Content Include="Views\Characteristic\CreateEditCharacteristic.cshtml" />
     <Content Include="Views\HierarchyObject\HierarchyObjectTree.cshtml" />
     <Content Include="Views\HierarchyObject\HierarchyObject.cshtml" />
     <Content Include="Views\HierarchyObject\CreateHierarchyObject.cshtml" />
     <Content Include="Views\HierarchyObject\EditHierarchyObject.cshtml" />
-    <Content Include="Views\Characteristic\EditFolder.cshtml" />
     <Content Include="Views\Characteristic\CreateEditFolder.cshtml" />
+    <Content Include="Views\ObjectType\Tree.cshtml" />
+    <Content Include="Views\ObjectType\Type.cshtml" />
+    <Content Include="Views\ObjectType\CreateEditType.cshtml" />
+    <Content Include="Views\ObjectType\CreateEditFolder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\HierarchyObjectType\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\fonts\glyphicons-halflings-regular.woff2" />

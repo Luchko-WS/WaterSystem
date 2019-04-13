@@ -2,8 +2,6 @@
     ViewBag.Title = "CharacteristicTree";
 }
 
-<h2>CharacteristicTree</h2>
-
 <div class="page-with-extra-navbar">
     <div ng-controller="CharacteristicTreeCtrl as vm">
         <extra-bootstrap-navbar>
@@ -17,6 +15,7 @@
             </form>
         </extra-bootstrap-navbar>
 
+        <h2>CharacteristicTree</h2>
         <async-page-with-loader is-loaded="vm.loaded">
             <div class="row">
                 <tree-view ng-model="vm.tree"

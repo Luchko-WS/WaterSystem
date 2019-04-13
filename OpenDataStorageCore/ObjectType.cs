@@ -1,8 +1,8 @@
 ﻿namespace OpenDataStorageCore
 {
-    public class HierarchyObjectType : NestedSetsFSEntity
+    public class ObjectType : NestedSetsFSEntity
     {
-        public HierarchyObjectType() : base() { }
+        public ObjectType() : base() { }
 
         public string Name { get; set; }
 

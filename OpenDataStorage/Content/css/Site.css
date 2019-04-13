@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.page-with-extra-navbar {
+    margin-top: 60px;
+}

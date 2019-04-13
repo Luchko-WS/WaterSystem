@@ -11,25 +11,25 @@ using System.Web.Http;
 
 namespace OpenDataStorage.API
 {
-    [RoutePrefix("api/ObjectTypeController")]
+    [RoutePrefix("api/ObjectType")]
     public class ObjectTypeController : BaseApiController
     {
         [Route("GetTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ICollection<HierarchyObjectType>> GetTree()
+        public async Task<ICollection<ObjectType>> GetTree()
         {
-            return await _dbContext.HierarchyObjectTypeContext.GetTree();
+            return await _dbContext.ObjectTypeContext.GetTree();
         }
 
         [Route("GetSubTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<HttpResponseMessage> GetSubTree([FromUri]HierarchyObjectTypeViewModel vm)
+        public async Task<HttpResponseMessage> GetSubTree([FromUri]ObjectTypeViewModel vm)
         {
             try
             {
-                var res = await _dbContext.HierarchyObjectTypeContext.GetChildNodes(vm.Id);
+                var res = await _dbContext.ObjectTypeContext.GetChildNodes(vm.Id);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -45,7 +45,7 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.HierarchyObjectTypeContext.GetNode(id);
+                var res = await _dbContext.ObjectTypeContext.GetNode(id);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -56,9 +56,9 @@ namespace OpenDataStorage.API
 
         [Route("Create/{parentFolderId}")]
         [HttpPost]
-        public async Task<HttpResponseMessage> Create([FromUri]Guid parentFolderId, HierarchyObjectTypeViewModel vm)
+        public async Task<HttpResponseMessage> Create([FromUri]Guid parentFolderId, ObjectTypeViewModel vm)
         {
-            var entity = new HierarchyObjectType
+            var entity = new ObjectType
             {
                 Name = vm.Name,
                 Description = vm.Description,
@@ -69,11 +69,11 @@ namespace OpenDataStorage.API
             {
                 if (entity.Type == EntityType.File)
                 {
-                    await _dbContext.HierarchyObjectTypeContext.AddObject(entity, parentFolderId);
+                    await _dbContext.ObjectTypeContext.AddObject(entity, parentFolderId);
                 }
                 else
                 {
-                    await _dbContext.HierarchyObjectTypeContext.AddFolder(entity, parentFolderId);
+                    await _dbContext.ObjectTypeContext.AddFolder(entity, parentFolderId);
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
@@ -85,14 +85,14 @@ namespace OpenDataStorage.API
 
         [Route("Update")]
         [HttpPut]
-        public async Task<HttpResponseMessage> Update(HierarchyObjectTypeViewModel vm)
+        public async Task<HttpResponseMessage> Update(ObjectTypeViewModel vm)
         {
             try
             {
-                var entity = Mapper.CreateInstanceAndMapProperties<HierarchyObjectType>(vm);
+                var entity = Mapper.CreateInstanceAndMapProperties<ObjectType>(vm);
                 if (entity.Type == EntityType.File)
                 {
-                    await _dbContext.HierarchyObjectTypeContext.UpdateObject(entity);
+                    await _dbContext.ObjectTypeContext.UpdateObject(entity);
                 }
                 else
                 {
@@ -113,14 +113,14 @@ namespace OpenDataStorage.API
             try
             {
                 //redundant call
-                var entity = await _dbContext.HierarchyObjectTypeContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
+                var entity = await _dbContext.ObjectTypeContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
                 if (entity.Type == EntityType.File)
                 {
-                    await _dbContext.HierarchyObjectTypeContext.RemoveObject(id);
+                    await _dbContext.ObjectTypeContext.RemoveObject(id);
                 }
                 else
                 {
-                    await _dbContext.HierarchyObjectTypeContext.RemoveFolder(id);
+                    await _dbContext.ObjectTypeContext.RemoveFolder(id);
                 }
                 return Request.CreateResponse(HttpStatusCode.OK);
             }

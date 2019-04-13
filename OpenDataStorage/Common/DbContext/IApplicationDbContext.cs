@@ -9,7 +9,7 @@ namespace OpenDataStorage.Common.DbContext
 
         INestedSetsFSContext<Characteristic> CharacteristicObjectContext { get; }
 
-        INestedSetsFSContext<HierarchyObjectType> HierarchyObjectTypeContext { get; }
+        INestedSetsFSContext<ObjectType> ObjectTypeContext { get; }
 
         Task SaveDbChangesAsync();
     }

@@ -24,7 +24,8 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Char. tree", "CharacteristicTree", "Characteristic")</li>
+                    <li>@Html.ActionLink("Char. tree", "Tree", "Characteristic")</li>
+                    <li>@Html.ActionLink("Types tree", "Tree", "ObjectType")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -43,6 +44,8 @@
     @Scripts.Render("~/bundles/angularjs")
     @Scripts.Render("~/bundles/app")
     @Scripts.Render("~/bundles/app/Characteristic")
+    @Scripts.Render("~/bundles/app/HierarchyObjectType")
+    @Scripts.Render("~/bundles/app/HierarchyObject")
     @RenderSection("scripts", required: false)
 </body>
 </html>

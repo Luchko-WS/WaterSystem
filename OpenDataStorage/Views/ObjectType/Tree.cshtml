@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Type Tree";
+}
+
+<div class="page-with-extra-navbar">
+    <div ng-controller="HierarchyObjectTypeTreeCtrl as vm">
+        <extra-bootstrap-navbar>
+            <form class="navbar-form navbar-right" style="margin-right: 20px" ng-submit="vm.searchTypeByName(vm.searchTypeName)">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="vm.searchTypeName" placeholder="Type Name">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default" type="button" ng-click="">Search</button>
+                </div>
+            </form>
+        </extra-bootstrap-navbar>
+
+        <h2>TypesTree</h2>
+        <async-page-with-loader is-loaded="vm.loaded">
+            <div class="row">
+                <tree-view ng-model="vm.tree"
+                           config="vm.treeParserConfig"
+                           node-selected-callback="vm.nodeSelectedCallback"
+                           node-unselected-callback="vm.nodeUnselectedCallback">
+                </tree-view>
+                <button class="btn btn-primary" ng-click="vm.createType()" ng-disabled="!vm.state.currentNode || vm.state.currentNode.type !== 0">Create</button>
+                <button class="btn btn-primary" ng-click="vm.createFolder()" ng-disabled="!vm.state.currentNode || vm.state.currentNode.type !== 0">Create folder</button>
+                <button class="btn btn-primary" ng-click="vm.edit()" ng-disabled="!vm.state.currentNode">Edit</button>
+                <button class="btn btn-primary" ng-click="vm.remove()" ng-disabled="!vm.state.currentNode">Remove</button>
+            </div>
+        </async-page-with-loader>
+    </div>
+</div>

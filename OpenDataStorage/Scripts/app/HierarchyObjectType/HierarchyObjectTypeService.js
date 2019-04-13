@@ -19,23 +19,23 @@
         return _service;
 
         function _getTree() {
-            return $http.get('/api/HierarchyObjectTypeService/GetTree');
+            return $http.get('/api/ObjectType/GetTree');
         }
 
         function _getSubTree(vm) {
-            return $http.get('/api/HierarchyObjectTypeService/GetSubTree', {
+            return $http.get('/api/ObjectType/GetSubTree', {
                 params: vm
             });
         }
 
         function _get(id) {
-            return $http.get('/api/HierarchyObjectTypeService/Get/' + id);
+            return $http.get('/api/ObjectType/Get/' + id);
         }
 
         function _create(parentId, vm) {
             return $http({
                 method: 'POST',
-                url: '/api/HierarchyObjectTypeService/Create/' + parentId,
+                url: '/api/ObjectType/Create/' + parentId,
                 data: vm
             });
         }
@@ -43,7 +43,7 @@
         function _update(vm) {
             return $http({
                 method: 'PUT',
-                url: '/api/HierarchyObjectTypeService/Update',
+                url: '/api/ObjectType/Update',
                 data: vm
             });
         }
@@ -51,7 +51,7 @@
         function _delete(id) {
             return $http({
                 method: 'DELETE',
-                url: '/api/HierarchyObjectTypeService/Delete/' + id
+                url: '/api/ObjectType/Delete/' + id
             });
         }
     }

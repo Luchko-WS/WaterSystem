@@ -2,7 +2,7 @@
 
 namespace OpenDataStorage.ViewModels.HierarchyObjectTypeViewModels
 {
-    public class HierarchyObjectTypeViewModel : HierarchyObjectType
+    public class ObjectTypeViewModel : ObjectType
     {
     }
 }

@@ -10,14 +10,14 @@ namespace OpenDataStorage.Common.DbContext
     {
         private HierarchyObjectDbContextManager _objectDbContextManager;
         private CharacteristicDbContextManager _characteristicDbContextManager;
-        private HierarchyObjectTypeDbContextManager _objectTypeContextManager;
+        private ObjectTypeDbContextManager _objectTypeContextManager;
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
             _objectDbContextManager = new HierarchyObjectDbContextManager(HierarchyObjects, this.Database);
             _characteristicDbContextManager = new CharacteristicDbContextManager(Characteristics, this.Database);
-            _objectTypeContextManager = new HierarchyObjectTypeDbContextManager(HierarchyObjectTypes, this.Database);
+            _objectTypeContextManager = new ObjectTypeDbContextManager(ObjectTypes, this.Database);
         }
 
         public static ApplicationDbContext Create()
@@ -39,7 +39,7 @@ namespace OpenDataStorage.Common.DbContext
                 m.ToTable(_objectDbContextManager.TableName);
             });
 
-            modelBuilder.Entity<HierarchyObjectType>().Map(m =>
+            modelBuilder.Entity<ObjectType>().Map(m =>
             {
                 m.MapInheritedProperties();
                 m.ToTable(_objectTypeContextManager.TableName);
@@ -68,7 +68,7 @@ namespace OpenDataStorage.Common.DbContext
 
         public DbSet<Characteristic> Characteristics { get; set; }
 
-        public DbSet<HierarchyObjectType> HierarchyObjectTypes { get; set; }
+        public DbSet<ObjectType> ObjectTypes { get; set; }
 
         public DbSet<CharacteristicValue> CharacteristicValues { get; set; }
 
@@ -76,7 +76,7 @@ namespace OpenDataStorage.Common.DbContext
 
         INestedSetsFSContext<Characteristic> IApplicationDbContext.CharacteristicObjectContext => this._characteristicDbContextManager;
 
-        INestedSetsFSContext<HierarchyObjectType> IApplicationDbContext.HierarchyObjectTypeContext => this._objectTypeContextManager;
+        INestedSetsFSContext<ObjectType> IApplicationDbContext.ObjectTypeContext => this._objectTypeContextManager;
 
         public async Task SaveDbChangesAsync()
         {

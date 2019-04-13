@@ -48,6 +48,9 @@ namespace OpenDataStorage
 
             bundles.Add(new ScriptBundle("~/bundles/app/HierarchyObject")
                 .IncludeDirectory("~/Scripts/app/HierarchyObject", "*.js", true));
+
+            bundles.Add(new ScriptBundle("~/bundles/app/HierarchyObjectType")
+                .IncludeDirectory("~/Scripts/app/HierarchyObjectType", "*.js", true));
         }
     }
 }
