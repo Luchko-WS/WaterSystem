@@ -33,11 +33,11 @@
         function loadData() {
             vm.loaded = false;
             vm.tree = CharacteristicService.getTree()
-                .then(function (response) {
-                    vm.tree = response.data;
+                .success(function (data) {
+                    vm.tree = data;
                     vm.loaded = true;
                 })
-                .catch(_errorHandler);
+                .error(_errorHandler);
         }
 
         function createCharacteristic() {
@@ -58,8 +58,7 @@
                     var node = model.node;
                     node.type = vm.fsNodeTypes.file;
                     _createCharacteristicNode(parentNodeId, node);
-                })
-                .catch(_errorHandler);
+                });
         }
 
         function createFolder() {
@@ -80,16 +79,15 @@
                     var node = model.node;
                     node.type = vm.fsNodeTypes.folder;
                     _createCharacteristicNode(parentNodeId, node);
-                })
-                .catch(_errorHandler);
+                });
         }
 
         function _createCharacteristicNode(parentNodeId, node) {
             CharacteristicService.create(parentNodeId, node)
-                .then(function (data) {
+                .success(function (data) {
                     loadData();
                 })
-                .catch(_errorHandler);
+                .error(_errorHandler);
         }
 
         function edit() {
@@ -109,16 +107,15 @@
             modalInstance.result
                 .then(function (model) {
                     _editCharacteristicNode(model.node);
-                })
-                .catch(_errorHandler);
+                });
         }
 
         function _editCharacteristicNode(node) {
             CharacteristicService.update(node)
-                .then(function (data) {
+                .success(function (data) {
                     loadData();
                 })
-                .catch(_errorHandler);
+                .error(_errorHandler);
         }
 
         function remove() {
@@ -126,18 +123,18 @@
                 .then(function (result) {
                     if (result === 'OK') {
                         CharacteristicService.delete(vm.state.currentNode.id)
-                            .then(function (data) {
+                            .success(function (data) {
                                 loadData();
                             })
-                            .catch(_errorHandler);
+                            .error(_errorHandler);
                     }
                 });
         }
 
         function _errorHandler(error) {
             console.error(error);
-            MessageService.showMessage('commonErrorMessage', 'error');
             vm.loaded = true;
+            MessageService.showMessage('commonErrorMessage', 'error');
         }
 
         function nodeSelectedCallback(event, data) {

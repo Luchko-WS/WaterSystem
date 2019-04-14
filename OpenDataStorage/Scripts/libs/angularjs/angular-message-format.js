@@ -1,26 +1,36 @@
 /**
- * @license AngularJS v1.7.5
- * (c) 2010-2018 Google, Inc. http://angularjs.org
+ * @license AngularJS v1.5.0
+ * (c) 2010-2016 Google, Inc. http://angularjs.org
  * License: MIT
  */
-(function(window, angular) {'use strict';
+(function(window, angular, undefined) {'use strict';
 
 // NOTE: ADVANCED_OPTIMIZATIONS mode.
 //
 // This file is compiled with Closure compiler's ADVANCED_OPTIMIZATIONS flag! Be wary of using
 // constructs incompatible with that mode.
 
-/* global isFunction: false */
-/* global noop: false */
-/* global toJson: false */
-/* global $$stringify: false */
+var $interpolateMinErr = window['angular']['$interpolateMinErr'];
+
+var noop = window['angular']['noop'],
+    isFunction = window['angular']['isFunction'],
+    toJson = window['angular']['toJson'];
+
+function stringify(value) {
+  if (value == null /* null/undefined */) { return ''; }
+  switch (typeof value) {
+    case 'string':     return value;
+    case 'number':     return '' + value;
+    default:           return toJson(value);
+  }
+}
 
 // Convert an index into the string into line/column for use in error messages
 // As such, this doesn't have to be efficient.
 function indexToLineAndColumn(text, index) {
   var lines = text.split(/\n/g);
-  for (var i = 0; i < lines.length; i++) {
-    var line = lines[i];
+  for (var i=0; i < lines.length; i++) {
+    var line=lines[i];
     if (index >= line.length) {
       index -= line.length;
     } else {
@@ -39,7 +49,7 @@ function parseTextLiteral(text) {
   parsedFn['$$watchDelegate'] = function watchDelegate(scope, listener, objectEquality) {
     var unwatch = scope['$watch'](noop,
         function textLiteralWatcher() {
-          listener(text, text, scope);
+          if (isFunction(listener)) { listener.call(null, text, text, scope); }
           unwatch();
         },
         objectEquality);
@@ -56,14 +66,14 @@ function subtractOffset(expressionFn, offset) {
     return expressionFn;
   }
   function minusOffset(value) {
-    return (value == null) ? value : value - offset;
+    return (value == void 0) ? value : value - offset;
   }
   function parsedFn(context) { return minusOffset(expressionFn(context)); }
   var unwatch;
   parsedFn['$$watchDelegate'] = function watchDelegate(scope, listener, objectEquality) {
     unwatch = scope['$watch'](expressionFn,
         function pluralExpressionWatchListener(newValue, oldValue) {
-          listener(minusOffset(newValue), minusOffset(oldValue), scope);
+          if (isFunction(listener)) { listener.call(null, minusOffset(newValue), minusOffset(oldValue), scope); }
         },
         objectEquality);
     return unwatch;
@@ -88,7 +98,7 @@ function MessageSelectorBase(expressionFn, choices) {
   var self = this;
   this.expressionFn = expressionFn;
   this.choices = choices;
-  if (choices['other'] === undefined) {
+  if (choices["other"] === void 0) {
     throw $interpolateMinErr('reqother', '“other” is a required option.');
   }
   this.parsedFn = function(context) { return self.getResult(context); };
@@ -122,7 +132,7 @@ function MessageSelectorWatchers(msgSelector, scope, listener, objectEquality) {
   this.msgSelector = msgSelector;
   this.listener = listener;
   this.objectEquality = objectEquality;
-  this.lastMessage = undefined;
+  this.lastMessage = void 0;
   this.messageFnWatcher = noop;
   var expressionFnListener = function(newValue, oldValue) { return self.expressionFnListener(newValue, oldValue); };
   this.expressionFnWatcher = scope['$watch'](msgSelector.expressionFn, expressionFnListener, objectEquality);
@@ -137,7 +147,9 @@ MessageSelectorWatchers.prototype.expressionFnListener = function expressionFnLi
 };
 
 MessageSelectorWatchers.prototype.messageFnListener = function messageFnListener(newMessage, oldMessage) {
-  this.listener.call(null, newMessage, newMessage === oldMessage ? newMessage : this.lastMessage, this.scope);
+  if (isFunction(this.listener)) {
+    this.listener.call(null, newMessage, newMessage === oldMessage ? newMessage : this.lastMessage, this.scope);
+  }
   this.lastMessage = newMessage;
 };
 
@@ -160,7 +172,7 @@ SelectMessageProto.prototype = MessageSelectorBase.prototype;
 
 SelectMessage.prototype = new SelectMessageProto();
 SelectMessage.prototype.categorizeValue = function categorizeSelectValue(value) {
-  return (this.choices[value] !== undefined) ? value : 'other';
+  return (this.choices[value] !== void 0) ? value : "other";
 };
 
 /**
@@ -180,12 +192,12 @@ PluralMessageProto.prototype = MessageSelectorBase.prototype;
 PluralMessage.prototype = new PluralMessageProto();
 PluralMessage.prototype.categorizeValue = function categorizePluralValue(value) {
   if (isNaN(value)) {
-    return 'other';
-  } else if (this.choices[value] !== undefined) {
+    return "other";
+  } else if (this.choices[value] !== void 0) {
     return value;
   } else {
     var category = this.pluralCat(value - this.offset);
-    return (this.choices[category] !== undefined) ? category : 'other';
+    return (this.choices[category] !== void 0) ? category : "other";
   }
 };
 
@@ -254,7 +266,7 @@ InterpolationParts.prototype.getExpressionValues = function getExpressionValues(
 InterpolationParts.prototype.getResult = function getResult(expressionValues) {
   for (var i = 0; i < this.expressionIndices.length; i++) {
     var expressionValue = expressionValues[i];
-    if (this.allOrNothing && expressionValue === undefined) return;
+    if (this.allOrNothing && expressionValue === void 0) return;
     this.textParts[this.expressionIndices[i]] = expressionValue;
   }
   return this.textParts.join('');
@@ -265,7 +277,7 @@ InterpolationParts.prototype.toParsedFn = function toParsedFn(mustHaveExpression
   var self = this;
   this.flushPartialText();
   if (mustHaveExpression && this.expressionFns.length === 0) {
-    return undefined;
+    return void 0;
   }
   if (this.textParts.length === 0) {
     return parseTextLiteral('');
@@ -274,7 +286,7 @@ InterpolationParts.prototype.toParsedFn = function toParsedFn(mustHaveExpression
     $interpolateMinErr['throwNoconcat'](originalText);
   }
   if (this.expressionFns.length === 0) {
-    if (this.textParts.length !== 1) { this.errorInParseLogic(); }
+    if (this.textParts.length != 1) { this.errorInParseLogic(); }
     return parseTextLiteral(this.textParts[0]);
   }
   var parsedFn = function(context) {
@@ -301,7 +313,7 @@ InterpolationParts.prototype.watchDelegate = function watchDelegate(scope, liste
 function InterpolationPartsWatcher(interpolationParts, scope, listener, objectEquality) {
   this.interpolationParts = interpolationParts;
   this.scope = scope;
-  this.previousResult = (undefined);
+  this.previousResult = (void 0);
   this.listener = listener;
   var self = this;
   this.expressionFnsWatcher = scope['$watchGroup'](interpolationParts.expressionFns, function(newExpressionValues, oldExpressionValues) {
@@ -311,7 +323,9 @@ function InterpolationPartsWatcher(interpolationParts, scope, listener, objectEq
 
 InterpolationPartsWatcher.prototype.watchListener = function watchListener(newExpressionValues, oldExpressionValues) {
   var result = this.interpolationParts.getResult(newExpressionValues);
-  this.listener.call(null, result, newExpressionValues === oldExpressionValues ? result : this.previousResult, this.scope);
+  if (isFunction(this.listener)) {
+    this.listener.call(null, result, newExpressionValues === oldExpressionValues ? result : this.previousResult, this.scope);
+  }
   this.previousResult = result;
 };
 
@@ -411,7 +425,7 @@ MessageFormatParser.prototype.popState = function popState() {
 MessageFormatParser.prototype.matchRe = function matchRe(re, search) {
   re.lastIndex = this.index;
   var match = re.exec(this.text);
-  if (match != null && (search === true || (match.index === this.index))) {
+  if (match != null && (search === true || (match.index == this.index))) {
     this.index = re.lastIndex;
     return match;
   }
@@ -449,7 +463,7 @@ MessageFormatParser.prototype.errorInParseLogic = function errorInParseLogic() {
 };
 
 MessageFormatParser.prototype.assertRuleOrNull = function assertRuleOrNull(rule) {
-  if (rule === undefined) {
+  if (rule === void 0) {
     this.errorInParseLogic();
   }
 };
@@ -465,7 +479,7 @@ MessageFormatParser.prototype.errorExpecting = function errorExpecting() {
         position.line, position.column, this.text);
   }
   var word = match[1];
-  if (word === 'select' || word === 'plural') {
+  if (word == "select" || word == "plural") {
     position = indexToLineAndColumn(this.text, this.index);
     throw $interpolateMinErr('reqcomma',
         'Expected a comma after the keyword “{0}” at line {1}, column {2} of text “{3}”',
@@ -493,7 +507,7 @@ MessageFormatParser.prototype.ruleString = function ruleString() {
 MessageFormatParser.prototype.startStringAtMatch = function startStringAtMatch(match) {
   this.stringStartIndex = match.index;
   this.stringQuote = match[0];
-  this.stringInterestsRe = this.stringQuote === '\'' ? SQUOTED_STRING_INTEREST_RE : DQUOTED_STRING_INTEREST_RE;
+  this.stringInterestsRe = this.stringQuote == "'" ? SQUOTED_STRING_INTEREST_RE : DQUOTED_STRING_INTEREST_RE;
   this.rule = this.ruleInsideString;
 };
 
@@ -507,7 +521,8 @@ MessageFormatParser.prototype.ruleInsideString = function ruleInsideString() {
         'The string beginning at line {0}, column {1} is unterminated in text “{2}”',
         position.line, position.column, this.text);
   }
-  if (match[0] === this.stringQuote) {
+  var chars = match[0];
+  if (match == this.stringQuote) {
     this.rule = null;
   }
 };
@@ -520,8 +535,8 @@ MessageFormatParser.prototype.rulePluralOrSelect = function rulePluralOrSelect()
   }
   var argType = match[1];
   switch (argType) {
-    case 'plural': this.rule = this.rulePluralStyle; break;
-    case 'select': this.rule = this.ruleSelectStyle; break;
+    case "plural": this.rule = this.rulePluralStyle; break;
+    case "select": this.rule = this.ruleSelectStyle; break;
     default: this.errorInParseLogic();
   }
 };
@@ -539,7 +554,7 @@ MessageFormatParser.prototype.ruleSelectStyle = function ruleSelectStyle() {
 };
 
 var NUMBER_RE = /[0]|(?:[1-9][0-9]*)/g;
-var PLURAL_OFFSET_RE = new RegExp('\\s*offset\\s*:\\s*(' + NUMBER_RE.source + ')', 'g');
+var PLURAL_OFFSET_RE = new RegExp("\\s*offset\\s*:\\s*(" + NUMBER_RE.source + ")", "g");
 
 MessageFormatParser.prototype.rulePluralOffset = function rulePluralOffset() {
   var match = this.matchRe(PLURAL_OFFSET_RE);
@@ -549,7 +564,7 @@ MessageFormatParser.prototype.rulePluralOffset = function rulePluralOffset() {
 };
 
 MessageFormatParser.prototype.assertChoiceKeyIsNew = function assertChoiceKeyIsNew(choiceKey, index) {
-  if (this.choices[choiceKey] !== undefined) {
+  if (this.choices[choiceKey] !== void 0) {
     var position = indexToLineAndColumn(this.text, index);
     throw $interpolateMinErr('dupvalue',
         'The choice “{0}” is specified more than once. Duplicate key is at line {1}, column {2} in text “{3}”',
@@ -570,7 +585,7 @@ MessageFormatParser.prototype.ruleSelectKeyword = function ruleSelectKeyword() {
   this.rule = this.ruleMessageText;
 };
 
-var EXPLICIT_VALUE_OR_KEYWORD_RE = new RegExp('\\s*(?:(?:=(' + NUMBER_RE.source + '))|(\\w+))', 'g');
+var EXPLICIT_VALUE_OR_KEYWORD_RE = new RegExp("\\s*(?:(?:=(" + NUMBER_RE.source + "))|(\\w+))", "g");
 MessageFormatParser.prototype.rulePluralValueOrKeyword = function rulePluralValueOrKeyword() {
   var match = this.matchRe(EXPLICIT_VALUE_OR_KEYWORD_RE);
   if (match == null) {
@@ -587,7 +602,7 @@ MessageFormatParser.prototype.rulePluralValueOrKeyword = function rulePluralValu
   this.rule = this.ruleMessageText;
 };
 
-var BRACE_OPEN_RE = /\s*\{/g;
+var BRACE_OPEN_RE = /\s*{/g;
 var BRACE_CLOSE_RE = /}/g;
 MessageFormatParser.prototype.ruleMessageText = function ruleMessageText() {
   if (!this.consumeRe(BRACE_OPEN_RE)) {
@@ -607,7 +622,7 @@ var INTERP_OR_END_MESSAGE_RE = /\\.|{{|}/g;
 var INTERP_OR_PLURALVALUE_OR_END_MESSAGE_RE = /\\.|{{|#|}/g;
 var ESCAPE_OR_MUSTACHE_BEGIN_RE = /\\.|{{/g;
 MessageFormatParser.prototype.advanceInInterpolationOrMessageText = function advanceInInterpolationOrMessageText() {
-  var currentIndex = this.index, match;
+  var currentIndex = this.index, match, re;
   if (this.ruleChoiceKeyword == null) { // interpolation
     match = this.searchRe(ESCAPE_OR_MUSTACHE_BEGIN_RE);
     if (match == null) { // End of interpolation text.  Nothing more to process.
@@ -616,7 +631,7 @@ MessageFormatParser.prototype.advanceInInterpolationOrMessageText = function adv
       return null;
     }
   } else {
-    match = this.searchRe(this.ruleChoiceKeyword === this.rulePluralValueOrKeyword ?
+    match = this.searchRe(this.ruleChoiceKeyword == this.rulePluralValueOrKeyword ?
                           INTERP_OR_PLURALVALUE_OR_END_MESSAGE_RE : INTERP_OR_END_MESSAGE_RE);
     if (match == null) {
       var position = indexToLineAndColumn(this.text, this.msgStartIndex);
@@ -641,20 +656,20 @@ MessageFormatParser.prototype.ruleInInterpolationOrMessageText = function ruleIn
     this.rule = null;
     return;
   }
-  if (token[0] === '\\') {
+  if (token[0] == "\\") {
     // unescape next character and continue
     this.interpolationParts.addText(this.textPart + token[1]);
     return;
   }
   this.interpolationParts.addText(this.textPart);
-  if (token === '{{') {
+  if (token == "{{") {
     this.pushState();
     this.ruleStack.push(this.ruleEndMustacheInInterpolationOrMessage);
     this.rule = this.ruleEnteredMustache;
-  } else if (token === '}') {
+  } else if (token == "}") {
     this.choices[this.choiceKey] = this.interpolationParts.toParsedFn(/*mustHaveExpression=*/false, this.text);
     this.rule = this.ruleChoiceKeyword;
-  } else if (token === '#') {
+  } else if (token == "#") {
     this.interpolationParts.addExpressionFn(this.expressionMinusOffsetFn);
   } else {
     this.errorInParseLogic();
@@ -678,7 +693,7 @@ MessageFormatParser.prototype.ruleInInterpolation = function ruleInInterpolation
     return;
   }
   var token = match[0];
-  if (token[0] === '\\') {
+  if (token[0] == "\\") {
     // unescape next character and continue
     this.interpolationParts.addText(this.text.substring(currentIndex, match.index) + token[1]);
     return;
@@ -725,7 +740,7 @@ MessageFormatParser.prototype.ruleEndMustache = function ruleEndMustache() {
     // day), then the result *has* to be a string and those rules would have already set
     // this.parsedFn.  If there was no MessageFormat extension, then there is no requirement to
     // stringify the result and parsedFn isn't set.  We set it here.  While we could have set it
-    // unconditionally when exiting the AngularJS expression, I intend for us to not just replace
+    // unconditionally when exiting the Angular expression, I intend for us to not just replace
     // $interpolate, but also to replace $parse in a future version (so ng-bind can work), and in
     // such a case we do not want to unnecessarily stringify something if it's not going to be used
     // in a string context.
@@ -744,18 +759,18 @@ MessageFormatParser.prototype.ruleAngularExpression = function ruleAngularExpres
 
 function getEndOperator(opBegin) {
   switch (opBegin) {
-    case '{': return '}';
-    case '[': return ']';
-    case '(': return ')';
+    case "{": return "}";
+    case "[": return "]";
+    case "(": return ")";
     default: return null;
   }
 }
 
 function getBeginOperator(opEnd) {
   switch (opEnd) {
-    case '}': return '{';
-    case ']': return '[';
-    case ')': return '(';
+    case "}": return "{";
+    case "]": return "[";
+    case ")": return "(";
     default: return null;
   }
 }
@@ -765,11 +780,12 @@ function getBeginOperator(opEnd) {
 // should support any other type of start/end interpolation symbol.
 var INTERESTING_OPERATORS_RE = /[[\]{}()'",]/g;
 MessageFormatParser.prototype.ruleInAngularExpression = function ruleInAngularExpression() {
+  var startIndex = this.index;
   var match = this.searchRe(INTERESTING_OPERATORS_RE);
   var position;
   if (match == null) {
     if (this.angularOperatorStack.length === 0) {
-      // This is the end of the AngularJS expression so this is actually a
+      // This is the end of the Angular expression so this is actually a
       // success.  Note that when inside an interpolation, this means we even
       // consumed the closing interpolation symbols if they were curlies.  This
       // is NOT an error at this point but will become an error further up the
@@ -785,16 +801,16 @@ MessageFormatParser.prototype.ruleInAngularExpression = function ruleInAngularEx
     }
     var innermostOperator = this.angularOperatorStack[0];
     throw $interpolateMinErr('badexpr',
-        'Unexpected end of AngularJS expression.  Expecting operator “{0}” at the end of the text “{1}”',
+        'Unexpected end of Angular expression.  Expecting operator “{0}” at the end of the text “{1}”',
         this.getEndOperator(innermostOperator), this.text);
   }
   var operator = match[0];
-  if (operator === '\'' || operator === '"') {
+  if (operator == "'" || operator == '"') {
     this.ruleStack.push(this.ruleInAngularExpression);
     this.startStringAtMatch(match);
     return;
   }
-  if (operator === ',') {
+  if (operator == ",") {
     if (this.trustedContext) {
       position = indexToLineAndColumn(this.text, this.index);
       throw $interpolateMinErr('unsafe',
@@ -822,7 +838,7 @@ MessageFormatParser.prototype.ruleInAngularExpression = function ruleInAngularEx
     this.errorInParseLogic();
   }
   if (this.angularOperatorStack.length > 0) {
-    if (beginOperator === this.angularOperatorStack[0]) {
+    if (beginOperator == this.angularOperatorStack[0]) {
       this.angularOperatorStack.shift();
       return;
     }
@@ -845,89 +861,31 @@ MessageFormatParser.prototype.ruleInAngularExpression = function ruleInAngularEx
 // This file is compiled with Closure compiler's ADVANCED_OPTIMIZATIONS flag! Be wary of using
 // constructs incompatible with that mode.
 
-/* global $interpolateMinErr: true */
-/* global isFunction: true */
-/* global noop: true */
-/* global toJson: true */
+/* global $interpolateMinErr: false */
 /* global MessageFormatParser: false */
+/* global stringify: false */
 
 /**
- * @ngdoc module
- * @name ngMessageFormat
- * @packageName angular-message-format
+ * @ngdoc service
+ * @name $$messageFormat
  *
  * @description
+ * Angular internal service to recognize MessageFormat extensions in interpolation expressions.
+ * For more information, see:
+ * https://docs.google.com/a/google.com/document/d/1pbtW2yvtmFBikfRrJd8VAsabiFkKezmYZ_PbgdjQOVU/edit
  *
- * ## What is  ngMessageFormat?
+ * ## Example
  *
- * The ngMessageFormat module extends the AngularJS {@link ng.$interpolate `$interpolate`} service
- * with a syntax for handling pluralization and gender specific messages, which is based on the
- * [ICU MessageFormat syntax][ICU].
- *
- * See [the design doc][ngMessageFormat doc] for more information.
- *
- * [ICU]: http://userguide.icu-project.org/formatparse/messages#TOC-MessageFormat
- * [ngMessageFormat doc]: https://docs.google.com/a/google.com/document/d/1pbtW2yvtmFBikfRrJd8VAsabiFkKezmYZ_PbgdjQOVU/edit
- *
- * ## Examples
- *
- * ### Gender
- *
- * This example uses the "select" keyword to specify the message based on gender.
- *
- * <example name="ngMessageFormat-example-gender" module="msgFmtExample" deps="angular-message-format.js">
- * <file name="index.html">
- *  <div ng-controller="AppController">
- *    Select Recipient:<br>
-      <select ng-model="recipient" ng-options="person as person.name for person in recipients">
-      </select>
-      <p>{{recipient.gender, select,
-                male {{{recipient.name}} unwrapped his gift. }
-                female {{{recipient.name}} unwrapped her gift. }
-                other {{{recipient.name}} unwrapped their gift. }
-      }}</p>
- *  </div>
- * </file>
- * <file name="script.js">
- *   function Person(name, gender) {
- *     this.name = name;
- *     this.gender = gender;
- *   }
- *
- *   var alice   = new Person('Alice', 'female'),
- *       bob     = new Person('Bob', 'male'),
- *       ashley = new Person('Ashley', '');
- *
- *   angular.module('msgFmtExample', ['ngMessageFormat'])
- *     .controller('AppController', ['$scope', function($scope) {
- *         $scope.recipients = [alice, bob, ashley];
- *         $scope.recipient = $scope.recipients[0];
- *       }]);
- * </file>
- * </example>
- *
- * ### Plural
- *
- * This example shows how the "plural" keyword is used to account for a variable number of entities.
- * The "#" variable holds the current number and can be embedded in the message.
- *
- * Note that "=1" takes precedence over "one".
- *
- * The example also shows the "offset" keyword, which allows you to offset the value of the "#" variable.
- *
- * <example name="ngMessageFormat-example-plural" module="msgFmtExample" deps="angular-message-format.js">
+ * <example name="ngMessageFormat-example" module="msgFmtExample" deps="angular-message-format.min.js">
  * <file name="index.html">
  *   <div ng-controller="AppController">
- *    <button ng-click="recipients.pop()" id="decreaseRecipients">decreaseRecipients</button><br>
- *    Select recipients:<br>
- *    <select multiple size=5 ng-model="recipients" ng-options="person as person.name for person in people">
- *    </select><br>
- *     <p>{{recipients.length, plural, offset:1
+ *     <button ng-click="decreaseRecipients()" id="decreaseRecipients">decreaseRecipients</button><br>
+ *     <span>{{recipients.length, plural, offset:1
  *             =0    {{{sender.name}} gave no gifts (\#=#)}
- *             =1    {{{sender.name}} gave a gift to {{recipients[0].name}} (\#=#)}
+ *             =1    {{{sender.name}} gave one gift to {{recipients[0].name}} (\#=#)}
  *             one   {{{sender.name}} gave {{recipients[0].name}} and one other person a gift (\#=#)}
  *             other {{{sender.name}} gave {{recipients[0].name}} and # other people a gift (\#=#)}
- *           }}</p>
+ *           }}</span>
  *   </div>
  * </file>
  *
@@ -937,89 +895,45 @@ MessageFormatParser.prototype.ruleInAngularExpression = function ruleInAngularEx
  *     this.gender = gender;
  *   }
  *
- *   var alice   = new Person('Alice', 'female'),
- *       bob     = new Person('Bob', 'male'),
- *       sarah     = new Person('Sarah', 'female'),
- *       harry   = new Person('Harry Potter', 'male'),
- *       ashley   = new Person('Ashley', '');
+ *   var alice   = new Person("Alice", "female"),
+ *       bob     = new Person("Bob", "male"),
+ *       charlie = new Person("Charlie", "male"),
+ *       harry   = new Person("Harry Potter", "male");
  *
  *   angular.module('msgFmtExample', ['ngMessageFormat'])
  *     .controller('AppController', ['$scope', function($scope) {
- *         $scope.people = [alice, bob, sarah, ashley];
- *         $scope.recipients = [alice, bob, sarah];
+ *         $scope.recipients = [alice, bob, charlie];
  *         $scope.sender = harry;
+ *         $scope.decreaseRecipients = function() {
+ *           --$scope.recipients.length;
+ *         };
  *       }]);
  * </file>
  *
  * <file name="protractor.js" type="protractor">
  *   describe('MessageFormat plural', function() {
- *
  *     it('should pluralize initial values', function() {
- *       var messageElem = element(by.binding('recipients.length')),
- *           decreaseRecipientsBtn = element(by.id('decreaseRecipients'));
- *
+ *       var messageElem = element(by.binding('recipients.length')), decreaseRecipientsBtn = element(by.id('decreaseRecipients'));
  *       expect(messageElem.getText()).toEqual('Harry Potter gave Alice and 2 other people a gift (#=2)');
  *       decreaseRecipientsBtn.click();
  *       expect(messageElem.getText()).toEqual('Harry Potter gave Alice and one other person a gift (#=1)');
  *       decreaseRecipientsBtn.click();
- *       expect(messageElem.getText()).toEqual('Harry Potter gave a gift to Alice (#=0)');
+ *       expect(messageElem.getText()).toEqual('Harry Potter gave one gift to Alice (#=0)');
  *       decreaseRecipientsBtn.click();
  *       expect(messageElem.getText()).toEqual('Harry Potter gave no gifts (#=-1)');
  *     });
  *   });
  * </file>
  * </example>
- *
- * ### Plural and Gender together
- *
- * This example shows how you can specify gender rules for specific plural matches - in this case,
- * =1 is special cased for gender.
- * <example name="ngMessageFormat-example-plural-gender" module="msgFmtExample" deps="angular-message-format.js">
- *   <file name="index.html">
- *     <div ng-controller="AppController">
-       Select recipients:<br>
-       <select multiple size=5 ng-model="recipients" ng-options="person as person.name for person in people">
-       </select><br>
-        <p>{{recipients.length, plural,
-          =0 {{{sender.name}} has not given any gifts to anyone.}
-          =1 {  {{recipients[0].gender, select,
-                 female { {{sender.name}} gave {{recipients[0].name}} her gift.}
-                 male { {{sender.name}} gave {{recipients[0].name}} his gift.}
-                 other { {{sender.name}} gave {{recipients[0].name}} their gift.}
-                }}
-              }
-          other {{{sender.name}} gave {{recipients.length}} people gifts.}
-          }}</p>
-      </file>
- *    <file name="script.js">
- *      function Person(name, gender) {
- *        this.name = name;
- *        this.gender = gender;
- *      }
- *
- *      var alice   = new Person('Alice', 'female'),
- *          bob     = new Person('Bob', 'male'),
- *          harry   = new Person('Harry Potter', 'male'),
- *          ashley   = new Person('Ashley', '');
- *
- *      angular.module('msgFmtExample', ['ngMessageFormat'])
- *        .controller('AppController', ['$scope', function($scope) {
- *            $scope.people = [alice, bob, ashley];
- *            $scope.recipients = [alice];
- *            $scope.sender = harry;
- *          }]);
- *    </file>
-    </example>
  */
-
 var $$MessageFormatFactory = ['$parse', '$locale', '$sce', '$exceptionHandler', function $$messageFormat(
-                               $parse,   $locale,   $sce,   $exceptionHandler) {
+                   $parse,   $locale,   $sce,   $exceptionHandler) {
 
   function getStringifier(trustedContext, allOrNothing, text) {
     return function stringifier(value) {
       try {
         value = trustedContext ? $sce['getTrusted'](trustedContext, value) : $sce['valueOf'](value);
-        return allOrNothing && (value === undefined) ? value : $$stringify(value);
+        return allOrNothing && (value === void 0) ? value : stringify(value);
       } catch (err) {
         $exceptionHandler($interpolateMinErr['interr'](text, err));
       }
@@ -1040,7 +954,7 @@ var $$MessageFormatFactory = ['$parse', '$locale', '$sce', '$exceptionHandler', 
 }];
 
 var $$interpolateDecorator = ['$$messageFormat', '$delegate', function $$interpolateDecorator($$messageFormat, $interpolate) {
-  if ($interpolate['startSymbol']() !== '{{' || $interpolate['endSymbol']() !== '}}') {
+  if ($interpolate['startSymbol']() != "{{" || $interpolate['endSymbol']() != "}}") {
     throw $interpolateMinErr('nochgmustache', 'angular-message-format.js currently does not allow you to use custom start and end symbols for interpolation.');
   }
   var interpolate = $$messageFormat['interpolate'];
@@ -1049,22 +963,16 @@ var $$interpolateDecorator = ['$$messageFormat', '$delegate', function $$interpo
   return interpolate;
 }];
 
-var $interpolateMinErr;
-var isFunction;
-var noop;
-var toJson;
-var $$stringify;
 
+/**
+ * @ngdoc module
+ * @name ngMessageFormat
+ * @packageName angular-message-format
+ * @description
+ */
 var module = window['angular']['module']('ngMessageFormat', ['ng']);
-module['info']({ 'angularVersion': '1.7.5' });
 module['factory']('$$messageFormat', $$MessageFormatFactory);
 module['config'](['$provide', function($provide) {
-  $interpolateMinErr = window['angular']['$interpolateMinErr'];
-  isFunction = window['angular']['isFunction'];
-  noop = window['angular']['noop'];
-  toJson = window['angular']['toJson'];
-  $$stringify = window['angular']['$$stringify'];
-
   $provide['decorator']('$interpolate', $$interpolateDecorator);
 }]);
 
