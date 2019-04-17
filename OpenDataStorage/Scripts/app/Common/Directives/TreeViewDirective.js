@@ -102,7 +102,7 @@
 
                     function errorHandler(error) {
                         console.error(error);
-                        MessageService.showMessage('error', 'error');
+                        MessageService.showMessage('commonErrorMessage', 'error');
                     }
                 },
                 scope: {

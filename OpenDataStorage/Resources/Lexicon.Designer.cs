@@ -61,6 +61,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User with this login doesn&apos;t exist..
+        /// </summary>
+        public static string AccountLoginMissingUser {
+            get {
+                return ResourceManager.GetString("AccountLoginMissingUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account management.
         /// </summary>
         public static string AccountManagement {
@@ -133,11 +142,38 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Characteristic.
+        /// </summary>
+        public static string Characteristic {
+            get {
+                return ResourceManager.GetString("Characteristic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Characteristics.
+        /// </summary>
+        public static string Characteristics {
+            get {
+                return ResourceManager.GetString("Characteristics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear up.
         /// </summary>
         public static string ClearUp {
             get {
                 return ResourceManager.GetString("ClearUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
             }
         }
         
@@ -187,6 +223,33 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create сharacteristic.
+        /// </summary>
+        public static string CreateCharacteristic {
+            get {
+                return ResourceManager.GetString("CreateCharacteristic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create folder.
+        /// </summary>
+        public static string CreateFolder {
+            get {
+                return ResourceManager.GetString("CreateFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create object type.
+        /// </summary>
+        public static string CreateType {
+            get {
+                return ResourceManager.GetString("CreateType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creation date.
         /// </summary>
         public static string CreationDate {
@@ -232,6 +295,33 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit сharacteristic.
+        /// </summary>
+        public static string EditCharacteristic {
+            get {
+                return ResourceManager.GetString("EditCharacteristic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit folder.
+        /// </summary>
+        public static string EditFolder {
+            get {
+                return ResourceManager.GetString("EditFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit object type.
+        /// </summary>
+        public static string EditType {
+            get {
+                return ResourceManager.GetString("EditType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {
@@ -273,6 +363,15 @@ namespace OpenDataStorage.Resources {
         public static string FirstName {
             get {
                 return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folder.
+        /// </summary>
+        public static string Folder {
+            get {
+                return ResourceManager.GetString("Folder", resourceCulture);
             }
         }
         
@@ -354,6 +453,15 @@ namespace OpenDataStorage.Resources {
         public static string Month {
             get {
                 return ResourceManager.GetString("Month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
             }
         }
         
@@ -466,6 +574,51 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove characteristic.
+        /// </summary>
+        public static string RemoveCharacteristic {
+            get {
+                return ResourceManager.GetString("RemoveCharacteristic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to remove this characteristic?.
+        /// </summary>
+        public static string RemoveCharacteristicQuestion {
+            get {
+                return ResourceManager.GetString("RemoveCharacteristicQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove folder.
+        /// </summary>
+        public static string RemoveFolder {
+            get {
+                return ResourceManager.GetString("RemoveFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove object type.
+        /// </summary>
+        public static string RemoveType {
+            get {
+                return ResourceManager.GetString("RemoveType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to remove this object type?.
+        /// </summary>
+        public static string RemoveTypeQuestion {
+            get {
+                return ResourceManager.GetString("RemoveTypeQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Required field {0}.
         /// </summary>
         public static string RequiredErrorMessage {
@@ -507,6 +660,24 @@ namespace OpenDataStorage.Resources {
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object type.
+        /// </summary>
+        public static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object types.
+        /// </summary>
+        public static string Types {
+            get {
+                return ResourceManager.GetString("Types", resourceCulture);
             }
         }
         

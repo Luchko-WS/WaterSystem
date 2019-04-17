@@ -251,6 +251,10 @@
     <Compile Include="Migrations\201904121201275_objects types.Designer.cs">
       <DependentUpon>201904121201275_objects types.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904171910097_SystemUser.cs" />
+    <Compile Include="Migrations\201904171910097_SystemUser.Designer.cs">
+      <DependentUpon>201904171910097_SystemUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Resources\Lexicon.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -283,7 +287,7 @@
     <Compile Include="ViewModels\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicViewModel.cs" />
-    <Compile Include="ViewModels\HierarchyObjectTypeViewModels\ObjectTypeViewModel.cs" />
+    <Compile Include="ViewModels\ObjectTypeViewModels\ObjectTypeViewModel.cs" />
     <Compile Include="ViewModels\HierarchyObjectViewModels\HierarchyObjectViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\ChangePasswordViewModel.cs" />
@@ -317,8 +321,8 @@
     <Content Include="Scripts\app\Common\Controllers\MessageCtrl.js" />
     <Content Include="Scripts\app\Common\Directives\TreeViewDirective.js" />
     <Content Include="Scripts\app\Common\Services\AppConstantsService.js" />
-    <Content Include="Scripts\app\HierarchyObjectType\HierarchyObjectTypeTreeCtrl.js" />
-    <Content Include="Scripts\app\HierarchyObjectType\HierarchyObjectTypeService.js" />
+    <Content Include="Scripts\app\ObjectType\ObjectTypeTreeCtrl.js" />
+    <Content Include="Scripts\app\ObjectType\ObjectTypeService.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectService.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectTreeCtrl.js" />
     <Content Include="Content\css\angular-block-ui\angular-block-ui.css.map" />
@@ -476,6 +480,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904121201275_objects types.resx">
       <DependentUpon>201904121201275_objects types.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904171910097_SystemUser.resx">
+      <DependentUpon>201904171910097_SystemUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.en.resx">
       <SubType>Designer</SubType>

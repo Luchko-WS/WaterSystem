@@ -250,7 +250,7 @@
     <value>Зарегистрироваться</value>
   </data>
   <data name="RequiredErrorMessage" xml:space="preserve">
-    <value>Требуется поле {0}</value>
+    <value>Требуется заполнить поле {0}</value>
   </data>
   <data name="RegisterAsANewUser" xml:space="preserve">
     <value>Зарегистрироваться как новый пользователь</value>
@@ -287,5 +287,62 @@
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Сбросить</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="Characteristic" xml:space="preserve">
+    <value>Характеристика</value>
+  </data>
+  <data name="CreateCharacteristic" xml:space="preserve">
+    <value>Создать характеристику</value>
+  </data>
+  <data name="EditCharacteristic" xml:space="preserve">
+    <value>Редактировать характеристику</value>
+  </data>
+  <data name="RemoveCharacteristic" xml:space="preserve">
+    <value>Удалить характеристику</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Папка</value>
+  </data>
+  <data name="CreateFolder" xml:space="preserve">
+    <value>Создать папку</value>
+  </data>
+  <data name="EditFolder" xml:space="preserve">
+    <value>Редактировать папку</value>
+  </data>
+  <data name="RemoveFolder" xml:space="preserve">
+    <value>Удалить папку</value>
+  </data>
+  <data name="Characteristics" xml:space="preserve">
+    <value>Характеристики</value>
+  </data>
+  <data name="CreateType" xml:space="preserve">
+    <value>Создать тип объекта</value>
+  </data>
+  <data name="EditType" xml:space="preserve">
+    <value>Редактировать тип объекта</value>
+  </data>
+  <data name="RemoveType" xml:space="preserve">
+    <value>Удалить тип объекта</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип объекта</value>
+  </data>
+  <data name="Types" xml:space="preserve">
+    <value>Типы объектов</value>
+  </data>
+  <data name="AccountLoginMissingUser" xml:space="preserve">
+    <value>Пользователь с таким логином не найден.</value>
+  </data>
+  <data name="RemoveTypeQuestion" xml:space="preserve">
+    <value>Вы хотите удалить этот тип объекта?</value>
+  </data>
+  <data name="RemoveCharacteristicQuestion" xml:space="preserve">
+    <value>Вы хотите удалить эту характеристику?</value>
   </data>
 </root>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenDataStorageCore
 {
@@ -13,7 +12,7 @@ namespace OpenDataStorageCore
 
         //public Guid HierarchyObjectTypeId { get; set; }
 
-        //public HierarchyObjectType HierarchyObjectType { get; set; }
+        //public ObjectType ObjectType { get; set; }
 
         public ICollection<CharacteristicValue> CharacteristicValues { get; set; }
     }

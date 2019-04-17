@@ -27,8 +27,7 @@ namespace OpenDataStorage.Controllers
             }
             else
             {
-                var userLang = Request.UserLanguages != null ? Request.UserLanguages[0] : string.Empty;
-                userLanguage = string.IsNullOrEmpty(userLang) ? LanguageManager.GetDefaultLanguage() : userLang;
+                userLanguage = LanguageManager.GetDefaultLanguage();
             }
             SetCurrentLanguage(userLanguage);
 

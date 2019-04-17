@@ -1,5 +1,5 @@
 ﻿using OpenDataStorage.Common;
-using OpenDataStorage.ViewModels.HierarchyObjectTypeViewModels;
+using OpenDataStorage.ViewModels.ObjectTypeViewModels;
 using OpenDataStorageCore;
 using System;
 using System.Collections.Generic;

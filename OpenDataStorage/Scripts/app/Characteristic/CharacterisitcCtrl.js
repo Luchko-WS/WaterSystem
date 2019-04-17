@@ -46,7 +46,7 @@
         }
 
         function removeCharacteristic() {
-            MessageService.showMessageYesNo('removeDictionaryQuestion', 'removeDictionary')
+            MessageService.showMessageYesNo('removeCharacteristicQuestion', 'removeCharacteristic')
                 .then(function (result) {
                     if (result === 'OK') {
                         CharacteristicService.removeCharacteristic(vm.characteristic.id)

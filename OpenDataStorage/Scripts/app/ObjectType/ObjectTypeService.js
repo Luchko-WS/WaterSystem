@@ -3,11 +3,11 @@
 
     angular
         .module('MainApp')
-        .factory('HierarchyObjectTypeService', HierarchyObjectTypeService);
+        .factory('ObjectTypeService', ObjectTypeService);
 
-    HierarchyObjectTypeService.$inject = ['$http'];
+    ObjectTypeService.$inject = ['$http'];
 
-    function HierarchyObjectTypeService($http) {
+    function ObjectTypeService($http) {
         var _service = {
             getTree: _getTree,
             getSubTree: _getSubTree,

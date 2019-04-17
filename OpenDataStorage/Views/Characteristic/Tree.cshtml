@@ -1,13 +1,13 @@
 ﻿@{
-    ViewBag.Title = "CharacteristicTree";
+    ViewBag.Title = Lexicon.Characteristics;
 }
 
 <div class="page-with-extra-navbar">
     <div ng-controller="CharacteristicTreeCtrl as vm">
         <extra-bootstrap-navbar>
-            <form class="navbar-form navbar-right" style="margin-right: 20px" ng-submit="vm.searchCharacteristicByName(vm.searchCharacteristicName)">
+            <form class="navbar-form" ng-submit="vm.searchCharacteristicByName(vm.searchCharacteristicName)">
                 <div class="form-group">
-                    <input type="text" class="form-control" ng-model="vm.searchCharacteristicName" placeholder="Name">
+                    <input type="text" class="form-control" ng-model="vm.searchCharacteristicName" placeholder="@Lexicon.Name">
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-default" type="button" ng-click="">@Lexicon.Search</button>
@@ -15,7 +15,7 @@
             </form>
         </extra-bootstrap-navbar>
 
-        <h2>CharacteristicTree</h2>
+        <h2>@Lexicon.Characteristics</h2>
         <async-page-with-loader is-loaded="vm.loaded">
             <div class="row">
                 <tree-view ng-model="vm.tree"
@@ -23,10 +23,10 @@
                            node-selected-callback="vm.nodeSelectedCallback"
                            node-unselected-callback="vm.nodeUnselectedCallback">
                 </tree-view>
-                <button class="btn btn-primary" ng-click="vm.createCharacteristic()" ng-disabled="!vm.state.currentNode || vm.state.currentNode.type !== 0">@Lexicon.Create</button>
-                <button class="btn btn-primary" ng-click="vm.createFolder()" ng-disabled="!vm.state.currentNode || vm.state.currentNode.type !== 0">Create folder</button>
-                <button class="btn btn-primary" ng-click="vm.edit()" ng-disabled="!vm.state.currentNode">@Lexicon.Edit</button>
-                <button class="btn btn-primary" ng-click="vm.remove()" ng-disabled="!vm.state.currentNode">@Lexicon.Remove</button>
+                <button class="btn btn-primary" ng-click="vm.createCharacteristic()" ng-if="vm.state.currentNode && vm.state.currentNode.type == 0">@Lexicon.Create</button>
+                <button class="btn btn-primary" ng-click="vm.createFolder()" ng-if="vm.state.currentNode && vm.state.currentNode.type == 0">@Lexicon.CreateFolder</button>
+                <button class="btn btn-primary" ng-click="vm.edit()" ng-if="vm.state.currentNode">@Lexicon.Edit</button>
+                <button class="btn btn-primary" ng-click="vm.remove()" ng-if="vm.state.currentNode">@Lexicon.Remove</button>
             </div>
         </async-page-with-loader>
     </div>

@@ -288,4 +288,61 @@
   <data name="Reset" xml:space="preserve">
     <value>Reset</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Characteristic" xml:space="preserve">
+    <value>Characteristic</value>
+  </data>
+  <data name="CreateCharacteristic" xml:space="preserve">
+    <value>Create сharacteristic</value>
+  </data>
+  <data name="EditCharacteristic" xml:space="preserve">
+    <value>Edit сharacteristic</value>
+  </data>
+  <data name="RemoveCharacteristic" xml:space="preserve">
+    <value>Remove characteristic</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="CreateFolder" xml:space="preserve">
+    <value>Create folder</value>
+  </data>
+  <data name="EditFolder" xml:space="preserve">
+    <value>Edit folder</value>
+  </data>
+  <data name="RemoveFolder" xml:space="preserve">
+    <value>Remove folder</value>
+  </data>
+  <data name="Characteristics" xml:space="preserve">
+    <value>Characteristics</value>
+  </data>
+  <data name="CreateType" xml:space="preserve">
+    <value>Create object type</value>
+  </data>
+  <data name="EditType" xml:space="preserve">
+    <value>Edit object type</value>
+  </data>
+  <data name="RemoveType" xml:space="preserve">
+    <value>Remove object type</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Object type</value>
+  </data>
+  <data name="Types" xml:space="preserve">
+    <value>Object types</value>
+  </data>
+  <data name="AccountLoginMissingUser" xml:space="preserve">
+    <value>User with this login doesn't exist.</value>
+  </data>
+  <data name="RemoveTypeQuestion" xml:space="preserve">
+    <value>Do you want to remove this object type?</value>
+  </data>
+  <data name="RemoveCharacteristicQuestion" xml:space="preserve">
+    <value>Do you want to remove this characteristic?</value>
+  </data>
 </root>

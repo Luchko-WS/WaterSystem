@@ -3,11 +3,11 @@
 
     angular
         .module('MainApp')
-        .controller('HierarchyObjectTypeTreeCtrl', HierarchyObjectTypeTreeCtrl);
+        .controller('ObjectTypeTreeCtrl', ObjectTypeTreeCtrl);
 
-    HierarchyObjectTypeTreeCtrl.$inject = ['$uibModal', 'HierarchyObjectTypeService', 'MessageService', 'AppConstantsService'];
+    ObjectTypeTreeCtrl.$inject = ['$uibModal', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
 
-    function HierarchyObjectTypeTreeCtrl($uibModal, HierarchyObjectTypeService, MessageService, AppConstantsService) {
+    function ObjectTypeTreeCtrl($uibModal, ObjectTypeService, MessageService, AppConstantsService) {
         var vm = this;
 
         vm.tree = [];
@@ -42,7 +42,7 @@
 
         function createType() {
             var modalInstance = $uibModal.open({
-                templateUrl: '/HierarchyObjectType/CreateEditType',
+                templateUrl: '/ObjectType/CreateEditType',
                 controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
@@ -63,7 +63,7 @@
 
         function createFolder() {
             var modalInstance = $uibModal.open({
-                templateUrl: '/HierarchyObjectType/CreateEditFolder',
+                templateUrl: '/ObjectType/CreateEditFolder',
                 controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
@@ -83,7 +83,7 @@
         }
 
         function _createTypeNode(parentNodeId, node) {
-            HierarchyObjectTypeService.create(parentNodeId, node)
+            ObjectTypeService.create(parentNodeId, node)
                 .success(function (data) {
                     loadData();
                 })
@@ -93,8 +93,8 @@
         function edit() {
             var modalInstance = $uibModal.open({
                 templateUrl: vm.state.currentNode.type === vm.fsNodeTypes.folder
-                    ? '/HierarchyObjectType/CreateEditFolder'
-                    : '/HierarchyObjectType/CreateEditCharacteristic',
+                    ? '/ObjectType/CreateEditFolder'
+                    : '/ObjectType/CreateEditCharacteristic',
                 controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
@@ -111,7 +111,7 @@
         }
 
         function _editTypeNode(node) {
-            HierarchyObjectTypeService.update(node)
+            ObjectTypeService.update(node)
                 .success(function (data) {
                     loadData();
                 })
@@ -119,10 +119,10 @@
         }
 
         function remove() {
-            MessageService.showMessageYesNo('removeQuestion', 'removeDictionary')
+            MessageService.showMessageYesNo('removeTypeQuestion', 'removeType')
                 .then(function (result) {
                     if (result === 'OK') {
-                        HierarchyObjectTypeService.delete(vm.state.currentNode.id)
+                        ObjectTypeService.delete(vm.state.currentNode.id)
                             .success(function (data) {
                                 loadData();
                             })

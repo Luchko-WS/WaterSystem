@@ -119,7 +119,7 @@
         }
 
         function remove() {
-            MessageService.showMessageYesNo('removeDictionaryQuestion', 'removeDictionary')
+            MessageService.showMessageYesNo('removeCharacteristicQuestion', 'removeCharacteristic')
                 .then(function (result) {
                     if (result === 'OK') {
                         CharacteristicService.delete(vm.state.currentNode.id)

@@ -1,6 +1,6 @@
 ﻿using OpenDataStorageCore;
 
-namespace OpenDataStorage.ViewModels.HierarchyObjectTypeViewModels
+namespace OpenDataStorage.ViewModels.ObjectTypeViewModels
 {
     public class ObjectTypeViewModel : ObjectType
     {
