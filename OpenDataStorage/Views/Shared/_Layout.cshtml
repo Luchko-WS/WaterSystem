@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -17,17 +17,20 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("APP", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink(Lexicon.AppName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <!--li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li-->
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                     <li>@Html.ActionLink(Lexicon.Characteristics, "Tree", "Characteristic")</li>
                     <li>@Html.ActionLink(Lexicon.Types, "Tree", "ObjectType")</li>
-                    <li>@Html.ActionLink("EN", "SetLanguage", "Home", new { lang = "en", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
-                    <li>@Html.ActionLink("УКР", "SetLanguage", "Home", new { lang = "uk", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
-                    <li>@Html.ActionLink("РУС", "SetLanguage", "Home", new { lang = "ru", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
+                    @if (!Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("EN", "SetLanguage", "Home", new { lang = "en", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
+                        <li>@Html.ActionLink("УКР", "SetLanguage", "Home", new { lang = "uk", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
+                        <li>@Html.ActionLink("РУС", "SetLanguage", "Home", new { lang = "ru", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -37,7 +40,7 @@
         @RenderBody()
         <hr />
         <footer style="text-align: center">
-            <p>&copy; @DateTime.Now.Year - ASP.NET</p>
+            <p>&copy; @string.Format(Lexicon.Footer, DateTime.Now.Year)</p>
         </footer>
     </div>
 

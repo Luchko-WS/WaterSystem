@@ -6,12 +6,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using OpenDataStorage.Resources;
 using OpenDataStorage.ViewModels.ManageViewModels;
 
 namespace OpenDataStorage.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -55,16 +56,17 @@ namespace OpenDataStorage.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                message == ManageMessageId.ChangePasswordSuccess ? Lexicon.YourPasswordHasBeenChanged
+                : message == ManageMessageId.SetPasswordSuccess ? Lexicon.YourPasswordHasBeenSet
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.Error ? Lexicon.AnErrorHasOccurred
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : message == ManageMessageId.InformationUpdated ? Lexicon.YourInformationIsSaved
                 : "";
 
             var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+            var model = new EditUserInfoViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
@@ -72,7 +74,51 @@ namespace OpenDataStorage.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+
+            var userName = User.Identity.GetUserName();
+            var user = await UserManager.FindByNameAsync(userName);
+            if (user != null)
+            {
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
+                model.Email = user.Email;
+                model.Language = user.Language;
+            }
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Index(EditUserInfoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userName = User.Identity.GetUserName();
+                var user = await UserManager.FindByNameAsync(userName);
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Email = model.Email;
+                if (user.Language != model.Language)
+                {
+                    user.Language = model.Language;
+                    SetCurrentLanguage(model.Language);
+                }
+
+                IdentityResult result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return await Index(ManageMessageId.InformationUpdated);
+                }
+                AddErrors(result);
+            }
+
+            var userId = User.Identity.GetUserId();
+            model.HasPassword = HasPassword();
+            model.TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId);
+            model.Logins = await UserManager.GetLoginsAsync(userId);
+            model.BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId);
+            ViewBag.StatusMessage = string.Empty;
+            return View("Index", model);
         }
 
         //
@@ -240,7 +286,17 @@ namespace OpenDataStorage.Controllers
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
-            AddErrors(result);
+            else
+            {
+                if (result.Errors.Contains("Incorrect password."))
+                {
+                    ModelState.AddModelError(string.Empty, Lexicon.IncorrectPassword);
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
             return View(model);
         }
 
@@ -381,7 +437,8 @@ namespace OpenDataStorage.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
-            Error
+            Error,
+            InformationUpdated
         }
 
 #endregion

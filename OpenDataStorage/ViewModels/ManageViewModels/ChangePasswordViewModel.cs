@@ -1,23 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OpenDataStorage.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenDataStorage.ViewModels.ManageViewModels
 {
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessageResourceName = "RequiredErrorMessage", ErrorMessageResourceType = typeof(Lexicon))]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(ResourceType = typeof(Lexicon), Name = "CurrentPassword")]
         public string OldPassword { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessageResourceName = "RequiredErrorMessage", ErrorMessageResourceType = typeof(Lexicon))]
+        [StringLength(100, ErrorMessageResourceName = "PasswordLengthErrorMessage", ErrorMessageResourceType = typeof(Lexicon), MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(ResourceType = typeof(Lexicon), Name = "NewPassword")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(ResourceType = typeof(Lexicon), Name = "ConfirmNewPassword")]
+        [Compare("NewPassword", ErrorMessageResourceName = "PasswordCompareErrorMessage", ErrorMessageResourceType = typeof(Lexicon))]
         public string ConfirmPassword { get; set; }
     }
 }

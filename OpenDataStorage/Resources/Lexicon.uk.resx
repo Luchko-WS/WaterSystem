@@ -345,4 +345,10 @@
   <data name="RemoveCharacteristicQuestion" xml:space="preserve">
     <value>Ви бажаєте видалити цю характеристику?</value>
   </data>
+  <data name="Footer" xml:space="preserve">
+    <value>{0} - ВНТУ, м.Вінниця</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>СТАН ВОДИ</value>
+  </data>
 </root>
