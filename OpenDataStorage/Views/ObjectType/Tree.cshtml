@@ -7,10 +7,10 @@
         <extra-bootstrap-navbar>
             <form class="navbar-form" ng-submit="vm.searchTypeByName(vm.searchTypeName)">
                 <div class="form-group">
-                    <input type="text" class="form-control" ng-model="vm.searchTypeName" placeholder="@Lexicon.Name">
+                    <input type="text" class="form-control" ng-model="vm.typeNamePattern" placeholder="@Lexicon.Name">
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-default" type="button" ng-click="">@Lexicon.Search</button>
+                    <button class="btn btn-default" type="submit" ng-click="vm.filter()">@Lexicon.Filter</button>
                 </div>
             </form>
         </extra-bootstrap-navbar>

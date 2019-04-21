@@ -10,11 +10,13 @@
 
                     const FOLDERS_AND_FILE_MODE = 1;
                     const FOLDERS_MODE = 2;
+                    const EXPANDED_LEVEL = 2;
 
                     $('#tree').treeview({
                         data: scope.config.fsConfig
-                            ? parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.fsConfig)
-                            : parseArrayToTree(scope.array, scope.config.fieldsNames)
+                            ? parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.nodesConfig, scope.config.fsConfig)
+                            : parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.nodesConfig),
+                        levels: EXPANDED_LEVEL
                     });
                     $('#tree').on('nodeUnselected', function (event, data) {
                         if (scope.nodeUnselectedCallback) {
@@ -48,7 +50,7 @@
                         }]);
                     }
 
-                    function parseArrayToTree(array, fieldsNames, fsConfig) {
+                    function parseArrayToTree(array, fieldsNames, nodesConfig, fsConfig) {
 
                         try {
                             var stack = [0];
@@ -80,6 +82,11 @@
                                     stack.unshift(array[i - 1]._node_id);
                                     node._parentId = stack[0];
                                     currentLevel++;
+                                    if (nodesConfig) {
+                                        node.state = {
+                                            expanded: nodesConfig.expandEachNode || currentLevel < EXPANDED_LEVEL
+                                        };
+                                    }
                                 }
                                 else if (currentLevel > node[fieldsNames.levelFieldName]) {
                                     for (var j = 0; j < currentLevel - node[fieldsNames.levelFieldName]; j++) {

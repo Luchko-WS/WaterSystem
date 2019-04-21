@@ -4,6 +4,7 @@ using OpenDataStorageCore;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -17,8 +18,25 @@ namespace OpenDataStorage.API
         [Route("GetTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ICollection<ObjectType>> GetTree()
+        public async Task<ICollection<ObjectType>> GetTree([FromUri]ObjectTypeFilterViewModel vm)
         {
+            if (vm != null && !string.IsNullOrEmpty(vm.Name))
+            {
+                var ids = await _dbContext.ObjectTypeContext.Entities
+                    .Where(e => e.Name.ToLower().Contains(vm.Name.ToLower()))
+                    .Select(e => e.Id).ToListAsync();
+
+                var results = new List<ObjectType>();
+                foreach(var id in ids)
+                {
+                    if (!results.Any(e => e.Id == id))
+                    {
+                        var branch = await _dbContext.ObjectTypeContext.GetParentNodes(id, includeItself: true);
+                        results = results.Union(branch).ToList();
+                    }
+                }
+                return results.OrderBy(e => e.LeftKey).ToList();
+            }
             return await _dbContext.ObjectTypeContext.GetTree();
         }
 

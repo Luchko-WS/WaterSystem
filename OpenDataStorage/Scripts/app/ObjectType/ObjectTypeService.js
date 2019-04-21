@@ -18,8 +18,10 @@
         };
         return _service;
 
-        function _getTree() {
-            return $http.get('/api/ObjectType/GetTree');
+        function _getTree(vm) {
+            return $http.get('/api/ObjectType/GetTree', {
+                params: vm
+            });
         }
 
         function _getSubTree(vm) {

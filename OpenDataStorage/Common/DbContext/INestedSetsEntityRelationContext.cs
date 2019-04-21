@@ -15,6 +15,6 @@ namespace OpenDataStorage.Common.DbContext
 
         Task<T> GetParentNode(Guid id);
 
-        Task<ICollection<T>> GetParentNodes(Guid id);
+        Task<ICollection<T>> GetParentNodes(Guid id, bool includeItself = false);
     }
 }

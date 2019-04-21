@@ -288,6 +288,7 @@
     <Compile Include="ViewModels\AccountViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\EditUserInfoViewModel.cs" />
+    <Compile Include="ViewModels\ObjectTypeViewModels\ObjectTypeFilterViewModel.cs" />
     <Compile Include="ViewModels\ObjectTypeViewModels\ObjectTypeViewModel.cs" />
     <Compile Include="ViewModels\HierarchyObjectViewModels\HierarchyObjectViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\AddPhoneNumberViewModel.cs" />

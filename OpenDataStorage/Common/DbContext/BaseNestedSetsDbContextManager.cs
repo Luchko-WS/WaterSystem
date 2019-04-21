@@ -185,23 +185,25 @@ namespace OpenDataStorage.Common.DbContext
             return _dbSet.Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
         }
 
-        public virtual async Task<ICollection<T>> GetParentNodes(Guid id)
+        public virtual async Task<ICollection<T>> GetParentNodes(Guid id, bool includeItself = false)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetParentNodes(node);
+            return await GetParentNodes(node, includeItself);
         }
-        private async Task<ICollection<T>> GetParentNodes(T entity)
+        private async Task<ICollection<T>> GetParentNodes(T entity, bool includeItself)
         {
-            return await GetRootNodesQuery(entity).ToListAsync();
+            return await GetRootNodesQuery(entity, includeItself).ToListAsync();
         }
-        private IQueryable<T> GetRootNodesQuery(T entity)
+        private IQueryable<T> GetRootNodesQuery(T entity, bool includeItself)
         {
             return _dbSet
-                .Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey)
+                .Where(e => 
+                    (e.LeftKey < entity.LeftKey && e.RightKey > entity.RightKey && e.Level < entity.Level) 
+                    || (includeItself && e.Id == entity.Id))
                 .OrderBy(e => e.LeftKey);
         }
 

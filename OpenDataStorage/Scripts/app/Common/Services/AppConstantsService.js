@@ -39,6 +39,9 @@
                 },
                 definedValues: {
                     selectedNode: undefined
+                },
+                nodesConfig: {
+                    expandEachNode: false
                 }
             };
         }

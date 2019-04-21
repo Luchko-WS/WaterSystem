@@ -5,14 +5,15 @@
         .module('MainApp')
         .controller('ObjectTypeTreeCtrl', ObjectTypeTreeCtrl);
 
-    ObjectTypeTreeCtrl.$inject = ['$rootScope', '$uibModal', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
+    ObjectTypeTreeCtrl.$inject = ['$scope', '$uibModal', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
 
-    function ObjectTypeTreeCtrl($rootScope, $uibModal, ObjectTypeService, MessageService, AppConstantsService) {
+    function ObjectTypeTreeCtrl($scope, $uibModal, ObjectTypeService, MessageService, AppConstantsService) {
         var vm = this;
 
         vm.tree = [];
         vm.state = {
-            currentNode: null
+            currentNode: null,
+            filter: null
         };
 
         vm.createType = createType;
@@ -21,6 +22,7 @@
         vm.remove = remove;
         vm.nodeSelectedCallback = nodeSelectedCallback;
         vm.nodeUnselectedCallback = nodeUnselectedCallback;
+        vm.filter = filter;
 
         init();
 
@@ -32,10 +34,11 @@
 
         function loadData(selectedNode) {
             vm.loaded = false;
-            vm.tree = ObjectTypeService.getTree()
+            vm.tree = ObjectTypeService.getTree(vm.state.filter)
                 .success(function (data) {
                     vm.tree = data;
                     vm.loaded = true;
+                    vm.treeParserConfig.nodesConfig.expandEachNode = Boolean(vm.state.filter !== null);
                     if (selectedNode) {
                         vm.state.currentNode = selectedNode;
                         vm.treeParserConfig.definedValues.selectedNode = selectedNode;
@@ -89,6 +92,7 @@
         function _createTypeNode(parentNodeId, node) {
             ObjectTypeService.create(parentNodeId, node)
                 .success(function (data) {
+                    resetFilter();
                     loadData(data);
                 })
                 .error(_errorHandler);
@@ -128,7 +132,6 @@
                     if (result === 'OK') {
                         ObjectTypeService.delete(vm.state.currentNode.id)
                             .success(function (data) {
-                                console.log(data);
                                 loadData(data);
                             })
                             .error(_errorHandler);
@@ -148,6 +151,23 @@
 
         function nodeUnselectedCallback(event, data) {
             vm.state.currentNode = null;
+        }
+
+        function filter() {
+            if (vm.typeNamePattern) {
+                vm.state.filter = {
+                    name: vm.typeNamePattern
+                };
+            }
+            else {
+                vm.state.filter = null;
+            }
+            loadData();
+        }
+
+        function resetFilter() {
+            vm.typeNamePattern = null;
+            vm.state.filter = null;
         }
     }
 
