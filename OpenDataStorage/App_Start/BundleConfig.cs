@@ -27,7 +27,7 @@ namespace OpenDataStorage
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include("~/Scripts/libs/bootstrap/bootstrap.js")
-                .Include("~/Scripts/libs/bootstrap/bootstrap-treeview.min.js"));
+                .Include("~/Scripts/libs/bootstrap/bootstrap-treeview.js"));
 
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include(

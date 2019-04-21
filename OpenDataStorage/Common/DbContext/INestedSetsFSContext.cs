@@ -10,7 +10,7 @@ namespace OpenDataStorage.Common.DbContext
 
         Task UpdatFolder(NestedSetsFSEntity folder);
 
-        Task RemoveFolder(Guid folderId);
+        Task RemoveFolder(NestedSetsFSEntity folder);
 
         Task MoveFolder(NestedSetsFSEntity folder, Guid newFolderId);
     }

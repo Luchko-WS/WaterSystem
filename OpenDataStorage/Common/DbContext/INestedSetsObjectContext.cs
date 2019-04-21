@@ -17,6 +17,6 @@ namespace OpenDataStorage.Common.DbContext
 
         Task MoveObject(T @object, Guid parentId);
 
-        Task RemoveObject(Guid objectId);
+        Task RemoveObject(T @object);
     }
 }

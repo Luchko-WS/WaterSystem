@@ -114,15 +114,17 @@ namespace OpenDataStorage.API
             {
                 //redundant call
                 var entity = await _dbContext.CharacteristicObjectContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
+                var parent = await _dbContext.CharacteristicObjectContext.GetParentNode(id);
+
                 if (entity.Type == EntityType.File)
                 {
-                    await _dbContext.CharacteristicObjectContext.RemoveObject(id);
+                    await _dbContext.CharacteristicObjectContext.RemoveObject(entity);
                 }
                 else
                 {
-                    await _dbContext.CharacteristicObjectContext.RemoveFolder(id);
+                    await _dbContext.CharacteristicObjectContext.RemoveFolder(entity);
                 }
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, parent);
             }
             catch (Exception ex)
             {

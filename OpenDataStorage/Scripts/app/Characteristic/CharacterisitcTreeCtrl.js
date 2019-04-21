@@ -30,12 +30,17 @@
             loadData();
         }
 
-        function loadData() {
+        function loadData(selectedNode) {
             vm.loaded = false;
             vm.tree = CharacteristicService.getTree()
                 .success(function (data) {
                     vm.tree = data;
                     vm.loaded = true;
+
+                    if (selectedNode) {
+                        vm.state.currentNode = selectedNode;
+                        vm.treeParserConfig.definedValues.selectedNode = selectedNode;
+                    }
                 })
                 .error(_errorHandler);
         }
@@ -85,7 +90,7 @@
         function _createCharacteristicNode(parentNodeId, node) {
             CharacteristicService.create(parentNodeId, node)
                 .success(function (data) {
-                    loadData();
+                    loadData(data);
                 })
                 .error(_errorHandler);
         }
@@ -113,7 +118,7 @@
         function _editCharacteristicNode(node) {
             CharacteristicService.update(node)
                 .success(function (data) {
-                    loadData();
+                    loadData(data);
                 })
                 .error(_errorHandler);
         }
@@ -124,7 +129,7 @@
                     if (result === 'OK') {
                         CharacteristicService.delete(vm.state.currentNode.id)
                             .success(function (data) {
-                                loadData();
+                                loadData(data);
                             })
                             .error(_errorHandler);
                     }

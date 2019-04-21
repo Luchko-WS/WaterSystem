@@ -94,12 +94,11 @@ namespace OpenDataStorage.Common.DbContext
             }
         }
 
-        public async Task RemoveFolder(Guid folderId)
+        public async Task RemoveFolder(NestedSetsFSEntity folder)
         {
-            var folder = _dbSet.FirstOrDefault(o => o.Id == folderId && o.Type == EntityType.Folder);
-            if (folder == null)
+            if (folder.Type != EntityType.Folder)
             {
-                throw new ArgumentException(string.Format("Folder with id = {0} not found in {1} table.", folder, TableName));
+                throw new ArgumentException(string.Format("Entity with id = {0} is not a folder in {1} table.", folder, TableName));
             }
             await RemoveFolderInternal(folder);
         }

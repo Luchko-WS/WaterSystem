@@ -13,8 +13,8 @@ namespace OpenDataStorage.Common.DbContext
 
         Task<ICollection<T>> GetChildNodes(Guid id);
 
-        Task<T> GetRootNode(Guid id);
+        Task<T> GetParentNode(Guid id);
 
-        Task<ICollection<T>> GetRootNodes(Guid id);
+        Task<ICollection<T>> GetParentNodes(Guid id);
     }
 }

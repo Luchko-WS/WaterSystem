@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('ObjectTypeTreeCtrl', ObjectTypeTreeCtrl);
 
-    ObjectTypeTreeCtrl.$inject = ['$uibModal', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
+    ObjectTypeTreeCtrl.$inject = ['$rootScope', '$uibModal', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
 
-    function ObjectTypeTreeCtrl($uibModal, ObjectTypeService, MessageService, AppConstantsService) {
+    function ObjectTypeTreeCtrl($rootScope, $uibModal, ObjectTypeService, MessageService, AppConstantsService) {
         var vm = this;
 
         vm.tree = [];
@@ -30,12 +30,16 @@
             loadData();
         }
 
-        function loadData() {
+        function loadData(selectedNode) {
             vm.loaded = false;
-            vm.tree = HierarchyObjectTypeService.getTree()
+            vm.tree = ObjectTypeService.getTree()
                 .success(function (data) {
                     vm.tree = data;
                     vm.loaded = true;
+                    if (selectedNode) {
+                        vm.state.currentNode = selectedNode;
+                        vm.treeParserConfig.definedValues.selectedNode = selectedNode;
+                    }
                 })
                 .error(_errorHandler);
         }
@@ -85,7 +89,7 @@
         function _createTypeNode(parentNodeId, node) {
             ObjectTypeService.create(parentNodeId, node)
                 .success(function (data) {
-                    loadData();
+                    loadData(data);
                 })
                 .error(_errorHandler);
         }
@@ -94,7 +98,7 @@
             var modalInstance = $uibModal.open({
                 templateUrl: vm.state.currentNode.type === vm.fsNodeTypes.folder
                     ? '/ObjectType/CreateEditFolder'
-                    : '/ObjectType/CreateEditCharacteristic',
+                    : '/ObjectType/CreateEditType',
                 controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
@@ -113,7 +117,7 @@
         function _editTypeNode(node) {
             ObjectTypeService.update(node)
                 .success(function (data) {
-                    loadData();
+                    loadData(data);
                 })
                 .error(_errorHandler);
         }
@@ -124,7 +128,8 @@
                     if (result === 'OK') {
                         ObjectTypeService.delete(vm.state.currentNode.id)
                             .success(function (data) {
-                                loadData();
+                                console.log(data);
+                                loadData(data);
                             })
                             .error(_errorHandler);
                     }

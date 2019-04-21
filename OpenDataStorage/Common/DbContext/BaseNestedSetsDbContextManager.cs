@@ -101,13 +101,8 @@ namespace OpenDataStorage.Common.DbContext
             }
         }
 
-        public async Task RemoveObject(Guid objectId)
+        public async Task RemoveObject(T @object)
         {
-            var @object = _dbSet.FirstOrDefault(f => f.Id == objectId);
-            if (@object == null)
-            {
-                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", objectId, TableName));
-            }
             await RemoveObjectInternal(@object);
         }
         protected virtual async Task RemoveObjectInternal(T @object)
@@ -172,34 +167,34 @@ namespace OpenDataStorage.Common.DbContext
                .OrderBy(n => n.LeftKey);
         }
         
-        public virtual async Task<T> GetRootNode(Guid id)
+        public virtual async Task<T> GetParentNode(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetRootNode(node);
+            return await GetParentNode(node);
         }
-        private async Task<T> GetRootNode(T entity)
+        private async Task<T> GetParentNode(T entity)
         {
-            return await GetRootNodeQuery(entity).FirstOrDefaultAsync();
+            return await GetParentNodeQuery(entity).FirstOrDefaultAsync();
         }
-        private IQueryable<T> GetRootNodeQuery(T entity)
+        private IQueryable<T> GetParentNodeQuery(T entity)
         {
             return _dbSet.Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
         }
 
-        public virtual async Task<ICollection<T>> GetRootNodes(Guid id)
+        public virtual async Task<ICollection<T>> GetParentNodes(Guid id)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetRootNodes(node);
+            return await GetParentNodes(node);
         }
-        private async Task<ICollection<T>> GetRootNodes(T entity)
+        private async Task<ICollection<T>> GetParentNodes(T entity)
         {
             return await GetRootNodesQuery(entity).ToListAsync();
         }
@@ -270,6 +265,7 @@ namespace OpenDataStorage.Common.DbContext
 
         protected async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
+            if (instance.Level == 0) throw new ArgumentException("Cannot delete the root node!");
             var commandText = string.Format(@"DELETE FROM {0} WHERE LeftKey >= {1} AND RightKey <= {2}",
                 TableName, instance.LeftKey, instance.RightKey);
             await _database.ExecuteSqlCommandAsync(commandText);

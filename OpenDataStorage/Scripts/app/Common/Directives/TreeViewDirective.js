@@ -3,7 +3,7 @@
 
     angular
         .module('MainApp')
-        .directive('treeView', function (MessageService) {
+        .directive('treeView', function ($rootScope, MessageService) {
             return {
                 replace: true,
                 link: function (scope, element, attrs) {
@@ -12,7 +12,9 @@
                     const FOLDERS_MODE = 2;
 
                     $('#tree').treeview({
-                        data: parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.fsConfig)
+                        data: scope.config.fsConfig
+                            ? parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.fsConfig)
+                            : parseArrayToTree(scope.array, scope.config.fieldsNames)
                     });
                     $('#tree').on('nodeUnselected', function (event, data) {
                         if (scope.nodeUnselectedCallback) {
@@ -28,6 +30,23 @@
                             });
                         }
                     });
+
+                    initSelect();
+
+                    function initSelect() {
+                        if (scope.config.definedValues && scope.config.definedValues.selectedNode) {
+                            var id = scope.config.definedValues.selectedNode[scope.config.fieldsNames.idFieldName];
+                            var node = findNodeFromTreeById(id);
+                            $('#tree').treeview('revealNode', [node.nodeId, { silent: true }]);
+                            $('#tree').treeview('selectNode', [node.nodeId, { silent: true }]);
+                        }
+                    }
+
+                    function findNodeFromTreeById(id) {
+                        return $('#tree').treeview('findNodeByCondition', [function (node) {
+                            return node.id == id;
+                        }]);
+                    }
 
                     function parseArrayToTree(array, fieldsNames, fsConfig) {
 

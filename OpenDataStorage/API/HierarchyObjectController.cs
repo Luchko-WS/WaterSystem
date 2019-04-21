@@ -99,8 +99,9 @@ namespace OpenDataStorage.API
             {
                 //redundant call
                 var node = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
-                await _dbContext.HierarchyObjectContext.RemoveObject(id);
-                return Request.CreateResponse(HttpStatusCode.OK, id);
+                var parent = await _dbContext.HierarchyObjectContext.GetParentNode(id);
+                await _dbContext.HierarchyObjectContext.RemoveObject(node);
+                return Request.CreateResponse(HttpStatusCode.OK, parent);
             }
             catch (Exception ex)
             {
