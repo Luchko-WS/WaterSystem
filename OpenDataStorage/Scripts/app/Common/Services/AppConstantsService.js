@@ -46,8 +46,25 @@
             };
         }
 
+        function getDefaultTreeConfig() {
+            return {
+                fieldsNames: {
+                    idFieldName: ID_FILE_NAME,
+                    textFieldName: TEXT_FIELD_NAME,
+                    levelFieldName: LEVEL_FIELD_NAME
+                },
+                definedValues: {
+                    selectedNode: undefined
+                },
+                nodesConfig: {
+                    expandEachNode: false
+                }
+            };
+        }
+
         return {
             getFSNodeTypes: getFSNodeTypes,
+            getDefaultTreeConfig: getDefaultTreeConfig,
             getDefaultFsTreeConfig: getDefaultFsTreeConfig
         };
     }

@@ -18,8 +18,10 @@
         };
         return _service;
 
-        function _getTree() {
-            return $http.get('/api/Characteristics/GetTree');
+        function _getTree(vm) {
+            return $http.get('/api/Characteristics/GetTree', {
+                params: vm
+            });
         }
 
         function _getSubTree(vm) {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
@@ -9,6 +8,11 @@ namespace OpenDataStorage.Controllers
         public ActionResult Tree()
         {
             return View();
+        }
+
+        public ActionResult CreateEditObject()
+        {
+            return PartialView();
         }
     }
 }

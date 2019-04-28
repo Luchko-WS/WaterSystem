@@ -288,6 +288,7 @@
     <Compile Include="ViewModels\AccountViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicFilterViewModel.cs" />
     <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicViewModel.cs" />
+    <Compile Include="ViewModels\HierarchyObjectViewModels\HierarchyObjectFilterViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\EditUserInfoViewModel.cs" />
     <Compile Include="ViewModels\ObjectTypeViewModels\ObjectTypeFilterViewModel.cs" />
     <Compile Include="ViewModels\ObjectTypeViewModels\ObjectTypeViewModel.cs" />
@@ -452,6 +453,7 @@
     <Content Include="Views\ObjectType\Type.cshtml" />
     <Content Include="Views\ObjectType\CreateEditType.cshtml" />
     <Content Include="Views\ObjectType\CreateEditFolder.cshtml" />
+    <Content Include="Views\HierarchyObject\CreateEditObject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

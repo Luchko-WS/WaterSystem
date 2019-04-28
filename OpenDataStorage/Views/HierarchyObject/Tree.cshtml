@@ -1,7 +1,32 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "HierarchyObjectTree";
 }
 
-<h2>HierarchyObjectTree</h2>
+<div class="page-with-extra-navbar">
+    <div ng-controller="HierarchyObjectTreeCtrl as vm">
+        <extra-bootstrap-navbar>
+            <form class="navbar-form">
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="vm.typeNamePattern" placeholder="@Lexicon.Name">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default" type="submit" ng-click="vm.filter()">@Lexicon.Filter</button>
+                </div>
+            </form>
+        </extra-bootstrap-navbar>
 
+        <h2>HierarchyObjects</h2>
+        <async-page-with-loader is-loaded="vm.loaded">
+            <div class="row">
+                <tree-view ng-model="vm.tree"
+                           config="vm.treeParserConfig"
+                           node-selected-callback="vm.nodeSelectedCallback"
+                           node-unselected-callback="vm.nodeUnselectedCallback">
+                </tree-view>
+                <button class="btn btn-primary" ng-click="vm.create()" ng-if="vm.state.currentNode">@Lexicon.Create</button>
+                <button class="btn btn-primary" ng-click="vm.edit()" ng-if="vm.state.currentNode">@Lexicon.Edit</button>
+                <button class="btn btn-primary" ng-click="vm.remove()" ng-if="vm.state.currentNode">@Lexicon.Remove</button>
+            </div>
+        </async-page-with-loader>
+    </div>
+</div>

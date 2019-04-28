@@ -2,7 +2,9 @@
 using OpenDataStorage.ViewModels.HierarchyObjectViewModels;
 using OpenDataStorageCore;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -16,8 +18,25 @@ namespace OpenDataStorage.API
         [Route("GetTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<dynamic> GetTree()
+        public async Task<dynamic> GetTree([FromUri] HierarchyObjectFilterViewModel vm)
         {
+            if (vm != null && !string.IsNullOrEmpty(vm.Name))
+            {
+                var ids = await _dbContext.HierarchyObjectContext.Entities
+                    .Where(e => e.Name.ToLower().Contains(vm.Name.ToLower()))
+                    .Select(e => e.Id).ToListAsync();
+
+                var results = new List<HierarchyObject>();
+                foreach (var id in ids)
+                {
+                    if (!results.Any(e => e.Id == id))
+                    {
+                        var branch = await _dbContext.HierarchyObjectContext.GetParentNodes(id, includeItself: true);
+                        results = results.Union(branch).ToList();
+                    }
+                }
+                return results.OrderBy(e => e.LeftKey).ToList();
+            }
             return await _dbContext.HierarchyObjectContext.GetTree();
         }
 
@@ -53,9 +72,9 @@ namespace OpenDataStorage.API
             }
         }
 
-        [Route("Create/{parentFolderId}")]
+        [Route("Create/{parentId}")]
         [HttpPost]
-        public async Task<HttpResponseMessage> Create([FromUri]Guid parentFolderId, HierarchyObjectViewModel vm)
+        public async Task<HttpResponseMessage> Create([FromUri]Guid parentId, HierarchyObjectViewModel vm)
         {
             var entity = new HierarchyObject
             {
@@ -66,7 +85,7 @@ namespace OpenDataStorage.API
 
             try
             {
-                await _dbContext.HierarchyObjectContext.AddObject(entity, parentFolderId);
+                await _dbContext.HierarchyObjectContext.AddObject(entity, parentId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
