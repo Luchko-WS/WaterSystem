@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('ObjectTypeTreeCtrl', ObjectTypeTreeCtrl);
 
-    ObjectTypeTreeCtrl.$inject = ['$scope', '$uibModal', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
+    ObjectTypeTreeCtrl.$inject = ['$uibModal', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
 
-    function ObjectTypeTreeCtrl($scope, $uibModal, ObjectTypeService, MessageService, AppConstantsService) {
+    function ObjectTypeTreeCtrl($uibModal, ObjectTypeService, MessageService, AppConstantsService) {
         var vm = this;
 
         vm.tree = [];

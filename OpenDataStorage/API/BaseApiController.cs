@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
-using OpenDataStorage.Common;
 using OpenDataStorage.Common.DbContext;
 using System.Linq;
 using System.Net.Http;

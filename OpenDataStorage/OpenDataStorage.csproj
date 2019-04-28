@@ -286,6 +286,7 @@
     <Compile Include="ViewModels\AccountViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\VerifyCodeViewModel.cs" />
+    <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicFilterViewModel.cs" />
     <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\EditUserInfoViewModel.cs" />
     <Compile Include="ViewModels\ObjectTypeViewModels\ObjectTypeFilterViewModel.cs" />
@@ -445,7 +446,7 @@
     <Content Include="Views\Characteristic\Tree.cshtml" />
     <Content Include="Views\Characteristic\Characteristic.cshtml" />
     <Content Include="Views\Characteristic\CreateEditCharacteristic.cshtml" />
-    <Content Include="Views\HierarchyObject\HierarchyObjectTree.cshtml" />
+    <Content Include="Views\HierarchyObject\Tree.cshtml" />
     <Content Include="Views\Characteristic\CreateEditFolder.cshtml" />
     <Content Include="Views\ObjectType\Tree.cshtml" />
     <Content Include="Views\ObjectType\Type.cshtml" />

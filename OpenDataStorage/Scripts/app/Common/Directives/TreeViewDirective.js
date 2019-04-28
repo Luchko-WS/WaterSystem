@@ -3,7 +3,7 @@
 
     angular
         .module('MainApp')
-        .directive('treeView', function ($rootScope, MessageService) {
+        .directive('treeView', function (MessageService) {
             return {
                 replace: true,
                 link: function (scope, element, attrs) {
@@ -74,6 +74,12 @@
                                     }
                                 }
 
+                                if (nodesConfig) {
+                                    node.state = {
+                                        expanded: nodesConfig.expandEachNode || currentLevel < EXPANDED_LEVEL
+                                    };
+                                }
+
                                 if (currentLevel == node[fieldsNames.levelFieldName]) {
                                     node._parentId = stack[0];
                                     tagsStack[0]++;
@@ -82,11 +88,6 @@
                                     stack.unshift(array[i - 1]._node_id);
                                     node._parentId = stack[0];
                                     currentLevel++;
-                                    if (nodesConfig) {
-                                        node.state = {
-                                            expanded: nodesConfig.expandEachNode || currentLevel < EXPANDED_LEVEL
-                                        };
-                                    }
                                 }
                                 else if (currentLevel > node[fieldsNames.levelFieldName]) {
                                     for (var j = 0; j < currentLevel - node[fieldsNames.levelFieldName]; j++) {

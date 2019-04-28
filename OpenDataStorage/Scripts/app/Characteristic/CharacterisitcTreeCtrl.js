@@ -12,7 +12,8 @@
 
         vm.tree = [];
         vm.state = {
-            currentNode: null
+            currentNode: null,
+            filter: null
         };
 
         vm.createCharacteristic = createCharacteristic;
@@ -21,6 +22,7 @@
         vm.remove = remove;
         vm.nodeSelectedCallback = nodeSelectedCallback;
         vm.nodeUnselectedCallback = nodeUnselectedCallback;
+        vm.filter = filter;
 
         init();
 
@@ -36,7 +38,7 @@
                 .success(function (data) {
                     vm.tree = data;
                     vm.loaded = true;
-
+                    vm.treeParserConfig.nodesConfig.expandEachNode = Boolean(vm.state.filter !== null);
                     if (selectedNode) {
                         vm.state.currentNode = selectedNode;
                         vm.treeParserConfig.definedValues.selectedNode = selectedNode;
@@ -90,6 +92,7 @@
         function _createCharacteristicNode(parentNodeId, node) {
             CharacteristicService.create(parentNodeId, node)
                 .success(function (data) {
+                    resetFilter();
                     loadData(data);
                 })
                 .error(_errorHandler);
@@ -148,6 +151,23 @@
 
         function nodeUnselectedCallback(event, data) {
             vm.state.currentNode = null;
+        }
+
+        function filter() {
+            if (vm.typeNamePattern) {
+                vm.state.filter = {
+                    name: vm.typeNamePattern
+                };
+            }
+            else {
+                vm.state.filter = null;
+            }
+            loadData();
+        }
+
+        function resetFilter() {
+            vm.typeNamePattern = null;
+            vm.state.filter = null;
         }
     }
 

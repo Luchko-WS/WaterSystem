@@ -3,10 +3,10 @@ using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
-    public class HierarchyObjectController : Controller
+    public class HierarchyObjectController : BaseController
     {
         [AllowAnonymous]
-        public ActionResult HierarchyObjectTree()
+        public ActionResult Tree()
         {
             return View();
         }
