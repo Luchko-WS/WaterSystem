@@ -111,8 +111,8 @@
 			getChecked: $.proxy(this.getChecked, this),
 			getUnchecked: $.proxy(this.getUnchecked, this),
 			getDisabled: $.proxy(this.getDisabled, this),
-            getEnabled: $.proxy(this.getEnabled, this),
-            findNodeByCondition: $.proxy(this.findNodeByCondition, this),
+			getEnabled: $.proxy(this.getEnabled, this),
+			findNodeByCondition: $.proxy(this.findNodeByCondition, this),
 
 			// Select methods
 			selectNode: $.proxy(this.selectNode, this),
@@ -190,6 +190,7 @@
 	Tree.prototype.unsubscribeEvents = function () {
 
 		this.$element.off('click');
+		this.$element.off('dblclick');
 		this.$element.off('nodeChecked');
 		this.$element.off('nodeCollapsed');
 		this.$element.off('nodeDisabled');
@@ -208,8 +209,10 @@
 
 		this.$element.on('click', $.proxy(this.clickHandler, this));
 
-		if (typeof (this.options.onNodeChecked) === 'function') {
-			this.$element.on('nodeChecked', this.options.onNodeChecked);
+		this.$element.on('dblclick', $.proxy(this.dblclickHandler, this));
+
+		if (typeof (this.options.onNodeDblClick) === 'function') {
+			this.$element.on('nodeDblClick', this.options.onNodeDblClick);
 		}
 
 		if (typeof (this.options.onNodeCollapsed) === 'function') {
@@ -315,17 +318,17 @@
 		});
 	};
 
-    Tree.prototype.findNodeByCondition = function (condition) {
-        var id = undefined;
-        $.each(this.nodes, function (index, node) {
-            if (condition(node) === true) {
-                id = node.nodeId;
-            }
-        });
-        if (id) {
-            return this.nodes[id];
-        }
-    };
+	Tree.prototype.findNodeByCondition = function (condition) {
+		var id = undefined;
+		$.each(this.nodes, function (index, node) {
+			if (condition(node) === true) {
+				id = node.nodeId;
+			}
+		});
+		if (id) {
+			return this.nodes[id];
+		}
+	};
 
 	Tree.prototype.clickHandler = function (event) {
 
@@ -336,26 +339,36 @@
 		if (!node || node.state.disabled) return;
 		
 		var classList = target.attr('class') ? target.attr('class').split(' ') : [];
-		if ((classList.indexOf('expand-icon') !== -1)) {
+		if (classList.indexOf('expand-icon') !== -1) {
 
 			this.toggleExpandedState(node, _default.options);
 			this.render();
 		}
-		else if ((classList.indexOf('check-icon') !== -1)) {
+		else if (classList.indexOf('check-icon') !== -1) {
 			
 			this.toggleCheckedState(node, _default.options);
 			this.render();
 		}
 		else {
-			
 			if (node.selectable) {
 				this.toggleSelectedState(node, _default.options);
 			} else {
 				this.toggleExpandedState(node, _default.options);
 			}
 
-			this.render();
+			var context = this;
+			setTimeout(function () {
+				context.render();
+			}, 240);
 		}
+	};
+
+	Tree.prototype.dblclickHandler = function (event) {
+		var target = $(event.target);
+		var node = this.findNode(target);
+		if (!node || node.state.disabled) return;
+
+		this.$element.trigger('nodeDblClick', $.extend(true, {}, node));
 	};
 
 	// Looks up the DOM for the closest parent list item to retrieve the

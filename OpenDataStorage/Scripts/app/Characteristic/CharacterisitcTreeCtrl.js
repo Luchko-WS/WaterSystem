@@ -11,18 +11,21 @@
         var vm = this;
 
         vm.tree = [];
+
         vm.state = {
             currentNode: null,
             filter: null
         };
+        vm.filter = filter;
 
         vm.createCharacteristic = createCharacteristic;
         vm.createFolder = createFolder;
         vm.edit = edit;
         vm.remove = remove;
+
+        vm.nodeDblClickCallback = nodeDblClickCallback;
         vm.nodeSelectedCallback = nodeSelectedCallback;
         vm.nodeUnselectedCallback = nodeUnselectedCallback;
-        vm.filter = filter;
 
         init();
 
@@ -143,6 +146,10 @@
             console.error(error);
             vm.loaded = true;
             MessageService.showMessage('commonErrorMessage', 'error');
+        }
+
+        function nodeDblClickCallback(event, data) {
+            console.log(data);
         }
 
         function nodeSelectedCallback(event, data) {

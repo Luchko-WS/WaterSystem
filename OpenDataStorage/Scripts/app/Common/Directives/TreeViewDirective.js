@@ -19,16 +19,23 @@
                         levels: EXPANDED_LEVEL
                     });
                     $('#tree').on('nodeUnselected', function (event, data) {
-                        if (scope.nodeUnselectedCallback) {
+                        if (typeof (scope.nodeUnselectedCallback) === 'function' ) {
                             scope.$apply(function () {
                                 scope.nodeUnselectedCallback(event, data);
                             });
                         }
                     });
                     $('#tree').on('nodeSelected', function (event, data) {
-                        if (scope.nodeSelectedCallback) {
+                        if (typeof (scope.nodeSelectedCallback) === 'function') {
                             scope.$apply(function () {
                                 scope.nodeSelectedCallback(event, data);
+                            });
+                        }
+                    });
+                    $('#tree').on('nodeDblClick', function (event, data) {
+                        if (typeof (scope.nodeDblClickCallback) === 'function' ) {
+                            scope.$apply(function () {
+                                scope.nodeDblClickCallback(event, data);
                             });
                         }
                     });
@@ -136,6 +143,7 @@
                     array: '=ngModel',
                     config: '=',
                     filterPairsPromise: '=',
+                    nodeDblClickCallback: '=',
                     nodeSelectedCallback: '=',
                     nodeUnselectedCallback: '='
                 },

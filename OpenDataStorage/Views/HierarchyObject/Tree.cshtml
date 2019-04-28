@@ -20,6 +20,7 @@
             <div class="row">
                 <tree-view ng-model="vm.tree"
                            config="vm.treeParserConfig"
+                           node-dbl-click-callback="vm.nodeDblClickCallback"
                            node-selected-callback="vm.nodeSelectedCallback"
                            node-unselected-callback="vm.nodeUnselectedCallback">
                 </tree-view>
