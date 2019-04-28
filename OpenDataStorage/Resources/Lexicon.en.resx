@@ -351,4 +351,22 @@
   <data name="AppName" xml:space="preserve">
     <value>WATER STATE</value>
   </data>
+  <data name="Object" xml:space="preserve">
+    <value>Object</value>
+  </data>
+  <data name="Objects" xml:space="preserve">
+    <value>Objects</value>
+  </data>
+  <data name="CreateObject" xml:space="preserve">
+    <value>Create object</value>
+  </data>
+  <data name="EditObject" xml:space="preserve">
+    <value>Edit object</value>
+  </data>
+  <data name="RemoveObject" xml:space="preserve">
+    <value>Remove object</value>
+  </data>
+  <data name="RemoveObjectQuestion" xml:space="preserve">
+    <value>Do you want to remove this object?</value>
+  </data>
 </root>

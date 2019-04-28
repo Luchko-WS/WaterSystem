@@ -351,4 +351,22 @@
   <data name="AppName" xml:space="preserve">
     <value>СОСТОЯНИЕ ВОДЫ</value>
   </data>
+  <data name="Object" xml:space="preserve">
+    <value>Объект</value>
+  </data>
+  <data name="Objects" xml:space="preserve">
+    <value>Объекты</value>
+  </data>
+  <data name="CreateObject" xml:space="preserve">
+    <value>Создать объект</value>
+  </data>
+  <data name="EditObject" xml:space="preserve">
+    <value>Редактировать объект</value>
+  </data>
+  <data name="RemoveObject" xml:space="preserve">
+    <value>Удалить объект</value>
+  </data>
+  <data name="RemoveObjectQuestion" xml:space="preserve">
+    <value>Вы хотите удалить этот объект?</value>
+  </data>
 </root>

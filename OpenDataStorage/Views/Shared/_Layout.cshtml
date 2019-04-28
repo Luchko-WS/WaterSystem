@@ -23,7 +23,7 @@
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-                    <li>@Html.ActionLink("Objects", "Tree", "HierarchyObject")</li>
+                    <li>@Html.ActionLink(Lexicon.Objects, "Tree", "HierarchyObject")</li>
                     <li>@Html.ActionLink(Lexicon.Characteristics, "Tree", "Characteristic")</li>
                     <li>@Html.ActionLink(Lexicon.Types, "Tree", "ObjectType")</li>
                     @if (!Request.IsAuthenticated)

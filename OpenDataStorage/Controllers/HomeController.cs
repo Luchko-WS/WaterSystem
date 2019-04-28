@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : BaseController
     {
         public ActionResult Index()

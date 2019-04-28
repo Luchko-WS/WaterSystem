@@ -250,6 +250,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create object.
+        /// </summary>
+        public static string CreateObject {
+            get {
+                return ResourceManager.GetString("CreateObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create object type.
         /// </summary>
         public static string CreateType {
@@ -318,6 +327,15 @@ namespace OpenDataStorage.Resources {
         public static string EditFolder {
             get {
                 return ResourceManager.GetString("EditFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit object.
+        /// </summary>
+        public static string EditObject {
+            get {
+                return ResourceManager.GetString("EditObject", resourceCulture);
             }
         }
         
@@ -520,6 +538,24 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Object.
+        /// </summary>
+        public static string Object {
+            get {
+                return ResourceManager.GetString("Object", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Objects.
+        /// </summary>
+        public static string Objects {
+            get {
+                return ResourceManager.GetString("Objects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Owner.
         /// </summary>
         public static string Owner {
@@ -615,6 +651,24 @@ namespace OpenDataStorage.Resources {
         public static string RemoveFolder {
             get {
                 return ResourceManager.GetString("RemoveFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove object.
+        /// </summary>
+        public static string RemoveObject {
+            get {
+                return ResourceManager.GetString("RemoveObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to remove this object?.
+        /// </summary>
+        public static string RemoveObjectQuestion {
+            get {
+                return ResourceManager.GetString("RemoveObjectQuestion", resourceCulture);
             }
         }
         

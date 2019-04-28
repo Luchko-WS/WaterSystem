@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "HierarchyObjectTree";
+    ViewBag.Title = Lexicon.Objects;
 }
 
 <div class="page-with-extra-navbar">
@@ -15,7 +15,7 @@
             </form>
         </extra-bootstrap-navbar>
 
-        <h2>HierarchyObjects</h2>
+        <h2>@Lexicon.Objects</h2>
         <async-page-with-loader is-loaded="vm.loaded">
             <div class="row">
                 <tree-view ng-model="vm.tree"
@@ -23,9 +23,12 @@
                            node-selected-callback="vm.nodeSelectedCallback"
                            node-unselected-callback="vm.nodeUnselectedCallback">
                 </tree-view>
-                <button class="btn btn-primary" ng-click="vm.create()" ng-if="vm.state.currentNode">@Lexicon.Create</button>
-                <button class="btn btn-primary" ng-click="vm.edit()" ng-if="vm.state.currentNode">@Lexicon.Edit</button>
-                <button class="btn btn-primary" ng-click="vm.remove()" ng-if="vm.state.currentNode">@Lexicon.Remove</button>
+                @if (Request.IsAuthenticated)
+                {
+                    <button class="btn btn-primary" ng-click="vm.create()" ng-if="vm.state.currentNode">@Lexicon.Create</button>
+                    <button class="btn btn-primary" ng-click="vm.edit()" ng-if="vm.state.currentNode">@Lexicon.Edit</button>
+                    <button class="btn btn-primary" ng-click="vm.remove()" ng-if="vm.state.currentNode">@Lexicon.Remove</button>
+                }
             </div>
         </async-page-with-loader>
     </div>

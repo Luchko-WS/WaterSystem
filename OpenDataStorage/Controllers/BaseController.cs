@@ -5,6 +5,7 @@ using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
+    [Authorize]
     public class BaseController : Controller
     {
         //protected readonly ILogger _logger;
@@ -34,6 +35,7 @@ namespace OpenDataStorage.Controllers
             return base.BeginExecuteCore(callback, state);
         }
 
+        [AllowAnonymous]
         protected void SetCurrentLanguage(string language)
         {
             if (!string.IsNullOrWhiteSpace(language))

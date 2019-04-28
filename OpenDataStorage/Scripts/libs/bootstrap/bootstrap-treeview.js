@@ -325,7 +325,6 @@
         if (id) {
             return this.nodes[id];
         }
-        console.log('Error: node does not exist');
     };
 
 	Tree.prototype.clickHandler = function (event) {
