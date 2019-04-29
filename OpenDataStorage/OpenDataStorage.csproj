@@ -319,13 +319,13 @@
     <Content Include="Content\css\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\css\Site.css" />
-    <Content Include="Scripts\app\Characteristic\CharacterisitcCtrl.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcService.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcTreeCtrl.js" />
     <Content Include="Scripts\app\Common\Controllers\CreateEditModelCtrl.js" />
     <Content Include="Scripts\app\Common\Controllers\MessageCtrl.js" />
     <Content Include="Scripts\app\Common\Directives\TreeViewDirective.js" />
     <Content Include="Scripts\app\Common\Services\AppConstantsService.js" />
+    <Content Include="Scripts\app\Common\Controllers\ReadModelCtrl.js" />
     <Content Include="Scripts\app\ObjectType\ObjectTypeTreeCtrl.js" />
     <Content Include="Scripts\app\ObjectType\ObjectTypeService.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectService.js" />
@@ -445,7 +445,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Scripts\libs\version.json" />
     <Content Include="Views\Characteristic\Tree.cshtml" />
-    <Content Include="Views\Characteristic\Characteristic.cshtml" />
     <Content Include="Views\Characteristic\CreateEditCharacteristic.cshtml" />
     <Content Include="Views\HierarchyObject\Tree.cshtml" />
     <Content Include="Views\Characteristic\CreateEditFolder.cshtml" />
@@ -454,6 +453,11 @@
     <Content Include="Views\ObjectType\CreateEditType.cshtml" />
     <Content Include="Views\ObjectType\CreateEditFolder.cshtml" />
     <Content Include="Views\HierarchyObject\CreateEditObject.cshtml" />
+    <Content Include="Views\ObjectType\ReadType.cshtml" />
+    <Content Include="Views\ObjectType\ReadFolder.cshtml" />
+    <Content Include="Views\Characteristic\ReadCharacteristic.cshtml" />
+    <Content Include="Views\Characteristic\ReadFolder.cshtml" />
+    <Content Include="Views\HierarchyObject\ReadObject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

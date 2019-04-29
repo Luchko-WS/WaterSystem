@@ -358,6 +358,7 @@
 
 			var context = this;
 			setTimeout(function () {
+				node.state.selected = true;
 				context.render();
 			}, 240);
 		}

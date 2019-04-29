@@ -11,12 +11,18 @@ namespace OpenDataStorage.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Characteristic()
+        public ActionResult ReadCharacteristic()
         {
             return PartialView();
         }
 
         public ActionResult CreateEditCharacteristic()
+        {
+            return PartialView();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ReadFolder()
         {
             return PartialView();
         }

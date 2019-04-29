@@ -10,6 +10,12 @@ namespace OpenDataStorage.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult ReadObject()
+        {
+            return PartialView();
+        }
+
         public ActionResult CreateEditObject()
         {
             return PartialView();

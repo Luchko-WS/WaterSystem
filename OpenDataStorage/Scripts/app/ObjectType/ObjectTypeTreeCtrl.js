@@ -149,7 +149,19 @@
         }
 
         function nodeDblClickCallback(event, data) {
-            console.log(data);
+            nodeSelectedCallback(event, data);
+            $uibModal.open({
+                templateUrl: data.type === vm.fsNodeTypes.folder
+                    ? '/ObjectType/ReadFolder'
+                    : '/ObjectType/ReadType',
+                controller: 'ReadModelCtrl',
+                controllerAs: 'vm',
+                resolve: {
+                    _model: {
+                        node: data
+                    }
+                }
+            });
         }
 
         function nodeSelectedCallback(event, data) {

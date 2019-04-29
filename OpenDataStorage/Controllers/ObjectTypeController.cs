@@ -21,7 +21,19 @@ namespace OpenDataStorage.Controllers
             return PartialView();
         }
 
+        [AllowAnonymous]
+        public ActionResult ReadType()
+        {
+            return PartialView();
+        }
+
         public ActionResult CreateEditFolder()
+        {
+            return PartialView();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ReadFolder()
         {
             return PartialView();
         }
