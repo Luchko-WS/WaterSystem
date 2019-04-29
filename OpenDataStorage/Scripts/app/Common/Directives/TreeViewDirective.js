@@ -70,11 +70,13 @@
                                 node.nodes = null;
                                 node.text = node[fieldsNames.textFieldName];
                                 node.tags = fieldsNames.tagFields || [];
+                                node.state = {};
 
                                 //aply fsConfig
                                 if (fsConfig) {
                                     if (node[fsConfig.nodeTypeFieldName] === fsConfig.folderNodeTypeValue) {
                                         node.icon = "glyphicon glyphicon-folder-open";
+                                        node.selectable = !fsConfig.selectOnlyFiles;
                                     }
                                     else if (node[fsConfig.nodeTypeFieldName] === fsConfig.fileNodeTypeValue) {
                                         node.icon = "glyphicon glyphicon-file";
@@ -82,9 +84,7 @@
                                 }
 
                                 if (nodesConfig) {
-                                    node.state = {
-                                        expanded: nodesConfig.expandEachNode || currentLevel < EXPANDED_LEVEL
-                                    };
+                                    node.state.expanded = nodesConfig.expandEachNode || currentLevel < EXPANDED_LEVEL;
                                 }
 
                                 if (currentLevel == node[fieldsNames.levelFieldName]) {

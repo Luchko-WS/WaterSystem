@@ -300,6 +300,9 @@
   <data name="AppName" xml:space="preserve">
     <value>WATER STATE</value>
   </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
   <!-- Folder -->
   <data name="Folder" xml:space="preserve">
     <value>Folder</value>

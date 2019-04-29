@@ -369,4 +369,7 @@
   <data name="RemoveObjectQuestion" xml:space="preserve">
     <value>Ви бажаєте видалити даний об'єкт?</value>
   </data>
+  <data name="Select" xml:space="preserve">
+    <value>Обрати</value>
+  </data>
 </root>

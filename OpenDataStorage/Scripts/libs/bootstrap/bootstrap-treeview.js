@@ -358,7 +358,9 @@
 
 			var context = this;
 			setTimeout(function () {
-				node.state.selected = true;
+				if (node.selectable) {
+					node.state.selected = true;
+				}
 				context.render();
 			}, 240);
 		}

@@ -449,7 +449,6 @@
     <Content Include="Views\HierarchyObject\Tree.cshtml" />
     <Content Include="Views\Characteristic\CreateEditFolder.cshtml" />
     <Content Include="Views\ObjectType\Tree.cshtml" />
-    <Content Include="Views\ObjectType\Type.cshtml" />
     <Content Include="Views\ObjectType\CreateEditType.cshtml" />
     <Content Include="Views\ObjectType\CreateEditFolder.cshtml" />
     <Content Include="Views\HierarchyObject\CreateEditObject.cshtml" />

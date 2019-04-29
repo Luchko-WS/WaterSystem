@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('HierarchyObjectTreeCtrl', HierarchyObjectTreeCtrl);
 
-    HierarchyObjectTreeCtrl.$inject = ['$uibModal', 'HierarchyObjectService', 'MessageService', 'AppConstantsService'];
+    HierarchyObjectTreeCtrl.$inject = ['$uibModal', 'HierarchyObjectService', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
 
-    function HierarchyObjectTreeCtrl($uibModal, HierarchyObjectService, MessageService, AppConstantsService) {
+    function HierarchyObjectTreeCtrl($uibModal, HierarchyObjectService, ObjectTypeService, MessageService, AppConstantsService) {
         var vm = this;
 
         vm.tree = [];
@@ -35,7 +35,7 @@
 
         function loadData(selectedNode) {
             vm.loaded = false;
-            vm.tree = HierarchyObjectService.getTree()
+            HierarchyObjectService.getTree()
                 .success(function (data) {
                     vm.tree = data;
                     vm.loaded = true;
@@ -55,7 +55,15 @@
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
-                        parentNode: vm.state.currentNode
+                        parentNode: vm.state.currentNode,
+                        init: {
+                            initPromise: ObjectTypeService.getTree,
+                            initSuccessCallback: _modalwindowInitSuccessCallback,
+                            initErrorCallback: _modalwindowInitErrorCallback
+                        },
+                        tree: {
+                            treeParserConfig: AppConstantsService.getDefaultTreeConfig()
+                        }
                     }
                 }
             });
@@ -84,7 +92,15 @@
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
-                        node: vm.state.currentNode
+                        node: vm.state.currentNode,
+                        init: {
+                            initPromise: ObjectTypeService.getTree,
+                            initSuccessCallback: _modalwindowInitSuccessCallback,
+                            initErrorCallback: _modalwindowInitErrorCallback
+                        },
+                        tree: {
+                            treeParserConfig: AppConstantsService.getDefaultTreeConfig()
+                        }
                     }
                 }
             });
@@ -142,6 +158,30 @@
 
         function nodeUnselectedCallback(event, data) {
             vm.state.currentNode = null;
+        }
+
+        function _modalwindowInitSuccessCallback(data, node) {
+            return {
+                treeElement: {
+                    tree: data,
+                    treeParserConfig: AppConstantsService.getOnlySelectableFileFsTreeConfig(),
+                    callbacks: {
+                        nodeSelectedCallback: function (event, data) {
+                            node.objectType = data;
+                        },
+                        nodeUnselectedCallback: function (event, data) {
+                            node.objectType = null;
+                        }
+                    }
+                },
+                loaded: true
+            };
+        }
+
+        function _modalwindowInitErrorCallback(error, node) {
+            return {
+                loaded: true
+            };
         }
 
         function filter() {

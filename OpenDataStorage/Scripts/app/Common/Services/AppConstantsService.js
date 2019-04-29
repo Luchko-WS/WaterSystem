@@ -35,7 +35,31 @@
                     nodeTypeFieldName: NODE_TYPE_FIELD_NAME,
                     folderNodeTypeValue: FOLDER_NODE_TYPE_VALUE,
                     fileNodeTypeValue: FILE_NODE_TYPE_VALUE,
-                    mode: FOLDERS_AND_FILE_MODE
+                    mode: FOLDERS_AND_FILE_MODE,
+                    selectOnlyFiles: false
+                },
+                definedValues: {
+                    selectedNode: undefined
+                },
+                nodesConfig: {
+                    expandEachNode: false
+                }
+            };
+        }
+
+        function getOnlySelectableFileFsTreeConfig() {
+            return {
+                fieldsNames: {
+                    idFieldName: ID_FILE_NAME,
+                    textFieldName: TEXT_FIELD_NAME,
+                    levelFieldName: LEVEL_FIELD_NAME
+                },
+                fsConfig: {
+                    nodeTypeFieldName: NODE_TYPE_FIELD_NAME,
+                    folderNodeTypeValue: FOLDER_NODE_TYPE_VALUE,
+                    fileNodeTypeValue: FILE_NODE_TYPE_VALUE,
+                    mode: FOLDERS_AND_FILE_MODE,
+                    selectOnlyFiles: true
                 },
                 definedValues: {
                     selectedNode: undefined
@@ -65,7 +89,8 @@
         return {
             getFSNodeTypes: getFSNodeTypes,
             getDefaultTreeConfig: getDefaultTreeConfig,
-            getDefaultFsTreeConfig: getDefaultFsTreeConfig
+            getDefaultFsTreeConfig: getDefaultFsTreeConfig,
+            getOnlySelectableFileFsTreeConfig: getOnlySelectableFileFsTreeConfig
         };
     }
 })();

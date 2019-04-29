@@ -37,7 +37,7 @@
 
         function loadData(selectedNode) {
             vm.loaded = false;
-            vm.tree = ObjectTypeService.getTree(vm.state.filter)
+            ObjectTypeService.getTree(vm.state.filter)
                 .success(function (data) {
                     vm.tree = data;
                     vm.loaded = true;

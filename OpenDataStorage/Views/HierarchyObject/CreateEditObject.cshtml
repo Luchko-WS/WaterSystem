@@ -20,10 +20,28 @@
                         <textarea class="form-control" rows="3" ng-model="vm.model.node.description"></textarea>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">@Lexicon.Type</label>
+                    <async-page-with-loader is-loaded="vm.model.loaded">
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="@Lexicon.Type" ng-model="vm.model.node.objectType.name" ng-required="true" readonly />
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary" id="toggleButton" ng-click="vm.showTree=!vm.showTree">@Lexicon.Select</button>
+                                </div>
+                            </div>
+                            <tree-view ng-if="vm.showTree" ng-model="vm.model.treeElement.tree"
+                                       config="vm.model.treeElement.treeParserConfig"
+                                       node-selected-callback="vm.model.treeElement.callbacks.nodeSelectedCallback"
+                                       node-unselected-callback="vm.model.treeElement.callbacks.nodeUnselectedCallback">
+                            </tree-view>
+                        </div>
+                    </async-page-with-loader>
+                </div>
             </div>
         </div>
         <div class="modal-window-custom-footer">
-            <button class="btn btn-primary" ng-disabled="_form.$invalid" ng-click="vm.save()">@Lexicon.Save</button>
+            <button class="btn btn-primary" ng-if="vm.model.loaded" ng-disabled="_form.$invalid" ng-click="vm.save()">@Lexicon.Save</button>
             <button class="btn btn-default" ng-click="vm.cancel()">@Lexicon.Cancel</button>
         </div>
     </form>

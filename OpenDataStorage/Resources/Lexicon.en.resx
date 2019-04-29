@@ -369,4 +369,7 @@
   <data name="RemoveObjectQuestion" xml:space="preserve">
     <value>Do you want to remove this object?</value>
   </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
 </root>
