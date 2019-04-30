@@ -229,7 +229,7 @@ namespace OpenDataStorage.Common.DbContext
             {
                 var sourcePropInfo = sourceType.GetProperty(prop.Name);
                 var value = sourcePropInfo.GetValue(instance, null);
-                if (value != null)
+                if (!(value is BaseEntity) && (value != null && !(value is Nullable) || value == null && (value is Nullable)))
                 {
                     columns.Add(prop.Name);
                     parameters.Add("@" + prop.Name);
@@ -253,7 +253,7 @@ namespace OpenDataStorage.Common.DbContext
             {
                 var sourcePropInfo = sourceType.GetProperty(prop.Name);
                 var value = sourcePropInfo.GetValue(instance, null);
-                if (value != null)
+                if (!(value is BaseEntity) && (value != null && !(value is Nullable) || value == null && (value is Nullable)))
                 {
                     expressions.Add(prop.Name + "= @" + prop.Name);
                     sqlParameters.Add(new SqlParameter { ParameterName = prop.Name, Value = value });

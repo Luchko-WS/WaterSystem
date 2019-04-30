@@ -76,11 +76,13 @@ namespace OpenDataStorage.API
         [HttpPost]
         public async Task<HttpResponseMessage> Create([FromUri]Guid parentId, HierarchyObjectViewModel vm)
         {
+            vm.ObjectTypeId = vm.ObjectType?.Id;
             var entity = new HierarchyObject
             {
                 Name = vm.Name,
                 Description = vm.Description,
-                OwnerId = User.Identity.Name
+                OwnerId = User.Identity.Name,
+                ObjectTypeId = vm.ObjectTypeId
             };
 
             try
@@ -100,6 +102,7 @@ namespace OpenDataStorage.API
         {
             try
             {
+                vm.ObjectTypeId = vm.ObjectType?.Id;
                 var entity = Mapper.CreateInstanceAndMapProperties<HierarchyObject>(vm);
                 await _dbContext.HierarchyObjectContext.UpdateObject(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);

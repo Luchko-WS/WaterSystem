@@ -235,26 +235,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\SelectedListHelper.cs" />
-    <Compile Include="Migrations\201903261432433_Pilot_v1.cs" />
-    <Compile Include="Migrations\201903261432433_Pilot_v1.Designer.cs">
-      <DependentUpon>201903261432433_Pilot_v1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904061941527_Values table.cs" />
-    <Compile Include="Migrations\201904061941527_Values table.Designer.cs">
-      <DependentUpon>201904061941527_Values table.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904121046597_fs-DbContext.cs" />
-    <Compile Include="Migrations\201904121046597_fs-DbContext.Designer.cs">
-      <DependentUpon>201904121046597_fs-DbContext.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904121201275_objects types.cs" />
-    <Compile Include="Migrations\201904121201275_objects types.Designer.cs">
-      <DependentUpon>201904121201275_objects types.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904171910097_SystemUser.cs" />
-    <Compile Include="Migrations\201904171910097_SystemUser.Designer.cs">
-      <DependentUpon>201904171910097_SystemUser.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Resources\Lexicon.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -479,21 +459,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903261432433_Pilot_v1.resx">
-      <DependentUpon>201903261432433_Pilot_v1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904061941527_Values table.resx">
-      <DependentUpon>201904061941527_Values table.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904121046597_fs-DbContext.resx">
-      <DependentUpon>201904121046597_fs-DbContext.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904121201275_objects types.resx">
-      <DependentUpon>201904121201275_objects types.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904171910097_SystemUser.resx">
-      <DependentUpon>201904171910097_SystemUser.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Lexicon.en.resx">
       <SubType>Designer</SubType>
       <Generator>PublicResXFileCodeGenerator</Generator>

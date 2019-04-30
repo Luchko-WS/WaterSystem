@@ -25,9 +25,10 @@
                     <async-page-with-loader is-loaded="vm.model.loaded">
                         <div class="col-md-9">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="@Lexicon.Type" ng-model="vm.model.node.objectType.name" ng-required="true" readonly />
+                                <input type="text" class="form-control" placeholder="@Lexicon.Type" ng-model="vm.model.node.objectType.name" readonly />
                                 <div class="input-group-btn">
-                                    <button class="btn btn-primary" id="toggleButton" ng-click="vm.showTree=!vm.showTree">@Lexicon.Select</button>
+                                    <button class="btn btn-primary" ng-click="vm.showTree=!vm.showTree;"><span ng-class="vm.showTree ? 'glyphicon glyphicon-triangle-top' : 'glyphicon glyphicon-triangle-bottom'" /></button>
+                                    <button class="btn btn-danger" title="@Lexicon.RemoveType" ng-click="vm.showTree = false; vm.model.node.objectType = null" ><span class="glyphicon glyphicon-remove" /></button>
                                 </div>
                             </div>
                             <tree-view ng-if="vm.showTree" ng-model="vm.model.treeElement.tree"
