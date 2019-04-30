@@ -8,7 +8,7 @@ namespace OpenDataStorage.Common.DbContext
         public HierarchyObjectDbContextManager(DbSet<HierarchyObject> entities, Database database)
             : base(entities, database)
         {
-            TableName = "HierarchyObject";
+            TableName = "HierarchyObjects";
         }
     }
 }

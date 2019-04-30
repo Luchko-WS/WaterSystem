@@ -1,6 +1,7 @@
 namespace OpenDataStorage.Migrations
 {
     using OpenDataStorage.Common.DbContext;
+    using OpenDataStorage.Helpers;
     using OpenDataStorageCore;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -59,7 +60,22 @@ namespace OpenDataStorage.Migrations
 
             PrepateStoredProceduresForCharacteristics(context);
             PrepateStoredProceduresForHierarchyObjects(context);
-            PrepateStoredProceduresForHierarchyObjectsTypes(context);
+            PrepateStoredProceduresForObjectsTypes(context);
+
+            AddConstraintsToHierarchyObjectsTable(context);
+        }
+
+        private void AddConstraintsToHierarchyObjectsTable(ApplicationDbContext context)
+        {
+            var hierarchyObjectsTableName = ((IApplicationDbContext)context).HierarchyObjectContext.TableName;
+            var typesTableName = ((IApplicationDbContext)context).ObjectTypeContext.TableName;
+
+            var primaryKey = ReflectionHelper.GetPropName((ObjectType t) => t.Id);
+            var foreignKey = ReflectionHelper.GetPropName((HierarchyObject o) => o.ObjectTypeId);
+            var constraintName = string.Format("FK_dbo.{0}_dbo.{1}_{2}", hierarchyObjectsTableName, typesTableName, foreignKey);
+
+            context.Database.ExecuteSqlCommand($"ALTER TABLE [dbo].[{hierarchyObjectsTableName}] DROP CONSTRAINT [{constraintName}]");
+            context.Database.ExecuteSqlCommand($"ALTER TABLE [dbo].[{hierarchyObjectsTableName}] ADD CONSTRAINT [{constraintName}] FOREIGN KEY ([{foreignKey}]) REFERENCES [dbo].[{typesTableName}] ([{primaryKey}]) ON DELETE SET NULL");
         }
 
         private void PrepateStoredProceduresForHierarchyObjects(ApplicationDbContext context)
@@ -78,7 +94,7 @@ namespace OpenDataStorage.Migrations
             CreateStoredProcedurePreMoveNestedSetsNode(context, tableName);
         }
 
-        private void PrepateStoredProceduresForHierarchyObjectsTypes(ApplicationDbContext context)
+        private void PrepateStoredProceduresForObjectsTypes(ApplicationDbContext context)
         {
             string tableName = ((IApplicationDbContext)context).ObjectTypeContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);

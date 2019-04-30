@@ -234,6 +234,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\SelectedListHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Resources\Lexicon.Designer.cs">
