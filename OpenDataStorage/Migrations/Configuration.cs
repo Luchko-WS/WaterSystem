@@ -132,7 +132,6 @@ namespace OpenDataStorage.Migrations
             BEGIN
                 UPDATE dbo.[{1}] SET RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey AND LeftKey < @LeftKey;
                 UPDATE dbo.[{1}] SET LeftKey = LeftKey - (@RightKey - @LeftKey + 1), RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE LeftKey > @RightKey;
-                UPDATE dbo.[{1}] SET LeftKey = CASE WHEN LeftKey > @LeftKey THEN LeftKey - (@RightKey - @LeftKey + 1) ELSE LeftKey END, RightKey = RightKey - (@RightKey - @LeftKey + 1) WHERE RightKey > @RightKey;
             END", procedureName, tableName));
         }
 
