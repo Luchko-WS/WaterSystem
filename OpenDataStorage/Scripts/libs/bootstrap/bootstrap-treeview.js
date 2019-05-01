@@ -320,12 +320,14 @@
 
 	Tree.prototype.findNodeByCondition = function (condition) {
 		var id = undefined;
+
 		$.each(this.nodes, function (index, node) {
 			if (condition(node) === true) {
 				id = node.nodeId;
+				return;
 			}
 		});
-		if (id) {
+		if (id !== undefined) {
 			return this.nodes[id];
 		}
 	};
