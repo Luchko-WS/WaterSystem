@@ -284,15 +284,16 @@ namespace OpenDataStorage.Common.DbContext
 
         private async Task ExecuteMoveSqlCommand<NS>(NS entity, NS parent) where NS: NestedSetsEntity
         {
-            var parentRightKeyParam = new SqlParameter { ParameterName = "ParentRightKey", Value = parent.RightKey };
-            var parentLevelParam = new SqlParameter { ParameterName = "ParentLevel", Value = parent.Level };
             var nodeLeftKeyParam = new SqlParameter { ParameterName = "NodeLeftKey", Value = entity.LeftKey };
             var nodeRightKeyParam = new SqlParameter { ParameterName = "NodeRightKey", Value = entity.RightKey };
             var nodeLevelParam = new SqlParameter { ParameterName = "NodeLevel", Value = entity.Level };
 
-            var storedProcedureName = entity.RightKey < parent.LeftKey ? "MoveToLeftNestedSetsNode" : "MoveToRightNestedSetsNode";
-            await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + storedProcedureName + " @ParentRightKey, @ParentLevel, @NodeLeftKey, @NodeRightKey, @NodeLevel", 
-                parentRightKeyParam, parentLevelParam, nodeLeftKeyParam, nodeRightKeyParam, nodeLevelParam);
+            var parentLeftKeyParam = new SqlParameter { ParameterName = "ParentLeftKey", Value = parent.LeftKey };
+            var parentRightKeyParam = new SqlParameter { ParameterName = "ParentRightKey", Value = parent.RightKey };
+            var parentLevelParam = new SqlParameter { ParameterName = "ParentLevel", Value = parent.Level };
+
+            await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "MoveNestedSetsNode @NodeLeftKey, @NodeRightKey, @NodeLevel, @ParentLeftKey, @ParentRightKey, @ParentLevel", 
+                nodeLeftKeyParam, nodeRightKeyParam, nodeLevelParam, parentLeftKeyParam, parentRightKeyParam, parentLevelParam);
         }
 
         private async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
