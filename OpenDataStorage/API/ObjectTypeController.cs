@@ -47,7 +47,7 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.ObjectTypeContext.GetChildNodes(vm.Id);
+                var res = await _dbContext.ObjectTypeContext.GetChildNodes(vm.Id, true);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -76,23 +76,17 @@ namespace OpenDataStorage.API
         [HttpPost]
         public async Task<HttpResponseMessage> Create([FromUri]Guid parentFolderId, ObjectTypeViewModel vm)
         {
-            var entity = new ObjectType
-            {
-                Name = vm.Name,
-                Description = vm.Description,
-                Type = vm.Type,
-                OwnerId = User.Identity.Name
-            };
             try
             {
-                if (entity.Type == EntityType.File)
+                var entity = new ObjectType
                 {
-                    await _dbContext.ObjectTypeContext.AddObject(entity, parentFolderId);
-                }
-                else
-                {
-                    await _dbContext.ObjectTypeContext.AddFolder(entity, parentFolderId);
-                }
+                    Name = vm.Name,
+                    Description = vm.Description,
+                    Type = vm.Type,
+                    OwnerId = User.Identity.Name
+                };
+
+                await _dbContext.ObjectTypeContext.Add(entity, parentFolderId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -108,14 +102,23 @@ namespace OpenDataStorage.API
             try
             {
                 var entity = Mapper.CreateInstanceAndMapProperties<ObjectType>(vm);
-                if (entity.Type == EntityType.File)
-                {
-                    await _dbContext.ObjectTypeContext.UpdateObject(entity);
-                }
-                else
-                {
-                    await _dbContext.ObjectTypeContext.UpdatFolder(entity);
-                }
+                await _dbContext.ObjectTypeContext.Update(entity);
+                return Request.CreateResponse(HttpStatusCode.OK, entity);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [Route("Move")]
+        [HttpPut]
+        public async Task<HttpResponseMessage> Move(Guid id, Guid parentId)
+        {
+            try
+            {
+                var entity = _dbContext.ObjectTypeContext.Entities.FirstOrDefault(e => e.Id == id);
+                await _dbContext.ObjectTypeContext.Move(id, parentId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -130,18 +133,10 @@ namespace OpenDataStorage.API
         {
             try
             {
-                //redundant call
                 var entity = await _dbContext.ObjectTypeContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
                 var parent = await _dbContext.ObjectTypeContext.GetParentNode(id);
 
-                if (entity.Type == EntityType.File)
-                {
-                    await _dbContext.ObjectTypeContext.RemoveObject(entity);
-                }
-                else
-                {
-                    await _dbContext.ObjectTypeContext.RemoveFolder(entity);
-                }
+                await _dbContext.ObjectTypeContext.Remove(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, parent);
             }
             catch (Exception ex)

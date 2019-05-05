@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext
@@ -23,27 +24,27 @@ namespace OpenDataStorage.Common.DbContext
 
         public IQueryable<T> Entities => this._dbSet;
 
-        public async Task AddObject(T @object, Guid parentId)
+        public virtual async Task Add(T entity, Guid parentId)
         {
             var parentNode = _dbSet.FirstOrDefault(f => f.Id == parentId);
             if (parentNode == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
             }
-            await AddObjectInternal(@object, parentNode);
+            await AddInternal(entity, parentNode);
         }
-        protected virtual async Task AddObjectInternal(T @object, NestedSetsEntity parentNode)
+        protected async Task AddInternal(T entity, NestedSetsEntity parentNode)
         {
-            @object.LeftKey = parentNode.RightKey;
-            @object.RightKey = parentNode.RightKey + 1;
-            @object.Level = parentNode.Level + 1;
+            entity.LeftKey = parentNode.RightKey;
+            entity.RightKey = parentNode.RightKey + 1;
+            entity.Level = parentNode.Level + 1;
 
             using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
                     await ExecutePreInsertSqlCommand(parentNode.RightKey);
-                    await ExecuteInsertSqlCommand(@object);
+                    await ExecuteInsertSqlCommand(entity);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -54,17 +55,17 @@ namespace OpenDataStorage.Common.DbContext
             }
         }
 
-        public async Task UpdateObject(T @object)
+        public virtual async Task Update(T entity)
         {
-            await UpdateObjectInternal(@object);
+            await UpdateInternal(entity);
         }
-        protected virtual async Task UpdateObjectInternal(T @object)
+        protected async Task UpdateInternal(T entity)
         {
             using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
-                    await ExecuteUpdateSqlCommand(@object);
+                    await ExecuteUpdateSqlCommand(entity);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -75,17 +76,27 @@ namespace OpenDataStorage.Common.DbContext
             }
         }
 
-        public async Task MoveObject(T @bject, Guid newParentId)
+        public virtual async Task Move(Guid id, Guid parentId)
         {
-            var parentNode = _dbSet.FirstOrDefault(f => f.Id == newParentId);
-            if (parentNode == null)
+            var entity = _dbSet.FirstOrDefault(f => f.Id == id);
+            if (entity == null)
             {
-                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", newParentId, TableName));
+                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            await MoveObjectInternal(@bject, parentNode);
+            var parentEntity = _dbSet.FirstOrDefault(f => f.Id == parentId);
+            if (parentEntity == null)
+            {
+                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
+            }
+            await MoveInternal(entity, parentEntity);
         }
-        protected virtual async Task MoveObjectInternal(T @object, NestedSetsEntity newParentNode)
+        protected async Task MoveInternal(T entity, NestedSetsEntity parentEntity)
         {
+            if (parentEntity.LeftKey > entity.LeftKey && parentEntity.RightKey < entity.RightKey)
+            {
+                throw new ArgumentException(string.Format("Could move node {0} in child node {1} in {2} table.", entity.Id, parentEntity.Id, TableName));
+            }
+
             using (var transaction = _database.BeginTransaction())
             {
                 try
@@ -101,18 +112,18 @@ namespace OpenDataStorage.Common.DbContext
             }
         }
 
-        public async Task RemoveObject(T @object)
+        public virtual async Task Remove(T entity)
         {
-            await RemoveObjectInternal(@object);
+            await RemoveInternal(entity);
         }
-        protected virtual async Task RemoveObjectInternal(T @object)
+        protected async Task RemoveInternal(T entity)
         {
             using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
-                    await ExecuteDeleteSqlCommand(@object);
-                    await ExecutePostDeleteSqlCommand(@object.LeftKey, @object.RightKey);
+                    await ExecuteDeleteSqlCommand(entity);
+                    await ExecutePostDeleteSqlCommand(entity.LeftKey, entity.RightKey);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -124,10 +135,13 @@ namespace OpenDataStorage.Common.DbContext
         }
 
         #region Nested Sets Relation
-        public virtual async Task<T> GetNode(Guid id)
+        public virtual async Task<T> GetNode(Guid id, params Expression<Func<T, object>>[] includedPath)
         {
-            var node = await GetNodeQuery(id).FirstOrDefaultAsync();
-            if(node == null)
+            var query = GetNodeQuery(id);
+            query = includedPath.Aggregate(query, (current, p) => current.Include(p));
+            
+            var node = await query.FirstOrDefaultAsync();
+            if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
@@ -138,45 +152,48 @@ namespace OpenDataStorage.Common.DbContext
             return _dbSet.Where(e => e.Id == id);
         }
 
-        public virtual async Task<ICollection<T>> GetTree()
+        public virtual async Task<ICollection<T>> GetTree(params Expression<Func<T, object>>[] includedPath)
         {
-            return await GetTreeQuery().ToListAsync();
+            var query = GetTreeQuery();
+            query = includedPath.Aggregate(query, (current, p) => current.Include(p));
+            return await query.ToListAsync();
         }
         private IQueryable<T> GetTreeQuery()
         {
             return _dbSet.OrderBy(n => n.LeftKey);
         }
 
-        public virtual async Task<ICollection<T>> GetChildNodes(Guid id)
+        public virtual async Task<ICollection<T>> GetChildNodes(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetChildNodes(node);
+            return await GetChildNodes(node, includeItself, includedPath);
         }
-        private async Task<ICollection<T>> GetChildNodes(T entity)
+        private async Task<ICollection<T>> GetChildNodes(T entity, bool includeItself, params Expression<Func<T, object>>[] includedPath)
         {
-            return await GetChildNodesQuery(entity).ToListAsync();
+            return await GetChildNodesQuery(entity, includeItself).ToListAsync();
         }
-        private IQueryable<T> GetChildNodesQuery(T entity)
+        private IQueryable<T> GetChildNodesQuery(T entity, bool includeItself)
         {
             return _dbSet
-               .Where(e => e.LeftKey >= entity.LeftKey && e.RightKey <= entity.RightKey)
+               .Where(e => e.LeftKey >= entity.LeftKey && e.RightKey <= entity.RightKey
+                || (includeItself && e.Id == entity.Id))
                .OrderBy(n => n.LeftKey);
         }
-        
-        public virtual async Task<T> GetParentNode(Guid id)
+
+        public virtual async Task<T> GetParentNode(Guid id, params Expression<Func<T, object>>[] includedPath)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetParentNode(node);
+            return await GetParentNode(node, includedPath);
         }
-        private async Task<T> GetParentNode(T entity)
+        private async Task<T> GetParentNode(T entity, params Expression<Func<T, object>>[] includedPath)
         {
             return await GetParentNodeQuery(entity).FirstOrDefaultAsync();
         }
@@ -185,24 +202,24 @@ namespace OpenDataStorage.Common.DbContext
             return _dbSet.Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
         }
 
-        public virtual async Task<ICollection<T>> GetParentNodes(Guid id, bool includeItself = false)
+        public virtual async Task<ICollection<T>> GetParentNodes(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
         {
             var node = _dbSet.FirstOrDefault(f => f.Id == id);
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetParentNodes(node, includeItself);
+            return await GetParentNodes(node, includeItself, includedPath);
         }
-        private async Task<ICollection<T>> GetParentNodes(T entity, bool includeItself)
+        private async Task<ICollection<T>> GetParentNodes(T entity, bool includeItself, params Expression<Func<T, object>>[] includedPath)
         {
             return await GetRootNodesQuery(entity, includeItself).ToListAsync();
         }
         private IQueryable<T> GetRootNodesQuery(T entity, bool includeItself)
         {
             return _dbSet
-                .Where(e => 
-                    (e.LeftKey < entity.LeftKey && e.RightKey > entity.RightKey && e.Level < entity.Level) 
+                .Where(e =>
+                    (e.LeftKey < entity.LeftKey && e.RightKey > entity.RightKey && e.Level < entity.Level)
                     || (includeItself && e.Id == entity.Id))
                 .OrderBy(e => e.LeftKey);
         }

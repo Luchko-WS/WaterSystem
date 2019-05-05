@@ -47,7 +47,7 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.CharacteristicObjectContext.GetChildNodes(vm.Id);
+                var res = await _dbContext.CharacteristicObjectContext.GetChildNodes(vm.Id, true);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -76,23 +76,17 @@ namespace OpenDataStorage.API
         [HttpPost]
         public async Task<HttpResponseMessage> Create([FromUri]Guid parentFolderId, CharacteristicViewModel vm)
         {
-            var entity = new Characteristic
-            {
-                Name = vm.Name,
-                Description = vm.Description,
-                Type = vm.Type,
-                OwnerId = User.Identity.Name
-            };
             try
             {
-                if (entity.Type == EntityType.File)
+                var entity = new Characteristic
                 {
-                    await _dbContext.CharacteristicObjectContext.AddObject(entity, parentFolderId);
-                }
-                else
-                {
-                    await _dbContext.CharacteristicObjectContext.AddFolder(entity, parentFolderId);
-                }
+                    Name = vm.Name,
+                    Description = vm.Description,
+                    Type = vm.Type,
+                    OwnerId = User.Identity.Name
+                };
+
+                await _dbContext.CharacteristicObjectContext.Add(entity, parentFolderId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -108,14 +102,23 @@ namespace OpenDataStorage.API
             try
             {
                 var entity = Mapper.CreateInstanceAndMapProperties<Characteristic>(vm);
-                if (entity.Type == EntityType.File)
-                {
-                    await _dbContext.CharacteristicObjectContext.UpdateObject(entity);
-                }
-                else
-                {
-                    await _dbContext.CharacteristicObjectContext.UpdatFolder(entity);
-                }
+                await _dbContext.CharacteristicObjectContext.Update(entity);
+                return Request.CreateResponse(HttpStatusCode.OK, entity);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [Route("Move")]
+        [HttpPut]
+        public async Task<HttpResponseMessage> Move(Guid id, Guid parentId)
+        {
+            try
+            {
+                var entity = _dbContext.CharacteristicObjectContext.Entities.FirstOrDefault(e => e.Id == id);
+                await _dbContext.CharacteristicObjectContext.Move(id, parentId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -130,18 +133,10 @@ namespace OpenDataStorage.API
         {
             try
             {
-                //redundant call
                 var entity = await _dbContext.CharacteristicObjectContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
                 var parent = await _dbContext.CharacteristicObjectContext.GetParentNode(id);
 
-                if (entity.Type == EntityType.File)
-                {
-                    await _dbContext.CharacteristicObjectContext.RemoveObject(entity);
-                }
-                else
-                {
-                    await _dbContext.CharacteristicObjectContext.RemoveFolder(entity);
-                }
+                await _dbContext.CharacteristicObjectContext.Remove(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, parent);
             }
             catch (Exception ex)

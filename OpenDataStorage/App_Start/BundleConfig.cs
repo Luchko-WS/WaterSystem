@@ -7,7 +7,8 @@ namespace OpenDataStorage
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery")
-                .Include("~/Scripts/libs/jquery/jquery-{version}.js"));
+                .Include("~/Scripts/libs/jquery/jquery-{version}.js")
+                .Include("~/Scripts/libs/jquery/jquery-ui-1.12.1.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs")
                 .Include("~/Scripts/libs/angularjs/angular.js")

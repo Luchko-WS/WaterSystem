@@ -11,12 +11,12 @@ namespace OpenDataStorage.Common.DbContext
 
         string TableName { get; }
 
-        Task AddObject(T @object, Guid parentId);
+        Task Add(T entity, Guid parentId);
 
-        Task UpdateObject(T @object);
+        Task Update(T entity);
 
-        Task MoveObject(T @object, Guid parentId);
+        Task Move(Guid entityId, Guid parentId);
 
-        Task RemoveObject(T @object);
+        Task Remove(T entity);
     }
 }

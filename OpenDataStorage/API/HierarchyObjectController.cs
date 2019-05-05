@@ -31,13 +31,13 @@ namespace OpenDataStorage.API
                 {
                     if (!results.Any(e => e.Id == id))
                     {
-                        var branch = await _dbContext.HierarchyObjectContext.GetParentNodes(id, includeItself: true);
+                        var branch = await _dbContext.HierarchyObjectContext.GetParentNodes(id, true, e => e.ObjectType);
                         results = results.Union(branch).ToList();
                     }
                 }
                 return results.OrderBy(e => e.LeftKey).ToList();
             }
-            return await _dbContext.HierarchyObjectContext.GetTree();
+            return await _dbContext.HierarchyObjectContext.GetTree(e => e.ObjectType);
         }
 
         [Route("GetSubTree")]
@@ -47,7 +47,7 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.HierarchyObjectContext.GetChildNodes(vm.Id);
+                var res = await _dbContext.HierarchyObjectContext.GetChildNodes(vm.Id, true, e => e.ObjectType);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.HierarchyObjectContext.GetNode(hierarchyObjectId);
+                var res = await _dbContext.HierarchyObjectContext.GetNode(hierarchyObjectId, e => e.ObjectType);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -76,18 +76,18 @@ namespace OpenDataStorage.API
         [HttpPost]
         public async Task<HttpResponseMessage> Create([FromUri]Guid parentId, HierarchyObjectViewModel vm)
         {
-            vm.ObjectTypeId = vm.ObjectType?.Id;
-            var entity = new HierarchyObject
-            {
-                Name = vm.Name,
-                Description = vm.Description,
-                OwnerId = User.Identity.Name,
-                ObjectTypeId = vm.ObjectTypeId
-            };
-
             try
             {
-                await _dbContext.HierarchyObjectContext.AddObject(entity, parentId);
+                vm.ObjectTypeId = vm.ObjectType?.Id;
+                var entity = new HierarchyObject
+                {
+                    Name = vm.Name,
+                    Description = vm.Description,
+                    OwnerId = User.Identity.Name,
+                    ObjectTypeId = vm.ObjectTypeId
+                };
+
+                await _dbContext.HierarchyObjectContext.Add(entity, parentId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -104,7 +104,23 @@ namespace OpenDataStorage.API
             {
                 vm.ObjectTypeId = vm.ObjectType?.Id;
                 var entity = Mapper.CreateInstanceAndMapProperties<HierarchyObject>(vm);
-                await _dbContext.HierarchyObjectContext.UpdateObject(entity);
+                await _dbContext.HierarchyObjectContext.Update(entity);
+                return Request.CreateResponse(HttpStatusCode.OK, entity);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        [Route("Move")]
+        [HttpPut]
+        public async Task<HttpResponseMessage> Move(Guid id, Guid parentId)
+        {
+            try
+            {
+                var entity = _dbContext.HierarchyObjectContext.Entities.FirstOrDefault(e => e.Id == id);
+                await _dbContext.HierarchyObjectContext.Move(id, parentId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -119,10 +135,10 @@ namespace OpenDataStorage.API
         {
             try
             {
-                //redundant call
                 var node = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
                 var parent = await _dbContext.HierarchyObjectContext.GetParentNode(id);
-                await _dbContext.HierarchyObjectContext.RemoveObject(node);
+
+                await _dbContext.HierarchyObjectContext.Remove(node);
                 return Request.CreateResponse(HttpStatusCode.OK, parent);
             }
             catch (Exception ex)
