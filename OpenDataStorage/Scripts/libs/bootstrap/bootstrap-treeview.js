@@ -358,15 +358,13 @@
 		else {
 			if (node.selectable) {
 				this.toggleSelectedState(node, _default.options);
-			} else {
+			}
+			else {
 				this.toggleExpandedState(node, _default.options);
 			}
 
 			var context = this;
 			setTimeout(function () {
-				if (node.selectable) {
-					node.state.selected = true;
-				}
 				context.render();
 			}, 240);
 		}
@@ -377,6 +375,10 @@
 		var node = this.findNode(target);
 		if (!node || node.state.disabled) return;
 
+		if (node.selectable) {
+			node.state.selected = true;
+			this.render();
+		}
 		this.$element.trigger('nodeDblClick', $.extend(true, {}, node));
 	};
 
