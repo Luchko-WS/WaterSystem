@@ -31,6 +31,12 @@
                     textFieldName: TEXT_FIELD_NAME,
                     levelFieldName: LEVEL_FIELD_NAME
                 },
+                treeConfig: {
+                    nodesConfig: {
+                        expandEachNode: false
+                    },
+                    draggable: true
+                },
                 fsConfig: {
                     nodeTypeFieldName: NODE_TYPE_FIELD_NAME,
                     folderNodeTypeValue: FOLDER_NODE_TYPE_VALUE,
@@ -40,9 +46,6 @@
                 },
                 definedValues: {
                     selectedNode: undefined
-                },
-                nodesConfig: {
-                    expandEachNode: false
                 }
             };
         }
@@ -54,6 +57,12 @@
                     textFieldName: TEXT_FIELD_NAME,
                     levelFieldName: LEVEL_FIELD_NAME
                 },
+                treeConfig: {
+                    nodesConfig: {
+                        expandEachNode: false
+                    },
+                    draggable: false
+                },
                 fsConfig: {
                     nodeTypeFieldName: NODE_TYPE_FIELD_NAME,
                     folderNodeTypeValue: FOLDER_NODE_TYPE_VALUE,
@@ -63,9 +72,6 @@
                 },
                 definedValues: {
                     selectedNode: undefined
-                },
-                nodesConfig: {
-                    expandEachNode: false
                 }
             };
         }
@@ -77,11 +83,14 @@
                     textFieldName: TEXT_FIELD_NAME,
                     levelFieldName: LEVEL_FIELD_NAME
                 },
+                treeConfig: {
+                    nodesConfig: {
+                        expandEachNode: false
+                    },
+                    draggable: true
+                },
                 definedValues: {
                     selectedNode: undefined
-                },
-                nodesConfig: {
-                    expandEachNode: false
                 }
             };
         }

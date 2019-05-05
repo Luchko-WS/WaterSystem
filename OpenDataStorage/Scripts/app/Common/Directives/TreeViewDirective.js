@@ -14,8 +14,8 @@
 
                     $('#tree').treeview({
                         data: scope.config.fsConfig
-                            ? parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.nodesConfig, scope.config.fsConfig)
-                            : parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.nodesConfig),
+                            ? parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.treeConfig, scope.config.fsConfig)
+                            : parseArrayToTree(scope.array, scope.config.fieldsNames, scope.config.treeConfig),
                         levels: EXPANDED_LEVEL
                     });
                     $('#tree').on('nodeUnselected', function (event, data) {
@@ -39,6 +39,13 @@
                             });
                         }
                     });
+                    $('#tree').on('nodeDropped', function (event, data) {
+                        if (typeof (scope.nodeDropCallback) === 'function') {
+                            scope.$apply(function () {
+                                scope.nodeDropCallback(event, data);
+                            });
+                        }
+                    });
 
                     initSelect();
 
@@ -57,13 +64,14 @@
                         }]);
                     }
 
-                    function parseArrayToTree(array, fieldsNames, nodesConfig, fsConfig) {
+                    function parseArrayToTree(array, fieldsNames, treeConfig, fsConfig) {
 
                         try {
                             var stack = [0];
                             var tagsStack = [0];
                             var currentLevel = 0;
 
+                            //config nodes
                             for (var i = 0; i < array.length; i++) {
                                 var node = array[i];
                                 node._node_id = i;
@@ -74,6 +82,14 @@
 
                                 //aply fsConfig
                                 if (fsConfig) {
+
+                                    if (fsConfig.mode === FOLDERS_MODE && array[i][fsConfig.nodeTypeFieldName] == fsConfig.fileNodeTypeValue) {
+                                        //remove node
+                                        array.splice(i, 1);
+                                        i--;
+                                        continue;
+                                    }
+
                                     if (node[fsConfig.nodeTypeFieldName] === fsConfig.folderNodeTypeValue) {
                                         node.icon = "glyphicon glyphicon-folder-open";
                                         node.selectable = !fsConfig.selectOnlyFiles;
@@ -82,11 +98,27 @@
                                         node.icon = "glyphicon glyphicon-file";
                                     }
                                 }
+                                //end
 
-                                if (nodesConfig) {
-                                    node.state.expanded = nodesConfig.expandEachNode || currentLevel < EXPANDED_LEVEL;
+                                //aply treeConfig
+                                if (treeConfig) {
+                                    if (treeConfig.nodesConfig) {
+                                        node.state.expanded = treeConfig.nodesConfig.expandEachNode || currentLevel < EXPANDED_LEVEL;
+                                    }
+
+                                    if (treeConfig.draggable) {
+                                        node.draggable = true;
+                                        if (fsConfig && node[fsConfig.nodeTypeFieldName] === fsConfig.folderNodeTypeValue) {
+                                            node.droppable = true;
+                                        }
+                                        else {
+                                            node.droppable = true;
+                                        }
+                                    }
                                 }
+                                //end
 
+                                //set parent id
                                 if (currentLevel == node[fieldsNames.levelFieldName]) {
                                     node._parentId = stack[0];
                                     tagsStack[0]++;
@@ -103,35 +135,35 @@
                                     node._parentId = stack[0];
                                     currentLevel -= currentLevel - node[fieldsNames.levelFieldName];
                                 }
+                                //end
                             }
 
-                            var root = array[0], map = {};
-                            for (var i = 1; i < array.length; i++) {
-                                if (fsConfig && fsConfig.mode === FOLDERS_MODE
-                                    && array[i][fsConfig.nodeTypeFieldName] == fsConfig.fileNodeTypeValue) {
-                                    //skip files
-                                    continue;
-                                }
-                                var node = array[i];
-                                map[node._node_id] = i;
-                                if (node._parentId !== 0) {
-                                    var parent = array[map[node._parentId]];
-                                    if (!parent.nodes) {
-                                        parent.nodes = [];
-                                    }
-                                    parent.nodes.push(node);
-                                } else {
-                                    if (!root.nodes) {
-                                        root.nodes = [];
-                                    }
-                                    root.nodes.push(node);
-                                }
-                            }
-                            return [root];
+                            return parseAndGetTree(array);
                         }
                         catch (ex) {
                             errorHandler(ex);
                         }
+                    }
+
+                    function parseAndGetTree(array) {
+                        var root = array[0], map = {};
+                        for (var i = 1; i < array.length; i++) {
+                            var node = array[i];
+                            map[node._node_id] = i;
+                            if (node._parentId !== 0) {
+                                var parent = array[map[node._parentId]];
+                                if (!parent.nodes) {
+                                    parent.nodes = [];
+                                }
+                                parent.nodes.push(node);
+                            } else {
+                                if (!root.nodes) {
+                                    root.nodes = [];
+                                }
+                                root.nodes.push(node);
+                            }
+                        }
+                        return [root];
                     }
 
                     function errorHandler(error) {
@@ -144,6 +176,7 @@
                     config: '=',
                     filterPairsPromise: '=',
                     nodeDblClickCallback: '=',
+                    nodeDropCallback: '=',
                     nodeSelectedCallback: '=',
                     nodeUnselectedCallback: '='
                 },

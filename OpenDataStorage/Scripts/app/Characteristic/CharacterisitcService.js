@@ -14,6 +14,7 @@
             get: _get,
             create: _create,
             update: _update,
+            move: _move,
             delete: _delete
         };
         return _service;
@@ -47,6 +48,13 @@
                 method: 'PUT',
                 url: '/api/Characteristics/Update',
                 data: vm
+            });
+        }
+
+        function _move(id, parentId) {
+            return $http({
+                method: 'POST',
+                url: '/api/Characteristics/Move/' + id + '/' + parentId
             });
         }
 

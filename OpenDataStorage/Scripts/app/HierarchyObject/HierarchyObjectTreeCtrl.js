@@ -23,6 +23,7 @@
         vm.remove = remove;
 
         vm.nodeDblClickCallback = nodeDblClickCallback;
+        vm.nodeDropCallback = nodeDropCallback;
         vm.nodeSelectedCallback = nodeSelectedCallback;
         vm.nodeUnselectedCallback = nodeUnselectedCallback;
 
@@ -39,7 +40,7 @@
                 .success(function (data) {
                     vm.tree = data;
                     vm.loaded = true;
-                    vm.treeParserConfig.nodesConfig.expandEachNode = Boolean(vm.state.filter !== null);
+                    vm.treeParserConfig.treeConfig.nodesConfig.expandEachNode = Boolean(vm.state.filter !== null);
                     if (selectedNode) {
                         vm.state.currentNode = selectedNode;
                         vm.treeParserConfig.definedValues.selectedNode = selectedNode;
@@ -158,6 +159,23 @@
 
         function nodeUnselectedCallback(event, data) {
             vm.state.currentNode = null;
+        }
+
+        function nodeDropCallback(event, data) {
+            var draggedNode = data.draggedNode;
+            var droppabletNode = data.droppabletNode;
+            _moveObjectNode(draggedNode.id, droppabletNode.id);
+        }
+
+        function _moveObjectNode(nodeId, parentNodeId) {
+            HierarchyObjectService.move(nodeId, parentNodeId)
+                .success(function (data) {
+                    loadData(data);
+                })
+                .error(function (error) {
+                    _errorHandler(error);
+                    loadData();
+                });
         }
 
         function _modalwindowInitSuccessCallback(data, node) {

@@ -83,7 +83,8 @@ namespace OpenDataStorage.Migrations
             string tableName = ((IApplicationDbContext)context).HierarchyObjectContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
             CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
-            CreateStoredProcedurePreMoveNestedSetsNode(context, tableName);
+            CreateStoredProcedureMoveToLeftNestedSetsNode(context, tableName);
+            CreateStoredProcedureMoveToRightNestedSetsNode(context, tableName);
         }
 
         private void PrepateStoredProceduresForCharacteristics(ApplicationDbContext context)
@@ -91,7 +92,8 @@ namespace OpenDataStorage.Migrations
             string tableName = ((IApplicationDbContext)context).CharacteristicObjectContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
             CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
-            CreateStoredProcedurePreMoveNestedSetsNode(context, tableName);
+            CreateStoredProcedureMoveToLeftNestedSetsNode(context, tableName);
+            CreateStoredProcedureMoveToRightNestedSetsNode(context, tableName);
         }
 
         private void PrepateStoredProceduresForObjectsTypes(ApplicationDbContext context)
@@ -99,7 +101,8 @@ namespace OpenDataStorage.Migrations
             string tableName = ((IApplicationDbContext)context).ObjectTypeContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
             CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
-            CreateStoredProcedurePreMoveNestedSetsNode(context, tableName);
+            CreateStoredProcedureMoveToLeftNestedSetsNode(context, tableName);
+            CreateStoredProcedureMoveToRightNestedSetsNode(context, tableName);
         }
 
         private void CreateStoredProcedurePreCreateNestedSetsNode(ApplicationDbContext context, string tableName)
@@ -135,106 +138,50 @@ namespace OpenDataStorage.Migrations
             END", procedureName, tableName));
         }
 
-        private void CreateStoredProcedurePreMoveNestedSetsNode(ApplicationDbContext context, string tableName)
+        private void CreateStoredProcedureMoveToLeftNestedSetsNode(ApplicationDbContext context, string tableName)
         {
-            string procedureName = string.Format("{0}PreMoveNestedSetsNode", tableName);
+            string procedureName = string.Format("{0}MoveToLeftNestedSetsNode", tableName);
 
             context.Database.ExecuteSqlCommand(string.Format(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[{0}]') AND type in (N'P', N'PC'))
             DROP PROCEDURE [dbo].[{0}]", procedureName));
 
             context.Database.ExecuteSqlCommand(string.Format(@"CREATE PROCEDURE [dbo].[{0}]
-                @ObjectId uniqueidentifier,
-                @NewRightKey int,
-                @NewLevel int,
-                @oldRightKey int
+                @ParentRightKey int,
+                @ParentLevel int,
+                @NodeLeftKey int,
+                @NodeRightKey int,
+                @NodeLevel int
             AS
             BEGIN
-                UPDATE dbo.[{1}] SET LeftKey=LeftKey+2, RightKey=RightKey+2 WHERE LeftKey > @NewRightKey;
-                UPDATE dbo.[{1}] SET RightKey = RightKey + 2 WHERE RightKey >= @NewRightKey AND LeftKey < @NewRightKey;
-                UPDATE dbo.[{1}] SET LeftKey = @NewRightKey, RightKey = @NewRightKey + 1, Level = @NewLevel + 1 WHERE Id = @ObjectId;
-                UPDATE dbo.[{1}] SET RightKey = RightKey - 2 WHERE RightKey > @oldRightKey;
-                UPDATE dbo.[{1}] SET LeftKey = LeftKey - 2 WHERE LeftKey > @oldRightKey;
+                UPDATE dbo.[{1}] SET LeftKey=LeftKey+(@NodeRightKey - @NodeLeftKey + 1), RightKey=RightKey+(@NodeRightKey - @NodeLeftKey + 1) WHERE LeftKey > @ParentRightKey;
+                UPDATE dbo.[{1}] SET RightKey=RightKey + (@NodeRightKey - @NodeLeftKey + 1) WHERE RightKey >= @ParentRightKey AND LeftKey < @ParentRightKey;
+                UPDATE dbo.[{1}] SET LeftKey=LeftKey-(@NodeLeftKey + (@NodeRightKey - @NodeLeftKey + 1))+@ParentRightKey, RightKey=RightKey-(@NodeLeftKey + (@NodeRightKey - @NodeLeftKey + 1)) + @ParentRightKey, Level=Level-@NodeLevel + (@ParentLevel + 1) WHERE LeftKey >= (@NodeLeftKey + (@NodeRightKey - @NodeLeftKey + 1)) AND RightKey <= (@NodeRightKey + (@NodeRightKey - @NodeLeftKey + 1));
+                UPDATE dbo.[{1}] SET RightKey = RightKey - (@NodeRightKey - @NodeLeftKey + 1) WHERE RightKey > (@NodeRightKey + (@NodeRightKey - @NodeLeftKey + 1));
+                UPDATE dbo.[{1}] SET LeftKey = LeftKey - (@NodeRightKey - @NodeLeftKey + 1) WHERE LeftKey > (@NodeRightKey + (@NodeRightKey - @NodeLeftKey + 1));
             END", procedureName, tableName));
         }
 
-        /*
-        private void CreateStoredProcedureGetChildNestedSetsNodes(ApplicationDbContext context)
+        private void CreateStoredProcedureMoveToRightNestedSetsNode(ApplicationDbContext context, string tableName)
         {
-            context.Database.ExecuteSqlCommand(@"IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetQueenGeneralInfoPublic]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
-			DROP FUNCTION [dbo].[GetQueenGeneralInfoPublic]");
+            string procedureName = string.Format("{0}MoveToRightNestedSetsNode", tableName);
 
-            context.Database.ExecuteSqlCommand(@"create function [dbo].[GetQueenGeneralInfoPublic](@QueenId UNIQUEIDENTIFIER)
-			RETURNS TABLE
-			RETURN
-			select 
-            g.[Id],
-            [Tolerance],
-            [HoneyProductivity],
-            [WinteringQuality],
-            [BroodDensity],
-            [MiteResistance],
-            [Clearness],
-            [InspectionCalmness],
-            [SpringGrowth],
-            [Swarming],
-            [Fertility],
-            [WaxProductivity],
-            [PollenProductivity],
-            [RoyalJellyProductivity],
-            [PropolisBuilding],
-            [ColonyPower],
-            [BeesVitality],
-            [BroodVitality],
-            g.[AdditionalInfo],
-            DiscoidPercentPositive,
-            DiscoidPercentNegative
-            from[dbo].[QueenGeneralInfoes] as g
-            join [dbo].[Queens] as q on g.Id=q.GeneralInfo_Id
-            WHERE @QueenId=q.Id");
-        }*/
-        /*
-        private void CreateStoredProcedureGetRootNestedSetNode(ApplicationDbContext context)
-        {
-            context.Database.ExecuteSqlCommand(@"IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetQueenGeneralInfoPublic]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
-			DROP FUNCTION [dbo].[GetQueenGeneralInfoPublic]");
+            context.Database.ExecuteSqlCommand(string.Format(@"IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[{0}]') AND type in (N'P', N'PC'))
+            DROP PROCEDURE [dbo].[{0}]", procedureName));
 
-            context.Database.ExecuteSqlCommand(@"create function [dbo].[GetQueenGeneralInfoPublic](@QueenId UNIQUEIDENTIFIER)
-			RETURNS TABLE
-			RETURN
-			select 
-            g.[Id],
-            [Tolerance],
-            [HoneyProductivity],
-            [WinteringQuality],
-            [BroodDensity],
-            [MiteResistance],
-            [Clearness],
-            [InspectionCalmness],
-            [SpringGrowth],
-            [Swarming],
-            [Fertility],
-            [WaxProductivity],
-            [PollenProductivity],
-            [RoyalJellyProductivity],
-            [PropolisBuilding],
-            [ColonyPower],
-            [BeesVitality],
-            [BroodVitality],
-            g.[AdditionalInfo],
-            DiscoidPercentPositive,
-            DiscoidPercentNegative
-            from[dbo].[QueenGeneralInfoes] as g
-            join [dbo].[Queens] as q on g.Id=q.GeneralInfo_Id
-            WHERE @QueenId=q.Id");
+            context.Database.ExecuteSqlCommand(string.Format(@"CREATE PROCEDURE [dbo].[{0}]
+                @ParentRightKey int,
+                @ParentLevel int,
+                @NodeLeftKey int,
+                @NodeRightKey int,
+                @NodeLevel int
+            AS
+            BEGIN
+                UPDATE dbo.[{1}] SET LeftKey=LeftKey+(@NodeRightKey - @NodeLeftKey + 1), RightKey=RightKey+(@NodeRightKey - @NodeLeftKey + 1) WHERE LeftKey > @ParentRightKey;
+                UPDATE dbo.[{1}] SET RightKey=RightKey + (@NodeRightKey - @NodeLeftKey + 1) WHERE RightKey >= @ParentRightKey AND LeftKey < @ParentRightKey;
+                UPDATE dbo.[{1}] SET LeftKey=LeftKey-@NodeLeftKey+@ParentRightKey, RightKey=RightKey-@NodeLeftKey+@ParentRightKey, Level=Level-@NodeLevel+ (@ParentLevel + 1) WHERE LeftKey>=@NodeLeftKey AND RightKey<=@NodeRightKey;
+                UPDATE dbo.[{1}] SET RightKey = RightKey - (@NodeRightKey - @NodeLeftKey + 1) WHERE RightKey > @NodeRightKey;
+                UPDATE dbo.[{1}] SET LeftKey = LeftKey - (@NodeRightKey - @NodeLeftKey + 1) WHERE LeftKey > @NodeRightKey;
+            END", procedureName, tableName));
         }
-        */
-        /*
-         
-
-        Task<ICollection<T>> GetRootNodes(T node);
-
-        Task<string> GetPath(T destinationNode);
-
-         */
     }
 }

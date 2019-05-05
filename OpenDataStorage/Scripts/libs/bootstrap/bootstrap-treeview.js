@@ -215,6 +215,10 @@
 			this.$element.on('nodeDblClick', this.options.onNodeDblClick);
 		}
 
+		if (typeof (this.options.onNodeDropped) === 'function') {
+			this.$element.on('nodeDropped', this.options.onNodeDropped);
+		}
+
 		if (typeof (this.options.onNodeCollapsed) === 'function') {
 			this.$element.on('nodeCollapsed', this.options.onNodeCollapsed);
 		}
@@ -382,10 +386,6 @@
 
 		var nodeId = target.closest('li.list-group-item').attr('data-nodeid');
 		var node = this.nodes[nodeId];
-
-		if (!node) {
-			console.log('Error: node does not exist');
-		}
 		return node;
 	};
 
@@ -634,6 +634,23 @@
 						.append($(_this.template.badge)
 							.append(tag)
 						);
+				});
+			}
+
+			if (node.draggable) {
+				treeItem.draggable({ revert: 'invalid' });
+			}
+
+			if (node.droppable) {
+				treeItem.droppable({
+					drop: function (event, ui) {
+						var draggedNode = _this.findNode($(ui.draggable));
+						var droppabletNode = _this.findNode($(event.target));
+						_this.$element.trigger('nodeDropped', $.extend(true, {}, {
+							draggedNode: draggedNode,
+							droppabletNode: droppabletNode
+						}));
+					}
 				});
 			}
 

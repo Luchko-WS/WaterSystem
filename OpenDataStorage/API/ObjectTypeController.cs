@@ -111,9 +111,9 @@ namespace OpenDataStorage.API
             }
         }
 
-        [Route("Move")]
-        [HttpPut]
-        public async Task<HttpResponseMessage> Move(Guid id, Guid parentId)
+        [Route("Move/{id}/{parentId}")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> Move([FromUri]Guid id, Guid parentId)
         {
             try
             {

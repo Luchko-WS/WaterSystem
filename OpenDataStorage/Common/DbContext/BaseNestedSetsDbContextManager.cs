@@ -43,7 +43,7 @@ namespace OpenDataStorage.Common.DbContext
             {
                 try
                 {
-                    await ExecutePreInsertSqlCommand(parentNode.RightKey);
+                    await ExecutePreInsertSqlCommand(parentNode);
                     await ExecuteInsertSqlCommand(entity);
                     transaction.Commit();
                 }
@@ -101,7 +101,7 @@ namespace OpenDataStorage.Common.DbContext
             {
                 try
                 {
-                    throw new NotImplementedException();
+                    await ExecuteMoveSqlCommand(entity, parentEntity);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -123,7 +123,7 @@ namespace OpenDataStorage.Common.DbContext
                 try
                 {
                     await ExecuteDeleteSqlCommand(entity);
-                    await ExecutePostDeleteSqlCommand(entity.LeftKey, entity.RightKey);
+                    await ExecutePostDeleteSqlCommand(entity);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -228,13 +228,13 @@ namespace OpenDataStorage.Common.DbContext
 
         #region Protected methods
 
-        protected async Task ExecutePreInsertSqlCommand(int nodeRightKey)
+        private async Task ExecutePreInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
-            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = nodeRightKey };
+            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = instance.RightKey };
             await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
         }
 
-        protected async Task ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
+        private async Task ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             var columns = new List<string>();
             var parameters = new List<string>();
@@ -259,7 +259,7 @@ namespace OpenDataStorage.Common.DbContext
             await _database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
         }
 
-        protected async Task ExecuteUpdateSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
+        private async Task ExecuteUpdateSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             var expressions = new List<string>();
             var sqlParameters = new List<SqlParameter>();
@@ -282,7 +282,20 @@ namespace OpenDataStorage.Common.DbContext
             await _database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
         }
 
-        protected async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
+        private async Task ExecuteMoveSqlCommand<NS>(NS entity, NS parent) where NS: NestedSetsEntity
+        {
+            var parentRightKeyParam = new SqlParameter { ParameterName = "ParentRightKey", Value = parent.RightKey };
+            var parentLevelParam = new SqlParameter { ParameterName = "ParentLevel", Value = parent.Level };
+            var nodeLeftKeyParam = new SqlParameter { ParameterName = "NodeLeftKey", Value = entity.LeftKey };
+            var nodeRightKeyParam = new SqlParameter { ParameterName = "NodeRightKey", Value = entity.RightKey };
+            var nodeLevelParam = new SqlParameter { ParameterName = "NodeLevel", Value = entity.Level };
+
+            var storedProcedureName = entity.RightKey < parent.LeftKey ? "MoveToLeftNestedSetsNode" : "MoveToRightNestedSetsNode";
+            await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + storedProcedureName + " @ParentRightKey, @ParentLevel, @NodeLeftKey, @NodeRightKey, @NodeLevel", 
+                parentRightKeyParam, parentLevelParam, nodeLeftKeyParam, nodeRightKeyParam, nodeLevelParam);
+        }
+
+        private async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             if (instance.Level == 0) throw new ArgumentException("Cannot delete the root node!");
             var commandText = string.Format(@"DELETE FROM {0} WHERE LeftKey >= {1} AND RightKey <= {2}",
@@ -290,10 +303,10 @@ namespace OpenDataStorage.Common.DbContext
             await _database.ExecuteSqlCommandAsync(commandText);
         }
 
-        protected async Task ExecutePostDeleteSqlCommand(int nodeLeftKey, int nodeRightKey)
+        private async Task ExecutePostDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
-            var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = nodeLeftKey };
-            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = nodeRightKey };
+            var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = instance.LeftKey };
+            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = instance.RightKey };
             await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
         }
 
