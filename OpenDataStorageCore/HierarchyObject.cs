@@ -15,6 +15,6 @@ namespace OpenDataStorageCore
 
         public ObjectType ObjectType { get; set; }
 
-        public ICollection<CharacteristicValue> CharacteristicValues { get; set; }
+        public ICollection<BaseCharacteristicValue> CharacteristicValues { get; set; }
     }
 }

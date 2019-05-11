@@ -45,17 +45,17 @@ namespace OpenDataStorage.Common.DbContext
                 m.ToTable(_objectTypeContextManager.TableName);
             });
 
-            modelBuilder.Entity<CharacteristicValue>().Map(m =>
+            modelBuilder.Entity<BaseCharacteristicValue>().Map(m =>
             {
                m.MapInheritedProperties();
                m.ToTable("Values");
             });
 
-            modelBuilder.Entity<CharacteristicValue>()
+            modelBuilder.Entity<BaseCharacteristicValue>()
                 .HasRequired(v => v.Characteristic)
                 .WithMany();
 
-            modelBuilder.Entity<CharacteristicValue>()
+            modelBuilder.Entity<BaseCharacteristicValue>()
                 .HasRequired(c => c.HierarchyObject)
                 .WithMany();
 
@@ -70,7 +70,7 @@ namespace OpenDataStorage.Common.DbContext
 
         public DbSet<ObjectType> ObjectTypes { get; set; }
 
-        public DbSet<CharacteristicValue> CharacteristicValues { get; set; }
+        public DbSet<BaseCharacteristicValue> CharacteristicValues { get; set; }
 
         INestedSetsObjectContext<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbContextManager;
 

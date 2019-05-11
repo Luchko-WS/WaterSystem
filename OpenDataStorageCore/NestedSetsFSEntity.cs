@@ -5,7 +5,7 @@
         public NestedSetsFSEntity() : base()
         { }
 
-        public EntityType Type { get; set; }
+        public EntityType EntityType { get; set; }
     }
 
     public enum EntityType

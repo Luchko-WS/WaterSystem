@@ -330,10 +330,10 @@
   <data name="RemoveType" xml:space="preserve">
     <value>Видалити тип об'єкту</value>
   </data>
-  <data name="Type" xml:space="preserve">
+  <data name="ObjectType" xml:space="preserve">
     <value>Тип об'єкта</value>
   </data>
-  <data name="Types" xml:space="preserve">
+  <data name="ObjectTypes" xml:space="preserve">
     <value>Типи об'єктів</value>
   </data>
   <data name="AccountLoginMissingUser" xml:space="preserve">
@@ -371,5 +371,14 @@
   </data>
   <data name="Select" xml:space="preserve">
     <value>Обрати</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>Рядок</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Число</value>
   </data>
 </root>

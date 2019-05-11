@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = Lexicon.Types;
+    ViewBag.Title = Lexicon.ObjectTypes;
 }
 
 <div class="page-with-extra-navbar">
@@ -15,7 +15,7 @@
             </form>
         </extra-bootstrap-navbar>
 
-        <h2>@Lexicon.Types</h2>
+        <h2>@Lexicon.ObjectTypes</h2>
         <async-page-with-loader is-loaded="vm.loaded">
             <div class="row">
                 <tree-view ng-model="vm.tree"
@@ -27,8 +27,8 @@
                 </tree-view>
                 @if (Request.IsAuthenticated)
                 {
-                    <button class="btn btn-primary" ng-click="vm.createType()" ng-if="vm.state.currentNode && vm.state.currentNode.type == 0">@Lexicon.Create</button>
-                    <button class="btn btn-primary" ng-click="vm.createFolder()" ng-if="vm.state.currentNode && vm.state.currentNode.type == 0">@Lexicon.CreateFolder</button>
+                    <button class="btn btn-primary" ng-click="vm.createType()" ng-if="vm.state.currentNode && vm.state.currentNode.entityType == 0">@Lexicon.Create</button>
+                    <button class="btn btn-primary" ng-click="vm.createFolder()" ng-if="vm.state.currentNode && vm.state.currentNode.entityType == 0">@Lexicon.CreateFolder</button>
                     <button class="btn btn-primary" ng-click="vm.edit()" ng-if="vm.state.currentNode">@Lexicon.Edit</button>
                     <button class="btn btn-primary" ng-click="vm.remove()" ng-if="vm.state.currentNode">@Lexicon.Remove</button>
                 }

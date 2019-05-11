@@ -330,10 +330,10 @@
   <data name="RemoveType" xml:space="preserve">
     <value>Remove object type</value>
   </data>
-  <data name="Type" xml:space="preserve">
+  <data name="ObjectType" xml:space="preserve">
     <value>Object type</value>
   </data>
-  <data name="Types" xml:space="preserve">
+  <data name="ObjectTypes" xml:space="preserve">
     <value>Object types</value>
   </data>
   <data name="AccountLoginMissingUser" xml:space="preserve">
@@ -371,5 +371,14 @@
   </data>
   <data name="Select" xml:space="preserve">
     <value>Select</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Types</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>String</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
   </data>
 </root>

@@ -2,10 +2,8 @@
 
 namespace OpenDataStorageCore
 {
-    public class CharacteristicValue : BaseEntity
+    public class BaseCharacteristicValue : BaseEntity
     {
-        public string Value { get; set; }
-
         public Guid HierarchyObjectId { get; set; }
 
         public HierarchyObject HierarchyObject { get; set; }

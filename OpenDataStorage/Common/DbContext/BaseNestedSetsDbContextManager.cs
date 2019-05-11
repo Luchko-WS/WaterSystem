@@ -1,4 +1,5 @@
 ﻿using OpenDataStorageCore;
+using OpenDataStorageCore.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -270,11 +271,12 @@ namespace OpenDataStorage.Common.DbContext
             {
                 var sourcePropInfo = sourceType.GetProperty(prop.Name);
                 var value = sourcePropInfo.GetValue(instance, null);
-                if (!(value is BaseEntity) && (value != null && !(value is Nullable) || value == null && (value is Nullable)))
-                {
-                    expressions.Add(prop.Name + "= @" + prop.Name);
-                    sqlParameters.Add(new SqlParameter { ParameterName = prop.Name, Value = value });
-                }
+
+                if ((value is BaseEntity) || sourcePropInfo.GetCustomAttributes(typeof(IgnoreWhenUpdateAttribute), true).Any()
+                    || (value == null && !(value is Nullable))) continue;
+                
+                expressions.Add(prop.Name + "= @" + prop.Name);
+                sqlParameters.Add(new SqlParameter { ParameterName = prop.Name, Value = value });
             }
 
             var commandText = string.Format(@"UPDATE {0} SET {1} WHERE Id='{2}'",

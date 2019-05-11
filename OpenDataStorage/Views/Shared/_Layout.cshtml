@@ -25,7 +25,7 @@
         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                     <li>@Html.ActionLink(Lexicon.Objects, "Tree", "HierarchyObject")</li>
                     <li>@Html.ActionLink(Lexicon.Characteristics, "Tree", "Characteristic")</li>
-                    <li>@Html.ActionLink(Lexicon.Types, "Tree", "ObjectType")</li>
+                    <li>@Html.ActionLink(Lexicon.ObjectTypes, "Tree", "ObjectType")</li>
                     @if (!Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("EN", "SetLanguage", "Home", new { lang = "en", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>

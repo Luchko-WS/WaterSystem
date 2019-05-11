@@ -338,11 +338,20 @@
   <data name="RemoveCharacteristicQuestion" xml:space="preserve">
     <value>Do you want to remove this characteristic?</value>
   </data>
-  <!-- Type -->
   <data name="Type" xml:space="preserve">
+    <value>Types</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>String</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <!-- Object Type -->
+  <data name="ObjectType" xml:space="preserve">
     <value>Object type</value>
   </data>
-  <data name="Types" xml:space="preserve">
+  <data name="ObjectTypes" xml:space="preserve">
     <value>Object types</value>
   </data>
   <data name="CreateType" xml:space="preserve">

@@ -82,7 +82,7 @@ namespace OpenDataStorage.API
                 {
                     Name = vm.Name,
                     Description = vm.Description,
-                    Type = vm.Type,
+                    EntityType = vm.EntityType,
                     OwnerId = User.Identity.Name
                 };
 

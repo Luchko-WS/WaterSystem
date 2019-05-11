@@ -56,6 +56,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
+                        mode: 'create',
                         parentNode: vm.state.currentNode,
                         init: {
                             initPromise: ObjectTypeService.getTree,
@@ -93,6 +94,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
+                        mode: 'edit',
                         node: vm.state.currentNode,
                         init: {
                             initPromise: ObjectTypeService.getTree,

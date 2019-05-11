@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using OpenDataStorageCore.Attributes;
+using System.Collections.Generic;
 
 namespace OpenDataStorageCore
 {
@@ -10,6 +11,16 @@ namespace OpenDataStorageCore
 
         public string Description { get; set; }
 
-        public ICollection<CharacteristicValue> CharacteristicValues { get; set; }
+        [IgnoreWhenUpdate]
+        public CharacteristicType CharacteristicType { get; set; }
+
+        public ICollection<BaseCharacteristicValue> CharacteristicValues { get; set; }
+    }
+
+    public enum CharacteristicType
+    {
+        None = 0,
+        Number = 1,
+        String = 2
     }
 }

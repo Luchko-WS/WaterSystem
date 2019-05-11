@@ -10,7 +10,7 @@
         const ID_FILE_NAME = "id";
         const TEXT_FIELD_NAME = "name";
         const LEVEL_FIELD_NAME = "level";
-        const NODE_TYPE_FIELD_NAME = "type";
+        const NODE_TYPE_FIELD_NAME = "entityType";
         const SELECT_NODE_EVENT_NAME = "selectNodeEvent";
         const FOLDER_NODE_TYPE_VALUE = 0;
         const FILE_NODE_TYPE_VALUE = 1;

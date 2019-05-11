@@ -82,7 +82,8 @@ namespace OpenDataStorage.API
                 {
                     Name = vm.Name,
                     Description = vm.Description,
-                    Type = vm.Type,
+                    EntityType = vm.EntityType,
+                    CharacteristicType = vm.EntityType == EntityType.Folder ? CharacteristicType.None : vm.CharacteristicType,
                     OwnerId = User.Identity.Name
                 };
 

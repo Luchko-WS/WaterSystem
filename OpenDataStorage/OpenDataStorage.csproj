@@ -234,6 +234,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\SelectedListHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -348,6 +349,7 @@
     <Content Include="Scripts\app\Common\Directives\TreeViewDirective.js" />
     <Content Include="Scripts\app\Common\Services\AppConstantsService.js" />
     <Content Include="Scripts\app\Common\Controllers\ReadModelCtrl.js" />
+    <Content Include="Scripts\app\Common\Filters\CharacteristicTypeToStringFilter.js" />
     <Content Include="Scripts\app\ObjectType\ObjectTypeTreeCtrl.js" />
     <Content Include="Scripts\app\ObjectType\ObjectTypeService.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectService.js" />

@@ -538,6 +538,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number.
+        /// </summary>
+        public static string Number {
+            get {
+                return ResourceManager.GetString("Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Object.
         /// </summary>
         public static string Object {
@@ -552,6 +561,24 @@ namespace OpenDataStorage.Resources {
         public static string Objects {
             get {
                 return ResourceManager.GetString("Objects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object type.
+        /// </summary>
+        public static string ObjectType {
+            get {
+                return ResourceManager.GetString("ObjectType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object types.
+        /// </summary>
+        public static string ObjectTypes {
+            get {
+                return ResourceManager.GetString("ObjectTypes", resourceCulture);
             }
         }
         
@@ -745,20 +772,20 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Object type.
+        ///   Looks up a localized string similar to String.
         /// </summary>
-        public static string Type {
+        public static string String {
             get {
-                return ResourceManager.GetString("Type", resourceCulture);
+                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Object types.
+        ///   Looks up a localized string similar to Types.
         /// </summary>
-        public static string Types {
+        public static string Type {
             get {
-                return ResourceManager.GetString("Types", resourceCulture);
+                return ResourceManager.GetString("Type", resourceCulture);
             }
         }
         

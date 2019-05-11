@@ -1,4 +1,5 @@
 ﻿using OpenDataStorage.Common;
+using OpenDataStorageCore;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -37,6 +38,19 @@ namespace OpenDataStorage.Helpers
                     selectedLanguage = threadLanguage;
                 }
                 return new SelectList(LanguageManager.AvailableLanguages, "LangCultureName", "LangFullName", selectedLanguage);
+            }
+        }
+
+        public static IEnumerable<SelectListItem> CharacteristicTypes
+        {
+            get
+            {
+                var types = EnumHelper.GetValues<CharacteristicType>().Where(t => (int)t > 0).Select(t => new
+                {
+                    Text = t.ToString(),
+                    Value = (int)t
+                });
+                return new SelectList(types, "Value", "Text");
             }
         }
     }

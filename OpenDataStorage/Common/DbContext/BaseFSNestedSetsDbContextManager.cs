@@ -18,7 +18,7 @@ namespace OpenDataStorage.Common.DbContext
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
             }
-            if (parentNode.Type != EntityType.Folder)
+            if (parentNode.EntityType != EntityType.Folder)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} is not a folder in {1} table.", parentId, TableName));
             }
@@ -37,7 +37,7 @@ namespace OpenDataStorage.Common.DbContext
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
             }
-            if (parentNode.Type != EntityType.Folder)
+            if (parentNode.EntityType != EntityType.Folder)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} is not a folder in {1} table.", parentId, TableName));
             }

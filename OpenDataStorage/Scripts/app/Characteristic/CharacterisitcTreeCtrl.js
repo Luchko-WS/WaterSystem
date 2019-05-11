@@ -58,6 +58,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
+                        mode: 'create',
                         parentNode: vm.state.currentNode
                     }
                 }
@@ -67,7 +68,7 @@
                 .then(function (model) {
                     var parentNodeId = model.parentNode.id;
                     var node = model.node;
-                    node.type = vm.fsNodeTypes.file;
+                    node.entityType = vm.fsNodeTypes.file;
                     _createCharacteristicNode(parentNodeId, node);
                 });
         }
@@ -79,6 +80,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
+                        mode: 'create',
                         parentNode: vm.state.currentNode
                     }
                 }
@@ -88,7 +90,7 @@
                 .then(function (model) {
                     var parentNodeId = model.parentNode.id;
                     var node = model.node;
-                    node.type = vm.fsNodeTypes.folder;
+                    node.entityType = vm.fsNodeTypes.folder;
                     _createCharacteristicNode(parentNodeId, node);
                 });
         }
@@ -104,13 +106,14 @@
 
         function edit() {
             var modalInstance = $uibModal.open({
-                templateUrl: vm.state.currentNode.type === vm.fsNodeTypes.folder
+                templateUrl: vm.state.currentNode.entityType === vm.fsNodeTypes.folder
                     ? '/Characteristic/CreateEditFolder'
                     : '/Characteristic/CreateEditCharacteristic',
                 controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
+                        mode: 'edit',
                         node: vm.state.currentNode
                     }
                 }
@@ -152,7 +155,7 @@
         function nodeDblClickCallback(event, data) {
             nodeSelectedCallback(event, data);
             $uibModal.open({
-                templateUrl: data.type === vm.fsNodeTypes.folder
+                templateUrl: data.entityType === vm.fsNodeTypes.folder
                     ? '/Characteristic/ReadFolder'
                     : '/Characteristic/ReadCharacteristic',
                 controller: 'ReadModelCtrl',

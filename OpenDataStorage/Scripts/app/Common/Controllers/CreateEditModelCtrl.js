@@ -17,6 +17,7 @@
         function init() {
             vm.model.parentNode = Object.assign({}, _model.parentNode);
             vm.model.node = Object.assign({}, _model.node);
+            vm.model.mode = _model.mode;
 
             if (_model.init && _model.init.initPromise) {
                 _model.init.initPromise()
