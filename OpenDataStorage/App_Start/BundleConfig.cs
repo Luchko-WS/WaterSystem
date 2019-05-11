@@ -30,7 +30,7 @@ namespace OpenDataStorage
                 .Include("~/Scripts/libs/bootstrap/bootstrap.js")
                 .Include("~/Scripts/libs/bootstrap/bootstrap-treeview.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css")
+            bundles.Add(new StyleBundle("~/Content/styles/css")
                 .Include(
                       "~/Content/css/bootstrap/bootstrap.css",
                       "~/Content/css/angular-block-ui/angular-block-ui.css",
