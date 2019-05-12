@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('HierarchyObjectCtrl', HierarchyObjectCtrl);
 
-    HierarchyObjectCtrl.$inject = ['$uibModal', 'common', 'HierarchyObjectService', 'ObjectTypeService', 'DataService', 'MessageService', 'AppConstantsService'];
+    HierarchyObjectCtrl.$inject = ['$uibModal', 'common', 'HierarchyObjectService', 'ObjectTypeService', 'DataService', 'MessageService', 'AppConstantsService', 'requestInfo'];
 
-    function HierarchyObjectCtrl($uibModal, common, HierarchyObjectService, ObjectTypeService, DataService, MessageService, AppConstantsService) {
+    function HierarchyObjectCtrl($uibModal, common, HierarchyObjectService, ObjectTypeService, DataService, MessageService, AppConstantsService, requestInfo) {
         var vm = this;
 
         vm.edit = edit;
@@ -16,6 +16,7 @@
         init();
 
         function init() {
+            if (requestInfo.isAuthenticated === 'True') vm.enableEditing = true;
             loadObject();
             loadAllData();
         }

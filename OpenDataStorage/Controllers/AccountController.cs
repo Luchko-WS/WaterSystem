@@ -171,6 +171,7 @@ namespace OpenDataStorage.Controllers
             {
                 var user = new ApplicationUser
                 {
+                    UserName = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,

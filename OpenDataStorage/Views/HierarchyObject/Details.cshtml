@@ -52,9 +52,13 @@
         <async-page-with-loader is-loaded="vm.dataLoaded">
             <div ng-if="vm.data">
                 <div class="row">
-                    <h3>Values:</h3>
+                    <table-view ng-model="vm.data"
+                        filter-callback="0"
+                        create-callback="1"
+                        edit-callback="2"
+                        remove-callback="3"
+                        enable-editing="vm.enableEditing" />
                 </div>
-                <p ng-if="vm.data.length === 0">There is no data</p>
             </div>
         </async-page-with-loader>
     </div>
