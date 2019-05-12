@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
@@ -11,9 +12,10 @@ namespace OpenDataStorage.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ReadObject()
+        public ActionResult Details(Guid id)
         {
-            return PartialView();
+            ViewBag.Id = id;
+            return View();
         }
 
         public ActionResult CreateEditObject()

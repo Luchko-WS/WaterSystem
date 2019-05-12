@@ -11,15 +11,15 @@ using System.Web.Http;
 namespace OpenDataStorage.API.Data
 {
     [RoutePrefix("api/Data")]
-    public class DataController<T> : BaseApiController where T : BaseCharacteristicValue
+    public class DataController : BaseApiController
     {
         [Route("GetDataForObject/{id}")]
         [HttpGet]
         [AllowAnonymous]
         public async Task<dynamic> GetDataForObject([FromUri]Guid id)
         {
-            return await _dbContext.CharacteristicValueDbSetManager.GetAllForObjectQuery(id)
-                .Select(v => v.ConvertToViewModelIfExists()).ToListAsync();
+            var data = await _dbContext.CharacteristicValueDbSetManager.GetAllForObjectQuery(id).ToListAsync();
+            return data.Select(v => v.ConvertToViewModelIfExists());
         }
 
         [Route("Get/{id}")]
@@ -27,8 +27,8 @@ namespace OpenDataStorage.API.Data
         [AllowAnonymous]
         public async Task<dynamic> Get([FromUri]Guid id)
         {
-            return await _dbContext.CharacteristicValueDbSetManager.GetEntityQuery(id)
-                .Select(v => v.ConvertToViewModelIfExists()).FirstOrDefaultAsync();
+            var data = await _dbContext.CharacteristicValueDbSetManager.GetEntityQuery(id).FirstOrDefaultAsync();
+            return data.ConvertToViewModelIfExists();
         }
 
         [Route("Delete/{id}")]
@@ -46,7 +46,7 @@ namespace OpenDataStorage.API.Data
             }
         }
 
-        protected async Task<HttpResponseMessage> CreateInner(Guid objectId, Guid characteristicId, T value)
+        protected async Task<HttpResponseMessage> CreateInner(Guid objectId, Guid characteristicId, BaseCharacteristicValue value)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace OpenDataStorage.API.Data
             }
         }
 
-        protected async Task<HttpResponseMessage> UpdateInner(T value)
+        protected async Task<HttpResponseMessage> UpdateInner(BaseCharacteristicValue value)
         {
             try
             {

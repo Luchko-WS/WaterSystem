@@ -52,6 +52,9 @@ namespace OpenDataStorage
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/app/ObjectType")
                 .IncludeDirectory("~/Scripts/app/ObjectType", "*.js", true));
+
+            bundles.Add(new ScriptBundle("~/bundles/scripts/app/Data")
+                .IncludeDirectory("~/Scripts/app/Data", "*.js", true));
         }
     }
 }

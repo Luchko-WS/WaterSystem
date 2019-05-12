@@ -8,9 +8,9 @@ using OpenDataStorage.ViewModels.CharacteristicValueViewModel;
 
 namespace OpenDataStorage.API.Data
 {
-    public class NumberDataController: DataController<NumberCharacteristicValue>
+    public class NumberDataController: DataController
     {
-        private CharacteristicType _supportedCharacteristicType = CharacteristicType.Number;
+        private readonly CharacteristicType _supportedCharacteristicType = CharacteristicType.Number;
 
         [Route("Number/{objectId}/{characteristicId}")]
         [HttpPost]

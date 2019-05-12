@@ -360,6 +360,8 @@
     <Content Include="Scripts\app\Common\Services\AppConstantsService.js" />
     <Content Include="Scripts\app\Common\Controllers\ReadModelCtrl.js" />
     <Content Include="Scripts\app\Common\Filters\CharacteristicTypeToStringFilter.js" />
+    <Content Include="Scripts\app\Data\DataService.js" />
+    <Content Include="Scripts\app\HierarchyObject\HierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\ObjectType\ObjectTypeTreeCtrl.js" />
     <Content Include="Scripts\app\ObjectType\ObjectTypeService.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectService.js" />
@@ -490,7 +492,7 @@
     <Content Include="Views\ObjectType\ReadFolder.cshtml" />
     <Content Include="Views\Characteristic\ReadCharacteristic.cshtml" />
     <Content Include="Views\Characteristic\ReadFolder.cshtml" />
-    <Content Include="Views\HierarchyObject\ReadObject.cshtml" />
+    <Content Include="Views\HierarchyObject\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

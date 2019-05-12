@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = Lexicon.Object;
+}
+
+<div class="page-with-extra-navbar">
+    <div ng-controller="HierarchyObjectCtrl as vm">
+        <extra-bootstrap-navbar>
+            <form class="navbar-form">
+                <!--div class="form-group">
+                    <input type="text" class="form-control" ng-model="vm.typeNamePattern" placeholder="@Lexicon.Name">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default" type="submit" ng-click="vm.filter()">@Lexicon.Filter</button>
+                </div-->
+            </form>
+        </extra-bootstrap-navbar>
+
+        <h2 ng-bind="vm.obj.name"></h2>
+        <async-page-with-loader is-loaded="vm.objLoaded">
+            <div class="row">
+                <label class="control-label col-md-2">@Lexicon.Name</label>
+                <div class="col-md-10">
+                    <span ng-bind="vm.obj.name"></span>
+                </div>
+            </div>
+            <div class="row" ng-if="vm.model.node.description">
+                <label class="control-label col-md-2">@Lexicon.Description</label>
+                <div class="col-md-10">
+                    <span ng-bind="vm.obj.description"></span>
+                </div>
+            </div>
+            <div class="row" ng-if="vm.model.node.objectType">
+                <label class="control-label col-md-2">@Lexicon.ObjectType</label>
+                <div class="col-md-10">
+                    <span ng-bind="vm.obj.objectType.name"></span>
+                </div>
+            </div>
+            <div class="row">
+                <label class="control-label col-md-2">@Lexicon.Owner</label>
+                <div class="col-md-10">
+                    <span ng-bind="vm.obj.ownerId"></span>
+                </div>
+            </div>
+
+            @if (Request.IsAuthenticated)
+            {
+                <button class="btn btn-primary" ng-click="vm.edit()">@Lexicon.Edit</button>
+                <button class="btn btn-danger" ng-click="vm.remove()">@Lexicon.Remove</button>
+            }
+            </async-page-with-loader>
+
+        <async-page-with-loader is-loaded="vm.dataLoaded">
+            <div ng-if="vm.data">
+                <div class="row">
+                    <h3>Values:</h3>
+                </div>
+                <p ng-if="vm.data.length === 0">There is no data</p>
+            </div>
+        </async-page-with-loader>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        window.app.constant('common', {
+            id: '@ViewBag.Id'
+        });
+    </script>
+}

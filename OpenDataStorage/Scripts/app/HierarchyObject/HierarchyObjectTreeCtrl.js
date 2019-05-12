@@ -142,17 +142,7 @@
         }
 
         function nodeDblClickCallback(event, data) {
-            nodeSelectedCallback(event, data);
-            $uibModal.open({
-                templateUrl: '/HierarchyObject/ReadObject',
-                controller: 'ReadModelCtrl',
-                controllerAs: 'vm',
-                resolve: {
-                    _model: {
-                        node: data
-                    }
-                }
-            });
+            window.location.href = '/HierarchyObject/Details/' + data.id;
         }
 
         function nodeSelectedCallback(event, data) {
