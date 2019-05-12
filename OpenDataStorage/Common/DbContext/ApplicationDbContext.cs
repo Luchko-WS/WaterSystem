@@ -82,7 +82,7 @@ namespace OpenDataStorage.Common.DbContext
 
         INestedSetsObjectContext<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbSetManager;
 
-        INestedSetsFSContext<Characteristic> IApplicationDbContext.CharacteristicObjectContext => this._characteristicDbSetManager;
+        INestedSetsFSContext<Characteristic> IApplicationDbContext.CharacteristicContext => this._characteristicDbSetManager;
 
         INestedSetsFSContext<ObjectType> IApplicationDbContext.ObjectTypeContext => this._objectTypeDbSetManager;
 

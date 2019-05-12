@@ -9,7 +9,7 @@ namespace OpenDataStorage.Common.DbContext
     {
         INestedSetsObjectContext<HierarchyObject> HierarchyObjectContext { get; }
 
-        INestedSetsFSContext<Characteristic> CharacteristicObjectContext { get; }
+        INestedSetsFSContext<Characteristic> CharacteristicContext { get; }
 
         INestedSetsFSContext<ObjectType> ObjectTypeContext { get; }
 

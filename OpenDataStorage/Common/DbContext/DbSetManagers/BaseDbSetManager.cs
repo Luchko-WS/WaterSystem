@@ -44,7 +44,7 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
             await SaveChanges();
         }
 
-        public async Task Delete(Guid id)
+        public virtual async Task Delete(Guid id)
         {
             var model = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
             if (model == null)

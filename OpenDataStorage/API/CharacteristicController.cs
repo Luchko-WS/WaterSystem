@@ -22,7 +22,7 @@ namespace OpenDataStorage.API
         {
             if (vm != null && !string.IsNullOrEmpty(vm.Name))
             {
-                var ids = await _dbContext.CharacteristicObjectContext.Entities
+                var ids = await _dbContext.CharacteristicContext.Entities
                     .Where(e => e.Name.ToLower().Contains(vm.Name.ToLower()))
                     .Select(e => e.Id).ToListAsync();
 
@@ -31,13 +31,13 @@ namespace OpenDataStorage.API
                 {
                     if (!results.Any(e => e.Id == id))
                     {
-                        var branch = await _dbContext.CharacteristicObjectContext.GetParentNodes(id, includeItself: true);
+                        var branch = await _dbContext.CharacteristicContext.GetParentNodes(id, includeItself: true);
                         results = results.Union(branch).ToList();
                     }
                 }
                 return results.OrderBy(e => e.LeftKey).ToList();
             }
-            return await _dbContext.CharacteristicObjectContext.GetTree();
+            return await _dbContext.CharacteristicContext.GetTree();
         }
 
         [Route("GetSubTree")]
@@ -47,7 +47,7 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.CharacteristicObjectContext.GetChildNodes(vm.Id, true);
+                var res = await _dbContext.CharacteristicContext.GetChildNodes(vm.Id, true);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.CharacteristicObjectContext.GetNode(id);
+                var res = await _dbContext.CharacteristicContext.GetNode(id);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -87,7 +87,7 @@ namespace OpenDataStorage.API
                     OwnerId = User.Identity.Name
                 };
 
-                await _dbContext.CharacteristicObjectContext.Add(entity, parentFolderId);
+                await _dbContext.CharacteristicContext.Add(entity, parentFolderId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace OpenDataStorage.API
             try
             {
                 var entity = Mapper.CreateInstanceAndMapProperties<Characteristic>(vm);
-                await _dbContext.CharacteristicObjectContext.Update(entity);
+                await _dbContext.CharacteristicContext.Update(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -118,8 +118,8 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var entity = _dbContext.CharacteristicObjectContext.Entities.FirstOrDefault(e => e.Id == id);
-                await _dbContext.CharacteristicObjectContext.Move(id, parentId);
+                var entity = _dbContext.CharacteristicContext.Entities.FirstOrDefault(e => e.Id == id);
+                await _dbContext.CharacteristicContext.Move(id, parentId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -134,10 +134,10 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var entity = await _dbContext.CharacteristicObjectContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
-                var parent = await _dbContext.CharacteristicObjectContext.GetParentNode(id);
+                var entity = await _dbContext.CharacteristicContext.Entities.FirstOrDefaultAsync(e => e.Id == id);
+                var parent = await _dbContext.CharacteristicContext.GetParentNode(id);
 
-                await _dbContext.CharacteristicObjectContext.Remove(entity);
+                await _dbContext.CharacteristicContext.Remove(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, parent);
             }
             catch (Exception ex)

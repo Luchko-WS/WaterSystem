@@ -202,6 +202,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\BaseApiController.cs" />
+    <Compile Include="API\Data\StringDataController.cs" />
+    <Compile Include="API\Data\NumberDataController.cs" />
+    <Compile Include="API\Data\DataController.cs" />
     <Compile Include="API\ObjectTypeController.cs" />
     <Compile Include="API\HierarchyObjectController.cs" />
     <Compile Include="API\CharacteristicController.cs" />
@@ -239,6 +242,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\ModelHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\SelectedListHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -272,6 +276,8 @@
     <Compile Include="ViewModels\AccountViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\VerifyCodeViewModel.cs" />
+    <Compile Include="ViewModels\CharacteristicValueViewModel\StringValueViewModel.cs" />
+    <Compile Include="ViewModels\CharacteristicValueViewModel\NumberValueViewModel.cs" />
     <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicFilterViewModel.cs" />
     <Compile Include="ViewModels\CharacteristicViewModel\CharacteristicViewModel.cs" />
     <Compile Include="ViewModels\HierarchyObjectViewModels\HierarchyObjectFilterViewModel.cs" />

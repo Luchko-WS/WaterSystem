@@ -85,7 +85,7 @@ namespace OpenDataStorage.Migrations
 
         private void PrepateStoredProceduresForCharacteristics(ApplicationDbContext context)
         {
-            string tableName = ((IApplicationDbContext)context).CharacteristicObjectContext.TableName;
+            string tableName = ((IApplicationDbContext)context).CharacteristicContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
             CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
             CreateStoredProcedureMoveNestedSetsNode(context, tableName);
