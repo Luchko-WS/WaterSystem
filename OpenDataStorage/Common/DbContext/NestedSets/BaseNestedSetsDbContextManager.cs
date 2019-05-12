@@ -8,16 +8,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext
+namespace OpenDataStorage.Common.DbContext.NestedSets
 {
-    public abstract class BaseNestedSetsDbContextManager<T> : INestedSetsObjectContext<T> where T : NestedSetsEntity
+    public abstract class BaseNestedSetsDbSetManager<T> : INestedSetsObjectContext<T> where T : NestedSetsEntity
     {
         protected DbSet<T> _dbSet;
         protected Database _database;
 
         public string TableName { get; protected set; }
 
-        public BaseNestedSetsDbContextManager(DbSet<T> dbSet, Database database)
+        public BaseNestedSetsDbSetManager(DbSet<T> dbSet, Database database)
         {
             _database = database;
             _dbSet = dbSet;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OpenDataStorageCore
 {
@@ -14,7 +13,5 @@ namespace OpenDataStorageCore
         public Guid? ObjectTypeId { get; set; }
 
         public ObjectType ObjectType { get; set; }
-
-        public ICollection<BaseCharacteristicValue> CharacteristicValues { get; set; }
     }
 }

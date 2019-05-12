@@ -2,22 +2,26 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
+using OpenDataStorage.Common.DbContext.DbSetManagers;
+using OpenDataStorage.Common.DbContext.NestedSets;
 using OpenDataStorageCore;
 
 namespace OpenDataStorage.Common.DbContext
 {
     public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
-        private HierarchyObjectDbContextManager _objectDbContextManager;
-        private CharacteristicDbContextManager _characteristicDbContextManager;
-        private ObjectTypeDbContextManager _objectTypeContextManager;
+        private INestedSetsObjectContext<HierarchyObject> _objectDbSetManager;
+        private INestedSetsFSContext<Characteristic> _characteristicDbSetManager;
+        private INestedSetsFSContext<ObjectType> _objectTypeDbSetManager;
+        private ICharacteristicValueDbSetManager _characteristicValueDbSetManager;
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            _objectDbContextManager = new HierarchyObjectDbContextManager(HierarchyObjects, this.Database);
-            _characteristicDbContextManager = new CharacteristicDbContextManager(Characteristics, this.Database);
-            _objectTypeContextManager = new ObjectTypeDbContextManager(ObjectTypes, this.Database);
+            _objectDbSetManager = new HierarchyObjectDbContextManager(HierarchyObjects, this.Database);
+            _characteristicDbSetManager = new CharacteristicDbSetManager(Characteristics, this.Database);
+            _objectTypeDbSetManager = new ObjectTypeDbSetManager(ObjectTypes, this.Database);
+            _characteristicValueDbSetManager = new CharacteristicValueDbSetManager<BaseCharacteristicValue>(CharacteristicValues, this.SaveDbChangesAsync);
         }
 
         public static ApplicationDbContext Create()
@@ -30,34 +34,38 @@ namespace OpenDataStorage.Common.DbContext
             modelBuilder.Entity<Characteristic>().Map(m =>
             {
                 m.MapInheritedProperties();
-                m.ToTable(_characteristicDbContextManager.TableName);
+                m.ToTable(_characteristicDbSetManager.TableName);
             });
 
             modelBuilder.Entity<HierarchyObject>().Map(m =>
             {
                 m.MapInheritedProperties();
-                m.ToTable(_objectDbContextManager.TableName);
+                m.ToTable(_objectDbSetManager.TableName);
             });
 
             modelBuilder.Entity<ObjectType>().Map(m =>
             {
                 m.MapInheritedProperties();
-                m.ToTable(_objectTypeContextManager.TableName);
+                m.ToTable(_objectTypeDbSetManager.TableName);
             });
 
             modelBuilder.Entity<BaseCharacteristicValue>().Map(m =>
             {
                m.MapInheritedProperties();
-               m.ToTable("Values");
+               m.ToTable(_characteristicValueDbSetManager.TableName);
             });
 
             modelBuilder.Entity<BaseCharacteristicValue>()
                 .HasRequired(v => v.Characteristic)
-                .WithMany();
+                .WithMany()
+                .HasForeignKey(v => v.CharacterisitcId)
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<BaseCharacteristicValue>()
                 .HasRequired(c => c.HierarchyObject)
-                .WithMany();
+                .WithMany()
+                .HasForeignKey(v => v.HierarchyObjectId)
+                .WillCascadeOnDelete(true);
 
             base.OnModelCreating(modelBuilder);
 
@@ -72,11 +80,13 @@ namespace OpenDataStorage.Common.DbContext
 
         public DbSet<BaseCharacteristicValue> CharacteristicValues { get; set; }
 
-        INestedSetsObjectContext<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbContextManager;
+        INestedSetsObjectContext<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbSetManager;
 
-        INestedSetsFSContext<Characteristic> IApplicationDbContext.CharacteristicObjectContext => this._characteristicDbContextManager;
+        INestedSetsFSContext<Characteristic> IApplicationDbContext.CharacteristicObjectContext => this._characteristicDbSetManager;
 
-        INestedSetsFSContext<ObjectType> IApplicationDbContext.ObjectTypeContext => this._objectTypeContextManager;
+        INestedSetsFSContext<ObjectType> IApplicationDbContext.ObjectTypeContext => this._objectTypeDbSetManager;
+
+        ICharacteristicValueDbSetManager IApplicationDbContext.CharacteristicValueDbSetManager => this._characteristicValueDbSetManager;
 
         public async Task SaveDbChangesAsync()
         {

@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext
+namespace OpenDataStorage.Common.DbContext.NestedSets
 {
     public interface INestedSetsObjectContext<T> : INestedSetsEntityRelationContext<T> where T : NestedSetsEntity
     {

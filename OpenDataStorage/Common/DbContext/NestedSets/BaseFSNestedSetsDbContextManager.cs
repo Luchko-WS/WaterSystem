@@ -4,11 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext
+namespace OpenDataStorage.Common.DbContext.NestedSets
 {
-    public abstract class BaseFSNestedSetsDbContextManager<T> : BaseNestedSetsDbContextManager<T>, INestedSetsFSContext<T> where T : NestedSetsFSEntity
+    public abstract class BaseFSNestedSetsDbSetManager<T> : BaseNestedSetsDbSetManager<T>, INestedSetsFSContext<T> where T : NestedSetsFSEntity
     {
-        public BaseFSNestedSetsDbContextManager(DbSet<T> dbSet, Database database)
+        public BaseFSNestedSetsDbSetManager(DbSet<T> dbSet, Database database)
             : base(dbSet, database) { }
 
         public override async Task Add(T entity, Guid parentId)

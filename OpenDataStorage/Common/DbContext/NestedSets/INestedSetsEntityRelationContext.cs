@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext
+namespace OpenDataStorage.Common.DbContext.NestedSets
 {
     public interface INestedSetsEntityRelationContext<T> where T : NestedSetsEntity
     {

@@ -1,4 +1,6 @@
-﻿using OpenDataStorageCore;
+﻿using OpenDataStorage.Common.DbContext.DbSetManagers;
+using OpenDataStorage.Common.DbContext.NestedSets;
+using OpenDataStorageCore;
 using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext
@@ -10,6 +12,8 @@ namespace OpenDataStorage.Common.DbContext
         INestedSetsFSContext<Characteristic> CharacteristicObjectContext { get; }
 
         INestedSetsFSContext<ObjectType> ObjectTypeContext { get; }
+
+        ICharacteristicValueDbSetManager CharacteristicValueDbSetManager { get; }
 
         Task SaveDbChangesAsync();
     }
