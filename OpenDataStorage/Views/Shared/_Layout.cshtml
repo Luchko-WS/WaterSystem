@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/styles/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/scripts/modernizr")
 
 </head>
 <body ng-app="MainApp">
@@ -45,13 +45,13 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/angularjs")
-    @Scripts.Render("~/bundles/app")
-    @Scripts.Render("~/bundles/app/Characteristic")
-    @Scripts.Render("~/bundles/app/ObjectType")
-    @Scripts.Render("~/bundles/app/HierarchyObject")
+    @Scripts.Render("~/bundles/scripts/jquery")
+    @Scripts.Render("~/bundles/scripts/bootstrap")
+    @Scripts.Render("~/bundles/scripts/angularjs")
+    @Scripts.Render("~/bundles/scripts/app")
+    @Scripts.Render("~/bundles/scripts/app/Characteristic")
+    @Scripts.Render("~/bundles/scripts/app/ObjectType")
+    @Scripts.Render("~/bundles/scripts/app/HierarchyObject")
     @RenderSection("scripts", required: false)
 
     <script>
