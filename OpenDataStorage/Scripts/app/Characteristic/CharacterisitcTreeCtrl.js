@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('CharacteristicTreeCtrl', CharacteristicTreeCtrl);
 
-    CharacteristicTreeCtrl.$inject = ['$uibModal', 'CharacteristicService', 'MessageService', 'AppConstantsService'];
+    CharacteristicTreeCtrl.$inject = ['$uibModal', 'CharacteristicService', 'MessageService', 'AppConstantsService', 'requestInfo'];
 
-    function CharacteristicTreeCtrl($uibModal, CharacteristicService, MessageService, AppConstantsService) {
+    function CharacteristicTreeCtrl($uibModal, CharacteristicService, MessageService, AppConstantsService, requestInfo) {
         var vm = this;
 
         vm.tree = [];
@@ -33,6 +33,7 @@
         function init() {
             vm.fsNodeTypes = AppConstantsService.getFSNodeTypes();
             vm.treeParserConfig = AppConstantsService.getDefaultFsTreeConfig();
+            if (requestInfo.isAuthenticated === 'False') vm.treeParserConfig.treeConfig.draggable = false;
             loadData();
         }
 

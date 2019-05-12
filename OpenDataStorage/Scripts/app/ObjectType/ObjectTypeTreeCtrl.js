@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('ObjectTypeTreeCtrl', ObjectTypeTreeCtrl);
 
-    ObjectTypeTreeCtrl.$inject = ['$uibModal', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
+    ObjectTypeTreeCtrl.$inject = ['$uibModal', 'ObjectTypeService', 'MessageService', 'AppConstantsService', 'requestInfo'];
 
-    function ObjectTypeTreeCtrl($uibModal, ObjectTypeService, MessageService, AppConstantsService) {
+    function ObjectTypeTreeCtrl($uibModal, ObjectTypeService, MessageService, AppConstantsService, requestInfo) {
         var vm = this;
 
         vm.tree = [];
@@ -33,6 +33,7 @@
         function init() {
             vm.fsNodeTypes = AppConstantsService.getFSNodeTypes();
             vm.treeParserConfig = AppConstantsService.getDefaultFsTreeConfig();
+            if (requestInfo.isAuthenticated === 'False') vm.treeParserConfig.treeConfig.draggable = false;
             loadData();
         }
 

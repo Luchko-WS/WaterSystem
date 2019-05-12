@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('HierarchyObjectTreeCtrl', HierarchyObjectTreeCtrl);
 
-    HierarchyObjectTreeCtrl.$inject = ['$uibModal', 'HierarchyObjectService', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
+    HierarchyObjectTreeCtrl.$inject = ['$uibModal', 'HierarchyObjectService', 'ObjectTypeService', 'MessageService', 'AppConstantsService', 'requestInfo'];
 
-    function HierarchyObjectTreeCtrl($uibModal, HierarchyObjectService, ObjectTypeService, MessageService, AppConstantsService) {
+    function HierarchyObjectTreeCtrl($uibModal, HierarchyObjectService, ObjectTypeService, MessageService, AppConstantsService, requestInfo) {
         var vm = this;
 
         vm.tree = [];
@@ -31,6 +31,7 @@
 
         function init() {
             vm.treeParserConfig = AppConstantsService.getDefaultTreeConfig();
+            if (requestInfo.isAuthenticated === 'False') vm.treeParserConfig.treeConfig.draggable = false;
             loadData();
         }
 
