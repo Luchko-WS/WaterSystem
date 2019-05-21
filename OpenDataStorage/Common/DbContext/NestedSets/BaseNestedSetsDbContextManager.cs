@@ -262,22 +262,15 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         private async Task ExecuteUpdateSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
-            var expressions = new List<string>();
-            var sqlParameters = new List<SqlParameter>();
-
-            var sourceType = instance.GetType();
-            var resPropertiesInfo = sourceType.GetProperties();
-            foreach (var prop in resPropertiesInfo)
+            var sqlParameters = Mapper.GetSqlParametersForObject(instance, (prop) =>
             {
-                var sourcePropInfo = sourceType.GetProperty(prop.Name);
-                var value = sourcePropInfo.GetValue(instance, null);
+                var value = prop.GetValue(instance);
+                var invalid = ((value is BaseEntity) || prop.GetCustomAttributes(typeof(IgnoreWhenUpdateAttribute), true).Any()
+                    || (value == null && !(value is Nullable)));
+                return !invalid;
+            });
 
-                if ((value is BaseEntity) || sourcePropInfo.GetCustomAttributes(typeof(IgnoreWhenUpdateAttribute), true).Any()
-                    || (value == null && !(value is Nullable))) continue;
-                
-                expressions.Add(prop.Name + "= @" + prop.Name);
-                sqlParameters.Add(new SqlParameter { ParameterName = prop.Name, Value = value });
-            }
+            var expressions = sqlParameters.Select(p => p.ParameterName + "= @" + p.ParameterName).ToList();
 
             var commandText = string.Format(@"UPDATE {0} SET {1} WHERE Id='{2}'",
                 TableName, string.Join(",", expressions), instance.Id.ToString());

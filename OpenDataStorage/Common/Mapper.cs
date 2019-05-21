@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Reflection;
 
 namespace OpenDataStorage.Common
 {
@@ -17,7 +20,7 @@ namespace OpenDataStorage.Common
             return resObj;
         }
 
-        public static void MapProperties(object sourceObj, object targerObject, bool allowSetNull = true)
+        public static void MapProperties(object sourceObj, object targerObject, Func<PropertyInfo, bool> filter = null)
         {
             var targetType = targerObject.GetType();
             var resPropertiesInfo = targetType.GetProperties();
@@ -27,13 +30,30 @@ namespace OpenDataStorage.Common
                 var sourcePropInfo = sourceType.GetProperty(resObjProp.Name);
                 if (sourcePropInfo != null)
                 {
-                    var value = sourcePropInfo.GetValue(sourceObj, null);
-                    if (value != null || (value == null && allowSetNull))
+                    if (filter == null || (filter != null && filter.Invoke(sourcePropInfo)))
                     {
+                        var value = sourcePropInfo.GetValue(sourceObj, null);
                         resObjProp.SetValue(targerObject, value);
                     }
                 }
             }
+        }
+
+        public static IEnumerable<SqlParameter> GetSqlParametersForObject(object sourceObj, Func<PropertyInfo, bool> filter = null)
+        {
+            var sqlParameters = new List<SqlParameter>();
+            var sourceType = sourceObj.GetType();
+            var resPropertiesInfo = sourceType.GetProperties();
+            foreach (var prop in resPropertiesInfo)
+            {
+                var sourcePropInfo = sourceType.GetProperty(prop.Name);
+                if (filter == null || (filter != null && filter.Invoke(sourcePropInfo)))
+                {
+                    var value = sourcePropInfo.GetValue(sourceObj, null);
+                    sqlParameters.Add(new SqlParameter { ParameterName = prop.Name, Value = value });
+                }
+            }
+            return sqlParameters;
         }
     }
 }

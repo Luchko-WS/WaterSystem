@@ -1,4 +1,5 @@
 ﻿using OpenDataStorageCore;
+using OpenDataStorageCore.Attributes;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -35,23 +36,29 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
 
         public virtual async Task Update(T entity)
         {
-            var model = await _dbSet.FirstOrDefaultAsync(e => e.Id == entity.Id);
-            if (model == null)
+            var dbEntity = await _dbSet.FirstOrDefaultAsync(e => e.Id == entity.Id);
+            if (dbEntity == null)
             {
                 throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", entity.Id, TableName));
             }
-            Mapper.MapProperties(entity, model);
+            Mapper.MapProperties(entity, dbEntity, (prop) =>
+            {
+                var value = prop.GetValue(entity);
+                var invalid = ((value is BaseEntity) || prop.GetCustomAttributes(typeof(IgnoreWhenUpdateAttribute), true).Any()
+                    || (value == null && !(value is Nullable)));
+                return !invalid;
+            });
             await SaveChanges();
         }
 
         public virtual async Task Delete(Guid id)
         {
-            var model = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
-            if (model == null)
+            var entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
+            if (entity == null)
             {
                 throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", id, TableName));
             }
-            _dbSet.Remove(model);
+            _dbSet.Remove(entity);
             await SaveChanges();
         }
 

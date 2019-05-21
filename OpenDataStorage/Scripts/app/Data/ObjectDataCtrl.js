@@ -101,8 +101,7 @@
         }
 
         function update(value) {
-            console.log(value);
-            value.creationDate = Date(value.creationDate);
+            value.creationDate = new Date(value.creationDate);
             var modalInstance = $uibModal.open({
                 templateUrl: _getTemplateByValueType(value),
                 controller: 'CreateEditModelCtrl',
@@ -118,7 +117,7 @@
             modalInstance.result
                 .then(function (model) {
                     console.log(model.value);
-                    _getServiceForValue(model.value).update(mode.value)
+                    _getServiceForValue(model.value).update(model.value)
                         .success(function (data) {
                             loadAllData();
                         })

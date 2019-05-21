@@ -24,7 +24,7 @@ namespace OpenDataStorage.API.Data
             {
                 CharacterisitcId = characteristicId,
                 HierarchyObjectId = objectId,
-                CreationDate = vm.CreationDate ?? DateTime.Now,
+                CreationDate = vm.CreationDate ?? DateTime.Now.Date,
                 Value = vm.Value,
                 OwnerId = User.Identity.Name
             };
