@@ -381,4 +381,28 @@
   <data name="Number" xml:space="preserve">
     <value>Число</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="SelectCharacteristic" xml:space="preserve">
+    <value>Выберите характеристику</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Дальше</value>
+  </data>
+  <data name="CreateValue" xml:space="preserve">
+    <value>Создать значение</value>
+  </data>
+  <data name="EditValue" xml:space="preserve">
+    <value>Редактировать значение</value>
+  </data>
+  <data name="RemoveValue" xml:space="preserve">
+    <value>Удалить значение</value>
+  </data>
+  <data name="RemoveValueQuestion" xml:space="preserve">
+    <value>Вы хотите удалить это значение?</value>
+  </data>
 </root>

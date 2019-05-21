@@ -15,33 +15,31 @@
         vm.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 
         function init() {
-            vm.model.parentNode = Object.assign({}, _model.parentNode);
-            vm.model.node = Object.assign({}, _model.node);
-            vm.model.mode = _model.mode;
+            vm.model = _model ? angular.copy(_model) : {};
+            if (!vm.model.node) vm.model.node = {};
 
             if (_model.init && _model.init.initPromise) {
+                vm.model.loaded = false;
                 _model.init.initPromise()
                     .success(function (data) {
+                        vm.model.node = 0;
                         if (typeof (_model.init.initSuccessCallback) === 'function') {
-                            vm.model = Object.assign(vm.model, _model.init.initSuccessCallback(data, vm.model.node));
+                            vm.model = Object.assign(vm.model, _model.init.initSuccessCallback(data, vm.model));
                         }
+                        vm.model.loaded = true;
                     })
                     .error(function (error) {
                         if (typeof (_model.init.initErrorCallback) === 'function') {
-                            vm.model = Object.assign(vm.model, _model.init.initErrorCallback(error, vm.model.node));
-                            _errorHandler(error);
+                            vm.model = Object.assign(vm.model, _model.init.initErrorCallback(error, vm.model));
                         }
+                        vm.model.loaded = true;
+                        MessageService.showMessage('commonErrorMessage', 'error');
+                        console.error(error);
                     });
             }
         }
 
         init();
-
-        function _errorHandler(error) {
-            console.error(error);
-            vm.loaded = true;
-            MessageService.showMessage('commonErrorMessage', 'error');
-        }
     }
 
 })();

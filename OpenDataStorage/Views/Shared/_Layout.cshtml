@@ -61,6 +61,8 @@
         });
 
         $(document).ready(function () {
+            SomeeAdsRemover();
+
             $(window).scroll(function () {
                 if ($(this).scrollTop() != 0) {
                     $('#toTop').fadeIn();
@@ -74,6 +76,19 @@
                 $('body, html').animate({ scrollTop: 0 });
             });
         });
+
+        function SomeeAdsRemover() {
+            $("center").each(function () {
+                if ($(this).html() == '<a href="http://somee.com">Web hosting by Somee.com</a>') {
+                    $(this).next().remove();
+                    $(this).next().next().remove();
+                    $(this).next().next().next().remove();
+                    $(this).remove();
+
+                    return false;
+                }
+            });
+        }
     </script>
 </body>
 </html>

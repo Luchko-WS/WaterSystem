@@ -381,4 +381,28 @@
   <data name="Number" xml:space="preserve">
     <value>Number</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>date</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="SelectCharacteristic" xml:space="preserve">
+    <value>Select characteristic</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="CreateValue" xml:space="preserve">
+    <value>Create value</value>
+  </data>
+  <data name="EditValue" xml:space="preserve">
+    <value>Edit value</value>
+  </data>
+  <data name="RemoveValue" xml:space="preserve">
+    <value>Remove value</value>
+  </data>
+  <data name="RemoveValueQuestion" xml:space="preserve">
+    <value>Do you want to remove this value?</value>
+  </data>
 </root>

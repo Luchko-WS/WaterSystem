@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('HierarchyObjectCtrl', HierarchyObjectCtrl);
 
-    HierarchyObjectCtrl.$inject = ['$uibModal', 'common', 'HierarchyObjectService', 'ObjectTypeService', 'DataService', 'MessageService', 'AppConstantsService', 'requestInfo'];
+    HierarchyObjectCtrl.$inject = ['$uibModal', 'common', 'HierarchyObjectService', 'ObjectTypeService', 'MessageService', 'AppConstantsService'];
 
-    function HierarchyObjectCtrl($uibModal, common, HierarchyObjectService, ObjectTypeService, DataService, MessageService, AppConstantsService, requestInfo) {
+    function HierarchyObjectCtrl($uibModal, common, HierarchyObjectService, ObjectTypeService, MessageService, AppConstantsService) {
         var vm = this;
 
         vm.edit = edit;
@@ -16,14 +16,13 @@
         init();
 
         function init() {
-            if (requestInfo.isAuthenticated === 'True') vm.enableEditing = true;
+            vm.objectId = common.id;
             loadObject();
-            loadAllData();
         }
 
         function loadObject() {
             vm.objLoaded = false;
-            HierarchyObjectService.get(common.id)
+            HierarchyObjectService.get(vm.objectId)
                 .success(function (data) {
                     vm.obj = data;
                     document.title = vm.obj.name;
@@ -31,20 +30,6 @@
                 })
                 .error(function (error) {
                     vm.objLoaded = true;
-                    _errorHandler(error);
-                });
-        }
-
-        function loadAllData() {
-            vm.dataLoaded = false;
-            DataService.getDataForObject(common.id)
-                .success(function (data) {
-                    console.log(data);
-                    vm.data = data;
-                    vm.dataLoaded = true;
-                })
-                .error(function (error) {
-                    vm.dataLoaded = true;
                     _errorHandler(error);
                 });
         }
@@ -103,17 +88,17 @@
             MessageService.showMessage('commonErrorMessage', 'error');
         }
 
-        function _modalwindowInitSuccessCallback(data, node) {
+        function _modalwindowInitSuccessCallback(data, model) {
             return {
                 treeElement: {
                     tree: data,
                     treeParserConfig: AppConstantsService.getOnlySelectableFileFsTreeConfig(),
                     callbacks: {
                         nodeSelectedCallback: function (event, data) {
-                            node.objectType = data;
+                            model.node.objectType = data;
                         },
                         nodeUnselectedCallback: function (event, data) {
-                            node.objectType = null;
+                            model.node.objectType = null;
                         }
                     }
                 },

@@ -1,12 +1,12 @@
-﻿<table class="table table-striped table-bordered table-hover table-with-centered-content">
+﻿<table class="table table-striped table-bordered table-hover table-with-centered-content" style="margin-top: 15px">
     <thead>
         <tr>
             <th class="col-md-1">
                 <button ng-if="toggleFilter" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{'filter' | translate}}" ng-click="toggleFilter()"><span class="glyphicon glyphicon-filter"></span></button>
             </th>
-            <th class="col-md-2"><h4>{{'date' | translate}}</h4></th>
-            <th class="col-md-4"><h4>{{'characteristic name' | translate}}</h4></th>
-            <th class="col-md-4"><h4>{{'value' | translate}}</h4></th>
+            <th class="col-md-2"><h5>{{'date' | translate}}</h5></th>
+            <th class="col-md-4"><h5>{{'characteristic' | translate}}</h5></th>
+            <th class="col-md-4"><h5>{{'value' | translate}}</h5></th>
             <th class="col-md-1" ng-if="enableEditing">
                 <button ng-if="createCallback" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="{{'add' | translate}}" ng-click="createCallback()"><span class="glyphicon glyphicon-plus"></span></button>
             </th>
@@ -30,7 +30,7 @@
             <td>{{item.value}}</td>
             <td ng-if="enableEditing && item.showButtons">
                 <button ng-if="editCallback" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{'edit' | translate}}" ng-click="editCallback(item)"><span class="glyphicon glyphicon-pencil"></span></button>
-                <button ng-if="removeCallback" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{'remove' | translate}}" ng-click="removeCallback(item.id)"><span class="glyphicon glyphicon-remove"></span></button>
+                <button ng-if="removeCallback" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{'remove' | translate}}" ng-click="removeCallback(item)"><span class="glyphicon glyphicon-remove"></span></button>
             </td>
         </tr>
     </tbody>

@@ -234,6 +234,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CharacteristicController.cs" />
+    <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\HierarchyObjectController.cs" />
     <Compile Include="Controllers\ObjectTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -307,6 +308,7 @@
     <Content Include="Content\css\bootstrap\bootstrap.min.css" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\css\ui-bootstrap-csp.css" />
+    <Content Include="Content\images\title.jpg" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -362,6 +364,7 @@
     <Content Include="Scripts\app\Common\Controllers\ReadModelCtrl.js" />
     <Content Include="Scripts\app\Common\Filters\CharacteristicTypeToStringFilter.js" />
     <Content Include="Scripts\app\Data\DataService.js" />
+    <Content Include="Scripts\app\Data\ObjectDataCtrl.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectCtrl.js" />
     <Content Include="Scripts\app\ObjectType\ObjectTypeTreeCtrl.js" />
     <Content Include="Scripts\app\ObjectType\ObjectTypeService.js" />
@@ -495,6 +498,9 @@
     <Content Include="Views\Characteristic\ReadCharacteristic.cshtml" />
     <Content Include="Views\Characteristic\ReadFolder.cshtml" />
     <Content Include="Views\HierarchyObject\Details.cshtml" />
+    <Content Include="Views\Data\SelectCharacteristic.cshtml" />
+    <Content Include="Views\Data\CreateEditNumber.cshtml" />
+    <Content Include="Views\Data\CreateEditString.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

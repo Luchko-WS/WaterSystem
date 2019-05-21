@@ -61,11 +61,7 @@
                         parentNode: vm.state.currentNode,
                         init: {
                             initPromise: ObjectTypeService.getTree,
-                            initSuccessCallback: _modalwindowInitSuccessCallback,
-                            initErrorCallback: _modalwindowInitErrorCallback
-                        },
-                        tree: {
-                            treeParserConfig: AppConstantsService.getDefaultTreeConfig()
+                            initSuccessCallback: _modalwindowInitSuccessCallback
                         }
                     }
                 }
@@ -99,11 +95,7 @@
                         node: vm.state.currentNode,
                         init: {
                             initPromise: ObjectTypeService.getTree,
-                            initSuccessCallback: _modalwindowInitSuccessCallback,
-                            initErrorCallback: _modalwindowInitErrorCallback
-                        },
-                        tree: {
-                            treeParserConfig: AppConstantsService.getDefaultTreeConfig()
+                            initSuccessCallback: _modalwindowInitSuccessCallback
                         }
                     }
                 }
@@ -171,27 +163,20 @@
                 });
         }
 
-        function _modalwindowInitSuccessCallback(data, node) {
+        function _modalwindowInitSuccessCallback(data, model) {
             return {
                 treeElement: {
                     tree: data,
                     treeParserConfig: AppConstantsService.getOnlySelectableFileFsTreeConfig(),
                     callbacks: {
                         nodeSelectedCallback: function (event, data) {
-                            node.objectType = data;
+                            model.node.objectType = data;
                         },
                         nodeUnselectedCallback: function (event, data) {
-                            node.objectType = null;
+                            model.node.objectType = null;
                         }
                     }
-                },
-                loaded: true
-            };
-        }
-
-        function _modalwindowInitErrorCallback(error, node) {
-            return {
-                loaded: true
+                }
             };
         }
 

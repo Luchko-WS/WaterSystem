@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OpenDataStorageCore
 {
@@ -11,5 +12,8 @@ namespace OpenDataStorageCore
         public Guid CharacterisitcId { get; set; }
 
         public Characteristic Characteristic { get; set; }
+
+        [NotMapped]
+        public CharacteristicType ValueType { protected set; get; }
     }
 }

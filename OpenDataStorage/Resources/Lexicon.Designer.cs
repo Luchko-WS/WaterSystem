@@ -268,6 +268,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create value.
+        /// </summary>
+        public static string CreateValue {
+            get {
+                return ResourceManager.GetString("CreateValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creation date.
         /// </summary>
         public static string CreationDate {
@@ -282,6 +291,15 @@ namespace OpenDataStorage.Resources {
         public static string CurrentPassword {
             get {
                 return ResourceManager.GetString("CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
             }
         }
         
@@ -345,6 +363,15 @@ namespace OpenDataStorage.Resources {
         public static string EditType {
             get {
                 return ResourceManager.GetString("EditType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit value.
+        /// </summary>
+        public static string EditValue {
+            get {
+                return ResourceManager.GetString("EditValue", resourceCulture);
             }
         }
         
@@ -507,6 +534,15 @@ namespace OpenDataStorage.Resources {
         public static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
             }
         }
         
@@ -718,6 +754,24 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove value.
+        /// </summary>
+        public static string RemoveValue {
+            get {
+                return ResourceManager.GetString("RemoveValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to remove this value?.
+        /// </summary>
+        public static string RemoveValueQuestion {
+            get {
+                return ResourceManager.GetString("RemoveValueQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Required field {0}.
         /// </summary>
         public static string RequiredErrorMessage {
@@ -772,6 +826,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select characteristic.
+        /// </summary>
+        public static string SelectCharacteristic {
+            get {
+                return ResourceManager.GetString("SelectCharacteristic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to String.
         /// </summary>
         public static string String {
@@ -795,6 +858,15 @@ namespace OpenDataStorage.Resources {
         public static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        public static string Value {
+            get {
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
         

@@ -14,8 +14,7 @@
         vm.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 
         function init() {
-            vm.model.parentNode = _model.parentNode ? Object.assign({}, _model.parentNode) : null;
-            vm.model.node = _model.node ? Object.assign({}, _model.node) : null;
+            vm.model = _model ? Object.assign({}, _model) : {};
         }
 
         init();
