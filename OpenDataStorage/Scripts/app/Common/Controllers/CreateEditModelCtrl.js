@@ -22,7 +22,6 @@
                 vm.model.loaded = false;
                 _model.init.initPromise()
                     .success(function (data) {
-                        vm.model.node = 0;
                         if (typeof (_model.init.initSuccessCallback) === 'function') {
                             vm.model = Object.assign(vm.model, _model.init.initSuccessCallback(data, vm.model));
                         }
