@@ -21,6 +21,7 @@
         vm.create = create;
         vm.edit = edit;
         vm.remove = remove;
+        vm.showDetails = _showDetails;
 
         vm.nodeDblClickCallback = nodeDblClickCallback;
         vm.nodeDropCallback = nodeDropCallback;
@@ -70,8 +71,8 @@
             modalInstance.result
                 .then(function (model) {
                     var parentNodeId = model.parentNode.id;
-                    var node = model.node;
-                    _createObjectNode(parentNodeId, node);
+                    model.node.objectTypeId = model.node.objectType !== null ? model.node.objectType.id : null;
+                    _createObjectNode(parentNodeId, model.node);
                 });
         }
 
@@ -103,6 +104,7 @@
 
             modalInstance.result
                 .then(function (model) {
+                    model.node.objectTypeId = model.node.objectType !== null ? model.node.objectType.id : null;
                     _editObjectNode(model.node);
                 });
         }
@@ -135,6 +137,10 @@
         }
 
         function nodeDblClickCallback(event, data) {
+            _showDetails(data);
+        }
+
+        function _showDetails(data) {
             window.location.href = '/HierarchyObject/Details/' + data.id;
         }
 

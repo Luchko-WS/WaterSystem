@@ -22,6 +22,7 @@
         vm.createFolder = createFolder;
         vm.edit = edit;
         vm.remove = remove;
+        vm.showDetails = _showDetails;
 
         vm.nodeDblClickCallback = nodeDblClickCallback;
         vm.nodeDropCallback = nodeDropCallback;
@@ -155,6 +156,10 @@
 
         function nodeDblClickCallback(event, data) {
             nodeSelectedCallback(event, data);
+            _showDetails(data);
+        }
+
+        function _showDetails(data) {
             $uibModal.open({
                 templateUrl: data.entityType === vm.fsNodeTypes.folder
                     ? '/ObjectType/ReadFolder'

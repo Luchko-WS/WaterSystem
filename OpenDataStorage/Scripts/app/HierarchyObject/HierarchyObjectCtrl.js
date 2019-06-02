@@ -57,6 +57,7 @@
 
             modalInstance.result
                 .then(function (model) {
+                    model.node.objectTypeId = model.node.objectType !== null ? model.node.objectType.id : null;
                     _editObjectNode(model.node);
                 });
         }

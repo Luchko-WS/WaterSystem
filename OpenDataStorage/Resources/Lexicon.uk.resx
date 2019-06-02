@@ -414,4 +414,7 @@
   <data name="Report" xml:space="preserve">
     <value>Звіт</value>
   </data>
+  <data name="Open" xml:space="preserve">
+    <value>Відкрити</value>
+  </data>
 </root>
