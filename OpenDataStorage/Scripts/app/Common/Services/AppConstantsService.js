@@ -24,58 +24,6 @@
             };
         }
 
-        function getDefaultFsTreeConfig() {
-            return {
-                fieldsNames: {
-                    idFieldName: ID_FILE_NAME,
-                    textFieldName: TEXT_FIELD_NAME,
-                    levelFieldName: LEVEL_FIELD_NAME
-                },
-                treeConfig: {
-                    nodesConfig: {
-                        expandEachNode: false
-                    },
-                    draggable: true
-                },
-                fsConfig: {
-                    nodeTypeFieldName: NODE_TYPE_FIELD_NAME,
-                    folderNodeTypeValue: FOLDER_NODE_TYPE_VALUE,
-                    fileNodeTypeValue: FILE_NODE_TYPE_VALUE,
-                    mode: FOLDERS_AND_FILE_MODE,
-                    selectOnlyFiles: false
-                },
-                definedValues: {
-                    selectedNode: undefined
-                }
-            };
-        }
-
-        function getOnlySelectableFileFsTreeConfig() {
-            return {
-                fieldsNames: {
-                    idFieldName: ID_FILE_NAME,
-                    textFieldName: TEXT_FIELD_NAME,
-                    levelFieldName: LEVEL_FIELD_NAME
-                },
-                treeConfig: {
-                    nodesConfig: {
-                        expandEachNode: false
-                    },
-                    draggable: false
-                },
-                fsConfig: {
-                    nodeTypeFieldName: NODE_TYPE_FIELD_NAME,
-                    folderNodeTypeValue: FOLDER_NODE_TYPE_VALUE,
-                    fileNodeTypeValue: FILE_NODE_TYPE_VALUE,
-                    mode: FOLDERS_AND_FILE_MODE,
-                    selectOnlyFiles: true
-                },
-                definedValues: {
-                    selectedNode: undefined
-                }
-            };
-        }
-
         function getDefaultTreeConfig() {
             return {
                 fieldsNames: {
@@ -95,11 +43,44 @@
             };
         }
 
+        function getSelectableDefaultTreeConfig() {
+            var config = getDefaultTreeConfig();
+            config.treeConfig.draggable = false;
+            return config;
+        }
+
+        function getDefaultFsTreeConfig() {
+            var config = getDefaultTreeConfig();
+            config.fsConfig = {
+                nodeTypeFieldName: NODE_TYPE_FIELD_NAME,
+                folderNodeTypeValue: FOLDER_NODE_TYPE_VALUE,
+                fileNodeTypeValue: FILE_NODE_TYPE_VALUE,
+                mode: FOLDERS_AND_FILE_MODE,
+                selectOnlyFiles: false
+            };
+            return config;
+        }
+
+        function getOnlySelectableFileFsTreeConfig() {
+            var config = getDefaultFsTreeConfig();
+            config.fsConfig.selectOnlyFiles = true;
+            config.treeConfig.draggable = false;
+            return config; 
+        }
+
+        function getSelectableFsTreeConfig() {
+            var config = getDefaultFsTreeConfig();
+            config.treeConfig.draggable = false;
+            return config;
+        }
+
         return {
             getFSNodeTypes: getFSNodeTypes,
             getDefaultTreeConfig: getDefaultTreeConfig,
+            getSelectableDefaultTreeConfig: getSelectableDefaultTreeConfig,
             getDefaultFsTreeConfig: getDefaultFsTreeConfig,
-            getOnlySelectableFileFsTreeConfig: getOnlySelectableFileFsTreeConfig
+            getOnlySelectableFileFsTreeConfig: getOnlySelectableFileFsTreeConfig,
+            getSelectableFsTreeConfig: getSelectableFsTreeConfig
         };
     }
 })();

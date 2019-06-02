@@ -772,6 +772,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Report.
+        /// </summary>
+        public static string Report {
+            get {
+                return ResourceManager.GetString("Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Required field {0}.
         /// </summary>
         public static string RequiredErrorMessage {
@@ -831,6 +840,24 @@ namespace OpenDataStorage.Resources {
         public static string SelectCharacteristic {
             get {
                 return ResourceManager.GetString("SelectCharacteristic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select object.
+        /// </summary>
+        public static string SelectObject {
+            get {
+                return ResourceManager.GetString("SelectObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select object type.
+        /// </summary>
+        public static string SelectType {
+            get {
+                return ResourceManager.GetString("SelectType", resourceCulture);
             }
         }
         

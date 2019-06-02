@@ -37,12 +37,11 @@
 
         function create() {
             var modalInstance = $uibModal.open({
-                templateUrl: '/Data/SelectCharacteristic',
+                templateUrl: '/Characteristic/SelectCharacteristic',
                 controller: 'CreateEditModelCtrl',
                 controllerAs: 'vm',
                 resolve: {
                     _model: {
-                        mode: 'create',
                         init: {
                             initPromise: CharacteristicService.getTree,
                             initSuccessCallback: _selectCharacteristicModalwindowInitSuccessCallback

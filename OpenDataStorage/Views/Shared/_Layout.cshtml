@@ -22,10 +22,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
-        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                     <li>@Html.ActionLink(Lexicon.Objects, "Tree", "HierarchyObject")</li>
                     <li>@Html.ActionLink(Lexicon.Characteristics, "Tree", "Characteristic")</li>
                     <li>@Html.ActionLink(Lexicon.ObjectTypes, "Tree", "ObjectType")</li>
+                    <li>@Html.ActionLink(Lexicon.Report, "Index", "Report")</li>
                     @if (!Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("EN", "SetLanguage", "Home", new { lang = "en", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
@@ -53,6 +54,7 @@
     @Scripts.Render("~/bundles/scripts/app/ObjectType")
     @Scripts.Render("~/bundles/scripts/app/HierarchyObject")
     @Scripts.Render("~/bundles/scripts/app/Data")
+    @Scripts.Render("~/bundles/scripts/app/Reports")
     @RenderSection("scripts", required: false)
 
     <script>

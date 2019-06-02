@@ -405,4 +405,13 @@
   <data name="RemoveValueQuestion" xml:space="preserve">
     <value>Ви бажаєте видалити дане значення?</value>
   </data>
+  <data name="SelectType" xml:space="preserve">
+    <value>Оберіть тип об'єкту</value>
+  </data>
+  <data name="SelectObject" xml:space="preserve">
+    <value>Оберіть об'єкт</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Звіт</value>
+  </data>
 </root>

@@ -205,6 +205,7 @@
     <Compile Include="API\Data\StringDataController.cs" />
     <Compile Include="API\Data\NumberDataController.cs" />
     <Compile Include="API\Data\DataController.cs" />
+    <Compile Include="API\ReportsController.cs" />
     <Compile Include="API\ObjectTypeController.cs" />
     <Compile Include="API\HierarchyObjectController.cs" />
     <Compile Include="API\CharacteristicController.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Controllers\ObjectTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -295,6 +297,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ManageViewModels\SetPasswordViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels\VerifyPhoneNumberViewModel.cs" />
+    <Compile Include="ViewModels\ReportsViewModel\ReportViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-treeview.css" />
@@ -371,8 +374,11 @@
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectService.js" />
     <Content Include="Scripts\app\HierarchyObject\HierarchyObjectTreeCtrl.js" />
     <Content Include="Content\css\angular-block-ui\angular-block-ui.css.map" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\libs\jquery\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\app\Reports\ReportsService.js" />
+    <Content Include="Scripts\app\Reports\ReportCtrl.js" />
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\libs\bootstrap\bootstrap-treeview.js" />
@@ -495,9 +501,12 @@
     <Content Include="Views\Characteristic\ReadCharacteristic.cshtml" />
     <Content Include="Views\Characteristic\ReadFolder.cshtml" />
     <Content Include="Views\HierarchyObject\Details.cshtml" />
-    <Content Include="Views\Data\SelectCharacteristic.cshtml" />
+    <Content Include="Views\Characteristic\SelectCharacteristic.cshtml" />
     <Content Include="Views\Data\CreateEditNumber.cshtml" />
     <Content Include="Views\Data\CreateEditString.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\HierarchyObject\SelectObject.cshtml" />
+    <Content Include="Views\ObjectType\SelectType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

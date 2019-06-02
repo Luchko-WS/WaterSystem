@@ -1,0 +1,38 @@
+﻿<div class="modal-window">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="vm.cancel()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalTitle">
+            @Lexicon.SelectCharacteristic
+        </h4>
+    </div>
+    <form name="_form">
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-3">@Lexicon.Characteristic</label>
+                    <async-page-with-loader is-loaded="vm.model.loaded">
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="@Lexicon.Characteristic" ng-model="vm.model.node.name" readonly />
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary" ng-click="vm.showTree=!vm.showTree;"><span ng-class="vm.showTree ? 'glyphicon glyphicon-triangle-top' : 'glyphicon glyphicon-triangle-bottom'" /></button>
+                                    <button class="btn btn-danger" title="@Lexicon.Remove" ng-click="vm.showTree = false; vm.model.node = null"><span class="glyphicon glyphicon-remove" /></button>
+                                </div>
+                            </div>
+                            <tree-view ng-if="vm.showTree" ng-model="vm.model.treeElement.tree"
+                                       config="vm.model.treeElement.treeParserConfig"
+                                       node-selected-callback="vm.model.treeElement.callbacks.nodeSelectedCallback"
+                                       node-unselected-callback="vm.model.treeElement.callbacks.nodeUnselectedCallback">
+                            </tree-view>
+                        </div>
+                    </async-page-with-loader>
+                </div>
+            </div>
+        </div>
+        <div class="modal-window-custom-footer">
+            <button class="btn btn-primary" ng-if="vm.model.loaded" ng-disabled="_form.$invalid" ng-click="vm.save()">@Lexicon.Select</button>
+            <button class="btn btn-default" ng-click="vm.cancel()">@Lexicon.Cancel</button>
+        </div>
+    </form>
+</div>
+

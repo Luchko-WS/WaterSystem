@@ -22,5 +22,11 @@ namespace OpenDataStorage.Controllers
         {
             return PartialView();
         }
+
+        [AllowAnonymous]
+        public ActionResult SelectObject()
+        {
+            return PartialView();
+        }
     }
 }

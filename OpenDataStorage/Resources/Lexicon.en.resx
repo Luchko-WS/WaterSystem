@@ -405,4 +405,13 @@
   <data name="RemoveValueQuestion" xml:space="preserve">
     <value>Do you want to remove this value?</value>
   </data>
+  <data name="SelectType" xml:space="preserve">
+    <value>Select object type</value>
+  </data>
+  <data name="SelectObject" xml:space="preserve">
+    <value>Select object</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
 </root>

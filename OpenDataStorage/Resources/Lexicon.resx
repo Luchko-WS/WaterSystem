@@ -309,6 +309,9 @@
   <data name="Select" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
   <!-- Folder -->
   <data name="Folder" xml:space="preserve">
     <value>Folder</value>
@@ -369,6 +372,9 @@
   <data name="EditType" xml:space="preserve">
     <value>Edit object type</value>
   </data>
+  <data name="SelectType" xml:space="preserve">
+    <value>Select object type</value>
+  </data>
   <data name="RemoveType" xml:space="preserve">
     <value>Remove object type</value>
   </data>
@@ -387,6 +393,9 @@
   </data>
   <data name="EditObject" xml:space="preserve">
     <value>Edit object</value>
+  </data>
+  <data name="SelectObject" xml:space="preserve">
+    <value>Select object</value>
   </data>
   <data name="RemoveObject" xml:space="preserve">
     <value>Remove object</value>
