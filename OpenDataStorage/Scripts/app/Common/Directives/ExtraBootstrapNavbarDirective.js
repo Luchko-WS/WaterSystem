@@ -1,8 +1,15 @@
-﻿angular.module('MainApp').directive('extraBootstrapNavbar', function ($compile, $templateRequest) {
+﻿angular.module('MainApp').directive('extraBootstrapNavbar', function () {
     return {
         transclude: true,
         replace: true,
         restrict: 'E',
-        templateUrl: '/Templates/DirectivesTemplates/ExtraBootstrapNavbar.html'
+        template:
+            '<div class="navbar navbar-inverse navbar-fixed-top" style="top: 50px; z-index: 1">' +
+                '<div class= "container" >' +
+                    '<div class="navbar-header"></div>' +
+                    '<div class="navbar-collapse collapse" style="float:right; margin-right: 20px" ng-transclude>' +
+                    '</div>' +
+                '</div>' +
+            '</div>'
     };
 });

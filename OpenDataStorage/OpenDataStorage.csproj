@@ -443,10 +443,7 @@
     <Content Include="Scripts\libs\jquery\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\libs\modernizr-2.8.3.js" />
     <Content Include="Scripts\libs\sitemap.xml" />
-    <Content Include="Templates\DirectivesTemplates\ExtraBootstrapNavbar.html" />
-    <Content Include="Templates\DirectivesTemplates\LoadingSpinnerTemplate.html" />
     <Content Include="Templates\DirectivesTemplates\TableView.html" />
-    <Content Include="Templates\DirectivesTemplates\TreeView.html" />
     <Content Include="Templates\MessageServiceDialogWindows\CustomDialogWindow.html" />
     <Content Include="Templates\MessageServiceDialogWindows\OkDialogWindow.html" />
     <Content Include="Templates\MessageServiceDialogWindows\YesNoDialogWindow.html" />

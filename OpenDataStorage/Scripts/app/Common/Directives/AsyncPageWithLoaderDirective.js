@@ -1,4 +1,4 @@
-﻿angular.module('MainApp').directive('asyncPageWithLoader', function ($compile, $templateRequest) {
+﻿angular.module('MainApp').directive('asyncPageWithLoader', function () {
     return {
         transclude: true,
         replace: true,
@@ -7,6 +7,14 @@
             isLoaded: '='
         },
         restrict: 'E',
-        templateUrl: '/Templates/DirectivesTemplates/LoadingSpinnerTemplate.html'
+        template:
+            '<div>' +
+                '<div ng-if= "!isLoaded" style = "text-align: center; margin-top: 50px; margin-bottom: 50px" >' +
+                     '<img style="height: 80px" src="/Content/images/ajax-loader.gif" />' +
+                '</div>' +
+                '<div ng-if="isLoaded">' +
+                    '<div ng-transclude></div>' +
+                '</div>' +
+            '</div>'
     };
 });
