@@ -21,7 +21,8 @@
                     typeId: typeId,
                     fromDate: fromDate,
                     toDate: toDate
-                }
+                },
+                responseType: 'arraybuffer'
             });
         }
     }

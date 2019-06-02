@@ -1,11 +1,16 @@
-﻿using OpenDataStorage.ViewModels.ReportsViewModel;
+﻿using OfficeOpenXml;
+using OpenDataStorage.ViewModels.ReportsViewModel;
 using OpenDataStorageCore;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace OpenDataStorage.API
@@ -16,7 +21,7 @@ namespace OpenDataStorage.API
         [Route("Generate")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<dynamic> Generate([FromUri]ReportViewModel vm)
+        public async Task<HttpResponseMessage> Generate([FromUri]ReportViewModel vm)
         {
             if (vm != null && vm.FromDate.HasValue && vm.ToDate.HasValue && vm.FromDate > vm.ToDate)
             {
@@ -65,7 +70,7 @@ namespace OpenDataStorage.API
                 if (vm.ToDate.HasValue) data = data.Where(v => v.CreationDate <= vm.ToDate.Value).ToList();
             }
 
-            return data.GroupBy(i => i.HierarchyObjectId)
+            var result = data.GroupBy(i => i.HierarchyObjectId)
                 .Select(g1 => new
                 {
                     Object = g1.FirstOrDefault()?.HierarchyObject,
@@ -77,10 +82,51 @@ namespace OpenDataStorage.API
                                 .Select(group3 => new
                                 {
                                     Date = group3.Key,
-                                    Value = group3.Average(v => v.Value)
-                                })
-                        })
+                                    Value = group3.Max(v => v.Value)
+                                }).OrderBy(v => v.Date)
+                        }).OrderBy(c => c.Characteristic.Name)
                 }).OrderBy(i => i.Object.LeftKey);
+
+            ExcelPackage excelDocument = new ExcelPackage();
+            var reportname = $"report-{DateTime.Now}.xlsx";
+            excelDocument.Workbook.Worksheets.Add(reportname);
+            ExcelWorksheet workSheet = excelDocument.Workbook.Worksheets.First();
+
+            int row = 1;
+            int column = 1;
+
+            workSheet.Cells[row, column].Value = UserLexicon.GetString("Object");
+            workSheet.Cells[row, column + 1].Value = UserLexicon.GetString("Characteristic");
+            workSheet.Cells[row, column + 2].Value = UserLexicon.GetString("CreationDate");
+            workSheet.Cells[row, column + 3].Value = UserLexicon.GetString("Value");
+            row++;
+
+            foreach (var obj in result)
+            {
+                foreach(var characteristic in obj.Characteristics)
+                {
+                    foreach(var val in characteristic.Data)
+                    {
+                        workSheet.Cells[row, column].Value = obj.Object.Name;
+                        workSheet.Cells[row, column + 1].Value = characteristic.Characteristic.Name;
+                        workSheet.Cells[row, column + 2].Value = val.Date.ToShortDateString();
+                        workSheet.Cells[row, column + 3].Value = val.Value;
+                        row++;
+                    }
+                }
+            }
+
+            var memoryStream = new MemoryStream();
+            excelDocument.Workbook.Properties.Author = HttpContext.Current.User.Identity.Name;
+            excelDocument.SaveAs(memoryStream);
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new ByteArrayContent(memoryStream.ToArray());
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = reportname;
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+            return response;
         }
     }
 }

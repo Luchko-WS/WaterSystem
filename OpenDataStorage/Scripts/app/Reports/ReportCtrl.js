@@ -5,9 +5,9 @@
         .module('MainApp')
         .controller('ReportCtrl', ReportCtrl);
 
-    ReportCtrl.$inject = ['ReportsService', '$uibModal', 'MessageService', 'AppConstantsService', 'HierarchyObjectService', 'CharacteristicService', 'ObjectTypeService'];
+    ReportCtrl.$inject = ['ReportsService', '$uibModal', 'MessageService', 'AppConstantsService', 'HierarchyObjectService', 'CharacteristicService', 'ObjectTypeService', 'DownloadFileService'];
 
-    function ReportCtrl(ReportsService, $uibModal, MessageService, AppConstantsService, HierarchyObjectService, CharacteristicService, ObjectTypeService) {
+    function ReportCtrl(ReportsService, $uibModal, MessageService, AppConstantsService, HierarchyObjectService, CharacteristicService, ObjectTypeService, DownloadFileService) {
         var vm = this;
 
         vm.objectData = null;
@@ -152,9 +152,9 @@
                 vm.fromDate,
                 vm.toDate
             )
-                .success(function (data) {
-                    console.log(data);
+                .success(function (data, status, headers) {
                     vm.loaded = true;
+                    DownloadFileService.makeLinkElement(data, status, headers);
                 })
                 .error(_errorHandler);
         }
