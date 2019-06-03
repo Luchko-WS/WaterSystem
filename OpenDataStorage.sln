@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDataStorage", "OpenData
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDataStorageCore", "OpenDataStorageCore\OpenDataStorageCore.csproj", "{0A729AF8-691B-4761-9CF4-D135E9F635D4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0AF187E1-B6E5-4D6A-840A-84E92E9FB928}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesSyncTests", "Tests\ServicesSyncTests\ServicesSyncTests.csproj", "{964D81F1-473C-419F-8614-44ADE455992B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{0A729AF8-691B-4761-9CF4-D135E9F635D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A729AF8-691B-4761-9CF4-D135E9F635D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A729AF8-691B-4761-9CF4-D135E9F635D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{964D81F1-473C-419F-8614-44ADE455992B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{964D81F1-473C-419F-8614-44ADE455992B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{964D81F1-473C-419F-8614-44ADE455992B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{964D81F1-473C-419F-8614-44ADE455992B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{964D81F1-473C-419F-8614-44ADE455992B} = {0AF187E1-B6E5-4D6A-840A-84E92E9FB928}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A37C649-92EC-4B7C-AF5A-D50DDC88EF86}
