@@ -51,9 +51,16 @@
   <ItemGroup>
     <Compile Include="MonitoringDavrGovUaServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextyOrgUaWaterServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SyncOpenDateServices\SyncOpenDateServices.csproj">
+      <Project>{85b2deac-4129-48c2-8809-afcad1db67f8}</Project>
+      <Name>SyncOpenDateServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

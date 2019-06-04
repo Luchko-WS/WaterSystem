@@ -533,6 +533,10 @@
       <Project>{0a729af8-691b-4761-9cf4-d135e9f635d4}</Project>
       <Name>OpenDataStorageCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SyncOpenDateServices\SyncOpenDateServices.csproj">
+      <Project>{85b2deac-4129-48c2-8809-afcad1db67f8}</Project>
+      <Name>SyncOpenDateServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Lexicon.en.resx">
