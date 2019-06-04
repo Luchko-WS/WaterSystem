@@ -38,14 +38,10 @@ namespace OpenDataStorage.API
             {
                 if (this._language == null)
                 {
-                    _language = (RequestContext.Principal.Identity as ClaimsIdentity)?.Claims.FirstOrDefault(c => c.Type == "Lang")?.Value;
-                    if (this._language == null)
+                    var langCookie = Request.Headers.GetCookies("culture").FirstOrDefault();
+                    if (langCookie != null)
                     {
-                        var langCookie = Request.Headers.GetCookies("culture").FirstOrDefault();
-                        if (langCookie != null)
-                        {
-                            _language = langCookie["culture"].Value;
-                        }
+                        _language = langCookie["culture"].Value;
                     }
                 }
                 return this._language ?? "uk";

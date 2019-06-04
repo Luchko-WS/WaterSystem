@@ -1,0 +1,144 @@
+﻿using OpenDataStorageCore;
+using SyncOpenDateServices.TextyOrgUaWater;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+
+namespace OpenDataStorage.API
+{
+    [RoutePrefix("api/SystemManagement")]
+    public class SystemManagementController : BaseApiController
+    {
+        [Route("SyncWithTextyOrgUaWaterService")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> SyncWithTextyOrgUaWaterService()
+        {
+            if (User.Identity.Name != "###") //use roles
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "Current user has not access");
+            }
+
+            var service = new TextyOrgUaWaterService();
+            var data = await service.GetData();
+
+            //characteristics
+            var characteristicMap = new Dictionary<string, Guid>();
+            var rootCharacteristic = _dbContext.CharacteristicContext.Entities.Single(o => o.Level == 0);
+            var characteristicsNames = data.Select(i => i.Key).Distinct(StringComparer.InvariantCultureIgnoreCase);
+            foreach(var characteristicName in characteristicsNames)
+            {
+                Guid characteristicId;
+                var characteristic = _dbContext.CharacteristicContext.Entities.FirstOrDefault(o => o.Name == characteristicName);
+                if (characteristic == null)
+                {
+                    var entity = new Characteristic
+                    {
+                        Name = characteristicName,
+                        Description = "synced from TextyOrgUaWaterService",
+                        OwnerId = User.Identity.Name,
+                        EntityType = EntityType.File,
+                        CharacteristicType = CharacteristicType.Number
+                    };
+                    await _dbContext.CharacteristicContext.Add(entity, rootCharacteristic.Id);
+                    characteristicId = entity.Id;
+                }
+                else
+                {
+                    characteristicId = characteristic.Id;
+                }
+
+                characteristicMap.Add(characteristicName, characteristicId);
+            }
+
+            //objects
+            var objects = data.GroupBy(i => i.River, StringComparer.InvariantCultureIgnoreCase)
+                .Select(group => new
+                {
+                    Points = group.GroupBy(p => p.Name, StringComparer.InvariantCultureIgnoreCase)
+                        .Select(group2 => new
+                        {
+                            Name = group2.Key,
+                            Info = new
+                            {
+                                Code = group2.FirstOrDefault().Code,
+                                Laboratory = group2.FirstOrDefault().Laboratory
+                            },
+                            Values = group2.Select(v => new
+                            {
+                                Id = v.Id,
+                                Date = v.Date,
+                                Key = v.Key,
+                                Value = v.Value
+                            })
+                        }),
+                    River = group.Key
+                });
+            var rootObject = _dbContext.HierarchyObjectContext.Entities.Single(o => o.Level == 0);
+            foreach(var river in objects)
+            {
+                Guid riverId;
+                var riverObj = _dbContext.HierarchyObjectContext.Entities.FirstOrDefault(o => o.Name == river.River);
+                if (riverObj == null)
+                {
+                    var entity = new HierarchyObject
+                    {
+                        Name = river.River,
+                        Description = "synced by TextyOrgUaWaterService",
+                        OwnerId = User.Identity.Name,
+                        ObjectTypeId = null //river
+                    };
+                    await _dbContext.HierarchyObjectContext.Add(entity, rootObject.Id);
+                    riverId = entity.Id;
+                }
+                else
+                {
+                    riverId = riverObj.Id;
+                }
+
+                var childrens = _dbContext.HierarchyObjectContext.GetChildNodes(riverId);
+                foreach(var point in river.Points)
+                {
+                    Guid pointId;
+                    var pointObj = _dbContext.HierarchyObjectContext.Entities.FirstOrDefault(o => o.Name == point.Name);
+                    if (pointObj == null)
+                    {
+                        var entity = new HierarchyObject
+                        {
+                            Name = point.Name,
+                            Description = $"Code: {point.Info.Code}. Lab: {point.Info.Laboratory}. Synced by TextyOrgUaWaterService", //save in different db field
+                            OwnerId = User.Identity.Name,
+                            ObjectTypeId = null //point
+                        };
+                        await _dbContext.HierarchyObjectContext.Add(entity, rootObject.Id);
+                        pointId = entity.Id;
+                    }
+                    else
+                    {
+                        pointId = pointObj.Id;
+                    }
+
+                    foreach (var value in point.Values)
+                    {
+                        var entity = new NumberCharacteristicValue
+                        {
+                            CharacterisitcId = characteristicMap[value.Key],
+                            HierarchyObjectId = pointId,
+                            CreationDate = value.Date,
+                            Value = value.Value,
+                            OwnerId = User.Identity.Name
+                            //value.Id -- save in different field
+                        };
+
+                        await _dbContext.CharacteristicValueDbSetManager.Create(entity);
+                    }
+                }
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+    }
+}

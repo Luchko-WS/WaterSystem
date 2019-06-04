@@ -215,6 +215,7 @@
     <Compile Include="API\HierarchyObjectController.cs" />
     <Compile Include="API\CharacteristicController.cs" />
     <Compile Include="API\LanguageController.cs" />
+    <Compile Include="API\SystemManagementController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
