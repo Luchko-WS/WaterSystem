@@ -27,7 +27,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task Add(T entity, Guid parentId)
         {
-            var parentNode = _dbSet.FirstOrDefault(f => f.Id == parentId);
+            var parentNode = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
             if (parentNode == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
@@ -79,12 +79,12 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task Move(Guid id, Guid parentId)
         {
-            var entity = _dbSet.FirstOrDefault(f => f.Id == id);
+            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
             if (entity == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            var parentEntity = _dbSet.FirstOrDefault(f => f.Id == parentId);
+            var parentEntity = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
             if (parentEntity == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
@@ -166,7 +166,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task<ICollection<T>> GetChildNodes(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
         {
-            var node = _dbSet.FirstOrDefault(f => f.Id == id);
+            var node = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
@@ -187,7 +187,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task<T> GetParentNode(Guid id, params Expression<Func<T, object>>[] includedPath)
         {
-            var node = _dbSet.FirstOrDefault(f => f.Id == id);
+            var node = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
@@ -205,7 +205,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task<ICollection<T>> GetParentNodes(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
         {
-            var node = _dbSet.FirstOrDefault(f => f.Id == id);
+            var node = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));

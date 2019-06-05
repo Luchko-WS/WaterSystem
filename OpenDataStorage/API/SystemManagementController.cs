@@ -2,6 +2,7 @@
 using SyncOpenDateServices.TextyOrgUaWater;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,12 +28,12 @@ namespace OpenDataStorage.API
 
             //characteristics
             var characteristicMap = new Dictionary<string, Guid>();
-            var rootCharacteristic = _dbContext.CharacteristicContext.Entities.Single(o => o.Level == 0);
+            var rootCharacteristic = await _dbContext.CharacteristicContext.Entities.SingleAsync(o => o.Level == 0);
             var characteristicsNames = data.Select(i => i.Key).Distinct(StringComparer.InvariantCultureIgnoreCase);
             foreach(var characteristicName in characteristicsNames)
             {
                 Guid characteristicId;
-                var characteristic = _dbContext.CharacteristicContext.Entities.FirstOrDefault(o => o.Name == characteristicName);
+                var characteristic = await _dbContext.CharacteristicContext.Entities.FirstOrDefaultAsync(o => o.Name == characteristicName);
                 if (characteristic == null)
                 {
                     var entity = new Characteristic
@@ -77,11 +78,11 @@ namespace OpenDataStorage.API
                         }),
                     River = group.Key
                 });
-            var rootObject = _dbContext.HierarchyObjectContext.Entities.Single(o => o.Level == 0);
+            var rootObject = await _dbContext.HierarchyObjectContext.Entities.SingleAsync(o => o.Level == 0);
             foreach(var river in objects)
             {
                 Guid riverId;
-                var riverObj = _dbContext.HierarchyObjectContext.Entities.FirstOrDefault(o => o.Name == river.River);
+                var riverObj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Name == river.River);
                 if (riverObj == null)
                 {
                     var entity = new HierarchyObject
@@ -99,11 +100,11 @@ namespace OpenDataStorage.API
                     riverId = riverObj.Id;
                 }
 
-                var childrens = _dbContext.HierarchyObjectContext.GetChildNodes(riverId);
+                var childrens = await _dbContext.HierarchyObjectContext.GetChildNodes(riverId);
                 foreach(var point in river.Points)
                 {
                     Guid pointId;
-                    var pointObj = _dbContext.HierarchyObjectContext.Entities.FirstOrDefault(o => o.Name == point.Name);
+                    var pointObj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Name == point.Name);
                     if (pointObj == null)
                     {
                         var entity = new HierarchyObject
