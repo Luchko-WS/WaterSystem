@@ -18,6 +18,8 @@ namespace OpenDataStorage.Common.DbContext
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            this.Database.Connection.ConnectionString = this.Database.Connection.ConnectionString + ";MultipleActiveResultSets=true;";
+
             _objectDbSetManager = new HierarchyObjectDbContextManager(HierarchyObjects, this.Database);
             _characteristicDbSetManager = new CharacteristicDbSetManager(Characteristics, this.Database);
             _objectTypeDbSetManager = new ObjectTypeDbSetManager(ObjectTypes, this.Database);

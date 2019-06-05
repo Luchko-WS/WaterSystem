@@ -417,4 +417,13 @@
   <data name="Open" xml:space="preserve">
     <value>Відкрити</value>
   </data>
+  <data name="Data" xml:space="preserve">
+    <value>Дані</value>
+  </data>
+  <data name="ServiceSync" xml:space="preserve">
+    <value>Синхронізація з сервісами</value>
+  </data>
+  <data name="Sync" xml:space="preserve">
+    <value>Синхронізувати</value>
+  </data>
 </root>

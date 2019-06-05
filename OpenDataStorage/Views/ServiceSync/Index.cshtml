@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = Lexicon.ServiceSync;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-controller="ServiceSyncCtrl as vm">
+
+    <h2>@Lexicon.ServiceSync</h2>
+
+    <async-page-with-loader is-loaded="vm.loaded">
+        <button class="btn btn-lg btn-warning" ng-click="vm.sync()">@Lexicon.Sync</button>
+    </async-page-with-loader>
+</div>

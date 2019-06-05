@@ -293,9 +293,10 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         private async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
-            if (instance.Level == 0) throw new ArgumentException("Cannot delete the root node!");
-            var commandText = string.Format(@"DELETE FROM {0} WHERE LeftKey >= {1} AND RightKey <= {2}",
-                TableName, instance.LeftKey, instance.RightKey);
+            var op = instance.Level == 0
+                ? @"DELETE FROM {0} WHERE LeftKey > {1} AND RightKey < {2}"
+                : @"DELETE FROM {0} WHERE LeftKey >= {1} AND RightKey <= {2}";
+            var commandText = string.Format(op, TableName, instance.LeftKey, instance.RightKey);
             await _database.ExecuteSqlCommandAsync(commandText);
         }
 

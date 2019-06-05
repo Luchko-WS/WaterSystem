@@ -315,6 +315,15 @@
   <data name="Report" xml:space="preserve">
     <value>Report</value>
   </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="ServiceSync" xml:space="preserve">
+    <value>Synchronization with services</value>
+  </data>
+  <data name="Sync" xml:space="preserve">
+    <value>Synchronize</value>
+  </data>
   <!-- Folder -->
   <data name="Folder" xml:space="preserve">
     <value>Folder</value>

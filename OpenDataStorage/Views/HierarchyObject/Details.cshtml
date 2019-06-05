@@ -12,13 +12,13 @@
                     <span ng-bind="vm.obj.name"></span>
                 </div>
             </div>
-            <div class="row" ng-if="vm.model.node.description">
+            <div class="row" ng-if="vm.obj.description">
                 <label class="control-label col-md-2">@Lexicon.Description</label>
                 <div class="col-md-10">
                     <span ng-bind="vm.obj.description"></span>
                 </div>
             </div>
-            <div class="row" ng-if="vm.model.node.objectType">
+            <div class="row" ng-if="vm.obj.objectType">
                 <label class="control-label col-md-2">@Lexicon.ObjectType</label>
                 <div class="col-md-10">
                     <span ng-bind="vm.obj.objectType.name"></span>

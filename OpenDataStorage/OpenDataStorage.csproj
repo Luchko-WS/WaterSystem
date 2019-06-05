@@ -247,6 +247,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ServiceSyncController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -386,6 +387,8 @@
     <None Include="Scripts\libs\jquery\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\app\Reports\ReportsService.js" />
     <Content Include="Scripts\app\Reports\ReportCtrl.js" />
+    <Content Include="Scripts\app\ServiceSync\ServiceSyncService.js" />
+    <Content Include="Scripts\app\ServiceSync\ServiceSyncCtrl.js" />
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\libs\bootstrap\bootstrap-treeview.js" />
@@ -514,6 +517,7 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\HierarchyObject\SelectObject.cshtml" />
     <Content Include="Views\ObjectType\SelectType.cshtml" />
+    <Content Include="Views\ServiceSync\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

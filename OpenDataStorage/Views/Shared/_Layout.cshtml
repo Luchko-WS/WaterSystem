@@ -23,15 +23,35 @@
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-                    <li>@Html.ActionLink(Lexicon.Objects, "Tree", "HierarchyObject")</li>
-                    <li>@Html.ActionLink(Lexicon.Characteristics, "Tree", "Characteristic")</li>
-                    <li>@Html.ActionLink(Lexicon.ObjectTypes, "Tree", "ObjectType")</li>
-                    <li>@Html.ActionLink(Lexicon.Report, "Index", "Report")</li>
+                    <li>
+                        <a href="" data-toggle="dropdown">
+                            @Lexicon.Data <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink(Lexicon.Objects, "Tree", "HierarchyObject")</li>
+                            <li>@Html.ActionLink(Lexicon.Characteristics, "Tree", "Characteristic")</li>
+                            <li>@Html.ActionLink(Lexicon.ObjectTypes, "Tree", "ObjectType")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink(Lexicon.Report, "Index", "Report")</li>
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink(Lexicon.ServiceSync, "Index", "ServiceSync")</li>
+                            }
+                        </ul>
+                    </li>
                     @if (!Request.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("EN", "SetLanguage", "Home", new { lang = "en", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
-                        <li>@Html.ActionLink("УКР", "SetLanguage", "Home", new { lang = "uk", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
-                        <li>@Html.ActionLink("РУС", "SetLanguage", "Home", new { lang = "ru", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
+                        <li>
+                            <a href="" data-toggle="dropdown">
+                                @Lexicon.Language <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("УКР", "SetLanguage", "Home", new { lang = "uk", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
+                                <li>@Html.ActionLink("EN", "SetLanguage", "Home", new { lang = "en", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
+                                <li>@Html.ActionLink("РУС", "SetLanguage", "Home", new { lang = "ru", returnUrl = Request.Url.LocalPath }, new { @class = "" })</li>
+                            </ul>
+                        </li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -55,6 +75,7 @@
     @Scripts.Render("~/bundles/scripts/app/HierarchyObject")
     @Scripts.Render("~/bundles/scripts/app/Data")
     @Scripts.Render("~/bundles/scripts/app/Reports")
+    @Scripts.Render("~/bundles/scripts/app/ServiceSync")
     @RenderSection("scripts", required: false)
 
     <script>
