@@ -123,6 +123,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             {
                 try
                 {
+                    //TODO: fix remove root node
                     await ExecuteDeleteSqlCommand(entity);
                     await ExecutePostDeleteSqlCommand(entity);
                     transaction.Commit();

@@ -32,6 +32,7 @@ namespace OpenDataStorage.API
             var characteristicsNames = data.Select(i => i.Key).Distinct(StringComparer.InvariantCultureIgnoreCase);
             foreach(var characteristicName in characteristicsNames)
             {
+                await _dbContext.ReloadFromDb(rootCharacteristic);
                 Guid characteristicId;
                 var characteristic = await _dbContext.CharacteristicContext.Entities.FirstOrDefaultAsync(o => o.Name == characteristicName);
                 if (characteristic == null)
@@ -78,10 +79,11 @@ namespace OpenDataStorage.API
                         }),
                     River = group.Key
                 });
+
             var rootObject = await _dbContext.HierarchyObjectContext.Entities.SingleAsync(o => o.Level == 0);
             foreach(var river in objects)
             {
-                Guid riverId;
+                /*Guid riverId;
                 var riverObj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Name == river.River);
                 if (riverObj == null)
                 {
@@ -98,11 +100,12 @@ namespace OpenDataStorage.API
                 else
                 {
                     riverId = riverObj.Id;
-                }
+                }*/
 
-                var childrens = await _dbContext.HierarchyObjectContext.GetChildNodes(riverId);
+                var childrens = await _dbContext.HierarchyObjectContext.GetChildNodes(rootObject.Id);
                 foreach(var point in river.Points)
                 {
+                    await _dbContext.ReloadFromDb(rootObject);
                     Guid pointId;
                     var pointObj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Name == point.Name);
                     if (pointObj == null)

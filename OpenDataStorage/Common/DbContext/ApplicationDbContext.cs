@@ -106,6 +106,11 @@ namespace OpenDataStorage.Common.DbContext
                 }
             }
         }
+
+        public async Task ReloadFromDb(object entity)
+        {
+            await this.Entry(entity).ReloadAsync();
+        }
     }
 }
  

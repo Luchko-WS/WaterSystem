@@ -25,9 +25,10 @@
                            node-selected-callback="vm.nodeSelectedCallback"
                            node-unselected-callback="vm.nodeUnselectedCallback">
                 </tree-view>
+                
+                <button class="btn btn-success" ng-click="vm.showDetails(vm.state.currentNode)" ng-if="vm.state.currentNode">@Lexicon.Open</button>
                 @if (Request.IsAuthenticated)
                 {
-                    <button class="btn btn-success" ng-click="vm.showDetails(vm.state.currentNode)" ng-if="vm.state.currentNode">@Lexicon.Open</button>
                     <button class="btn btn-primary" ng-click="vm.create()" ng-if="vm.state.currentNode">@Lexicon.Create</button>
                     <button class="btn btn-warning" ng-click="vm.edit()" ng-if="vm.state.currentNode">@Lexicon.Edit</button>
                     <button class="btn btn-danger" ng-click="vm.remove()" ng-if="vm.state.currentNode">@Lexicon.Remove</button>

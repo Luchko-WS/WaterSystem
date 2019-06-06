@@ -15,6 +15,8 @@ namespace OpenDataStorage.Common.DbContext
 
         ICharacteristicValueDbSetManager CharacteristicValueDbSetManager { get; }
 
+        Task ReloadFromDb(object entity);
+
         Task SaveDbChangesAsync();
     }
 }
