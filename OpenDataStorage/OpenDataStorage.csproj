@@ -216,6 +216,7 @@
     <Compile Include="API\CharacteristicController.cs" />
     <Compile Include="API\LanguageController.cs" />
     <Compile Include="API\SystemManagementController.cs" />
+    <Compile Include="API\UsersManagementController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ModelHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Helpers\RolesHelper.cs" />
     <Compile Include="Helpers\SelectedListHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Resources\Lexicon.Designer.cs">
@@ -277,6 +279,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Lexicon.uk.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AccountViewModels\ApplicationUserViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\ExternalLoginListViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModels\ForgotPasswordViewModel.cs" />

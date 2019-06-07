@@ -1,4 +1,5 @@
-﻿using OpenDataStorageCore;
+﻿using OpenDataStorage.Helpers;
+using OpenDataStorageCore;
 using SyncOpenDateServices.TextyOrgUaWater;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,13 @@ using System.Web.Http;
 namespace OpenDataStorage.API
 {
     [RoutePrefix("api/SystemManagement")]
+    [Authorize(Roles = RolesHelper.DATA_SYNC_GROUP)]
     public class SystemManagementController : BaseApiController
     {
         [Route("SyncWithTextyOrgUaWaterService")]
         [HttpPost]
         public async Task<HttpResponseMessage> SyncWithTextyOrgUaWaterService()
         {
-            if (User.Identity.Name != "###") //use roles
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "Current user has not access");
-            }
-
             var service = new TextyOrgUaWaterService();
             var data = await service.GetData();
 

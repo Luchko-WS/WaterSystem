@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 using OpenDataStorage.Common.DbContext;
 using OpenDataStorage.Resources;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Resources;
-using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 
@@ -58,6 +59,17 @@ namespace OpenDataStorage.API
                 }
 
                 return _lexicon;
+            }
+        }
+
+        protected RoleManager<IdentityRole> RoleManager
+        {
+            get
+            {
+                var context = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>();
+                var roleStore = new RoleStore<IdentityRole>(context);
+                var roleManager = new RoleManager<IdentityRole>(roleStore);
+                return roleManager;
             }
         }
     }

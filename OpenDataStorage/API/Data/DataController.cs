@@ -11,6 +11,7 @@ using System.Web.Http;
 namespace OpenDataStorage.API.Data
 {
     [RoutePrefix("api/Data")]
+    [Authorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
     public class DataController : BaseApiController
     {
         [Route("GetDataForObject/{id}")]

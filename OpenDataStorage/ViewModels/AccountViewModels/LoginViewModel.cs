@@ -6,8 +6,7 @@ namespace OpenDataStorage.ViewModels.AccountViewModels
     public class LoginViewModel
     {
         [Required(ErrorMessageResourceName = "RequiredErrorMessage", ErrorMessageResourceType = typeof(Lexicon))]
-        [Display(ResourceType = typeof(Lexicon), Name = "Email")]
-        [EmailAddress]
+        [Display(ResourceType = typeof(Lexicon), Name = "UserName")]
         public string Email { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredErrorMessage", ErrorMessageResourceType = typeof(Lexicon))]

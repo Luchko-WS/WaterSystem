@@ -1,4 +1,5 @@
 ﻿using OpenDataStorage.Common;
+using OpenDataStorage.Helpers;
 using OpenDataStorage.ViewModels.HierarchyObjectViewModels;
 using OpenDataStorageCore;
 using System;
@@ -13,6 +14,7 @@ using System.Web.Http;
 namespace OpenDataStorage.API
 {
     [RoutePrefix("api/HierarchyObjects")]
+    [Authorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
     public class HierarchyObjectController : BaseApiController
     {
         [Route("GetTree")]

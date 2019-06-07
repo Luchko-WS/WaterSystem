@@ -1,8 +1,12 @@
 namespace OpenDataStorage.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using OpenDataStorage.Common.DbContext;
     using OpenDataStorage.Helpers;
     using OpenDataStorageCore;
+    using OpenDataStorageCore.Constants;
+    using System;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -17,6 +21,19 @@ namespace OpenDataStorage.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
+            PrepateStoredProceduresForCharacteristics(context);
+            PrepateStoredProceduresForHierarchyObjects(context);
+            PrepateStoredProceduresForObjectsTypes(context);
+
+            AddConstraintsToHierarchyObjectsTable(context);
+
+            CreateUserRoles(context);
+            CreateAdminUser(context);
+            CreateRootObjects(context);
+        }
+
+        private void CreateRootObjects(ApplicationDbContext context)
+        {
             if (!context.Characteristics.Any(c => c.Level == 0))
             {
                 context.Characteristics.Add(new Characteristic
@@ -25,7 +42,7 @@ namespace OpenDataStorage.Migrations
                     LeftKey = 1,
                     RightKey = 2,
                     Name = "root",
-                    OwnerId = "system",
+                    OwnerId = IdentityConstants.Admin.USER_NAME,
                     EntityType = EntityType.Folder
                 });
             }
@@ -38,7 +55,7 @@ namespace OpenDataStorage.Migrations
                     LeftKey = 1,
                     RightKey = 2,
                     Name = "root",
-                    OwnerId = "system"
+                    OwnerId = IdentityConstants.Admin.USER_NAME
                 });
             }
 
@@ -50,16 +67,73 @@ namespace OpenDataStorage.Migrations
                     LeftKey = 1,
                     RightKey = 2,
                     Name = "root",
-                    OwnerId = "system",
+                    OwnerId = IdentityConstants.Admin.USER_NAME,
                     EntityType = EntityType.Folder
                 });
             }
+        }
 
-            PrepateStoredProceduresForCharacteristics(context);
-            PrepateStoredProceduresForHierarchyObjects(context);
-            PrepateStoredProceduresForObjectsTypes(context);
+        private void CreateUserRoles(ApplicationDbContext context)
+        {
+            var roleStore = new RoleStore<IdentityRole>(context);
+            var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-            AddConstraintsToHierarchyObjectsTable(context);
+            if (!context.Roles.Any(r => r.Name == IdentityConstants.Roles.DATA_MANAGER_ROLE))
+            {
+                var role = new IdentityRole { Name = IdentityConstants.Roles.DATA_MANAGER_ROLE };
+                roleManager.Create(role);
+            }
+
+            if (!context.Roles.Any(r => r.Name == IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE))
+            {
+                var role = new IdentityRole { Name = IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE };
+                roleManager.Create(role);
+            }
+
+            if (!context.Roles.Any(r => r.Name == IdentityConstants.Roles.USER_ROLE))
+            {
+                var role = new IdentityRole { Name = IdentityConstants.Roles.USER_ROLE };
+                roleManager.Create(role);
+            }
+
+            if (!context.Roles.Any(r => r.Name == IdentityConstants.Roles.SYSADMIN_ROLE))
+            {
+                var role = new IdentityRole { Name = IdentityConstants.Roles.SYSADMIN_ROLE };
+                roleManager.Create(role);
+            }
+
+            if (!context.Roles.Any(r => r.Name == IdentityConstants.Roles.TECH_SUPPORT_ROLE))
+            {
+                var role = new IdentityRole { Name = IdentityConstants.Roles.TECH_SUPPORT_ROLE };
+                roleManager.Create(role);
+            }
+
+            if (!context.Roles.Any(r => r.Name == IdentityConstants.Roles.USERS_MANAGER_ROLE))
+            {
+                var role = new IdentityRole { Name = IdentityConstants.Roles.USERS_MANAGER_ROLE };
+                roleManager.Create(role);
+            }
+        }
+
+        private void CreateAdminUser(ApplicationDbContext context)
+        {
+            if (!context.Users.Any(u => u.UserName == IdentityConstants.Admin.USER_NAME))
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+                var user = new ApplicationUser
+                {
+                    UserName = IdentityConstants.Admin.USER_NAME,
+                    Email = "net@net.net",
+                    EmailConfirmed = true,
+                    RegisteredDate = DateTime.Now
+                };
+                IdentityResult result = userManager.Create(user, IdentityConstants.Admin.PASSWORD);
+                if (result.Succeeded)
+                {
+                    userManager.AddToRole(user.Id, IdentityConstants.Roles.SYSADMIN_ROLE);
+                }
+            }
         }
 
         private void AddConstraintsToHierarchyObjectsTable(ApplicationDbContext context)

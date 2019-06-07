@@ -7,11 +7,11 @@ using System.Web.Http;
 
 namespace OpenDataStorage.API
 {
+    [AllowAnonymous]
     public class LanguageController : BaseApiController
     {
         [Route("api/Languages")]
         [HttpGet]
-        [AllowAnonymous]
         public Dictionary<string, object> GetLexicon([FromUri]string lang)
         {
             var res = Lexicon.ResourceManager.GetResourceSet(new CultureInfo(lang), true, true);

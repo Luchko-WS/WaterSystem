@@ -4,12 +4,15 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OpenDataStorage.Common;
+using OpenDataStorage.Common.DbContext;
 using OpenDataStorage.Resources;
 using OpenDataStorage.ViewModels.AccountViewModels;
 using OpenDataStorageCore;
+using OpenDataStorageCore.Constants;
 
 namespace OpenDataStorage.Controllers
 {
@@ -74,7 +77,7 @@ namespace OpenDataStorage.Controllers
                 return View(model);
             }
 
-            var user = await UserManager.FindByEmailAsync(model.Email);
+            var user = await UserManager.FindByNameAsync(model.Email);
             if (user != null)
             {
                 if (user.IsLocked)
@@ -191,7 +194,20 @@ namespace OpenDataStorage.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    var context = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+                    var roleStore = new RoleStore<IdentityRole>(context);
+                    var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+                    var role = await roleManager.FindByNameAsync(IdentityConstants.Roles.USER_ROLE);
+                    if (role != null)
+                    {
+                        var res = await UserManager.AddToRoleAsync(user.Id, role.Name);
+                        if (res.Succeeded)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        AddErrors(res);
+                    }
                 }
                 AddErrors(result);
             }
