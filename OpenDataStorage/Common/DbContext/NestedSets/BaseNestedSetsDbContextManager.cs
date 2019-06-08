@@ -119,13 +119,16 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
         }
         protected async Task RemoveInternal(T entity)
         {
+            bool isRootObject = entity.Level == 0;
+            //the root object does not contain any child object
+            if (isRootObject && (entity.RightKey - entity.LeftKey == 1)) return;
+
             using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
-                    //TODO: fix remove root node
-                    await ExecuteDeleteSqlCommand(entity);
-                    await ExecutePostDeleteSqlCommand(entity);
+                    await ExecuteDeleteSqlCommand(entity, isRootObject);
+                    await ExecutePostDeleteSqlCommand(entity, isRootObject);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -292,19 +295,22 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
                 nodeLeftKeyParam, nodeRightKeyParam, nodeLevelParam, parentLeftKeyParam, parentRightKeyParam, parentLevelParam);
         }
 
-        private async Task ExecuteDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
+        private async Task ExecuteDeleteSqlCommand<NS>(NS instance, bool isRootObject) where NS : NestedSetsEntity
         {
-            var op = instance.Level == 0
+            var op = isRootObject
                 ? @"DELETE FROM {0} WHERE LeftKey > {1} AND RightKey < {2}"
                 : @"DELETE FROM {0} WHERE LeftKey >= {1} AND RightKey <= {2}";
             var commandText = string.Format(op, TableName, instance.LeftKey, instance.RightKey);
             await _database.ExecuteSqlCommandAsync(commandText);
         }
 
-        private async Task ExecutePostDeleteSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
+        private async Task ExecutePostDeleteSqlCommand<NS>(NS instance, bool isRootObject) where NS : NestedSetsEntity
         {
-            var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = instance.LeftKey };
-            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = instance.RightKey };
+            var lefrKey = isRootObject ? instance.LeftKey + 1 : instance.LeftKey;
+            var rightKey = isRootObject ? instance.RightKey - 1 : instance.RightKey;
+
+            var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = lefrKey };
+            var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = rightKey };
             await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
         }
 
