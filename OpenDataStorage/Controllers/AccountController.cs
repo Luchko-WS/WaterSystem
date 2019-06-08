@@ -194,20 +194,9 @@ namespace OpenDataStorage.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    var context = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
-                    var roleStore = new RoleStore<IdentityRole>(context);
-                    var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    await UserManager.AddToRoleAsync(user.Id, IdentityConstants.Roles.USER_ROLE);
 
-                    var role = await roleManager.FindByNameAsync(IdentityConstants.Roles.USER_ROLE);
-                    if (role != null)
-                    {
-                        var res = await UserManager.AddToRoleAsync(user.Id, role.Name);
-                        if (res.Succeeded)
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                        AddErrors(res);
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
