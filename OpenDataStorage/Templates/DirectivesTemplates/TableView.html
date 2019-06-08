@@ -25,7 +25,7 @@
         </tr>
         <tr ng-repeat="item in data" style="height: 50px" ng-mouseenter="item.showButtons = true" ng-mouseleave="item.showButtons = false">
             <td>{{$index + 1}}</td>
-            <td>{{item.creationDate}}</td>
+            <td>{{item.creationDate | date:'dd.MM.yyyy'}}</td>
             <td>{{item.characteristic.name}}</td>
             <td>{{item.value}}</td>
             <td ng-if="enableEditing && item.showButtons">
