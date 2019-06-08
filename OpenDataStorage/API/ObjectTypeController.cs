@@ -1,4 +1,5 @@
 ﻿using OpenDataStorage.Common;
+using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.ViewModels.ObjectTypeViewModels;
 using OpenDataStorageCore;

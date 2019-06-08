@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.ViewModels.AccountViewModels;
 using OpenDataStorageCore;
@@ -14,7 +15,7 @@ using System.Web.Http;
 namespace OpenDataStorage.API
 {
     [RoutePrefix("api/UsersManagement")]
-    [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
+    [WebApiAuthorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
     public class UsersManagementController : BaseApiController
     {
         [HttpGet]
