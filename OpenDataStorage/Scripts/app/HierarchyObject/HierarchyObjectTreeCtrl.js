@@ -71,7 +71,7 @@
             modalInstance.result
                 .then(function (model) {
                     var parentNodeId = model.parentNode.id;
-                    model.node.objectTypeId = model.node.objectType !== null ? model.node.objectType.id : null;
+                    model.node.objectTypeId = model.node.objectType ? model.node.objectType.id : null;
                     _createObjectNode(parentNodeId, model.node);
                 });
         }

@@ -11,7 +11,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         string TableName { get; }
 
-        Task Add(T entity, Guid parentId);
+        Task<Guid?> Add(T entity, Guid parentId);
 
         Task Update(T entity);
 

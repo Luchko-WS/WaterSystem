@@ -25,27 +25,28 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public IQueryable<T> Entities => this._dbSet;
 
-        public virtual async Task Add(T entity, Guid parentId)
+        public virtual async Task<Guid?> Add(T entity, Guid parentId)
         {
             var parentNode = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
             if (parentNode == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
             }
-            await AddInternal(entity, parentNode);
+            return await AddInternal(entity, parentNode);
         }
-        protected async Task AddInternal(T entity, NestedSetsEntity parentNode)
+        protected async Task<Guid?> AddInternal(T entity, NestedSetsEntity parentNode)
         {
             entity.LeftKey = parentNode.RightKey;
             entity.RightKey = parentNode.RightKey + 1;
             entity.Level = parentNode.Level + 1;
 
+            Guid? entityId = null;
             using (var transaction = _database.BeginTransaction())
             {
                 try
                 {
                     await ExecutePreInsertSqlCommand(parentNode);
-                    await ExecuteInsertSqlCommand(entity);
+                    entityId = await ExecuteInsertSqlCommand(entity);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -54,6 +55,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
                     throw ex;
                 }
             }
+            return entityId;
         }
 
         public virtual async Task Update(T entity)
@@ -239,7 +241,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             await _database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
         }
 
-        private async Task ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
+        private async Task<Guid> ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             var columns = new List<string>();
             var parameters = new List<string>();
@@ -262,6 +264,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             var commandText = string.Format(@"INSERT INTO {0} ({1}) VALUES ({2})",
                 TableName, string.Join(",", columns), string.Join(",", parameters));
             await _database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
+            return instance.Id;
         }
 
         private async Task ExecuteUpdateSqlCommand<NS>(NS instance) where NS : NestedSetsEntity

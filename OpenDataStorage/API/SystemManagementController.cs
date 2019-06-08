@@ -83,7 +83,7 @@ namespace OpenDataStorage.API
             var rootObject = await _dbContext.HierarchyObjectContext.Entities.SingleAsync(o => o.Level == 0);
             foreach(var river in objects)
             {
-                /*Guid riverId;
+                Guid? riverId;
                 var riverObj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Name == river.River);
                 if (riverObj == null)
                 {
@@ -94,13 +94,12 @@ namespace OpenDataStorage.API
                         OwnerId = User.Identity.Name,
                         ObjectTypeId = null //river
                     };
-                    await _dbContext.HierarchyObjectContext.Add(entity, rootObject.Id);
-                    riverId = entity.Id;
+                    riverId = await _dbContext.HierarchyObjectContext.Add(entity, rootObject.Id);
                 }
                 else
                 {
                     riverId = riverObj.Id;
-                }*/
+                }
 
                 var childrens = await _dbContext.HierarchyObjectContext.GetChildNodes(rootObject.Id);
                 foreach(var point in river.Points)
@@ -117,7 +116,8 @@ namespace OpenDataStorage.API
                             OwnerId = User.Identity.Name,
                             ObjectTypeId = null //point
                         };
-                        await _dbContext.HierarchyObjectContext.Add(entity, rootObject.Id);
+                        var parentId = riverId ?? rootObject.Id;
+                        await _dbContext.HierarchyObjectContext.Add(entity, parentId);
                         pointId = entity.Id;
                     }
                     else

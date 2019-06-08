@@ -11,7 +11,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
         public BaseFSNestedSetsDbSetManager(DbSet<T> dbSet, Database database)
             : base(dbSet, database) { }
 
-        public override async Task Add(T entity, Guid parentId)
+        public override async Task<Guid?> Add(T entity, Guid parentId)
         {
             var parentNode = _dbSet.FirstOrDefault(f => f.Id == parentId);
             if (parentNode == null)
@@ -22,7 +22,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             {
                 throw new ArgumentException(string.Format("Node with id = {0} is not a folder in {1} table.", parentId, TableName));
             }
-            await AddInternal(entity, parentNode);
+            return await AddInternal(entity, parentNode);
         }
 
         public override async Task Move(Guid id, Guid parentId)
