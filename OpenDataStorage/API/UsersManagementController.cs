@@ -14,10 +14,10 @@ using System.Web.Http;
 namespace OpenDataStorage.API
 {
     [RoutePrefix("api/UsersManagement")]
+    [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
     public class UsersManagementController : BaseApiController
     {
         [HttpGet]
-        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         public async Task<ApplicationUser> Get(string userName)
         {
             return await UserManager.FindByNameAsync(userName);
@@ -25,6 +25,7 @@ namespace OpenDataStorage.API
 
         [HttpGet]
         [Route("GetCurrentUser")]
+        [AllowAnonymous]
         public async Task<ApplicationUser> GetCurrentUser()
         {
             return await UserManager.FindByNameAsync(User.Identity.Name);
@@ -32,7 +33,6 @@ namespace OpenDataStorage.API
 
         [HttpGet]
         [Route("GetAllRoles")]
-        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         public async Task<List<IdentityRole>> GetAllRoles()
         {
             return await RoleManager.Roles.ToListAsync();
@@ -40,7 +40,6 @@ namespace OpenDataStorage.API
 
         [HttpPost]
         [Route("AddUserToRole/{userName}/{roleId}")]
-        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         public async Task<HttpResponseMessage> AddUserToRole(string userName, string roleName)
         {
             var user = await UserManager.FindByNameAsync(userName);
@@ -70,7 +69,6 @@ namespace OpenDataStorage.API
 
         [HttpPost]
         [Route("RemoveUserFromRole/{userName}/{roleId}")]
-        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         public async Task<HttpResponseMessage> RemoveUserFromRole(string userName, string roleName)
         {
             var user = await UserManager.FindByNameAsync(userName);
@@ -106,7 +104,6 @@ namespace OpenDataStorage.API
 
         [HttpGet]
         [Route("GetUsersList/{skip}/{take}")]
-        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         public async Task<dynamic> GetUsersList()
         {
             return await UserManager.Users
@@ -130,7 +127,6 @@ namespace OpenDataStorage.API
 
         [HttpPost]
         [Route("SetLockState")]
-        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         public async Task<HttpResponseMessage> SetLockState(string userName, bool isLocked)
         {
             if (!string.IsNullOrEmpty(userName))
@@ -158,7 +154,6 @@ namespace OpenDataStorage.API
 
         [HttpPost]
         [Route("SaveUserDetails")]
-        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         public async Task<HttpResponseMessage> SaveUserDetails(ApplicationUserViewModel vm)
         {
             if (!string.IsNullOrEmpty(vm?.UserName))
@@ -177,7 +172,6 @@ namespace OpenDataStorage.API
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User is missing");
         }
 
-        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         public async Task<HttpResponseMessage> DeleteUser(string userName)
         {
             if (!string.IsNullOrEmpty(userName))
@@ -201,7 +195,6 @@ namespace OpenDataStorage.API
         }
 
         /*[Route("ChangePasswordForUser")]
-        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         [HttpPost]
         public async Task<HttpResponseMessage> ChangePasswordForUser(ChangePasswordForUserViewModel model)
         {

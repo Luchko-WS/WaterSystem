@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Common.DbContext;
 using OpenDataStorage.Resources;
 using System.Globalization;
@@ -12,7 +13,7 @@ using System.Web.Http;
 
 namespace OpenDataStorage.API
 {
-    [Authorize]
+    [WebApiAuthorize]
     public class BaseApiController : ApiController
     {
         private string _language;

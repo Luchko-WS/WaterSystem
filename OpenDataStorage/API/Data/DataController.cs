@@ -7,11 +7,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using OpenDataStorage.Common.Attributes;
 
 namespace OpenDataStorage.API.Data
 {
     [RoutePrefix("api/Data")]
-    [Authorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
+    [WebApiAuthorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
     public class DataController : BaseApiController
     {
         [Route("GetDataForObject/{id}")]

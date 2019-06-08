@@ -1,5 +1,7 @@
-﻿using OpenDataStorage.Helpers;
+﻿using OpenDataStorage.Common.Attributes;
+using OpenDataStorage.Helpers;
 using OpenDataStorageCore;
+using OpenDataStorageCore.Constants;
 using SyncOpenDateServices.TextyOrgUaWater;
 using System;
 using System.Collections.Generic;
@@ -13,11 +15,12 @@ using System.Web.Http;
 namespace OpenDataStorage.API
 {
     [RoutePrefix("api/SystemManagement")]
-    [Authorize(Roles = RolesHelper.DATA_SYNC_GROUP)]
+    [WebApiAuthorize(Roles = IdentityConstants.Roles.SYSADMIN_ROLE)]
     public class SystemManagementController : BaseApiController
     {
         [Route("SyncWithTextyOrgUaWaterService")]
         [HttpPost]
+        [WebApiAuthorize(Roles = RolesHelper.DATA_SYNC_GROUP)]
         public async Task<HttpResponseMessage> SyncWithTextyOrgUaWaterService()
         {
             var service = new TextyOrgUaWaterService();

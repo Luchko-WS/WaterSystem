@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using OpenDataStorage.ViewModels.CharacteristicValueViewModel;
 using OpenDataStorage.Helpers;
+using OpenDataStorage.Common.Attributes;
 
 namespace OpenDataStorage.API.Data
 {
     [RoutePrefix("api/Data")]
-    [Authorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
+    [WebApiAuthorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
     public class NumberDataController: DataController
     {
         private readonly CharacteristicType _supportedCharacteristicType = CharacteristicType.Number;

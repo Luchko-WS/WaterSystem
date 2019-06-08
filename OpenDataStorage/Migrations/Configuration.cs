@@ -129,9 +129,16 @@ namespace OpenDataStorage.Migrations
                     RegisteredDate = DateTime.Now
                 };
                 IdentityResult result = userManager.Create(user, IdentityConstants.Admin.PASSWORD);
+                var adminUser = userManager.FindByName(IdentityConstants.Admin.USER_NAME);
                 if (result.Succeeded)
                 {
-                    userManager.AddToRole(user.Id, IdentityConstants.Roles.SYSADMIN_ROLE);
+                    userManager.AddToRoles(user.Id,
+                        IdentityConstants.Roles.SYSADMIN_ROLE,
+                        IdentityConstants.Roles.DATA_MANAGER_ROLE,
+                        IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE,
+                        IdentityConstants.Roles.TECH_SUPPORT_ROLE,
+                        IdentityConstants.Roles.USERS_MANAGER_ROLE,
+                        IdentityConstants.Roles.USER_ROLE);
                 }
             }
         }

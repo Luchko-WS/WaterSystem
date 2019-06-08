@@ -223,6 +223,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Common\Attributes\WebApiAuthorize.cs" />
     <Compile Include="Common\DbContext\DbSetManagers\BaseDbSetManager.cs" />
     <Compile Include="Common\DbContext\DbSetManagers\CharacteristicValueDbSetManager.cs" />
     <Compile Include="Common\DbContext\DbSetManagers\ICharacteristicValueDbSetManager.cs" />

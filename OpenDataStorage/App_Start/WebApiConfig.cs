@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using OpenDataStorage.Common.Attributes;
 using System.Web.Http;
 
 namespace OpenDataStorage
@@ -25,6 +23,7 @@ namespace OpenDataStorage
             formatter.SerializerSettings.ContractResolver =
                 new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
 
+            config.Filters.Add(new WebApiAuthorize());
         }
     }
 }

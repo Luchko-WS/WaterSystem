@@ -14,7 +14,7 @@ using System.Web.Http;
 namespace OpenDataStorage.API
 {
     [RoutePrefix("api/ObjectType")]
-    [Authorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
+    [WebApiAuthorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
     public class ObjectTypeController : BaseApiController
     {
         [Route("GetTree")]

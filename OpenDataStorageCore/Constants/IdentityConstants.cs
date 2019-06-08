@@ -1,15 +1,15 @@
 ﻿namespace OpenDataStorageCore.Constants
 {
-    public static class IdentityConstants
+    public class IdentityConstants
     {
-        public static class Admin
+        public class Admin
         {
             public const string USER_NAME = "admin";
 
             public const string PASSWORD = "sacmig_admin_2019";
         }
 
-        public static class Roles
+        public class Roles
         {
             public const string SYSADMIN_ROLE = "System Administrator";
 
