@@ -25,7 +25,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public IQueryable<T> Entities => this._dbSet;
 
-        public virtual async Task<Guid?> Add(T entity, Guid parentId)
+        public virtual async Task<Guid> Add(T entity, Guid parentId)
         {
             var parentNode = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
             if (parentNode == null)
@@ -34,13 +34,13 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             }
             return await AddInternal(entity, parentNode);
         }
-        protected async Task<Guid?> AddInternal(T entity, NestedSetsEntity parentNode)
+        protected async Task<Guid> AddInternal(T entity, NestedSetsEntity parentNode)
         {
             entity.LeftKey = parentNode.RightKey;
             entity.RightKey = parentNode.RightKey + 1;
             entity.Level = parentNode.Level + 1;
 
-            Guid? entityId = null;
+            Guid entityId;
             using (var transaction = _database.BeginTransaction())
             {
                 try
@@ -48,6 +48,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
                     await ExecutePreInsertSqlCommand(parentNode);
                     entityId = await ExecuteInsertSqlCommand(entity);
                     transaction.Commit();
+                    return entityId;
                 }
                 catch (Exception ex)
                 {
@@ -55,7 +56,6 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
                     throw ex;
                 }
             }
-            return entityId;
         }
 
         public virtual async Task Update(T entity)

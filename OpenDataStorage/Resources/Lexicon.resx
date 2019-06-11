@@ -141,6 +141,12 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
   <data name="BirthDate" xml:space="preserve">
     <value>Birth date</value>
   </data>

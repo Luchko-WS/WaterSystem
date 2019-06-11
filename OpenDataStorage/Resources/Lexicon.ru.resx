@@ -426,4 +426,10 @@
   <data name="Sync" xml:space="preserve">
     <value>Синхронизировать</value>
   </data>
+  <data name="From" xml:space="preserve">
+    <value>От</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>До</value>
+  </data>
 </root>

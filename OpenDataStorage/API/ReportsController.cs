@@ -70,23 +70,6 @@ namespace OpenDataStorage.API
                 if (vm.ToDate.HasValue) data = data.Where(v => v.CreationDate <= vm.ToDate.Value).ToList();
             }
 
-            var result = data.GroupBy(i => i.HierarchyObjectId)
-                .Select(g1 => new
-                {
-                    Object = g1.FirstOrDefault()?.HierarchyObject,
-                    Characteristics = g1.GroupBy(c => c.CharacterisitcId)
-                        .Select(g2 => new
-                        {
-                            Characteristic = g2.FirstOrDefault()?.Characteristic,
-                            Data = g2.OrderBy(v => v.CreationDate).GroupBy(v => v.CreationDate.Value.Date)
-                                .Select(group3 => new
-                                {
-                                    Date = group3.Key,
-                                    Value = group3.Max(v => v.Value)
-                                }).OrderBy(v => v.Date)
-                        }).OrderBy(c => c.Characteristic.Name)
-                }).OrderBy(i => i.Object.LeftKey);
-
             ExcelPackage excelDocument = new ExcelPackage();
             var reportname = $"report-{DateTime.Now}.xlsx";
             excelDocument.Workbook.Worksheets.Add(reportname);
@@ -101,19 +84,14 @@ namespace OpenDataStorage.API
             workSheet.Cells[row, column + 3].Value = UserLexicon.GetString("Value");
             row++;
 
-            foreach (var obj in result)
+            data = data.OrderBy(d => d.CreationDate).ToList();
+            foreach (var value in data)
             {
-                foreach(var characteristic in obj.Characteristics)
-                {
-                    foreach(var val in characteristic.Data)
-                    {
-                        workSheet.Cells[row, column].Value = obj.Object.Name;
-                        workSheet.Cells[row, column + 1].Value = characteristic.Characteristic.Name;
-                        workSheet.Cells[row, column + 2].Value = val.Date.ToShortDateString();
-                        workSheet.Cells[row, column + 3].Value = val.Value;
-                        row++;
-                    }
-                }
+                workSheet.Cells[row, column].Value = value.HierarchyObject.Name;
+                workSheet.Cells[row, column + 1].Value = value.Characteristic.Name;
+                workSheet.Cells[row, column + 2].Value = value.CreationDate?.ToString("dd.MM.yyyy");
+                workSheet.Cells[row, column + 3].Value = value.Value;
+                row++;
             }
 
             var memoryStream = new MemoryStream();

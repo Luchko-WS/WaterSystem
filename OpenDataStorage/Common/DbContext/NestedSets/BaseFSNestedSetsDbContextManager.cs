@@ -1,7 +1,6 @@
 ﻿using OpenDataStorageCore;
 using System;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext.NestedSets
@@ -11,9 +10,9 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
         public BaseFSNestedSetsDbSetManager(DbSet<T> dbSet, Database database)
             : base(dbSet, database) { }
 
-        public override async Task<Guid?> Add(T entity, Guid parentId)
+        public override async Task<Guid> Add(T entity, Guid parentId)
         {
-            var parentNode = _dbSet.FirstOrDefault(f => f.Id == parentId);
+            var parentNode = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
             if (parentNode == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
@@ -27,12 +26,12 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public override async Task Move(Guid id, Guid parentId)
         {
-            var entity = _dbSet.FirstOrDefault(f => f.Id == id);
+            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
             if (entity == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            var parentNode = _dbSet.FirstOrDefault(f => f.Id == parentId);
+            var parentNode = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
             if (parentNode == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));

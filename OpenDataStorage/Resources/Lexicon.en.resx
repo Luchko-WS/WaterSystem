@@ -180,6 +180,12 @@
   <data name="ChangeYourPersonalAccountSettings" xml:space="preserve">
     <value>Change your personal account settings</value>
   </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
   <data name="AccountManagement" xml:space="preserve">
     <value>Account management</value>
   </data>
