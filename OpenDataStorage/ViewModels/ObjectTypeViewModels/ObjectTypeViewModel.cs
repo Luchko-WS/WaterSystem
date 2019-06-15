@@ -1,4 +1,4 @@
-﻿using OpenDataStorageCore;
+﻿using OpenDataStorageCore.Entities.NestedSets;
 
 namespace OpenDataStorage.ViewModels.ObjectTypeViewModels
 {

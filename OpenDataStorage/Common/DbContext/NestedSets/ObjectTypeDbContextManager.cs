@@ -1,4 +1,4 @@
-﻿using OpenDataStorageCore;
+﻿using OpenDataStorageCore.Entities.NestedSets;
 using System.Data.Entity;
 
 namespace OpenDataStorage.Common.DbContext.NestedSets

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Helpers;
-using OpenDataStorageCore;
 using OpenDataStorageCore.Constants;
+using OpenDataStorageCore.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

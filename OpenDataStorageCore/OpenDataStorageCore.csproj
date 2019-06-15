@@ -55,19 +55,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\IgnoreWhenUpdate.cs" />
-    <Compile Include="BaseCharacteristicValue.cs" />
-    <Compile Include="BaseEntity.cs" />
-    <Compile Include="Characteristic.cs" />
+    <Compile Include="Entities\Aliases\BaseAlias.cs" />
+    <Compile Include="Entities\Aliases\HierarchyObjectAlias.cs" />
+    <Compile Include="Entities\Aliases\CharacteristicAlias.cs" />
+    <Compile Include="Entities\CharacteristicValues\BaseCharacteristicValue.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\NestedSets\Characteristic.cs" />
     <Compile Include="Constants\IdentityConstants.cs" />
     <Compile Include="Constants\SubjectOfMonitoringConstants.cs" />
-    <Compile Include="HierarchyObject.cs" />
-    <Compile Include="IdentityModels.cs" />
-    <Compile Include="NestedSetsEntity.cs" />
-    <Compile Include="NestedSetsFSEntity.cs" />
-    <Compile Include="NumberCharacteristicValue.cs" />
-    <Compile Include="ObjectType.cs" />
+    <Compile Include="Entities\NestedSets\HierarchyObject.cs" />
+    <Compile Include="Entities\IdentityModels.cs" />
+    <Compile Include="Entities\NestedSets\NestedSetsEntity.cs" />
+    <Compile Include="Entities\NestedSets\NestedSetsFSEntity.cs" />
+    <Compile Include="Entities\CharacteristicValues\NumberCharacteristicValue.cs" />
+    <Compile Include="Entities\NestedSets\ObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringCharacteristicValue.cs" />
+    <Compile Include="Entities\CharacteristicValues\StringCharacteristicValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

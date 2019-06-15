@@ -1,5 +1,6 @@
-﻿using OpenDataStorageCore;
-using OpenDataStorageCore.Attributes;
+﻿using OpenDataStorageCore.Attributes;
+using OpenDataStorageCore.Entities;
+using OpenDataStorageCore.Entities.NestedSets;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

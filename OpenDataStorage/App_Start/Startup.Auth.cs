@@ -4,8 +4,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using OpenDataStorageCore;
 using OpenDataStorage.Common.DbContext;
+using OpenDataStorageCore.Entities;
 
 namespace OpenDataStorage
 {

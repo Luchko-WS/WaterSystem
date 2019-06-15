@@ -1,7 +1,8 @@
-﻿using System;
+﻿using OpenDataStorageCore.Entities.NestedSets;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OpenDataStorageCore
+namespace OpenDataStorageCore.Entities.CharacteristicValues
 {
     public class BaseCharacteristicValue : BaseEntity
     {

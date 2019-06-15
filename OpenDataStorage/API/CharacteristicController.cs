@@ -2,7 +2,7 @@
 using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.ViewModels.CharacteristicViewModel;
-using OpenDataStorageCore;
+using OpenDataStorageCore.Entities.NestedSets;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

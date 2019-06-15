@@ -1,6 +1,6 @@
 ﻿using OpenDataStorageCore.Attributes;
 
-namespace OpenDataStorageCore
+namespace OpenDataStorageCore.Entities.NestedSets
 {
     public class Characteristic : NestedSetsFSEntity
     {

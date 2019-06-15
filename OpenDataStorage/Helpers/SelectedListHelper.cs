@@ -1,5 +1,5 @@
 ﻿using OpenDataStorage.Common;
-using OpenDataStorageCore;
+using OpenDataStorageCore.Entities.NestedSets;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;

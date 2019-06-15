@@ -1,4 +1,4 @@
-﻿using OpenDataStorageCore;
+﻿using OpenDataStorageCore.Entities.CharacteristicValues;
 
 namespace OpenDataStorage.ViewModels.CharacteristicValueViewModel
 {

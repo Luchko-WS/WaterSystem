@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OpenDataStorage.Common.DbContext.DbSetManagers;
 using OpenDataStorage.Common.DbContext.NestedSets;
-using OpenDataStorageCore;
+using OpenDataStorageCore.Entities;
+using OpenDataStorageCore.Entities.CharacteristicValues;
+using OpenDataStorageCore.Entities.NestedSets;
 
 namespace OpenDataStorage.Common.DbContext
 {

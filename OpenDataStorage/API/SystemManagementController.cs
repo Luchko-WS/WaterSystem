@@ -1,7 +1,8 @@
 ﻿using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Helpers;
-using OpenDataStorageCore;
 using OpenDataStorageCore.Constants;
+using OpenDataStorageCore.Entities.CharacteristicValues;
+using OpenDataStorageCore.Entities.NestedSets;
 using SyncOpenDateServices.TextyOrgUaWater;
 using System;
 using System.Collections.Generic;

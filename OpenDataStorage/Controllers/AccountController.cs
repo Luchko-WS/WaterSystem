@@ -4,16 +4,14 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OpenDataStorage.Common;
-using OpenDataStorage.Common.DbContext;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.Resources;
 using OpenDataStorage.ViewModels.AccountViewModels;
-using OpenDataStorageCore;
 using OpenDataStorageCore.Constants;
+using OpenDataStorageCore.Entities;
 
 namespace OpenDataStorage.Controllers
 {

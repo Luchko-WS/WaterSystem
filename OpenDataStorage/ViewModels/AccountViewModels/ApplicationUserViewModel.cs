@@ -1,4 +1,4 @@
-﻿using OpenDataStorageCore;
+﻿using OpenDataStorageCore.Entities;
 
 namespace OpenDataStorage.ViewModels.AccountViewModels
 {

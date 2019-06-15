@@ -1,4 +1,4 @@
-﻿using OpenDataStorageCore;
+﻿using OpenDataStorageCore.Entities.NestedSets;
 using System;
 using System.Data.Entity;
 using System.Threading.Tasks;

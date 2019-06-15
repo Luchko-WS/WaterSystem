@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenDataStorageCore
+namespace OpenDataStorageCore.Entities.NestedSets
 {
     public class HierarchyObject : NestedSetsEntity
     {

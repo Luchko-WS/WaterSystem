@@ -1,6 +1,6 @@
 ﻿using OpenDataStorage.Common.DbContext.DbSetManagers;
 using OpenDataStorage.Common.DbContext.NestedSets;
-using OpenDataStorageCore;
+using OpenDataStorageCore.Entities.NestedSets;
 using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext

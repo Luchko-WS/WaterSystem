@@ -4,8 +4,9 @@ namespace OpenDataStorage.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using OpenDataStorage.Common.DbContext;
     using OpenDataStorage.Helpers;
-    using OpenDataStorageCore;
     using OpenDataStorageCore.Constants;
+    using OpenDataStorageCore.Entities;
+    using OpenDataStorageCore.Entities.NestedSets;
     using System;
     using System.Data.Entity.Migrations;
     using System.Linq;
