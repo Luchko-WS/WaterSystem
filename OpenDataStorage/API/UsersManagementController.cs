@@ -3,6 +3,7 @@ using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Helpers;
 using OpenDataStorageCore;
 using OpenDataStorageCore.Constants;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -153,25 +154,22 @@ namespace OpenDataStorage.API
         }
 
         [HttpDelete]
-        [Route("Delete/{userName}")]
-        public async Task<HttpResponseMessage> DeleteUser([FromUri]string userName)
+        [Route("Delete/{id}")]
+        public async Task<HttpResponseMessage> DeleteUser([FromUri] Guid id)
         {
-            if (!string.IsNullOrEmpty(userName))
+            var user = await UserManager.FindByIdAsync(id.ToString());
+            if (user != null)
             {
-                var user = await UserManager.FindByNameAsync(userName);
-                if (user != null)
+                if (await IsLowerPermission(user))
                 {
-                    if (await IsLowerPermission(user))
-                    {
-                        return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "You have not permission");
-                    }
-                    var res = await UserManager.DeleteAsync(user);
-                    if (res.Succeeded)
-                    {
-                        return new HttpResponseMessage(HttpStatusCode.OK);
-                    }
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Failed to delete user.");
+                    return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "You have not permission");
                 }
+                var res = await UserManager.DeleteAsync(user);
+                if (res.Succeeded)
+                {
+                    return new HttpResponseMessage(HttpStatusCode.OK);
+                }
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Failed to delete user.");
             }
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User is missing");
         }

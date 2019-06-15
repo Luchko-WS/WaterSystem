@@ -50,11 +50,8 @@
             return $http.post("/api/UsersManagement/SetLockState/" + userName + "/" + lockState);
         }
         
-        function deleteUser(userName) {
-            return $http({
-                method: "DELETE",
-                url: "/api/UsersManagement/Delete/" + userName
-            });
+        function deleteUser(id) {
+            return $http.delete("/api/UsersManagement/Delete/" + id);
         }
 
         function changePassword(userName, newPassword) {

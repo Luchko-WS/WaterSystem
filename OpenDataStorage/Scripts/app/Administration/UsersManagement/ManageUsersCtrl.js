@@ -34,15 +34,12 @@
         function deleteUser(user) {
             MessageService.showMessageYesNo("ng_DeleteUser_ConfirmMessage", "ng_DeleteUser", { userName: user.userName }).then(function (result) {
                 if (result === "OK") {
-                    UsersManagementService.deleteUser(user.userName)
+                    UsersManagementService.deleteUser(user.id)
                         .success(function (response) {
-                            if (response.status === 200) {
-                                MessageService.showMessage("ng_DeleteUser_ResultedMessage", "ng_DeleteUser");
-                                for (var i in vm.users) {
-                                    if (vm.users[i].id === user.id) {
-                                        vm.users.splice(i, 1);
-                                        break;
-                                    }
+                            for (var i in vm.users) {
+                                if (vm.users[i].id === user.id) {
+                                    vm.users.splice(i, 1);
+                                    break;
                                 }
                             }
                         })
