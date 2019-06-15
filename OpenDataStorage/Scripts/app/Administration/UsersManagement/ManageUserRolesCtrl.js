@@ -5,153 +5,68 @@
         .module('MainApp')
         .controller('ManageUserRolesCtrl', ManageUserRolesCtrl);
 
-    ManageUserRolesCtrl.$inject = ['$uibModal', 'UserService', 'MessageService', '$filter'];
+    ManageUserRolesCtrl.$inject = ['$uibModalInstance', 'UsersManagementService', 'MessageService', '_user'];
 
-    function ManageUserRolesCtrl($uibModal, UserService, MessageService, $filter) {
-        /* jshint validthis:true */
+    function ManageUserRolesCtrl($uibModalInstance, UsersManagementService, MessageService, _user) {
         var vm = this;
-
-        vm.users = [];
-        
-        vm.removeUserFromSelectedRole = removeUserFromSelectedRole;
-        vm.addNewUserToRole = addNewUserToRole;
-        vm.isUserDefault = isUserDefault;
-
-        vm.filterValues = {};
-        vm.toggleFilter = toggleFilter;
-        vm.applyFilter = applyFilter;
-        vm.changeSortingOrder = changeSortingOrder;
-        vm.showSortingDirection = showSortingDirection;
-        vm.filterShow = false;
-
-        vm.onUserRoleChanged = onUserRoleChanged;
-        vm.loadAllRoles = function() { return UserService.getAllRoles(); };
-
-        vm.pageChanged = pageChanged;
-        vm.pageOptions = {
-            usersPerPage: 30,
-            currentPage: 1
-        };
+        vm.changeRole = changeRole;
+        vm.cancel = cancel;
 
         activate();
 
         function activate() {
-            vm.orderBy = {
-                field: "UserName",
-                ascOrder: true
-            };
+            vm.user = _user;
+            vm.loaded = false;
+            UsersManagementService.getAllRoles()
+                .success(function (data) {
+                    vm.loaded = true;
+                    vm.roles = data;
 
-            UserService.getAllRoles().then(function(res) {
-                vm.allRoles = res.data;
-            });
-        }
-
-        function onUserRoleChanged() {
-            if (vm.selectedRole) {
-                UserService.getPagedUsersInRole(vm.filterValues, vm.orderBy, vm.selectedRole, 0, vm.pageOptions.usersPerPage).then(function(res) {
-                    vm.users = res.data.pagedUsers;
-                    vm.pageOptions.totalUsers = res.data.totalCount;
-                });
-            }
-        }
-
-        function isUserDefault(user) {
-            var role = $filter('filter')(user.defaultInRoles, vm.selectedRole)[0];
-            if (role) {
-                return 'Yes';
-            }
-
-            return 'No';
-        }
-
-        function addNewUserToRole() {
-            var modalInstance = $uibModal.open({
-                templateUrl: '/Account/AddNewUserToRole/',
-                controller: 'AddUserToRoleCtrl',
-                controllerAs: 'vm',
-                backdrop: 'static',
-                resolve: {
-                    mrOptions: {
-                        roleId: vm.selectedRole,
-                        roleName: $filter('filter')(vm.allRoles, { value: vm.selectedRole })[0].text
-                    }
-                }
-            });
-
-            modalInstance.result.then(function(res) {
-                if (res) {
-                    onUserRoleChanged();
-                }
-            });
-        }
-
-        function removeUserFromSelectedRole(user) {
-            MessageService.showMessageYesNo("ng_Remove_User_From_Role_ConfirmMessage", "ng_Remove_User_From_Role", { userName: user.userName, userRole: $filter('filter')(vm.allRoles, { value: vm.selectedRole })[0].text}).then(function (result) {
-                if (result === "OK") {
-                    UserService.removeUserFromRole(user.userName, vm.selectedRole).then(function (response) {
-                        if (response.status === 200) {
-                            var index = vm.users.indexOf(user);
-                            if (index > -1) {
-                                vm.users.splice(index, 1);
+                    for (var i = 0; i < vm.roles.length; i++) {
+                        var res = false;
+                        for (var j = 0; j < vm.roles[i].users.length; j++) {
+                            if (vm.roles[i].users[j].userId == vm.user.id) {
+                                res = true;
+                                break;
                             }
-                            vm.pageOptions.totalUsers--;
-                        } else {
-                            MessageService.showMessage("ng_Error_Try_Latter", "ng_Error_Title");
                         }
-                    }, function (error) {
-                        MessageService.showMessage("ng_Error_Try_Latter", "ng_Error_Title");
+                        vm.roles[i].containCurrentUser = res;
+                    }
+                })
+                .error(_errorHandler);
+        }
+
+        function changeRole(role) {
+            if (role.containCurrentUser) {
+                UsersManagementService.addUserToRole(vm.user.userName, role.name)
+                    .success(function (data) {
+                        MessageService.showMessage("SuccessMessage", "ng_PasswordForUserChanged_SuccessTitle");
+                    })
+                    .error(function (error) {
+                        role.containCurrentUser = !role.containCurrentUser;
+                        _errorHandler(error);
                     });
-                }
-            });
-        }
-
-        function changeSortingOrder(fieldName) {
-            if (vm.orderBy.field !== fieldName) {
-                vm.orderBy.field = fieldName;
-                vm.orderBy.ascOrder = true;
-            } else {
-                vm.orderBy.ascOrder = !vm.orderBy.ascOrder;
             }
-            pageChanged();
-        }
-
-        function showSortingDirection(fieldName, ascCtrl) {
-            if (vm.orderBy.field !== fieldName) {
-                return false;
-            }
-            if (vm.orderBy.ascOrder && ascCtrl) {
-                return true;
-            } else if (!vm.orderBy.ascOrder && !ascCtrl) {
-                return true;
-            } else {
-                return false;
+            else {
+                UsersManagementService.removeUserFromRole(vm.user.userName, role.name)
+                    .success(function (data) {
+                        MessageService.showMessage("SuccessMessage", "ng_PasswordForUserChanged_SuccessTitle");
+                    })
+                    .error(function (error) {
+                        role.containCurrentUser = !role.containCurrentUser;
+                        _errorHandler(error);
+                    });
             }
         }
 
-        function applyFilter() {
-            if (vm.selectedRole) {
-                UserService.getPagedUsersInRole(vm.filterValues, vm.orderBy, vm.selectedRole, 0, vm.pageOptions.usersPerPage).then(function (res) {
-                    vm.users = res.data.pagedUsers;
-                    vm.pageOptions.totalUsers = res.data.totalCount;
-                });
-            }
+        function _errorHandler(error) {
+            console.error(error);
+            vm.loaded = true;
+            MessageService.showMessage('commonErrorMessage', 'error');
         }
 
-        function pageChanged() {
-
-            if (vm.selectedRole) {
-                UserService.getPagedUsersInRole(vm.filterValues, vm.orderBy, vm.selectedRole, (vm.pageOptions.currentPage - 1) * vm.pageOptions.usersPerPage, vm.pageOptions.usersPerPage).then(function (res) {
-                    vm.users = res.data.pagedUsers;
-                });
-            }
-        }
-
-        function toggleFilter() {
-            vm.filterShow = !vm.filterShow;
-            if (!vm.filterShow) {
-                vm.filterValues = {};
-                applyFilter();
-            }
+        function cancel() {
+            $uibModalInstance.dismiss('cancel');
         }
     }
 })();

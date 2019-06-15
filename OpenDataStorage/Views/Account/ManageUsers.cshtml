@@ -7,7 +7,7 @@
 
 <div ng-controller="ManageUsersCtrl as vm">
     <async-page-with-loader is-loaded="vm.loaded">
-        <table class="table table-responsive centered-table-content" ng-cloak>
+        <table class="table table-striped table-bordered table-hover table-responsive centered-table-content">
             <thead>
                 <tr>
                     <th></th>
@@ -21,18 +21,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="user in vm.users" ng-class="{'not-active-user':user.isLocked}">
-                    <td><i ng-if="user.isLocked" class="fa fa-lock fa-2x"></i></td>
-                    <td>{{user.userName}}</td>
-                    <td>{{user.firstName}}</td>
-                    <td>{{user.lastName}}</td>
-                    <td>{{user.registeredDate| date : 'dd.MM.yyyy'}}</td>
-                    <td>{{user.lastLoginTime}}</td>
-                    <td>
-                        <input type="checkbox" ng-change="vm.changeLockState(user)" ng-model="user.isLocked" />
+                <tr ng-repeat="user in vm.users">
+                    <td><i ng-if="user.isLocked" class="glyphicon glyphicon-alert"></i></td>
+                    <td ng-bind="user.userName"></td>
+                    <td ng-bind="user.firstName"></td>
+                    <td ng-bind="user.lastName"></td>
+                    <td ng-bind="user.registeredDate| date : 'dd.MM.yyyy'"></td>
+                    <td ng-bind="user.lastLoginTime"></td>
+                    <td style="text-align: center">
+                        <input class="checkbox" type="checkbox" ng-change="vm.changeLockState(user)" ng-model="user.isLocked" />
                     </td>
-                    <td>
-                        <button class="btn btn-danger" title="@Lexicon.Remove" ng-click="vm.deleteUser(user)"><span class="glyphicon glyphicon-remove" /></button>
+                    <td style="text-align: center">
+                        <button class="btn btn-sm btn-primary" title="Roles" ng-click="vm.manageUserRoles(user)"><span class="glyphicon glyphicon-user" /></button>
+                        <button class="btn btn-sm btn-warning" title="@Lexicon.ChangePassword" ng-click="vm.changePassword(user)"><span class="glyphicon glyphicon-lock" /></button>
+                        <button class="btn btn-sm btn-danger" title="@Lexicon.Remove" ng-click="vm.deleteUser(user)"><span class="glyphicon glyphicon-remove" /></button>
                     </td>
                 </tr>
             </tbody>

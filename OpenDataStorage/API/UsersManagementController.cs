@@ -40,7 +40,7 @@ namespace OpenDataStorage.API
         }
 
         [HttpPost]
-        [Route("AddUserToRole/{userName}/{roleId}")]
+        [Route("AddUserToRole/{userName}/{roleName}")]
         public async Task<HttpResponseMessage> AddUserToRole(string userName, string roleName)
         {
             var user = await UserManager.FindByNameAsync(userName);
@@ -69,7 +69,7 @@ namespace OpenDataStorage.API
         }
 
         [HttpPost]
-        [Route("RemoveUserFromRole/{userName}/{roleId}")]
+        [Route("RemoveUserFromRole/{userName}/{roleName}")]
         public async Task<HttpResponseMessage> RemoveUserFromRole(string userName, string roleName)
         {
             var user = await UserManager.FindByNameAsync(userName);
@@ -174,8 +174,8 @@ namespace OpenDataStorage.API
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User is missing");
         }
 
-        [Route("ChangePasswordForUser")]
         [HttpPost]
+        [Route("ChangePasswordForUser/{userName}/{newPassword}")]
         public async Task<HttpResponseMessage> ChangePasswordForUser(string userName, string newPassword)
         {
             var user = await UserManager.FindByNameAsync(userName);

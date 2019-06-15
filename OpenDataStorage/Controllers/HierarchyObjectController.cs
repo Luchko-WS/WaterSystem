@@ -1,11 +1,13 @@
-﻿using System;
+﻿using OpenDataStorage.Helpers;
+using System;
 using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
     public class HierarchyObjectController : BaseController
     {
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Roles = RolesHelper.READ_GROUP)]
         public ActionResult Tree()
         {
             return View();

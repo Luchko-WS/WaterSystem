@@ -1,10 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using OpenDataStorage.Helpers;
+using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
     public class CharacteristicController : BaseController
     {
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        [Authorize(Roles = RolesHelper.READ_GROUP)]
         public ActionResult Tree()
         {
             return View();

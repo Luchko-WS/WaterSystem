@@ -193,7 +193,7 @@ namespace OpenDataStorage.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    await UserManager.AddToRoleAsync(user.Id, IdentityConstants.Roles.USER_ROLE);
+                    await UserManager.AddToRoleAsync(user.Id, IdentityConstants.Roles.ANONYMOUS);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -464,7 +464,7 @@ namespace OpenDataStorage.Controllers
         [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
         public ActionResult ManageUserRoles()
         {
-            return View();
+            return PartialView();
         }
 
         [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]

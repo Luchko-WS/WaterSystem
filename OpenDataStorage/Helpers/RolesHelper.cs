@@ -5,11 +5,28 @@ namespace OpenDataStorage.Helpers
 {
     public static class RolesHelper
     {
-        public const string USERS_MANAGER_GROUP = IdentityConstants.Roles.SYSADMIN_ROLE + ", " + IdentityConstants.Roles.USERS_MANAGER_ROLE + ", " + IdentityConstants.Roles.TECH_SUPPORT_ROLE;
+        public const string USERS_MANAGER_GROUP = 
+            IdentityConstants.Roles.SYSADMIN_ROLE + ", " + 
+            IdentityConstants.Roles.USERS_MANAGER_ROLE + ", " + 
+            IdentityConstants.Roles.TECH_SUPPORT_ROLE;
 
-        public const string DATA_MANAGEMENT_GROUP = IdentityConstants.Roles.SYSADMIN_ROLE + ", " + IdentityConstants.Roles.DATA_MANAGER_ROLE + ", " + IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE + ", " + IdentityConstants.Roles.TECH_SUPPORT_ROLE;
+        public const string DATA_MANAGEMENT_GROUP = 
+            IdentityConstants.Roles.SYSADMIN_ROLE + ", " + 
+            IdentityConstants.Roles.DATA_MANAGER_ROLE + ", " + 
+            IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE + ", " + 
+            IdentityConstants.Roles.TECH_SUPPORT_ROLE;
 
-        public const string DATA_SYNC_GROUP = IdentityConstants.Roles.SYSADMIN_ROLE + ", " + IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE;
+        public const string DATA_SYNC_GROUP = 
+            IdentityConstants.Roles.SYSADMIN_ROLE + ", " + 
+            IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE;
+
+        public const string READ_GROUP =
+            IdentityConstants.Roles.SYSADMIN_ROLE + ", " +
+            IdentityConstants.Roles.DATA_MANAGER_ROLE + ", " +
+            IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE + ", " +
+            IdentityConstants.Roles.TECH_SUPPORT_ROLE + ", " +
+            IdentityConstants.Roles.USERS_MANAGER_ROLE + ", " +
+            IdentityConstants.Roles.USER_ROLE;
 
         public static bool IsManagerGroup(IPrincipal user)
         {

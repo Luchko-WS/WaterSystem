@@ -34,12 +34,12 @@
             return $http.get("/api/UsersManagement/GetAllRoles");
         }
 
-        function addUserToRole(username, roleId) {
-            return $http.post("/api/UsersManagement/AddUserToRole/" + username + "/" + roleId);
+        function addUserToRole(username, roleName) {
+            return $http.post("/api/UsersManagement/AddUserToRole/" + username + "/" + roleName);
         }
 
-        function removeUserFromRole(username, roleId) {
-            return $http.post("/api/UsersManagement/RemoveUserFromRole/" + username + "/" + roleId);
+        function removeUserFromRole(username, roleName) {
+            return $http.post("/api/UsersManagement/RemoveUserFromRole/" + username + "/" + roleName);
         }
 
         function getUsersList() {
@@ -55,10 +55,7 @@
         }
 
         function changePassword(userName, newPassword) {
-            return $http.post("/api/UsersManagement/ChangePasswordForUser", {
-                    UserName: userName,
-                    NewPassword: newPassword
-            });
+            return $http.post("/api/UsersManagement/ChangePasswordForUser/" + userName + "/" + newPassword);
         }
     }
 })();

@@ -5,12 +5,14 @@
         .module('MainApp')
         .controller('ManageUsersCtrl', ManageUsersCtrl);
 
-    ManageUsersCtrl.$inject = ['UsersManagementService', 'MessageService'];
+    ManageUsersCtrl.$inject = ['UsersManagementService', '$uibModal', 'MessageService'];
 
-    function ManageUsersCtrl(UsersManagementService, MessageService) {
+    function ManageUsersCtrl(UsersManagementService, $uibModal, MessageService) {
         var vm = this;
 
         vm.changeLockState = changeLockState;
+        vm.changePassword = changePassword;
+        vm.manageUserRoles = manageUserRoles;
         vm.deleteUser = deleteUser;
 
         vm.loaded = false;
@@ -31,6 +33,40 @@
                 .error(_errorHandler);
         }
 
+        function changePassword(user) {
+            $uibModal.open({
+                templateUrl: '/Account/ChangePasswordForUser',
+                controller: 'ChangePasswordForUserCtrl',
+                controllerAs: 'vm',
+                resolve: {
+                    _user: user
+                }
+            });
+        }
+
+        function changeLockState(user) {
+            var lockState = user.isLocked;
+            UsersManagementService.setLockState(user.userName, lockState)
+                .success(function (data) {
+                    console.log('lock state is changed');
+                })
+                .error(function (error) {
+                    user.isLocked = lockState;
+                    _errorHandler(error);
+                });
+        }
+
+        function manageUserRoles(user) {
+            $uibModal.open({
+                templateUrl: '/Account/ManageUserRoles',
+                controller: 'ManageUserRolesCtrl',
+                controllerAs: 'vm',
+                resolve: {
+                    _user: user
+                }
+            });
+        }
+
         function deleteUser(user) {
             MessageService.showMessageYesNo("ng_DeleteUser_ConfirmMessage", "ng_DeleteUser", { userName: user.userName }).then(function (result) {
                 if (result === "OK") {
@@ -46,18 +82,6 @@
                         .error(_errorHandler);
                 }
             });
-        }
-
-        function changeLockState(user) {
-            var lockState = user.isLocked;
-            UsersManagementService.setLockState(user.userName, lockState)
-                .success(function (data) {
-                    console.log('lock state is changed');
-                })
-                .error(function (error) {
-                    user.isLocked = lockState;
-                    _errorHandler(error);
-                });
         }
 
         function _errorHandler(error) {

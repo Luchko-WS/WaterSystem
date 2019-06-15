@@ -3,9 +3,9 @@
         .module('MainApp')
         .controller('ChangePasswordForUserCtrl', ChangePasswordForUserCtrl);
 
-    ChangePasswordForUserCtrl.$inject = ['$uibModalInstance', 'EmailService', 'MessageService', 'UserService', 'user'];
+    ChangePasswordForUserCtrl.$inject = ['$uibModalInstance', 'MessageService', 'UsersManagementService', '_user'];
 
-    function ChangePasswordForUserCtrl($uibModalInstance, EmailService, MessageService, UserService, user) {
+    function ChangePasswordForUserCtrl($uibModalInstance, MessageService, UsersManagementService, _user) {
 
         var vm = this;
         vm.submitForm = submitForm;
@@ -15,17 +15,19 @@
         vm.passwordMaxLength = 100;
         vm.validateConfirmPassword = validateConfirmPassword;
 
-        activate();
+        init();
 
-        function activate() {
-            if (user) {
-                vm.user = user;
-            }
+        function init() {
+            vm.user = _user;
         }
 
         function submitForm() {
-            UserService.changePassword(vm.user.id, vm.userPassword.newPassword, vm.user.email, vm.user.language)
-                .then(successResult, failedResult);
+            UsersManagementService.changePassword(vm.user.userName, vm.userPassword.newPassword)
+                .success(function (data) {
+                    $uibModalInstance.close("save");
+                    MessageService.showMessage("ng_PasswordForUserChanged_SuccessMessage", "ng_PasswordForUserChanged_SuccessTitle");
+                })
+                .error(_errorHandler);
         }
 
         function validateConfirmPassword(form) {
@@ -39,15 +41,9 @@
             }
         }
 
-        function successResult(response) {
-            if (response.status === 200) {
-                $uibModalInstance.close("save");
-                MessageService.showMessage("ng_PasswordForUserChanged_SuccessMessage", "ng_PasswordForUserChanged_SuccessTitle");
-            }
-        }
-
-        function failedResult(error) {
-            MessageService.showMessage("ng_Error_Try_Latter", "ng_Error_Title");
+        function _errorHandler(error) {
+            console.error(error);
+            MessageService.showMessage('commonErrorMessage', 'error');
         }
 
         function cancel() {
