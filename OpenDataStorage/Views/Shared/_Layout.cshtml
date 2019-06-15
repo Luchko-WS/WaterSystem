@@ -22,7 +22,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                     <li>
                         <a href="" data-toggle="dropdown">
                             @Lexicon.Data <span class="caret"></span>
@@ -33,13 +33,26 @@
                             <li>@Html.ActionLink(Lexicon.ObjectTypes, "Tree", "ObjectType")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink(Lexicon.Report, "Index", "Report")</li>
-                            @if (Request.IsAuthenticated)
-                            {
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink(Lexicon.ServiceSync, "Index", "ServiceSync")</li>
-                            }
                         </ul>
                     </li>
+                    @if (Request.IsAuthenticated && OpenDataStorage.Helpers.RolesHelper.IsManagerGroup(User))
+                    {
+                        <li>
+                            <a href="" data-toggle="dropdown">
+                                System management <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                @if (OpenDataStorage.Helpers.RolesHelper.IsInDataSyncGroup(User))
+                                {
+                                    <li>@Html.ActionLink(Lexicon.ServiceSync, "Index", "ServiceSync")</li>
+                                }
+                                @if (OpenDataStorage.Helpers.RolesHelper.IsInUsersManagerGroup(User))
+                                {
+                                    <li>@Html.ActionLink("Users management", "ManageUsers", "Account")</li>
+                                }
+                            </ul>
+                        </li>
+                    }
                     @if (!Request.IsAuthenticated)
                     {
                         <li>
@@ -75,7 +88,7 @@
     @Scripts.Render("~/bundles/scripts/app/HierarchyObject")
     @Scripts.Render("~/bundles/scripts/app/Data")
     @Scripts.Render("~/bundles/scripts/app/Reports")
-    @Scripts.Render("~/bundles/scripts/app/ServiceSync")
+    @Scripts.Render("~/bundles/scripts/app/Administration")
     @RenderSection("scripts", required: false)
 
     <script>

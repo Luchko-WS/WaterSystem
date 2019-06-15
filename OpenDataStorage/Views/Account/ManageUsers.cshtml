@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Manage_Registered_Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Manage_Registered_Users</h2>
+
+<div ng-controller="ManageUsersCtrl as vm">
+    <async-page-with-loader is-loaded="vm.loaded">
+        <table class="table table-responsive centered-table-content" ng-cloak>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@Lexicon.UserName</th>
+                    <th>@Lexicon.FirstName</th>
+                    <th>@Lexicon.LastName</th>
+                    <th>Registered</th>
+                    <th>LLT</th>
+                    <th>Locked</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in vm.users" ng-class="{'not-active-user':user.isLocked}">
+                    <td><i ng-if="user.isLocked" class="fa fa-lock fa-2x"></i></td>
+                    <td>{{user.userName}}</td>
+                    <td>{{user.firstName}}</td>
+                    <td>{{user.lastName}}</td>
+                    <td>{{user.registeredDate| date : 'dd.MM.yyyy'}}</td>
+                    <td>{{user.lastLoginTime}}</td>
+                    <td>
+                        <input type="checkbox" ng-change="vm.changeLockState(user)" ng-model="user.isLocked" />
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" title="@Lexicon.Remove" ng-click="vm.deleteUser(user)"><span class="glyphicon glyphicon-remove" /></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </async-page-with-loader>
+</div>

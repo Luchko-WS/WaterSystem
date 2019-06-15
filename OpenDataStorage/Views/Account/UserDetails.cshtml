@@ -1,0 +1,133 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">@Lexicon.Account_UserDetails_Title</h4>
+</div>
+
+<div class="modal-body">
+    <form name="userDetails" id="userDetails">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                <label for="Name" class="control-label col-md-3">@Lexicon.UserName</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="Name" type="text" ng-model="vm.user.userName" readonly="readonly"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="FirstName" class="control-label col-md-3">@Lexicon.Account_Register_FirstName</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="FirstName" type="text" ng-model="vm.user.firstName" readonly="readonly"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="LastName" class="control-label col-md-3">@Lexicon.Account_Register_LastName</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="LastName" type="text" ng-model="vm.user.lastName" readonly="readonly" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Abbreviation" class="control-label col-md-3">@Lexicon.Account_Register_Abbreviation</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="Abbreviation" name="abbreviation" type="text" ng-model="vm.user.abbreviation" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="isBreader" class="control-label col-md-3">@Lexicon.ng_Queen_Breeder</label>
+                <div class="col-md-9">
+                    <input id="isBreader" type="checkbox" ng-change="vm.changeBreederRole()" ng-model="vm.user.isBreeder" class="js-switch" ui-switch />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="Phone" class="control-label col-md-3">@Lexicon.Account_Register_Phone</label>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input class="form-control" id="Phone" type="text" ng-model="vm.user.phoneNumber" readonly="readonly" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="isPhonePublic" class="control-label">@Lexicon.ng_IsPublic</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="isPhonePublic" type="checkbox" ng-change="vm.changePhoneState()" ng-model="vm.user.isPhonePublic" class="js-switch" ui-switch />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="control-label col-md-3">@Lexicon.Email</label>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input class="form-control" id="email" type="text" ng-model="vm.user.email" readonly="readonly" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="isEmailPublic" class="control-label">@Lexicon.ng_IsPublic</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="isEmailPublic" type="checkbox" ng-change="vm.changeEmailState()" ng-model="vm.user.isEmailPublic" class="js-switch" ui-switch />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="gender" class="control-label col-md-3">@Lexicon.Account_Register_Gender</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="gender" type="text" ng-model="vm.user.gender" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="birthday" class="control-label col-md-3">@Lexicon.Account_Register_BirthDate</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="birthday" type="text" ng-model="vm.user.dateOfBirth" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="country" class="control-label col-md-3">@Lexicon.Country</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="country" type="text" ng-model="vm.user.country" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="city" class="control-label col-md-3">@Lexicon.Account_Register_CityVillage</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="city" type="text" ng-model="vm.user.city" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="language" class="control-label col-md-3">@Lexicon.ng_Language</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="language" type="text" ng-model="vm.user.language" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="logLevel" class="control-label col-md-3">@Lexicon.Log_Level</label>
+                <div class="col-md-9">
+                    <bjcombobox onchange="vm.onLogLevelChanged" noinput="true" name="logLevel" preload="vm.loadLogLevelOptions" id="logLevel" ng-model="vm.user.logLevel"></bjcombobox>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button ng-show="userDetails.abbreviation.$dirty || vm.logLevelChanged || vm.isPhonePublicChanged || vm.isEmailPublicChanged" type="button" class="btn btn-default" ng-click="vm.saveUserDetails()">@Lexicon.Save</button>
+    <button type="button" class="btn btn-default" ng-click="vm.cancel()">@Lexicon.Close</button>
+    <button type="button" class="btn btn-warning" ng-click="vm.changePassword(vm.user)" style="float: left;">Change password</button>
+    <button type="button" class="btn btn-danger" ng-click="vm.deleteAccount()" style="float: left;" >Delete account</button>
+</div>
+
+<div class="modal-body" ng-show="!vm.loaded">
+    <div style="height: 20px">
+        <span us-spinner="{lines:11, radius:9, width:3, length: 5, corners:1}" spinner-on="!vm.loaded"></span>
+    </div>
+</div>

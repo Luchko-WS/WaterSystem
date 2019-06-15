@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "ManageUserRoles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Lexicon.Assign_Roles_Title</h2>
+
+<div ng-controller="ManageUserRolesCtrl as vm" class="ng-cloak">
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label">@Lexicon.Assign_Roles_SelectRole</label>
+        </div>
+        <div class="col-sm-4">
+            <bjcombobox onchange="vm.onUserRoleChanged"
+                        noinput="true"
+                        name="roles"
+                        preload="vm.loadAllRoles"
+                        id="roles"
+                        ng-model="vm.selectedRole">
+            </bjcombobox>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <label class="control-label">@Lexicon.Add_New</label>
+            <i class="glyphicon glyphicon-plus-sign cloud-tag-btnAdd" ng-click="vm.addNewUserToRole()" title="Add new user to selected role"></i>
+        </div>
+    </div>
+
+    <table class="table table-responsive centered-table-content">
+        <thead>
+            <tr>
+                <th>
+                    <span style="cursor: pointer;" class="fa fa-filter filter-icon" aria-hidden="true" ng-click="vm.toggleFilter()"></span>
+                    <span class="clickable" ng-click="vm.changeSortingOrder('UserName')">@Lexicon.UserName</span>
+                    <i ng-show="vm.showSortingDirection('UserName', true)" class="fa fa-long-arrow-up" aria-hidden="true"></i>
+                    <i ng-show="vm.showSortingDirection('UserName', false)" class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                </th>
+                <th class="clickable" ng-click="vm.changeSortingOrder('FullName')">
+                    @Lexicon.Account_Register_FullName
+                    <i ng-show="vm.showSortingDirection('FullName', true)" class="fa fa-long-arrow-up" aria-hidden="true"></i>
+                    <i ng-show="vm.showSortingDirection('FullName', false)" class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                </th>
+                <th class="clickable" ng-click="vm.changeSortingOrder('LastLoginTime')">
+                    LLT
+                    <i ng-show="vm.showSortingDirection('LastLoginTime', true)" class="fa fa-long-arrow-up" aria-hidden="true"></i>
+                    <i ng-show="vm.showSortingDirection('LastLoginTime', false)" class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                </th>
+                <th>Is Default</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-show="vm.filterShow">
+                <td><input class="form-control" ng-model="vm.filterValues.userName" ng-change="vm.applyFilter()" /></td>
+                <td><input class="form-control" ng-model="vm.filterValues.fullName" ng-change="vm.applyFilter()" /></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="user in vm.users">
+                <td>{{user.userName}}</td>
+                <td>{{user.fullName}}</td>
+                <td>{{user.lastLoginTime}}</td>
+                <td>{{vm.isUserDefault(user)}}</td>
+                <td>
+                    <i style="color: red; cursor: pointer;" class="fa fa-times fa-2x" ng-click="vm.removeUserFromSelectedRole(user)" title="Remove user from selected role"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <uib-pagination ng-show="vm.pageOptions.totalUsers>vm.pageOptions.usersPerPage" next-text=">" previous-text="<" total-items="vm.pageOptions.totalUsers" items-per-page="vm.pageOptions.usersPerPage" ng-model="vm.pageOptions.currentPage" ng-change="vm.pageChanged()"></uib-pagination>
+</div>
+
+@section styles
+{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/angucomplete-alt.css" rel="stylesheet" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/app/Account")
+    @Scripts.Render("~/bundles/tinymce")
+    @Scripts.Render("~/bundles/app/Logs")
+}

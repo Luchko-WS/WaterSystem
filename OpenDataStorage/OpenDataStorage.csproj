@@ -368,6 +368,12 @@
     <Content Include="Content\css\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\css\Site.css" />
+    <Content Include="Scripts\app\Administration\UsersManagement\AddUserToRoleCtrl.js" />
+    <Content Include="Scripts\app\Administration\UsersManagement\ChangePasswordForUserCtrl.js" />
+    <Content Include="Scripts\app\Administration\UsersManagement\ManageUserRolesCtrl.js" />
+    <Content Include="Scripts\app\Administration\UsersManagement\ManageUsersCtrl.js" />
+    <Content Include="Scripts\app\Administration\UsersManagement\UserDetailsCtrl.js" />
+    <Content Include="Scripts\app\Administration\UsersManagement\UsersManagementService.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcService.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcTreeCtrl.js" />
     <Content Include="Scripts\app\Common\Controllers\CreateEditModelCtrl.js" />
@@ -391,8 +397,8 @@
     <None Include="Scripts\libs\jquery\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\app\Reports\ReportsService.js" />
     <Content Include="Scripts\app\Reports\ReportCtrl.js" />
-    <Content Include="Scripts\app\ServiceSync\ServiceSyncService.js" />
-    <Content Include="Scripts\app\ServiceSync\ServiceSyncCtrl.js" />
+    <Content Include="Scripts\app\Administration\ServiceSync\ServiceSyncService.js" />
+    <Content Include="Scripts\app\Administration\ServiceSync\ServiceSyncCtrl.js" />
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\libs\bootstrap\bootstrap-treeview.js" />
@@ -522,6 +528,10 @@
     <Content Include="Views\HierarchyObject\SelectObject.cshtml" />
     <Content Include="Views\ObjectType\SelectType.cshtml" />
     <Content Include="Views\ServiceSync\Index.cshtml" />
+    <Content Include="Views\Account\ChangePasswordForUser.cshtml" />
+    <Content Include="Views\Account\ManageUserRoles.cshtml" />
+    <Content Include="Views\Account\ManageUsers.cshtml" />
+    <Content Include="Views\Account\UserDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

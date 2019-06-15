@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Helpers;
-using OpenDataStorage.ViewModels.AccountViewModels;
 using OpenDataStorageCore;
 using OpenDataStorageCore.Constants;
 using System.Collections.Generic;
@@ -104,10 +103,10 @@ namespace OpenDataStorage.API
         }
 
         [HttpGet]
-        [Route("GetUsersList/{skip}/{take}")]
+        [Route("GetUsersList")]
         public async Task<dynamic> GetUsersList()
         {
-            return await UserManager.Users
+            var res = await UserManager.Users
                 .Where(u => u.UserName != IdentityConstants.Admin.USER_NAME)
                 .Select(
                     user =>
@@ -118,16 +117,16 @@ namespace OpenDataStorage.API
                             user.FirstName,
                             user.LastName,
                             user.Email,
-                            user.EmailConfirmed,
                             user.IsLocked,
                             user.RegisteredDate,
                             user.LastLoginTime,
                             user.Roles
                         }).ToListAsync();
+            return res;
         }
 
         [HttpPost]
-        [Route("SetLockState")]
+        [Route("SetLockState/{userName}/{isLocked}")]
         public async Task<HttpResponseMessage> SetLockState(string userName, bool isLocked)
         {
             if (!string.IsNullOrEmpty(userName))
@@ -153,27 +152,9 @@ namespace OpenDataStorage.API
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User is missing");
         }
 
-        [HttpPost]
-        [Route("SaveUserDetails")]
-        public async Task<HttpResponseMessage> SaveUserDetails(ApplicationUserViewModel vm)
-        {
-            if (!string.IsNullOrEmpty(vm?.UserName))
-            {
-                var user = await UserManager.FindByNameAsync(vm.UserName);
-                if (user != null)
-                {
-                    if (await IsLowerPermission(user))
-                    {
-                        return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "You have not permission");
-                    }
-                    //add code here
-                    return new HttpResponseMessage(HttpStatusCode.OK);
-                }
-            }
-            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User is missing");
-        }
-
-        public async Task<HttpResponseMessage> DeleteUser(string userName)
+        [HttpDelete]
+        [Route("Delete/{userName}")]
+        public async Task<HttpResponseMessage> DeleteUser([FromUri]string userName)
         {
             if (!string.IsNullOrEmpty(userName))
             {
@@ -195,22 +176,27 @@ namespace OpenDataStorage.API
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User is missing");
         }
 
-        /*[Route("ChangePasswordForUser")]
+        [Route("ChangePasswordForUser")]
         [HttpPost]
-        public async Task<HttpResponseMessage> ChangePasswordForUser(ChangePasswordForUserViewModel model)
+        public async Task<HttpResponseMessage> ChangePasswordForUser(string userName, string newPassword)
         {
-            var user = await UserManager.FindByIdAsync(model.UserId);
+            var user = await UserManager.FindByNameAsync(userName);
             if (user != null)
             {
-                var token = await UserManager.GeneratePasswordResetTokenAsync(model.UserId);
-                var result = await UserManager.ResetPasswordAsync(model.UserId, token, model.NewPassword);
+                if (await IsLowerPermission(user))
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "You have not permission");
+                }
+                var token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var result = await UserManager.ResetPasswordAsync(user.Id, token, newPassword);
                 if (result.Succeeded)
                 {
                     return new HttpResponseMessage(HttpStatusCode.OK);
                 }
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Failed to change password for user.");
             }
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Failed to change password for user " + model.UserId);
-        }*/
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User is missing");
+        }
 
         private async Task<bool> IsLowerPermission(ApplicationUser user)
         {

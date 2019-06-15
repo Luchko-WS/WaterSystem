@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OpenDataStorage.Common;
 using OpenDataStorage.Common.DbContext;
+using OpenDataStorage.Helpers;
 using OpenDataStorage.Resources;
 using OpenDataStorage.ViewModels.AccountViewModels;
 using OpenDataStorageCore;
@@ -454,6 +455,24 @@ namespace OpenDataStorage.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
+        public ActionResult ChangePasswordForUser()
+        {
+            return PartialView();
+        }
+
+        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
+        public ActionResult ManageUserRoles()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
+        public ActionResult ManageUsers()
+        {
+            return View();
         }
 
         #region Helpers
