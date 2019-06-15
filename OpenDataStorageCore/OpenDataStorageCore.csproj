@@ -59,6 +59,7 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Characteristic.cs" />
     <Compile Include="Constants\IdentityConstants.cs" />
+    <Compile Include="Constants\SubjectOfMonitoringConstants.cs" />
     <Compile Include="HierarchyObject.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="NestedSetsEntity.cs" />

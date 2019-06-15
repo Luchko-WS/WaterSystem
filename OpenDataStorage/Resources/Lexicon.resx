@@ -330,6 +330,9 @@
   <data name="Sync" xml:space="preserve">
     <value>Synchronize</value>
   </data>
+  <data name="SubjectOfMonitoring" xml:space="preserve">
+    <value>The subject of monitoring</value>
+  </data>
   <!-- Folder -->
   <data name="Folder" xml:space="preserve">
     <value>Folder</value>

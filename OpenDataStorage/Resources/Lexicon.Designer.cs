@@ -907,6 +907,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The subject of monitoring.
+        /// </summary>
+        public static string SubjectOfMonitoring {
+            get {
+                return ResourceManager.GetString("SubjectOfMonitoring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Synchronize.
         /// </summary>
         public static string Sync {

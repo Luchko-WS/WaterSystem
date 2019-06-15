@@ -79,18 +79,20 @@ namespace OpenDataStorage.API
             int column = 1;
 
             workSheet.Cells[row, column].Value = UserLexicon.GetString("Object");
-            workSheet.Cells[row, column + 1].Value = UserLexicon.GetString("Characteristic");
-            workSheet.Cells[row, column + 2].Value = UserLexicon.GetString("CreationDate");
-            workSheet.Cells[row, column + 3].Value = UserLexicon.GetString("Value");
+            workSheet.Cells[row, column + 1].Value = UserLexicon.GetString("SubjectOfMonitoring");
+            workSheet.Cells[row, column + 2].Value = UserLexicon.GetString("Characteristic");
+            workSheet.Cells[row, column + 3].Value = UserLexicon.GetString("CreationDate");
+            workSheet.Cells[row, column + 4].Value = UserLexicon.GetString("Value");
             row++;
 
             data = data.OrderBy(d => d.CreationDate).ToList();
             foreach (var value in data)
             {
                 workSheet.Cells[row, column].Value = value.HierarchyObject.Name;
-                workSheet.Cells[row, column + 1].Value = value.Characteristic.Name;
-                workSheet.Cells[row, column + 2].Value = value.CreationDate?.ToString("dd.MM.yyyy");
-                workSheet.Cells[row, column + 3].Value = value.Value;
+                workSheet.Cells[row, column + 1].Value = value.SubjectOfMonitoring;
+                workSheet.Cells[row, column + 2].Value = value.Characteristic.Name;
+                workSheet.Cells[row, column + 3].Value = value.CreationDate?.ToString("dd.MM.yyyy");
+                workSheet.Cells[row, column + 4].Value = value.Value;
                 row++;
             }
 

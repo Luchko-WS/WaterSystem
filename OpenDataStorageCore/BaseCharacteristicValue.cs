@@ -13,6 +13,8 @@ namespace OpenDataStorageCore
 
         public Characteristic Characteristic { get; set; }
 
+        public string SubjectOfMonitoring { get; set; }
+
         [NotMapped]
         public CharacteristicType ValueType { protected set; get; }
     }

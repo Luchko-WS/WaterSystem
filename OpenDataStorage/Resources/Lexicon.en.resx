@@ -432,4 +432,7 @@
   <data name="Sync" xml:space="preserve">
     <value>Synchronize</value>
   </data>
+  <data name="SubjectOfMonitoring" xml:space="preserve">
+    <value>The subject of monitoring</value>
+  </data>
 </root>

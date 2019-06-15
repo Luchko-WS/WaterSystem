@@ -133,7 +133,8 @@ namespace OpenDataStorage.API
                             HierarchyObjectId = pointId,
                             CreationDate = value.Date,
                             Value = value.Value,
-                            OwnerId = User.Identity.Name
+                            OwnerId = User.Identity.Name,
+                            SubjectOfMonitoring = SubjectOfMonitoringConstants.CLEAR_WATER
                             //value.Id -- save in different field
                         };
 

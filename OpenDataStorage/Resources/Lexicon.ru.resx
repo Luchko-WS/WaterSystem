@@ -432,4 +432,7 @@
   <data name="To" xml:space="preserve">
     <value>До</value>
   </data>
+  <data name="SubjectOfMonitoring" xml:space="preserve">
+    <value>Субъект мониторинга</value>
+  </data>
 </root>
