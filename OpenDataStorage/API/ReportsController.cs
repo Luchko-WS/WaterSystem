@@ -62,7 +62,7 @@ namespace OpenDataStorage.API
                 .Cast<NumberCharacteristicValue>().ToList();
             if(characteristics != null && characteristics.Any())
             {
-                data = data.Where(v => characteristics.FirstOrDefault(c => c.Id == v.CharacterisitcId) != null).ToList();
+                data = data.Where(v => characteristics.FirstOrDefault(c => c.Id == v.CharacteristicId) != null).ToList();
             }
 
             if (vm != null)

@@ -16,19 +16,9 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
             TableName = "CharacteristicValues";
         }
 
-        public override IQueryable<BaseCharacteristicValue> GetEntityQuery(Guid id, bool includeAll = true)
-        {
-            return IncludeDependencies(base.GetEntityQuery(id, includeAll));
-        }
-
-        public override IQueryable<BaseCharacteristicValue> GetAllQuery(bool includeAll = true)
-        {
-            return IncludeDependencies(base.GetAllQuery(includeAll));
-        }
-
         public IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId, bool includeAll = true)
         {
-            return base.GetAllQuery(includeAll).Where(e => e.CharacterisitcId == characteristicId);
+            return base.GetAllQuery(includeAll).Where(e => e.CharacteristicId == characteristicId);
         }
 
         public IQueryable<BaseCharacteristicValue> GetAllForObjectQuery(Guid objectId, bool includeAll = true)

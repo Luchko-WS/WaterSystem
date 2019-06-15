@@ -130,7 +130,7 @@ namespace OpenDataStorage.API
                     {
                         var entity = new NumberCharacteristicValue
                         {
-                            CharacterisitcId = characteristicMap[value.Key],
+                            CharacteristicId = characteristicMap[value.Key],
                             HierarchyObjectId = pointId,
                             CreationDate = value.Date,
                             Value = value.Value,

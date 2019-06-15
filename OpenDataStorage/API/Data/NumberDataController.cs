@@ -26,7 +26,7 @@ namespace OpenDataStorage.API.Data
 
             var entity = new NumberCharacteristicValue
             {
-                CharacterisitcId = characteristicId,
+                CharacteristicId = characteristicId,
                 HierarchyObjectId = objectId,
                 CreationDate = vm.CreationDate ?? DateTime.Now.Date,
                 Value = vm.Value,
@@ -41,7 +41,7 @@ namespace OpenDataStorage.API.Data
         public async Task<HttpResponseMessage> Update(NumberValueViewModel vm)
         {
             var entity = Mapper.CreateInstanceAndMapProperties<NumberCharacteristicValue>(vm);
-            var errorRes = await ValidateObjectAndCharacteristic(entity.HierarchyObjectId, entity.CharacterisitcId, _supportedCharacteristicType);
+            var errorRes = await ValidateObjectAndCharacteristic(entity.HierarchyObjectId, entity.CharacteristicId, _supportedCharacteristicType);
             if (errorRes != null) return errorRes;
             return await UpdateInner(entity);
         }

@@ -10,7 +10,7 @@ namespace OpenDataStorageCore.Entities.CharacteristicValues
 
         public HierarchyObject HierarchyObject { get; set; }
 
-        public Guid CharacterisitcId { get; set; }
+        public Guid CharacteristicId { get; set; }
 
         public Characteristic Characteristic { get; set; }
 
