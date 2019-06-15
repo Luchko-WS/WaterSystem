@@ -1,4 +1,6 @@
 ﻿using OpenDataStorageCore.Attributes;
+using OpenDataStorageCore.Entities.Aliases;
+using System.Collections.Generic;
 
 namespace OpenDataStorageCore.Entities.NestedSets
 {
@@ -9,6 +11,8 @@ namespace OpenDataStorageCore.Entities.NestedSets
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public ICollection<CharacteristicAlias> CharacteristicAliases { get; set; }
 
         [IgnoreWhenUpdate]
         public CharacteristicType CharacteristicType { get; set; }

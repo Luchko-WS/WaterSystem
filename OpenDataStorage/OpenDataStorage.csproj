@@ -224,8 +224,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Common\Attributes\WebApiAuthorize.cs" />
+    <Compile Include="Common\DbContext\DbSetManagers\Aliases\HierarchyObjectAliasDbSetManager.cs" />
+    <Compile Include="Common\DbContext\DbSetManagers\Aliases\CharacteristicAliasDbSetManager.cs" />
+    <Compile Include="Common\DbContext\DbSetManagers\Aliases\IHierarchyObjectAliasDbSetManager.cs" />
     <Compile Include="Common\DbContext\DbSetManagers\BaseDbSetManager.cs" />
     <Compile Include="Common\DbContext\DbSetManagers\CharacteristicValueDbSetManager.cs" />
+    <Compile Include="Common\DbContext\DbSetManagers\Aliases\IAliasDbSetManager.cs" />
+    <Compile Include="Common\DbContext\DbSetManagers\Aliases\ICharacteristicAliasDbSetManager.cs" />
     <Compile Include="Common\DbContext\DbSetManagers\ICharacteristicValueDbSetManager.cs" />
     <Compile Include="Common\DbContext\DbSetManagers\IDbSetManager.cs" />
     <Compile Include="Common\DbContext\NestedSets\BaseFSNestedSetsDbContextManager.cs" />

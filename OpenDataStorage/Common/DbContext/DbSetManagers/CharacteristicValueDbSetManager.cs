@@ -16,24 +16,24 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
             TableName = "CharacteristicValues";
         }
 
-        public override IQueryable<BaseCharacteristicValue> GetEntityQuery(Guid id)
+        public override IQueryable<BaseCharacteristicValue> GetEntityQuery(Guid id, bool includeAll = true)
         {
-            return IncludeDependencies(base.GetEntityQuery(id));
+            return IncludeDependencies(base.GetEntityQuery(id, includeAll));
         }
 
-        public override IQueryable<BaseCharacteristicValue> GetAllQuery()
+        public override IQueryable<BaseCharacteristicValue> GetAllQuery(bool includeAll = true)
         {
-            return IncludeDependencies(base.GetAllQuery());
+            return IncludeDependencies(base.GetAllQuery(includeAll));
         }
 
-        public IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId)
+        public IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId, bool includeAll = true)
         {
-            return IncludeDependencies(base.GetAllQuery()).Where(e => e.CharacterisitcId == characteristicId);
+            return base.GetAllQuery(includeAll).Where(e => e.CharacterisitcId == characteristicId);
         }
 
-        public IQueryable<BaseCharacteristicValue> GetAllForObjectQuery(Guid objectId)
+        public IQueryable<BaseCharacteristicValue> GetAllForObjectQuery(Guid objectId, bool includeAll = true)
         {
-            return IncludeDependencies(base.GetAllQuery()).Where(e => e.HierarchyObjectId == objectId);
+            return base.GetAllQuery(includeAll).Where(e => e.HierarchyObjectId == objectId);
         }
 
         protected override async Task SaveChanges()
@@ -41,7 +41,7 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
             await _saveChangesFunction?.Invoke();
         }
 
-        private IQueryable<BaseCharacteristicValue> IncludeDependencies(IQueryable<BaseCharacteristicValue> query)
+        protected override IQueryable<BaseCharacteristicValue> IncludeDependencies(IQueryable<BaseCharacteristicValue> query)
         {
             return query.Include(e => e.Characteristic).Include(e => e.HierarchyObject);
         }

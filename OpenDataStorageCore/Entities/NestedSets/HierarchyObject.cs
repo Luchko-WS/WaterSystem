@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenDataStorageCore.Entities.Aliases;
+using System;
+using System.Collections.Generic;
 
 namespace OpenDataStorageCore.Entities.NestedSets
 {
@@ -13,5 +15,7 @@ namespace OpenDataStorageCore.Entities.NestedSets
         public Guid? ObjectTypeId { get; set; }
 
         public ObjectType ObjectType { get; set; }
+
+        public ICollection<HierarchyObjectAlias> HierarchyObjectAliases { get; set; }
     }
 }

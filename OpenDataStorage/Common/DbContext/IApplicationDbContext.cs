@@ -1,4 +1,5 @@
 ﻿using OpenDataStorage.Common.DbContext.DbSetManagers;
+using OpenDataStorage.Common.DbContext.DbSetManagers.Aliases;
 using OpenDataStorage.Common.DbContext.NestedSets;
 using OpenDataStorageCore.Entities.NestedSets;
 using System.Threading.Tasks;
@@ -14,6 +15,10 @@ namespace OpenDataStorage.Common.DbContext
         INestedSetsFSContext<ObjectType> ObjectTypeContext { get; }
 
         ICharacteristicValueDbSetManager CharacteristicValueDbSetManager { get; }
+
+        ICharacteristicAliasDbSetManager CharacteristicAliasDbSetManager { get; }
+
+        IHierarchyObjectAliasDbSetManager HierarchyObjectAliasDbSetManager { get; }
 
         Task ReloadFromDb(object entity);
 

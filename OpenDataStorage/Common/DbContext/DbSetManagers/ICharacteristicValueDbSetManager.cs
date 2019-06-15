@@ -6,8 +6,8 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
 {
     public interface ICharacteristicValueDbSetManager : IDbSetManager<BaseCharacteristicValue>
     {
-        IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId);
+        IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId, bool includeAll = true);
 
-        IQueryable<BaseCharacteristicValue> GetAllForObjectQuery(Guid objectId);
+        IQueryable<BaseCharacteristicValue> GetAllForObjectQuery(Guid objectId, bool includeAll = true);
     }
 }

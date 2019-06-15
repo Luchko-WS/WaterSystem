@@ -18,14 +18,16 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
             _dbSet = dbSet;
         }
 
-        public virtual IQueryable<T> GetAllQuery()
+        public virtual IQueryable<T> GetAllQuery(bool includeAll = true)
         {
-            return _dbSet.AsNoTracking();
+            var query = _dbSet.AsNoTracking();
+            return includeAll ? IncludeDependencies(query) : query;
         }
 
-        public virtual IQueryable<T> GetEntityQuery(Guid id)
+        public virtual IQueryable<T> GetEntityQuery(Guid id, bool includeAll = true)
         {
-            return _dbSet.AsNoTracking().Where(e => e.Id == id);
+            var query = _dbSet.AsNoTracking().Where(e => e.Id == id);
+            return includeAll ? IncludeDependencies(query) : query;
         }
 
         public virtual async Task Create(T entity)
@@ -63,5 +65,7 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
         }
 
         abstract protected Task SaveChanges();
+
+        abstract protected IQueryable<T> IncludeDependencies(IQueryable<T> query);
     }
 }

@@ -9,9 +9,9 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
     {
         string TableName { get; }
 
-        IQueryable<T> GetEntityQuery(Guid id);
+        IQueryable<T> GetEntityQuery(Guid id, bool includeAll = true);
 
-        IQueryable<T> GetAllQuery();
+        IQueryable<T> GetAllQuery(bool includeAll = true);
 
         Task Create(T entity);
 
