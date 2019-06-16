@@ -511,11 +511,47 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Locked.
+        /// </summary>
+        public static string Locked {
+            get {
+                return ResourceManager.GetString("Locked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locked out.
+        /// </summary>
+        public static string LockedOut {
+            get {
+                return ResourceManager.GetString("LockedOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This account has been locked out, please try again later..
+        /// </summary>
+        public static string LockedOutMessage {
+            get {
+                return ResourceManager.GetString("LockedOutMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in.
         /// </summary>
         public static string LogIn {
             get {
                 return ResourceManager.GetString("LogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login time.
+        /// </summary>
+        public static string LoginTime {
+            get {
+                return ResourceManager.GetString("LoginTime", resourceCulture);
             }
         }
         
@@ -673,6 +709,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The password for the user has been changed.
+        /// </summary>
+        public static string PasswordForUserChanged {
+            get {
+                return ResourceManager.GetString("PasswordForUserChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The {0} must be at least {2} characters long..
         /// </summary>
         public static string PasswordLengthErrorMessage {
@@ -696,6 +741,15 @@ namespace OpenDataStorage.Resources {
         public static string RegisterAsANewUser {
             get {
                 return ResourceManager.GetString("RegisterAsANewUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered.
+        /// </summary>
+        public static string Registered {
+            get {
+                return ResourceManager.GetString("Registered", resourceCulture);
             }
         }
         
@@ -781,6 +835,24 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove user.
+        /// </summary>
+        public static string RemoveUser {
+            get {
+                return ResourceManager.GetString("RemoveUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to remove this user?.
+        /// </summary>
+        public static string RemoveUserQuestion {
+            get {
+                return ResourceManager.GetString("RemoveUserQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove value.
         /// </summary>
         public static string RemoveValue {
@@ -831,6 +903,24 @@ namespace OpenDataStorage.Resources {
         public static string Review {
             get {
                 return ResourceManager.GetString("Review", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roles.
+        /// </summary>
+        public static string Roles {
+            get {
+                return ResourceManager.GetString("Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roles management.
+        /// </summary>
+        public static string RolesManagement {
+            get {
+                return ResourceManager.GetString("RolesManagement", resourceCulture);
             }
         }
         
@@ -925,6 +1015,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to System management.
+        /// </summary>
+        public static string SystemManagement {
+            get {
+                return ResourceManager.GetString("SystemManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To.
         /// </summary>
         public static string To {
@@ -943,11 +1042,38 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User added to the role.
+        /// </summary>
+        public static string UserAddedToRole {
+            get {
+                return ResourceManager.GetString("UserAddedToRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User name.
         /// </summary>
         public static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User removed from role.
+        /// </summary>
+        public static string UserRemovedFromRole {
+            get {
+                return ResourceManager.GetString("UserRemovedFromRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Users management.
+        /// </summary>
+        public static string UsersManagement {
+            get {
+                return ResourceManager.GetString("UsersManagement", resourceCulture);
             }
         }
         

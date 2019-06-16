@@ -25,7 +25,7 @@
             UsersManagementService.changePassword(vm.user.userName, vm.userPassword.newPassword)
                 .success(function (data) {
                     $uibModalInstance.close("save");
-                    MessageService.showMessage("ng_PasswordForUserChanged_SuccessMessage", "ng_PasswordForUserChanged_SuccessTitle");
+                    MessageService.showMessage("passwordForUserChanged", "changePassword");
                 })
                 .error(_errorHandler);
         }

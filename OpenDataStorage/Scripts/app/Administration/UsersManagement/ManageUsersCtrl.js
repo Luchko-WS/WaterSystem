@@ -68,7 +68,7 @@
         }
 
         function deleteUser(user) {
-            MessageService.showMessageYesNo("ng_DeleteUser_ConfirmMessage", "ng_DeleteUser", { userName: user.userName }).then(function (result) {
+            MessageService.showMessageYesNo("removeUserQuestion", "removeUser", { userName: user.userName }).then(function (result) {
                 if (result === "OK") {
                     UsersManagementService.deleteUser(user.id)
                         .success(function (response) {

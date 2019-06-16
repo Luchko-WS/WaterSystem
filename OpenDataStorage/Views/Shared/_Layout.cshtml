@@ -39,7 +39,7 @@
                     {
                         <li>
                             <a href="" data-toggle="dropdown">
-                                System management <span class="caret"></span>
+                                @Lexicon.SystemManagement <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 @if (OpenDataStorage.Helpers.RolesHelper.IsInDataSyncGroup(User))
@@ -48,7 +48,7 @@
                                 }
                                 @if (OpenDataStorage.Helpers.RolesHelper.IsInUsersManagerGroup(User))
                                 {
-                                    <li>@Html.ActionLink("Users management", "ManageUsers", "Account")</li>
+                                    <li>@Html.ActionLink(Lexicon.UsersManagement, "ManageUsers", "Account")</li>
                                 }
                             </ul>
                         </li>

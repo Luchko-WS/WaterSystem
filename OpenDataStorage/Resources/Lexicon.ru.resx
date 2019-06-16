@@ -435,4 +435,46 @@
   <data name="SubjectOfMonitoring" xml:space="preserve">
     <value>Субъект мониторинга</value>
   </data>
+  <data name="SystemManagement" xml:space="preserve">
+    <value>Управление системой</value>
+  </data>
+  <data name="UsersManagement" xml:space="preserve">
+    <value>Управление пользователями</value>
+  </data>
+  <data name="RolesManagement" xml:space="preserve">
+    <value>Управление ролями</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>Зарегистрированный</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Заблокированный</value>
+  </data>
+  <data name="LoginTime" xml:space="preserve">
+    <value>Время входа</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Роли</value>
+  </data>
+  <data name="PasswordForUserChanged" xml:space="preserve">
+    <value>Пароль для пользователя изменено</value>
+  </data>
+  <data name="UserAddedToRole" xml:space="preserve">
+    <value>Пользователь добавлен к роли</value>
+  </data>
+  <data name="UserRemovedFromRole" xml:space="preserve">
+    <value>Пользователь удален из роли</value>
+  </data>
+  <data name="RemoveUser" xml:space="preserve">
+    <value>Удалить пользователя</value>
+  </data>
+  <data name="RemoveUserQuestion" xml:space="preserve">
+    <value>Вы хотите удалить этого пользователя?</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Заблокирован</value>
+  </data>
+  <data name="LockedOutMessage" xml:space="preserve">
+    <value>Этот аккаунт заблокирован, повторите попытку позже.</value>
+  </data>
 </root>

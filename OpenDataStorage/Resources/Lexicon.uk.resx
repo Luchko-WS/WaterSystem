@@ -435,4 +435,46 @@
   <data name="SubjectOfMonitoring" xml:space="preserve">
     <value>Суб'єкт моніторингу</value>
   </data>
+  <data name="SystemManagement" xml:space="preserve">
+    <value>Управління системою</value>
+  </data>
+  <data name="UsersManagement" xml:space="preserve">
+    <value>Управління користувачами</value>
+  </data>
+  <data name="RolesManagement" xml:space="preserve">
+    <value>Управління ролями</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>Зареєстровано</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Заблокований</value>
+  </data>
+  <data name="LoginTime" xml:space="preserve">
+    <value>Час входу</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Ролі</value>
+  </data>
+  <data name="PasswordForUserChanged" xml:space="preserve">
+    <value>Пароль для користувача змінено</value>
+  </data>
+  <data name="UserAddedToRole" xml:space="preserve">
+    <value>Користувач доданий до ролі</value>
+  </data>
+  <data name="UserRemovedFromRole" xml:space="preserve">
+    <value>Користувач видалений з ролі</value>
+  </data>
+  <data name="RemoveUser" xml:space="preserve">
+    <value>Видалити користувача</value>
+  </data>
+  <data name="RemoveUserQuestion" xml:space="preserve">
+    <value>Видалити цього користувача?</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Заблокований</value>
+  </data>
+  <data name="LockedOutMessage" xml:space="preserve">
+    <value>Цей обліковий запис заблоковано. Повторіть спробу пізніше.</value>
+  </data>
 </root>

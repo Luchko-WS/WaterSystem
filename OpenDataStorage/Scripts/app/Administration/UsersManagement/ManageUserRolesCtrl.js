@@ -40,7 +40,7 @@
             if (role.containCurrentUser) {
                 UsersManagementService.addUserToRole(vm.user.userName, role.name)
                     .success(function (data) {
-                        MessageService.showMessage("SuccessMessage", "ng_PasswordForUserChanged_SuccessTitle");
+                        MessageService.showMessage("userAddedToRole", "rolesManagement");
                     })
                     .error(function (error) {
                         role.containCurrentUser = !role.containCurrentUser;
@@ -50,7 +50,7 @@
             else {
                 UsersManagementService.removeUserFromRole(vm.user.userName, role.name)
                     .success(function (data) {
-                        MessageService.showMessage("SuccessMessage", "ng_PasswordForUserChanged_SuccessTitle");
+                        MessageService.showMessage("userRemovedFromRole", "rolesManagement");
                     })
                     .error(function (error) {
                         role.containCurrentUser = !role.containCurrentUser;

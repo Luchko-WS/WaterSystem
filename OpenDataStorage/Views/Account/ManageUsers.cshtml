@@ -1,9 +1,9 @@
 ﻿@{
-    ViewBag.Title = "Manage_Registered_Users";
+    ViewBag.Title = Lexicon.UsersManagement;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage_Registered_Users</h2>
+<h2>@Lexicon.UsersManagement</h2>
 
 <div ng-controller="ManageUsersCtrl as vm">
     <async-page-with-loader is-loaded="vm.loaded">
@@ -14,9 +14,9 @@
                     <th>@Lexicon.UserName</th>
                     <th>@Lexicon.FirstName</th>
                     <th>@Lexicon.LastName</th>
-                    <th>Registered</th>
-                    <th>LLT</th>
-                    <th>Locked</th>
+                    <th>@Lexicon.Registered</th>
+                    <th>@Lexicon.LoginTime</th>
+                    <th>@Lexicon.Locked</th>
                     <th></th>
                 </tr>
             </thead>
@@ -26,13 +26,13 @@
                     <td ng-bind="user.userName"></td>
                     <td ng-bind="user.firstName"></td>
                     <td ng-bind="user.lastName"></td>
-                    <td ng-bind="user.registeredDate| date : 'dd.MM.yyyy'"></td>
-                    <td ng-bind="user.lastLoginTime"></td>
+                    <td ng-bind="user.registeredDate | date : 'dd.MM.yyyy'"></td>
+                    <td ng-bind="user.lastLoginTime | date : 'HH:mm dd.MM.yyyy'"></td>
                     <td style="text-align: center">
                         <input class="checkbox" type="checkbox" ng-change="vm.changeLockState(user)" ng-model="user.isLocked" />
                     </td>
                     <td style="text-align: center">
-                        <button class="btn btn-sm btn-primary" title="Roles" ng-click="vm.manageUserRoles(user)"><span class="glyphicon glyphicon-user" /></button>
+                        <button class="btn btn-sm btn-primary" title="@Lexicon.RolesManagement" ng-click="vm.manageUserRoles(user)"><span class="glyphicon glyphicon-user" /></button>
                         <button class="btn btn-sm btn-warning" title="@Lexicon.ChangePassword" ng-click="vm.changePassword(user)"><span class="glyphicon glyphicon-lock" /></button>
                         <button class="btn btn-sm btn-danger" title="@Lexicon.Remove" ng-click="vm.deleteUser(user)"><span class="glyphicon glyphicon-remove" /></button>
                     </td>

@@ -435,4 +435,46 @@
   <data name="SubjectOfMonitoring" xml:space="preserve">
     <value>The subject of monitoring</value>
   </data>
+  <data name="SystemManagement" xml:space="preserve">
+    <value>System management</value>
+  </data>
+  <data name="UsersManagement" xml:space="preserve">
+    <value>Users management</value>
+  </data>
+  <data name="RolesManagement" xml:space="preserve">
+    <value>Roles management</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>Registered</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="LoginTime" xml:space="preserve">
+    <value>Login time</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="PasswordForUserChanged" xml:space="preserve">
+    <value>The password for the user has been changed</value>
+  </data>
+  <data name="UserAddedToRole" xml:space="preserve">
+    <value>User added to the role</value>
+  </data>
+  <data name="UserRemovedFromRole" xml:space="preserve">
+    <value>User removed from role</value>
+  </data>
+  <data name="RemoveUser" xml:space="preserve">
+    <value>Remove user</value>
+  </data>
+  <data name="RemoveUserQuestion" xml:space="preserve">
+    <value>Do you want to remove this user?</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Locked out</value>
+  </data>
+  <data name="LockedOutMessage" xml:space="preserve">
+    <value>This account has been locked out, please try again later.</value>
+  </data>
 </root>

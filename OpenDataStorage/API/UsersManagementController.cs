@@ -36,7 +36,7 @@ namespace OpenDataStorage.API
         [Route("GetAllRoles")]
         public async Task<List<IdentityRole>> GetAllRoles()
         {
-            return await RoleManager.Roles.ToListAsync();
+            return await RoleManager.Roles.OrderBy(r => r.Name).ToListAsync();
         }
 
         [HttpPost]
