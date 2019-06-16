@@ -29,7 +29,7 @@
                                 <option value="@type.Value">{{@type.Value | characteristicTypeToString | translate}}</option>
                             }
                         </select>
-                        <input class="form-control" ng-model="vm.model.node.characteristicType | characteristicTypeToString | translate" ng-if="vm.model.mode == 'edit'" disabled />
+                        <input class="form-control" value="{{vm.model.node.characteristicType | characteristicTypeToString | translate" ng-if="vm.model.mode == 'edit'}}" disabled />
                     </div>
                 </div>
             </div>
