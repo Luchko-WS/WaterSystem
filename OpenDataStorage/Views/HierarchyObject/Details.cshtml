@@ -12,6 +12,12 @@
                     <span ng-bind="vm.obj.name"></span>
                 </div>
             </div>
+            <div class="row">
+                <label class="control-label col-md-2">ID</label>
+                <div class="col-md-10">
+                    <span ng-bind="vm.obj.id"></span>
+                </div>
+            </div>
             <div class="row" ng-if="vm.obj.description">
                 <label class="control-label col-md-2">@Lexicon.Description</label>
                 <div class="col-md-10">
@@ -25,11 +31,11 @@
                 </div>
             </div>
             @*<div class="row">
-                <label class="control-label col-md-2">@Lexicon.Owner</label>
-                <div class="col-md-10">
-                    <span ng-bind="vm.obj.ownerId"></span>
-                </div>
-            </div>*@
+            <label class="control-label col-md-2">@Lexicon.Owner</label>
+            <div class="col-md-10">
+                <span ng-bind="vm.obj.ownerId"></span>
+            </div>
+        </div>*@
 
             @if (Request.IsAuthenticated)
             {

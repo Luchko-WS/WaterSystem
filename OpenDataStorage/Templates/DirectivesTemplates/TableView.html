@@ -6,7 +6,8 @@
             </th>
             <th class="col-md-2"><h5>{{'date' | translate}}</h5></th>
             <th class="col-md-4"><h5>{{'characteristic' | translate}}</h5></th>
-            <th class="col-md-4"><h5>{{'value' | translate}}</h5></th>
+            <th class="col-md-1"><h5>{{'value' | translate}}</h5></th>
+            <th class="col-md-3"><h5>{{'subjectOfMonitoring' | translate}}</h5></th>
             <th class="col-md-1" ng-if="enableEditing">
                 <button ng-if="createCallback" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="{{'add' | translate}}" ng-click="createCallback()"><span class="glyphicon glyphicon-plus"></span></button>
             </th>
@@ -18,6 +19,7 @@
             <td><input class="form-control" type="text" ng-model="filterValues.date" /></td>
             <td><input class="form-control" type="text" ng-model="filterValues.name" /></td>
             <td><input class="form-control" type="text" ng-model="filterValues.value" /></td>
+            <td><input class="form-control" type="text" ng-model="filterValues.subjectOfMonitoring" /></td>
             <td>
                 <button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{'search' | translate}}" ng-click="applyFilter(filterValues)"><span class="glyphicon glyphicon-search"></span></button>
                 <button class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="{{'cancel' | translate}}" ng-click="toggleFilter()"><span class="glyphicon glyphicon-ban-circle"></span></button>
@@ -28,6 +30,7 @@
             <td>{{item.creationDate | date:'dd.MM.yyyy'}}</td>
             <td>{{item.characteristic.name}}</td>
             <td>{{item.value}}</td>
+            <td>{{item.subjectOfMonitoring}}</td>
             <td ng-if="enableEditing && item.showButtons">
                 <button ng-if="editCallback" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="{{'edit' | translate}}" ng-click="editCallback(item)"><span class="glyphicon glyphicon-pencil"></span></button>
                 <button ng-if="removeCallback" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="{{'remove' | translate}}" ng-click="removeCallback(item)"><span class="glyphicon glyphicon-remove"></span></button>
