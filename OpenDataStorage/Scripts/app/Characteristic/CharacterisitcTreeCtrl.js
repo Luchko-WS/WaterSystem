@@ -40,7 +40,7 @@
 
         function loadData(selectedNode) {
             vm.loaded = false;
-            CharacteristicService.getTree()
+            CharacteristicService.getTree(vm.state.filter)
                 .success(function (data) {
                     vm.tree = data;
                     vm.loaded = true;

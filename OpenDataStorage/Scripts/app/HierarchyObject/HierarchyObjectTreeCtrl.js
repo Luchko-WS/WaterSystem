@@ -38,7 +38,7 @@
 
         function loadData(selectedNode) {
             vm.loaded = false;
-            HierarchyObjectService.getTree()
+            HierarchyObjectService.getTree(vm.state.filter)
                 .success(function (data) {
                     vm.tree = data;
                     vm.loaded = true;
@@ -141,7 +141,7 @@
         }
 
         function _showDetails(data) {
-            window.location.href = '/HierarchyObject/Details/' + data.id;
+            window.open('/HierarchyObject/Details/' + data.id, '_blank');
         }
 
         function nodeSelectedCallback(event, data) {
