@@ -22,8 +22,6 @@
             public const string TECH_SUPPORT_ROLE = "Technical Support";
 
             public const string USER_ROLE = "User";
-
-            public const string ANONYMOUS = "Anonymyuos";
         }
     }
 }

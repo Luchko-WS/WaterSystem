@@ -12,6 +12,7 @@
                 <tr>
                     <th></th>
                     <th>@Lexicon.UserName</th>
+                    <th>@Lexicon.Email</th>
                     <th>@Lexicon.FirstName</th>
                     <th>@Lexicon.LastName</th>
                     <th>@Lexicon.Registered</th>
@@ -24,6 +25,7 @@
                 <tr ng-repeat="user in vm.users">
                     <td><i ng-if="user.isLocked" class="glyphicon glyphicon-alert"></i></td>
                     <td ng-bind="user.userName"></td>
+                    <td ng-bind="user.email"></td>
                     <td ng-bind="user.firstName"></td>
                     <td ng-bind="user.lastName"></td>
                     <td ng-bind="user.registeredDate | date : 'dd.MM.yyyy'"></td>

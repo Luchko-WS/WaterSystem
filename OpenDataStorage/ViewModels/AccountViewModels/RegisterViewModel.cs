@@ -6,6 +6,10 @@ namespace OpenDataStorage.ViewModels.AccountViewModels
     public class RegisterViewModel
     {
         [Required(ErrorMessageResourceName = "RequiredErrorMessage", ErrorMessageResourceType = typeof(Lexicon))]
+        [Display(ResourceType = typeof(Lexicon), Name = "UserName")]
+        public string UserName { get; set; }
+
+        [Required(ErrorMessageResourceName = "RequiredErrorMessage", ErrorMessageResourceType = typeof(Lexicon))]
         [EmailAddress]
         [Display(ResourceType = typeof(Lexicon), Name = "Email")]
         public string Email { get; set; }

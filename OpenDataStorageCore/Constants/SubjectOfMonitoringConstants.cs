@@ -4,6 +4,6 @@
     {
         public const string CLEAR_WATER = "Держагенство";
 
-        public const string VK = "Вінницяводоканал";
+        public const string VK = "Вінницяоблводоканал";
     }
 }

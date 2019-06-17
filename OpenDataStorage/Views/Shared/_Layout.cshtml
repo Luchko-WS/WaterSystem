@@ -93,7 +93,10 @@
 
     <script>
         window.app.constant('requestInfo', {
-            isAuthenticated: '@Request.IsAuthenticated'
+            isAuthenticated: '@Request.IsAuthenticated',
+            isDataManager: '@(Request.IsAuthenticated && OpenDataStorage.Helpers.RolesHelper.IsInDataManagerGroup(User))',
+            isDataSyncManager: '@(Request.IsAuthenticated && OpenDataStorage.Helpers.RolesHelper.IsInDataSyncGroup(User))',
+            isUserManager: '@(Request.IsAuthenticated && OpenDataStorage.Helpers.RolesHelper.IsInUsersManagerGroup(User))'
         });
 
         $(document).ready(function () {

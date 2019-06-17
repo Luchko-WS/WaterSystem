@@ -17,7 +17,7 @@
         init();
 
         function init() {
-            if (requestInfo.isAuthenticated === 'True') vm.enableEditing = true;
+            if (requestInfo.isDataManager === 'True') vm.enableEditing = true;
             vm.objectId = common.id;
             loadAllData();
         }

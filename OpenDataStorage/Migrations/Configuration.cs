@@ -114,12 +114,6 @@ namespace OpenDataStorage.Migrations
                 var role = new IdentityRole { Name = IdentityConstants.Roles.USERS_MANAGER_ROLE };
                 roleManager.Create(role);
             }
-
-            if (!context.Roles.Any(r => r.Name == IdentityConstants.Roles.ANONYMOUS))
-            {
-                var role = new IdentityRole { Name = IdentityConstants.Roles.ANONYMOUS };
-                roleManager.Create(role);
-            }
         }
 
         private void CreateAdminUser(ApplicationDbContext context)
@@ -131,7 +125,7 @@ namespace OpenDataStorage.Migrations
                 var user = new ApplicationUser
                 {
                     UserName = IdentityConstants.Admin.USER_NAME,
-                    Email = "net@net.net",
+                    Email = "admin@main.com",
                     EmailConfirmed = true,
                     RegisteredDate = DateTime.Now
                 };

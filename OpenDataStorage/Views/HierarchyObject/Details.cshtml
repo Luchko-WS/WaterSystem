@@ -37,11 +37,11 @@
             </div>
         </div>*@
 
-            @if (Request.IsAuthenticated)
-            {
-                <button class="btn btn-primary" ng-click="vm.edit()">@Lexicon.Edit</button>
-                <button class="btn btn-danger" ng-click="vm.remove()">@Lexicon.Remove</button>
-            }
+        @if (OpenDataStorage.Helpers.RolesHelper.IsInDataManagerGroup(User))
+        {
+            <button class="btn btn-primary" ng-click="vm.edit()">@Lexicon.Edit</button>
+            <button class="btn btn-danger" ng-click="vm.remove()">@Lexicon.Remove</button>
+        }
         </async-page-with-loader>
 
         <div ng-controller="ObjectDataCtrl as dataCtrl">

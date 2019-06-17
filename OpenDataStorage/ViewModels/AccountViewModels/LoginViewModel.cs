@@ -7,7 +7,7 @@ namespace OpenDataStorage.ViewModels.AccountViewModels
     {
         [Required(ErrorMessageResourceName = "RequiredErrorMessage", ErrorMessageResourceType = typeof(Lexicon))]
         [Display(ResourceType = typeof(Lexicon), Name = "UserName")]
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredErrorMessage", ErrorMessageResourceType = typeof(Lexicon))]
         [DataType(DataType.Password)]
