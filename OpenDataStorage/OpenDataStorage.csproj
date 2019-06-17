@@ -382,6 +382,7 @@
     <Content Include="Scripts\app\Administration\UsersManagement\ManageUsersCtrl.js" />
     <Content Include="Scripts\app\Administration\UsersManagement\UserDetailsCtrl.js" />
     <Content Include="Scripts\app\Administration\UsersManagement\UsersManagementService.js" />
+    <Content Include="Scripts\app\Aliases\AliasesService.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcService.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcTreeCtrl.js" />
     <Content Include="Scripts\app\Common\Controllers\CreateEditModelCtrl.js" />
