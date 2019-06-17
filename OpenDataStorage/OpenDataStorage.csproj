@@ -407,7 +407,6 @@
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\libs\bootstrap\bootstrap-treeview.js" />
-    <Content Include="Scripts\libs\bootstrap\bootstrap-treeview.min.js" />
     <Content Include="Scripts\libs\jquery\jquery-2.1.4.js" />
     <Content Include="Scripts\libs\jquery\jquery-2.1.4.min.js" />
     <Content Include="Scripts\libs\jquery\jquery-2.1.4.min.map" />
