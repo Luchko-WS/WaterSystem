@@ -12,7 +12,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace OpenDataStorage.API
+namespace OpenDataStorage.API.Management
 {
     [RoutePrefix("api/UsersManagement")]
     [WebApiAuthorize(Roles = RolesHelper.USERS_MANAGER_GROUP)]
