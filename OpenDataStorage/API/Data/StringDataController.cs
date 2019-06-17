@@ -1,5 +1,4 @@
-﻿using OpenDataStorage.Common;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -38,9 +37,8 @@ namespace OpenDataStorage.API.Data
 
         [Route("String")]
         [HttpPut]
-        public async Task<HttpResponseMessage> Update(StringValueViewModel vm)
+        public async Task<HttpResponseMessage> Update(StringValueViewModel entity)
         {
-            var entity = Mapper.CreateInstanceAndMapProperties<StringCharacteristicValue>(vm);
             var errorRes = await ValidateObjectAndCharacteristic(entity.HierarchyObjectId, entity.CharacteristicId, _supportedCharacteristicType);
             if (errorRes != null) return errorRes;
             return await UpdateInner(entity);

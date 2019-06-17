@@ -206,6 +206,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Aliases\HierarchyObjectAliasesController.cs" />
+    <Compile Include="API\Aliases\CharacteristicAliasesController.cs" />
+    <Compile Include="API\Aliases\BaseAliasesController.cs" />
     <Compile Include="API\BaseApiController.cs" />
     <Compile Include="API\Data\StringDataController.cs" />
     <Compile Include="API\Data\NumberDataController.cs" />
