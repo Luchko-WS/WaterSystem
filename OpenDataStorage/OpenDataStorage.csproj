@@ -239,6 +239,7 @@
     <Compile Include="Common\DbContext\NestedSets\BaseFSNestedSetsDbContextManager.cs" />
     <Compile Include="Common\DbContext\NestedSets\BaseNestedSetsDbContextManager.cs" />
     <Compile Include="Common\DbContext\NestedSets\CharacteristicDbContextManager.cs" />
+    <Compile Include="Common\DbContext\NestedSets\ExtendedFSNestedSetsDbSetManaget.cs" />
     <Compile Include="Common\DbContext\NestedSets\HierarchyObjectDbContextManager.cs" />
     <Compile Include="Common\DbContext\IApplicationDbContext.cs" />
     <Compile Include="Common\DbContext\NestedSets\INestedSetsEntityRelationContext.cs" />

@@ -131,7 +131,7 @@
         }
 
         function _errorHandler(error) {
-            console.error(error);
+            if(error) console.error(error);
             vm.loaded = true;
             MessageService.showMessage('commonErrorMessage', 'error');
         }
@@ -153,9 +153,16 @@
         }
 
         function nodeDropCallback(event, data) {
-            var draggedNode = data.draggedNode;
-            var droppabletNode = data.droppabletNode;
-            _moveObjectNode(draggedNode.id, droppabletNode.id);
+            var node = data.draggedNode;
+            var parentNode = data.droppableNode;
+
+            //validate. move to shared service
+            if (parentNode.leftKey > node.leftKey && parentNode.rightKey < node.rightKey) {
+                _errorHandler();
+                return;
+            }
+
+            _moveObjectNode(node.id, parentNode.id);
         }
 
         function _moveObjectNode(nodeId, parentNodeId) {

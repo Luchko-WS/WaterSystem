@@ -647,10 +647,10 @@
 				treeItem.droppable({
 					drop: function (event, ui) {
 						var draggedNode = _this.findNode($(ui.draggable));
-						var droppabletNode = _this.findNode($(event.target));
+						var droppableNode = _this.findNode($(event.target));
 						_this.$element.trigger('nodeDropped', $.extend(true, {}, {
 							draggedNode: draggedNode,
-							droppabletNode: droppabletNode
+							droppableNode: droppableNode
 						}));
 					}
 				});

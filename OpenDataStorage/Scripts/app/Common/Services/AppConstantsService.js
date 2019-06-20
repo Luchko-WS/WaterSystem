@@ -61,6 +61,12 @@
             return config;
         }
 
+        function getFileDroppableFsTreeConfig() {
+            var config = getDefaultFsTreeConfig();
+            config.fsConfig.allowDropInFiles = true;
+            return config;
+        }
+
         function getOnlySelectableFileFsTreeConfig() {
             var config = getDefaultFsTreeConfig();
             config.fsConfig.selectOnlyFiles = true;
@@ -77,6 +83,7 @@
         return {
             getFSNodeTypes: getFSNodeTypes,
             getDefaultTreeConfig: getDefaultTreeConfig,
+            getFileDroppableFsTreeConfig: getFileDroppableFsTreeConfig,
             getSelectableDefaultTreeConfig: getSelectableDefaultTreeConfig,
             getDefaultFsTreeConfig: getDefaultFsTreeConfig,
             getOnlySelectableFileFsTreeConfig: getOnlySelectableFileFsTreeConfig,

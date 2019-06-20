@@ -45,6 +45,7 @@
             initSelect();
 
             function initSelect() {
+                $('#tree').treeview('expandAll', { levels: 1, silent: true });
                 if (scope.config.definedValues && scope.config.definedValues.selectedNode) {
                     var id = scope.config.definedValues.selectedNode[scope.config.fieldsNames.idFieldName];
                     var node = findNodeFromTreeById(id);
@@ -103,8 +104,13 @@
 
                             if (treeConfig.draggable) {
                                 node.draggable = true;
-                                if (fsConfig && node[fsConfig.nodeTypeFieldName] === fsConfig.folderNodeTypeValue) {
-                                    node.droppable = true;
+                                if (fsConfig) {
+                                    if (fsConfig.allowDropInFiles || node[fsConfig.nodeTypeFieldName] === fsConfig.folderNodeTypeValue) {
+                                        node.droppable = true;
+                                    }
+                                    else {
+                                        node.droppable = false;
+                                    }
                                 }
                                 else {
                                     node.droppable = true;
@@ -133,7 +139,9 @@
                         //end
                     }
 
-                    return parseAndGetTree(array);
+                    var root = parseAndGetTree(array);
+                    sortNodesByName(root);
+                    return root;
                 }
                 catch (ex) {
                     errorHandler(ex);
@@ -160,6 +168,27 @@
                 }
                 return [root];
             }
+
+            function sortNodesByName(array) {
+                array.sort(comparator);
+                for (var i = 0; i < array.length; i++) {
+                    var nestedArray = array[i].nodes;
+                    if (nestedArray && nestedArray.length > 0) {
+                        sortNodesByName(array[i].nodes);
+                    }
+                }
+            }
+
+            function comparator(a, b) {
+                if (a.name < b.name) {
+                    return -1;
+                }
+                if (a.name > b.name) {
+                    return 1;
+                }
+                return 0;
+            }
+
 
             function errorHandler(error) {
                 console.error(error);
