@@ -646,13 +646,15 @@
 			if (node.droppable) {
 				treeItem.droppable({
 					drop: function (event, ui) {
+						ui.draggable.draggable("destroy");
 						var draggedNode = _this.findNode($(ui.draggable));
 						var droppableNode = _this.findNode($(event.target));
 						_this.$element.trigger('nodeDropped', $.extend(true, {}, {
 							draggedNode: draggedNode,
 							droppableNode: droppableNode
 						}));
-					}
+					},
+					revert: true
 				});
 			}
 

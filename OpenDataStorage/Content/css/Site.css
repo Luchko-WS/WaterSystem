@@ -69,3 +69,7 @@ textarea.ng-invalid {
     color: white
 }
 
+.ui-draggable-dragging {
+    z-index: 999;
+}
+
