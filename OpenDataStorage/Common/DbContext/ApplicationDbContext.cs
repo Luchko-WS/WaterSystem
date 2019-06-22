@@ -24,7 +24,7 @@ namespace OpenDataStorage.Common.DbContext
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            this.Database.Connection.ConnectionString = this.Database.Connection.ConnectionString + ";MultipleActiveResultSets=true;";
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>());
 
             _objectDbSetManager = new HierarchyObjectDbContextManager(HierarchyObjects, this.Database);
             _characteristicDbSetManager = new CharacteristicDbSetManager(Characteristics, this.Database);
@@ -37,6 +37,28 @@ namespace OpenDataStorage.Common.DbContext
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        public async Task SaveDbChangesAsync()
+        {
+            using (var transaction = this.Database.BeginTransaction())
+            {
+                try
+                {
+                    await this.SaveChangesAsync();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        public async Task ReloadFromDb(object entity)
+        {
+            await this.Entry(entity).ReloadAsync();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -117,28 +139,6 @@ namespace OpenDataStorage.Common.DbContext
         ICharacteristicAliasDbSetManager IApplicationDbContext.CharacteristicAliasDbSetManager => this._characteristicAliasDbSetManager;
 
         IHierarchyObjectAliasDbSetManager IApplicationDbContext.HierarchyObjectAliasDbSetManager => this._hierarchyObjectAliasDbSetManager;
-
-        public async Task SaveDbChangesAsync()
-        {
-            using (var transaction = this.Database.BeginTransaction())
-            {
-                try
-                {
-                    await this.SaveChangesAsync();
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw ex;
-                }
-            }
-        }
-
-        public async Task ReloadFromDb(object entity)
-        {
-            await this.Entry(entity).ReloadAsync();
-        }
     }
 }
  
