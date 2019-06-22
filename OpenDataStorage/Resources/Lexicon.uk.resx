@@ -477,4 +477,7 @@
   <data name="LockedOutMessage" xml:space="preserve">
     <value>Цей обліковий запис заблоковано. Повторіть спробу пізніше.</value>
   </data>
+  <data name="IsValueForTimeInterval" xml:space="preserve">
+    <value>Значення для інтервалу часу</value>
+  </data>
 </root>

@@ -482,4 +482,7 @@
   <data name="SubjectOfMonitoring" xml:space="preserve">
     <value>The subject of monitoring</value>
   </data>
+  <data name="IsValueForTimeInterval" xml:space="preserve">
+    <value>Is value for the time interval</value>
+  </data>
 </root>

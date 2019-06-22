@@ -477,4 +477,7 @@
   <data name="LockedOutMessage" xml:space="preserve">
     <value>Этот аккаунт заблокирован, повторите попытку позже.</value>
   </data>
+  <data name="IsValueForTimeInterval" xml:space="preserve">
+    <value>Значение для временного интервала</value>
+  </data>
 </root>

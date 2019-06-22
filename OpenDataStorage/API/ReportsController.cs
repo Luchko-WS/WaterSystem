@@ -58,7 +58,9 @@ namespace OpenDataStorage.API
 
             ICollection<BaseCharacteristicValue> values = await _dbContext.CharacteristicValueDbSetManager.GetAllQuery().ToListAsync();
             ICollection<NumberCharacteristicValue> data = values
-                .Where(v => v.ValueType == CharacteristicType.Number && objects.FirstOrDefault(o => o.Id == v.HierarchyObjectId) != null)
+                .Where(v => v.ValueType == CharacteristicType.Number && 
+                    v.CreationDate.HasValue &&
+                    objects.FirstOrDefault(o => o.Id == v.HierarchyObjectId) != null)
                 .Cast<NumberCharacteristicValue>().ToList();
             if(characteristics != null && characteristics.Any())
             {
@@ -67,7 +69,9 @@ namespace OpenDataStorage.API
 
             if (vm != null)
             {
-                if (vm.FromDate.HasValue) data = data.Where(v => v.CreationDate >= vm.FromDate.Value).ToList();
+                if (vm.FromDate.HasValue) data = data.Where(v => 
+                    (!v.IsTimeIntevalValue && v.CreationDate >= vm.FromDate.Value) ||
+                    (v.IsTimeIntevalValue && v.EndCreationDate >= vm.FromDate.Value)).ToList();
                 if (vm.ToDate.HasValue) data = data.Where(v => v.CreationDate <= vm.ToDate.Value).ToList();
             }
 
@@ -92,7 +96,9 @@ namespace OpenDataStorage.API
                 workSheet.Cells[row, column].Value = value.HierarchyObject.Name;
                 workSheet.Cells[row, column + 1].Value = value.SubjectOfMonitoring;
                 workSheet.Cells[row, column + 2].Value = value.Characteristic.Name;
-                workSheet.Cells[row, column + 3].Value = value.CreationDate?.ToString("dd.MM.yyyy");
+                workSheet.Cells[row, column + 3].Value = value.IsTimeIntevalValue ?
+                    $"{value.CreationDate.Value.ToString("dd.MM.yyyy")}-{value.EndCreationDate.Value.ToString("dd.MM.yyyy")}" :
+                    value.CreationDate.Value.ToString("dd.MM.yyyy");
                 workSheet.Cells[row, column + 4].Value = value.Value;
                 row++;
             }

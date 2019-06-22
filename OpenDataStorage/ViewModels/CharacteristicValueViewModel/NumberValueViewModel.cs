@@ -2,7 +2,5 @@
 
 namespace OpenDataStorage.ViewModels.CharacteristicValueViewModel
 {
-    public class NumberValueViewModel : NumberCharacteristicValue
-    {
-    }
+    public class NumberValueViewModel : NumberCharacteristicValue { }
 }

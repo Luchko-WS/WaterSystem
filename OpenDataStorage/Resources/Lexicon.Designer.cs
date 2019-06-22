@@ -484,6 +484,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is value for the time interval.
+        /// </summary>
+        public static string IsValueForTimeInterval {
+            get {
+                return ResourceManager.GetString("IsValueForTimeInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {

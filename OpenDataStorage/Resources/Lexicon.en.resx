@@ -477,4 +477,7 @@
   <data name="LockedOutMessage" xml:space="preserve">
     <value>This account has been locked out, please try again later.</value>
   </data>
+  <data name="IsValueForTimeInterval" xml:space="preserve">
+    <value>Is value for the time interval</value>
+  </data>
 </root>

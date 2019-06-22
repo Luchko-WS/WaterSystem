@@ -16,6 +16,10 @@ namespace OpenDataStorageCore.Entities.CharacteristicValues
 
         public string SubjectOfMonitoring { get; set; }
 
+        public DateTime? EndCreationDate { get; set; }
+
+        public bool IsTimeIntevalValue { get; set; }
+
         [NotMapped]
         public CharacteristicType ValueType { protected set; get; }
     }
