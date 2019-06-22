@@ -21,24 +21,24 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3">@Lexicon.IsValueForTimeInterval</label>
-                    <div class="col-md-9">
-                        <input class="checkbox" type="checkbox" ng-model="vm.model.value.isTimeIntevalValue" />
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="control-label col-md-3">@Lexicon.Date</label>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" ng-if="vm.model.value.isTimeIntevalValue">@Lexicon.From</label>
+                    <label class="control-label col-md-3">@Lexicon.IsValueForTimeInterval</label>
                     <div class="col-md-9">
-                        <input class="form-control" type="date" max="{{vm.model.value.isTimeIntevalValue ? vm.model.value.endCreationDate : null | date:'yyyy-MM-dd'}}" ng-model="vm.model.value.creationDate" ng-required="vm.model.value.isTimeIntevalValue" />
+                        <input class="checkbox" type="checkbox" ng-model="vm.model.value.isTimeIntervalValue" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" ng-if="vm.model.value.isTimeIntevalValue">@Lexicon.To</label>
-                    <div class="col-md-9" ng-if="vm.model.value.isTimeIntevalValue">
-                        <input class="form-control" type="date" min="{{vm.model.value.creationDate | date:'yyyy-MM-dd'}}" ng-model="vm.model.value.endCreationDate" ng-required="vm.model.value.isTimeIntevalValue" />
+                    <label class="control-label col-md-3">{{vm.model.value.isTimeIntervalValue ? '@Lexicon.From' : '@Lexicon.CreationDate'}}</label>
+                    <div class="col-md-9">
+                        <input class="form-control" type="date" max="{{vm.model.value.isTimeIntervalValue ? vm.model.value.endCreationDate : null | date:'yyyy-MM-dd'}}" ng-model="vm.model.value.creationDate" ng-required="vm.model.value.isTimeIntevalValue" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" ng-if="vm.model.value.isTimeIntervalValue">@Lexicon.To</label>
+                    <div class="col-md-9" ng-if="vm.model.value.isTimeIntervalValue">
+                        <input class="form-control" type="date" min="{{vm.model.value.creationDate | date:'yyyy-MM-dd'}}" ng-model="vm.model.value.endCreationDate" ng-required="vm.model.value.isTimeIntervalValue" />
                     </div>
                 </div>
             </div>

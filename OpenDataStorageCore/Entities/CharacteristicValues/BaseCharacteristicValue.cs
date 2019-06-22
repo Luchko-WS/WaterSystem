@@ -18,7 +18,7 @@ namespace OpenDataStorageCore.Entities.CharacteristicValues
 
         public DateTime? EndCreationDate { get; set; }
 
-        public bool IsTimeIntevalValue { get; set; }
+        public bool IsTimeIntervalValue { get; set; }
 
         [NotMapped]
         public CharacteristicType ValueType { protected set; get; }

@@ -50,7 +50,7 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
 
         private void ValidateDateInterval(BaseCharacteristicValue value)
         {
-            if (value.IsTimeIntevalValue)
+            if (value.IsTimeIntervalValue)
             {
                 if (!value.CreationDate.HasValue || !value.EndCreationDate.HasValue) throw new ArgumentException("Begin or end date value is missing for interval");
                 if (value.CreationDate > value.EndCreationDate) throw new ArgumentException("Begin date cannot be greater than end date in interval");

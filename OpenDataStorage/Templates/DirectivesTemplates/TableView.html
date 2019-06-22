@@ -27,7 +27,8 @@
         </tr>
         <tr ng-repeat="item in data" style="height: 50px" ng-mouseenter="item.showButtons = true" ng-mouseleave="item.showButtons = false">
             <td>{{$index + 1}}</td>
-            <td>{{item.creationDate | date:'dd.MM.yyyy'}}</td>
+            <td ng-if="item.isTimeIntervalValue">{{item.creationDate | date:'dd.MM.yyyy'}} - {{item.endCreationDate | date:'dd.MM.yyyy'}}</td>
+            <td ng-if="!item.isTimeIntervalValue">{{item.creationDate | date:'dd.MM.yyyy'}}</td>
             <td>{{item.characteristic.name}}</td>
             <td>{{item.value}}</td>
             <td>{{item.subjectOfMonitoring}}</td>

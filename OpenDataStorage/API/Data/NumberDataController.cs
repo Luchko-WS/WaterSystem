@@ -27,9 +27,9 @@ namespace OpenDataStorage.API.Data
             {
                 CharacteristicId = characteristicId,
                 HierarchyObjectId = objectId,
-                IsTimeIntevalValue = vm.IsTimeIntevalValue,
+                IsTimeIntervalValue = vm.IsTimeIntervalValue,
                 CreationDate = vm.CreationDate,
-                EndCreationDate = vm.IsTimeIntevalValue ? vm.EndCreationDate : null,
+                EndCreationDate = vm.IsTimeIntervalValue ? vm.EndCreationDate : null,
                 Value = vm.Value,
                 OwnerId = User.Identity.Name
             };
