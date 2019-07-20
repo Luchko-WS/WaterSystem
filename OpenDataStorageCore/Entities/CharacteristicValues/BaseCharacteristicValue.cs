@@ -1,5 +1,7 @@
-﻿using OpenDataStorageCore.Entities.NestedSets;
+﻿using OpenDataStorageCore.Entities.Aliases;
+using OpenDataStorageCore.Entities.NestedSets;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OpenDataStorageCore.Entities.CharacteristicValues
@@ -19,6 +21,8 @@ namespace OpenDataStorageCore.Entities.CharacteristicValues
         public DateTime? EndCreationDate { get; set; }
 
         public bool IsTimeIntervalValue { get; set; }
+
+        public ICollection<CharacteristicAlias> CharacteristicAliases { get; set; }
 
         [NotMapped]
         public CharacteristicType ValueType { protected set; get; }

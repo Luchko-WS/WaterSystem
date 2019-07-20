@@ -4,8 +4,9 @@
 
 <div class="page-with-extra-navbar">
     <div ng-controller="HierarchyObjectCtrl as vm">
-        <h2 ng-bind="vm.obj.name"></h2>
         <async-page-with-loader is-loaded="vm.objLoaded">
+            <h2 ng-bind="vm.obj.name"></h2>
+
             <div class="row">
                 <label class="control-label col-md-2">@Lexicon.Name</label>
                 <div class="col-md-10">
@@ -30,6 +31,16 @@
                     <span ng-bind="vm.obj.objectType.name"></span>
                 </div>
             </div>
+            <div class="row">
+                <label class="control-label col-md-2">@Lexicon.Aliases</label>
+                <div class="col-md-9">
+                    <span ng-if="vm.obj.aliasesList" ng-bind="vm.obj.aliasesList"></span>
+                    @if (OpenDataStorage.Helpers.RolesHelper.IsInDataManagerGroup(User))
+                    {
+                        <a class="btn btn-sm btn-default" title="@Lexicon.EditAliases" ng-href="/Alias/ObjectAliases/{{vm.obj.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    }
+                </div>
+            </div>
             @*<div class="row">
             <label class="control-label col-md-2">@Lexicon.Owner</label>
             <div class="col-md-10">
@@ -37,11 +48,11 @@
             </div>
         </div>*@
 
-        @if (OpenDataStorage.Helpers.RolesHelper.IsInDataManagerGroup(User))
-        {
-            <button class="btn btn-primary" ng-click="vm.edit()">@Lexicon.Edit</button>
-            <button class="btn btn-danger" ng-click="vm.remove()">@Lexicon.Remove</button>
-        }
+            @if (OpenDataStorage.Helpers.RolesHelper.IsInDataManagerGroup(User))
+            {
+                <button class="btn btn-primary" ng-click="vm.edit()">@Lexicon.Edit</button>
+                <button class="btn btn-danger" ng-click="vm.remove()">@Lexicon.Remove</button>
+            }
         </async-page-with-loader>
 
         <div ng-controller="ObjectDataCtrl as dataCtrl">

@@ -22,6 +22,8 @@ namespace OpenDataStorage
             var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             formatter.SerializerSettings.ContractResolver =
                 new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+            formatter.SerializerSettings.ReferenceLoopHandling =
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
             config.Filters.Add(new WebApiAuthorize());
         }

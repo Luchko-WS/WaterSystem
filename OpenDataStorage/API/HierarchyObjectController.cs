@@ -67,7 +67,8 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.HierarchyObjectContext.GetNode(hierarchyObjectId, e => e.ObjectType);
+                var obj = await _dbContext.HierarchyObjectContext.GetNode(hierarchyObjectId, e => e.ObjectType, e => e.HierarchyObjectAliases);
+                var res = Mapper.CreateInstanceAndMapProperties<HierarchyObjectViewModel>(obj);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)

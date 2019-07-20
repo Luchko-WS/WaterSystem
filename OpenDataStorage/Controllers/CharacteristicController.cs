@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
+    [Authorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
     public class CharacteristicController : BaseController
     {
         //[AllowAnonymous]

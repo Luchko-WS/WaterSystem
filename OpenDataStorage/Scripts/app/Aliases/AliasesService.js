@@ -11,13 +11,13 @@
 
         var characteristicServiceName = 'CharacteristicAliases';
         var characteristicAliasesService = createAliasesService(characteristicServiceName);
-        characteristicAliasesService.getAllForCharacteristic = function (id) {
+        characteristicAliasesService.getAllForEntity = function (id) {
             return $http.get('/api/' + characteristicServiceName + '/GetAllForCharacteristic/' + id);
         };
 
         var hierarchyObjectAliasesServiceName = 'HierarchyObjectAliases';
         var hierarchyObjectAliasesService = createAliasesService(hierarchyObjectAliasesServiceName);
-        hierarchyObjectAliasesService.getAllForObject = function (id) {
+        hierarchyObjectAliasesService.getAllForEntity = function (id) {
             return $http.get('/api/' + hierarchyObjectAliasesServiceName + '/GetAllForObject/' + id);
         };
 

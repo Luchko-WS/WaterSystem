@@ -66,7 +66,8 @@ namespace OpenDataStorage.API
         {
             try
             {
-                var res = await _dbContext.CharacteristicContext.GetNode(id);
+                var characteristic = await _dbContext.CharacteristicContext.GetNode(id);
+                var res = Mapper.CreateInstanceAndMapProperties<CharacteristicViewModel>(characteristic);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)

@@ -22,7 +22,7 @@ namespace OpenDataStorage.API.Aliases
         
         [AllowAnonymous]
         [Route("Get/{id}")]
-        [HttpDelete]
+        [HttpGet]
         public async Task<CharacteristicAlias> Get(Guid id)
         {
             return await base.GetInner(id);
@@ -30,10 +30,13 @@ namespace OpenDataStorage.API.Aliases
 
         [AllowAnonymous]
         [Route("GetAllForCharacteristic/{id}")]
-        [HttpDelete]
+        [HttpGet]
         public async Task<dynamic> GetAliasesForCharacteristic(Guid id)
         {
-            return await _dbSetManager.GetAllQuery().Where(a => a.CharacteristicId == id).ToListAsync();
+            return await _dbSetManager.GetAllQuery()
+                .Where(a => a.CharacteristicId == id)
+                .OrderBy(a => a.Value)
+                .ToListAsync();
         }
 
         [Route("Create/{characteristicId}")]

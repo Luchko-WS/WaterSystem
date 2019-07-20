@@ -88,6 +88,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aliases.
+        /// </summary>
+        public static string Aliases {
+            get {
+                return ResourceManager.GetString("Aliases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error has occurred..
         /// </summary>
         public static string AnErrorHasOccurred {
@@ -336,6 +345,15 @@ namespace OpenDataStorage.Resources {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit aliases.
+        /// </summary>
+        public static string EditAliases {
+            get {
+                return ResourceManager.GetString("EditAliases", resourceCulture);
             }
         }
         

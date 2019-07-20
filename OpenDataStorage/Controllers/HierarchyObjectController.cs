@@ -4,9 +4,9 @@ using System.Web.Mvc;
 
 namespace OpenDataStorage.Controllers
 {
+    [Authorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
     public class HierarchyObjectController : BaseController
     {
-        //[AllowAnonymous]
         [Authorize(Roles = RolesHelper.READ_GROUP)]
         public ActionResult Tree()
         {

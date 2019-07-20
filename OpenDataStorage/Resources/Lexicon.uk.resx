@@ -480,4 +480,10 @@
   <data name="IsValueForTimeInterval" xml:space="preserve">
     <value>Значення для інтервалу часу</value>
   </data>
+  <data name="Aliases" xml:space="preserve">
+    <value>Псевдоніми</value>
+  </data>
+  <data name="EditAliases" xml:space="preserve">
+    <value>Редагувати псевдоніми</value>
+  </data>
 </root>

@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = Lexicon.EditAliases;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Lexicon.Aliases</h2>
+
+<div ng-controller="AliasesCtrl as vm">
+    <async-page-with-loader is-loaded="vm.entityLoaded">
+        <h3>{{vm.entity.name}}</h3>
+
+        <input class="form-control" type="text" />
+        <button class="btn btn-primary">@Lexicon.Add</button>
+    </async-page-with-loader>
+
+    <async-page-with-loader is-loaded="vm.aliasesLoaded">
+        <div ng-repeat="alias in vm.aliases">
+            <h4>{{alias.value}}</h4>
+        </div>
+    </async-page-with-loader>
+</div>
+
+@section Scripts{
+    <script>
+        window.app.constant('common', {
+            entityType: '@ViewBag.EntityType',
+            id: '@ViewBag.Id'
+        });
+    </script>
+}
+

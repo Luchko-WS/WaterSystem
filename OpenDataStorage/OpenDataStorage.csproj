@@ -250,6 +250,7 @@
     <Compile Include="Common\LanguageManager.cs" />
     <Compile Include="Common\Mapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AliasController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CharacteristicController.cs" />
     <Compile Include="Controllers\DataController.cs" />
@@ -384,6 +385,7 @@
     <Content Include="Scripts\app\Administration\UsersManagement\UserDetailsCtrl.js" />
     <Content Include="Scripts\app\Administration\UsersManagement\UsersManagementService.js" />
     <Content Include="Scripts\app\Aliases\AliasesService.js" />
+    <Content Include="Scripts\app\Aliases\AliasesCtrl.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcService.js" />
     <Content Include="Scripts\app\Characteristic\CharacterisitcTreeCtrl.js" />
     <Content Include="Scripts\app\Common\Controllers\CreateEditModelCtrl.js" />
@@ -541,6 +543,7 @@
     <Content Include="Views\Account\ManageUserRoles.cshtml" />
     <Content Include="Views\Account\ManageUsers.cshtml" />
     <Content Include="Views\Account\UserDetails.cshtml" />
+    <Content Include="Views\Alias\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
