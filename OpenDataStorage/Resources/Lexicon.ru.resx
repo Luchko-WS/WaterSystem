@@ -486,4 +486,13 @@
   <data name="EditAliases" xml:space="preserve">
     <value>Редактировать псевдонимы</value>
   </data>
+  <data name="RemoveAlias" xml:space="preserve">
+    <value>Удалить псевдоним</value>
+  </data>
+  <data name="RemoveAliasQuestion" xml:space="preserve">
+    <value>Вы хотите удалить этот псевдоним?</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>Данные недоступны</value>
+  </data>
 </root>

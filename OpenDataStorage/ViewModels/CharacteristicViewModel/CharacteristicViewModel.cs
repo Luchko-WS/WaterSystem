@@ -9,6 +9,7 @@ namespace OpenDataStorage.ViewModels.CharacteristicViewModel
         {
             get
             {
+                if (this.CharacteristicAliases == null || !this.CharacteristicAliases.Any()) return string.Empty;
                 var aliasesNames = this.CharacteristicAliases.Select(a => a.Value).ToList();
                 var res = string.Join(",", aliasesNames);
                 return res;

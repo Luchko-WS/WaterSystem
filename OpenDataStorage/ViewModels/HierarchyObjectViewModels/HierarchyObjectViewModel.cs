@@ -9,6 +9,7 @@ namespace OpenDataStorage.ViewModels.HierarchyObjectViewModels
         {
             get
             {
+                if (this.HierarchyObjectAliases == null || !this.HierarchyObjectAliases.Any()) return string.Empty;
                 var aliasesNames = this.HierarchyObjectAliases.Select(a => a.Value).ToList();
                 var res = string.Join(",", aliasesNames);
                 return res;

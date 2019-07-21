@@ -23,6 +23,14 @@ textarea {
     max-width: 500px;
 }
 
+.input-group {
+    max-width: 600px;
+}
+
+.input-group > input {
+    max-width: none;
+}
+
 .page-with-extra-navbar {
     margin-top: 60px;
 }
@@ -71,5 +79,10 @@ textarea.ng-invalid {
 
 .ui-draggable-dragging {
     z-index: 999;
+}
+
+.panel-info {
+    margin: 5px;
+    padding: 5px;
 }
 

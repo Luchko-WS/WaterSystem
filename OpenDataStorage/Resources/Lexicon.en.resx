@@ -486,4 +486,13 @@
   <data name="EditAliases" xml:space="preserve">
     <value>Edit aliases</value>
   </data>
+  <data name="RemoveAlias" xml:space="preserve">
+    <value>Remove alias</value>
+  </data>
+  <data name="RemoveAliasQuestion" xml:space="preserve">
+    <value>Do you want to remove this alias?</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>No data available</value>
+  </data>
 </root>

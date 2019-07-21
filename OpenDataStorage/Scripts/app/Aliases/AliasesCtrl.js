@@ -12,6 +12,10 @@
 
         var vm = this;
         vm.entity = {};
+        vm.create = create;
+        vm.toggleEditForm = toggleEditForm;
+        vm.edit = edit;
+        vm.remove = remove;
 
         init();
 
@@ -75,8 +79,50 @@
                     vm.aliasesLoaded = true;
                 })
                 .error(function (error) {
-                    vm.aliasesLoaded = false;
+                    vm.aliasesLoaded = true;
                     _errorHandler(error);
+                });
+        }
+
+        function create(value) {
+            var alias = {
+                value: value
+            };
+            _service.create(vm.entity.id, alias)
+                .success(function (data) {
+                    getAliases(vm.entity.id);
+                })
+                .error(_errorHandler);
+        }
+
+        function toggleEditForm(alias) {
+            alias.editUIMode = !alias.editUIMode;
+            if (alias.editUIMode) {
+                alias.oldValue = alias.value;
+            }
+            else {
+                alias.value = alias.oldValue;
+            }
+        }
+
+        function edit(alias) {
+            _service.update(alias)
+                .success(function (data) {
+                    getAliases(vm.entity.id);
+                })
+                .error(_errorHandler);
+        }
+
+        function remove(id) {
+            MessageService.showMessageYesNo('removeAliasQuestion', 'removeAlias')
+                .then(function (result) {
+                    if (result === 'OK') {
+                        _service.delete(id)
+                            .success(function (data) {
+                                getAliases(vm.entity.id);
+                            })
+                            .error(_errorHandler);
+                    }
                 });
         }
 

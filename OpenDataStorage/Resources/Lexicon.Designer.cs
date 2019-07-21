@@ -637,6 +637,15 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No data available.
+        /// </summary>
+        public static string NoData {
+            get {
+                return ResourceManager.GetString("NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No description.
         /// </summary>
         public static string NoDescription {
@@ -795,6 +804,24 @@ namespace OpenDataStorage.Resources {
         public static string Remove {
             get {
                 return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove alias.
+        /// </summary>
+        public static string RemoveAlias {
+            get {
+                return ResourceManager.GetString("RemoveAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to remove this alias?.
+        /// </summary>
+        public static string RemoveAliasQuestion {
+            get {
+                return ResourceManager.GetString("RemoveAliasQuestion", resourceCulture);
             }
         }
         

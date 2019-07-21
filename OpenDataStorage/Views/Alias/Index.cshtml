@@ -1,23 +1,41 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = Lexicon.EditAliases;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Lexicon.Aliases</h2>
+<h2>@Lexicon.EditAliases</h2>
 
 <div ng-controller="AliasesCtrl as vm">
     <async-page-with-loader is-loaded="vm.entityLoaded">
-        <h3>{{vm.entity.name}}</h3>
-
-        <input class="form-control" type="text" />
-        <button class="btn btn-primary">@Lexicon.Add</button>
+        <h3 ng-bind="vm.entity.name"></h3>
+        <div class="input-group">
+            <input class="form-control" type="text" ng-model="vm.valueInput" />
+            <div class="input-group-btn">
+                <button class="btn btn-primary" ng-click="vm.create(vm.valueInput)" ng-disabled="!vm.valueInput">@Lexicon.Add</button>
+            </div>
+        </div>
     </async-page-with-loader>
 
     <async-page-with-loader is-loaded="vm.aliasesLoaded">
-        <div ng-repeat="alias in vm.aliases">
-            <h4>{{alias.value}}</h4>
+        <h3>@Lexicon.Aliases</h3>
+        <div class="panel panel-info" ng-repeat="alias in vm.aliases | orderBy">
+            <div ng-if="!alias.editUIMode">
+                <h4 ng-bind="alias.value"></h4>
+                <button class="btn btn-primary btn-sm" title="@Lexicon.Edit" ng-click="vm.toggleEditForm(alias)"><span class="glyphicon glyphicon-pencil"></span></button>
+                <button class="btn btn-danger btn-sm" title="@Lexicon.Remove" ng-click="vm.remove(alias.id)"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+            <div ng-if="alias.editUIMode">
+                <h4 ng-bind="alias.oldValue"></h4>
+                <div class="input-group">
+                    <input class="form-control" type="text" ng-model="alias.value" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" title="@Lexicon.Save" ng-click="vm.edit(alias)"><span class="glyphicon glyphicon-ok"></span></button>
+                        <button class="btn btn-danger" title="@Lexicon.Cancel" ng-click="vm.toggleEditForm(alias)"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+            </div>
         </div>
+        <p ng-if="!vm.aliases || vm.aliases.length == 0">@Lexicon.NoData</p>
     </async-page-with-loader>
 </div>
 
