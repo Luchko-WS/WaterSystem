@@ -12,7 +12,7 @@ namespace OpenDataStorageCore.Entities.NestedSets
 
         public string Description { get; set; }
 
-        public ICollection<CharacteristicAlias> CharacteristicAliases { get; set; }
+        public virtual ICollection<CharacteristicAlias> CharacteristicAliases { get; set; }
 
         [IgnoreWhenUpdate]
         public CharacteristicType CharacteristicType { get; set; }

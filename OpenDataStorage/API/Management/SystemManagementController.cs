@@ -35,7 +35,11 @@ namespace OpenDataStorage.API.Management
             {
                 await _dbContext.ReloadFromDb(rootCharacteristic);
                 Guid characteristicId;
-                var characteristic = await _dbContext.CharacteristicContext.Entities.FirstOrDefaultAsync(o => o.Name == characteristicName);
+                var characteristic = await _dbContext.CharacteristicContext.Entities
+                    .Include(c => c.CharacteristicAliases)
+                    .FirstOrDefaultAsync(c => c.Name.ToLower() == characteristicName.ToLower() || 
+                        c.CharacteristicAliases.FirstOrDefault(a => a.Value.ToLower() == characteristicName.ToLower()) != null);
+
                 if (characteristic == null)
                 {
                     var entity = new Characteristic
@@ -86,7 +90,10 @@ namespace OpenDataStorage.API.Management
             {
                 await _dbContext.ReloadFromDb(rootObject);
                 Guid riverId;
-                var riverObj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Name == river.River);
+                var riverObj = await _dbContext.HierarchyObjectContext.Entities
+                    .Include(o => o.HierarchyObjectAliases)
+                    .FirstOrDefaultAsync(o => o.Name.ToLower() == river.River.ToLower() || 
+                        o.HierarchyObjectAliases.FirstOrDefault(a => a.Value.ToLower() == river.River.ToLower()) != null);
                 if (riverObj == null)
                 {
                     var entity = new HierarchyObject
@@ -108,7 +115,11 @@ namespace OpenDataStorage.API.Management
                 {
                     await _dbContext.ReloadFromDb(riverObject);
                     Guid pointId;
-                    var pointObj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Name == point.Name);
+                    var pointObj = await _dbContext.HierarchyObjectContext.Entities
+                        .Include(o => o.HierarchyObjectAliases)
+                        .FirstOrDefaultAsync(o => o.Name.ToLower() == point.Name.ToLower() ||
+                        o.HierarchyObjectAliases.FirstOrDefault(a => a.Value.ToLower() == point.Name.ToLower()) != null);
+
                     if (pointObj == null)
                     {
                         var entity = new HierarchyObject

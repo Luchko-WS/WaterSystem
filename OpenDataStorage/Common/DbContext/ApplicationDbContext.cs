@@ -25,6 +25,7 @@ namespace OpenDataStorage.Common.DbContext
             : base("DefaultConnection", throwIfV1Schema: false)
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>());
+            Configuration.ProxyCreationEnabled = false;
 
             _objectDbSetManager = new HierarchyObjectDbContextManager(HierarchyObjects, this.Database);
             _characteristicDbSetManager = new CharacteristicDbSetManager(Characteristics, this.Database);
@@ -95,7 +96,7 @@ namespace OpenDataStorage.Common.DbContext
 
             modelBuilder.Entity<CharacteristicAlias>()
                 .HasRequired(v => v.Characteristic)
-                .WithMany()
+                .WithMany(c => c.CharacteristicAliases)
                 .HasForeignKey(v => v.CharacteristicId)
                 .WillCascadeOnDelete(true);
 
@@ -107,7 +108,7 @@ namespace OpenDataStorage.Common.DbContext
 
             modelBuilder.Entity<HierarchyObjectAlias>()
                 .HasRequired(c => c.HierarchyObject)
-                .WithMany()
+                .WithMany(o => o.HierarchyObjectAliases)
                 .HasForeignKey(v => v.HierarchyObjectId)
                 .WillCascadeOnDelete(true);
 

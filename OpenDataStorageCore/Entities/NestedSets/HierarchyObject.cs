@@ -16,6 +16,6 @@ namespace OpenDataStorageCore.Entities.NestedSets
 
         public ObjectType ObjectType { get; set; }
 
-        public ICollection<HierarchyObjectAlias> HierarchyObjectAliases { get; set; }
+        public virtual ICollection<HierarchyObjectAlias> HierarchyObjectAliases { get; set; }
     }
 }

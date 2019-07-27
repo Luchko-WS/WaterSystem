@@ -7,6 +7,6 @@ namespace OpenDataStorageCore.Entities.Aliases
     {
         public Guid HierarchyObjectId { get; set; }
 
-        public HierarchyObject HierarchyObject { get; set; }
+        public virtual HierarchyObject HierarchyObject { get; set; }
     }
 }

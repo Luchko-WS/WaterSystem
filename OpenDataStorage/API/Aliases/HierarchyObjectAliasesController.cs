@@ -31,7 +31,7 @@ namespace OpenDataStorage.API.Aliases
         [AllowAnonymous]
         [Route("GetAllForObject/{id}")]
         [HttpGet]
-        public async Task<dynamic> GetAliasesForCharacteristic(Guid id)
+        public async Task<dynamic> GetAliasesForObject(Guid id)
         {
             return await _dbSetManager.GetAllQuery()
                 .Where(a => a.HierarchyObjectId == id)

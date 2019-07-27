@@ -7,6 +7,6 @@ namespace OpenDataStorageCore.Entities.Aliases
     {
         public Guid CharacteristicId { get; set; }
 
-        public Characteristic Characteristic { get; set; }
+        public virtual Characteristic Characteristic { get; set; }
     }
 }
