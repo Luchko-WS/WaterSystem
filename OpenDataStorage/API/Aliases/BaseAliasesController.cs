@@ -20,8 +20,9 @@ namespace OpenDataStorage.API.Aliases
 
         protected async Task<HttpResponseMessage> CreateInner(T entity)
         {
-            var alias = await _dbSetManager.GetAllQuery().Where(a => a.Value.Equals(entity.Value, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefaultAsync();
-            if (alias != null) return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, $"Aliase is exist. Id = {alias.Id}");
+            var errResponce = await CheckDuplicates(entity.Value);
+            if (errResponce != null) return errResponce;
+
             try
             {
                 await _dbSetManager.Create(entity);
@@ -35,6 +36,9 @@ namespace OpenDataStorage.API.Aliases
 
         protected async Task<HttpResponseMessage> UpdateInner(T entity)
         {
+            var errResponce = await CheckDuplicates(entity.Value);
+            if (errResponce != null) return errResponce;
+
             try
             {
                 await _dbSetManager.Update(entity);
@@ -57,6 +61,13 @@ namespace OpenDataStorage.API.Aliases
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
+        }
+
+        private async Task<HttpResponseMessage> CheckDuplicates(string value)
+        {
+            var alias = await _dbSetManager.GetAllQuery().Where(a => a.Value.Equals(value, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefaultAsync();
+            if (alias != null) return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, $"Aliase is exist. Id = {alias.Id}");
+            return null;
         }
     }
 }

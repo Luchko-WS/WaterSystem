@@ -29,10 +29,10 @@
                                 <option value="@type.Value">{{@type.Value | characteristicTypeToString | translate}}</option>
                             }
                         </select>
-                        <input class="form-control" value="{{vm.model.node.characteristicType | characteristicTypeToString | translate" ng-if="vm.model.mode == 'edit'}}" disabled />
+                        <input class="form-control" value="{{vm.model.node.characteristicType | characteristicTypeToString | translate}}" ng-if="vm.model.mode == 'edit'" disabled />
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-if="vm.model.mode == 'edit'">
                     <label class="control-label col-md-3">@Lexicon.Aliases</label>
                     <div class="col-md-9">
                         <span ng-bind="vm.obj.aliasesList"></span>

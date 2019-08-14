@@ -406,6 +406,7 @@
     <Content Include="Content\css\angular-block-ui\angular-block-ui.css.map" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\TFSProfile.pubxml" />
     <None Include="Scripts\libs\jquery\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\app\Reports\ReportsService.js" />
     <Content Include="Scripts\app\Reports\ReportCtrl.js" />
