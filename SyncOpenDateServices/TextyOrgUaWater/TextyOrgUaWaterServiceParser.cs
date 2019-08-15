@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SyncOpenDateServices.TextyOrgUaWater
 {
-    public class TextyOrgUaWaterServiceParser : ITextyOrgUaWaterServiceParser
+    public class TextyOrgUaWaterServiceParser : IStreamParser<TextyOrgUaWaterRow>
     {
         public async Task<ICollection<TextyOrgUaWaterRow>> ParseAsync(Stream stream)
         {

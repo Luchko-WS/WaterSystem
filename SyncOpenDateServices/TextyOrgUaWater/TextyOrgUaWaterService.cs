@@ -7,7 +7,7 @@ namespace SyncOpenDateServices.TextyOrgUaWater
 {
     public class TextyOrgUaWaterService
     {
-        ITextyOrgUaWaterServiceParser _parser;
+        IStreamParser<TextyOrgUaWaterRow> _parser;
 
         public TextyOrgUaWaterService()
         {
@@ -15,7 +15,7 @@ namespace SyncOpenDateServices.TextyOrgUaWater
             _parser = new TextyOrgUaWaterServiceParser();
         }
 
-        public TextyOrgUaWaterService(ITextyOrgUaWaterServiceParser parser)
+        public TextyOrgUaWaterService(IStreamParser<TextyOrgUaWaterRow> parser)
         {
             _parser = parser;
         }
