@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SyncOpenDateServices.SacmigFormat;
 
@@ -9,11 +8,12 @@ namespace ServicesSyncTests
     public class SacmigFileParserTest
     {
         [TestMethod]
-        public async Task GetDataTest()
+        public void GetDataTest()
         {
-            var streamReader = File.Open("test.xlsx", FileMode.Open);
+            var stream = File.Open("test.xlsx", FileMode.Open);
             var parser = new SacmigFileParser();
-            var data = await parser.ParseAsync(streamReader);
+            var data = parser.Parse(stream);
+            stream.Close();
         }
     }
 }

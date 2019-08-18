@@ -49,15 +49,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SacmigFormat\SacmigFileData.cs" />
     <Compile Include="SacmigFormat\SacmigFileParser.cs" />
     <Compile Include="IStreamParser.cs" />
-    <Compile Include="SacmigFormat\SacmigFileRow.cs" />
     <Compile Include="TextyOrgUaWater\TextyOrgUaWaterRow.cs" />
     <Compile Include="TextyOrgUaWater\TextyOrgUaWaterService.cs" />
     <Compile Include="TextyOrgUaWater\TextyOrgUaWaterServiceParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenDataStorageCore\OpenDataStorageCore.csproj">
+      <Project>{0A729AF8-691B-4761-9CF4-D135E9F635D4}</Project>
+      <Name>OpenDataStorageCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

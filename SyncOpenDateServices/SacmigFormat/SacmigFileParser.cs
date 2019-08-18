@@ -4,37 +4,34 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SyncOpenDateServices.SacmigFormat
 {
-    public class SacmigFileParser : IStreamParser<SacmigFileRow>
+    public class SacmigFileParser
     {
-        public async Task<ICollection<SacmigFileRow>> ParseAsync(Stream stream)
+        public SacmigFileData Parse(Stream stream)
         {
             ExcelPackage excelDocument = new ExcelPackage(stream);
             ExcelWorksheet workSheet = excelDocument.Workbook.Worksheets.First();
+
             var startRow = workSheet.Dimension.Start.Row;
             var startColumn = workSheet.Dimension.Start.Column;
             var endRow = workSheet.Dimension.End.Row;
             var endColumn = workSheet.Dimension.End.Column;
 
-            //first column alays is date!
             var keys = ParseHeader(workSheet, startRow, startColumn, endColumn);
-            var data = new List<SacmigFileRow>();
+            var data = new SacmigFileData();
             for (int rowId = startRow + 1; rowId <= endRow; rowId++)
             {
                 try
                 {
-                    var row = ParseRow(workSheet, rowId, startColumn, keys);
-                    data.Add(row);
+                    ParseRow(workSheet, rowId, startColumn, keys, data);
                 }
                 catch
                 {
                     continue;
                 }
             }
-
             return data;
         }
 
@@ -48,19 +45,12 @@ namespace SyncOpenDateServices.SacmigFormat
             return keys;
         }
 
-        private SacmigFileRow ParseRow(ExcelWorksheet worksheet, int row, int startColumn, List<string> keys)
+        private void ParseRow(ExcelWorksheet worksheet, int row, int startColumn, List<string> keys, SacmigFileData data)
         {
-            var entry = new SacmigFileRow();
-
+            //first column alays is date!
             var dateValue = worksheet.Cells[row, startColumn].Value;
-            if (dateValue is double)
-            {
-                ParseDate(ref entry, (double)dateValue);
-            }
-            else
-            {
-                ParseDate(ref entry, dateValue.ToString());
-            }
+            var dateTuple = dateValue is double ?
+                ParseDateCell((double)dateValue) : ParseDateCell(dateValue.ToString());
 
             for (int keyIndex = 0; keyIndex < keys.Count; keyIndex++)
             {
@@ -69,8 +59,9 @@ namespace SyncOpenDateServices.SacmigFormat
                 {
                     try
                     {
-                        var doubleValue = value is double ? (double)value : Double.Parse(value.ToString(), CultureInfo.InvariantCulture);
-                        entry.Characteristics.Add(keys[keyIndex], doubleValue);
+                        var doubleValue = value is double ?
+                            (double)value : Double.Parse(value.ToString(), CultureInfo.InvariantCulture);
+                        data.AddCharacteristicValue(keys[keyIndex], doubleValue, dateTuple.Item1, dateTuple.Item2);
                     }
                     catch
                     {
@@ -78,26 +69,28 @@ namespace SyncOpenDateServices.SacmigFormat
                     }
                 }
             }
-            return entry;
         }
 
-        private void ParseDate(ref SacmigFileRow entry, string value)
+        private Tuple<DateTime, DateTime?> ParseDateCell(string value)
         {
             var tokens = value.Split('-');
             if (tokens.Length > 1)
             {
-                entry.StartDate = DateTime.Parse(tokens[0].Trim());
-                entry.EndDate = DateTime.Parse(tokens[1].Trim());
+                var startDate = DateTime.Parse(tokens[0].Trim());
+                var endDate = DateTime.Parse(tokens[1].Trim());
+                return new Tuple<DateTime, DateTime?>(startDate, endDate);
             }
             else
             {
-                entry.StartDate = DateTime.Parse(value.Trim());
+                var startDate = DateTime.Parse(value.Trim());
+                return new Tuple<DateTime, DateTime?>(startDate, null);
             }
         }
 
-        private void ParseDate(ref SacmigFileRow entry, double value)
+        private Tuple<DateTime, DateTime?> ParseDateCell(double value)
         {
-            entry.StartDate = DateTime.FromOADate(value);
+            var startDate = DateTime.FromOADate(value);
+            return new Tuple<DateTime, DateTime?>(startDate, null);
         }
     }
 }

@@ -3,6 +3,7 @@ using OpenDataStorage.Helpers;
 using OpenDataStorageCore.Constants;
 using OpenDataStorageCore.Entities.CharacteristicValues;
 using OpenDataStorageCore.Entities.NestedSets;
+using SyncOpenDateServices.SacmigFormat;
 using SyncOpenDateServices.TextyOrgUaWater;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace OpenDataStorage.API.Management
@@ -28,38 +30,9 @@ namespace OpenDataStorage.API.Management
             var data = await service.GetData();
 
             //characteristics
-            var characteristicMap = new Dictionary<string, Guid>();
-            var rootCharacteristic = await _dbContext.CharacteristicContext.Entities.SingleAsync(o => o.Level == 0);
             var characteristicsNames = data.Select(i => i.Key).Distinct(StringComparer.InvariantCultureIgnoreCase);
-            foreach(var characteristicName in characteristicsNames)
-            {
-                await _dbContext.ReloadFromDb(rootCharacteristic);
-                Guid characteristicId;
-                var characteristic = await _dbContext.CharacteristicContext.Entities
-                    .Include(c => c.CharacteristicAliases)
-                    .FirstOrDefaultAsync(c => c.Name.ToLower() == characteristicName.ToLower() || 
-                        c.CharacteristicAliases.FirstOrDefault(a => a.Value.ToLower() == characteristicName.ToLower()) != null);
-
-                if (characteristic == null)
-                {
-                    var entity = new Characteristic
-                    {
-                        Name = characteristicName,
-                        Description = "synced from TextyOrgUaWaterService",
-                        OwnerId = User.Identity.Name,
-                        EntityType = EntityType.File,
-                        CharacteristicType = CharacteristicType.Number
-                    };
-                    await _dbContext.CharacteristicContext.Add(entity, rootCharacteristic.Id);
-                    characteristicId = entity.Id;
-                }
-                else
-                {
-                    characteristicId = characteristic.Id;
-                }
-
-                characteristicMap.Add(characteristicName, characteristicId);
-            }
+            var serviceDescription = "Synced by TextyOrgUaWaterService";
+            var characteristicMap = await MapCharateristicsNamesAndCreateWhetherDoesNotExist(characteristicsNames, serviceDescription);
 
             //objects
             var objects = data.GroupBy(i => i.River, StringComparer.InvariantCultureIgnoreCase)
@@ -88,55 +61,12 @@ namespace OpenDataStorage.API.Management
             var rootObject = await _dbContext.HierarchyObjectContext.Entities.SingleAsync(o => o.Level == 0);
             foreach(var river in objects)
             {
-                await _dbContext.ReloadFromDb(rootObject);
-                Guid riverId;
-                var riverObj = await _dbContext.HierarchyObjectContext.Entities
-                    .Include(o => o.HierarchyObjectAliases)
-                    .FirstOrDefaultAsync(o => o.Name.ToLower() == river.River.ToLower() || 
-                        o.HierarchyObjectAliases.FirstOrDefault(a => a.Value.ToLower() == river.River.ToLower()) != null);
-                if (riverObj == null)
-                {
-                    var entity = new HierarchyObject
-                    {
-                        Name = river.River,
-                        Description = "synced by TextyOrgUaWaterService",
-                        OwnerId = User.Identity.Name,
-                        ObjectTypeId = null //river
-                    };
-                    riverId = await _dbContext.HierarchyObjectContext.Add(entity, rootObject.Id);
-                }
-                else
-                {
-                    riverId = riverObj.Id;
-                }
-
+                Guid riverId = await GetObjectIdAndCreateWhetherDoesNotExist(river.River, serviceDescription, rootObject);
                 var riverObject = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Id == riverId);
+
                 foreach(var point in river.Points)
                 {
-                    await _dbContext.ReloadFromDb(riverObject);
-                    Guid pointId;
-                    var pointObj = await _dbContext.HierarchyObjectContext.Entities
-                        .Include(o => o.HierarchyObjectAliases)
-                        .FirstOrDefaultAsync(o => o.Name.ToLower() == point.Name.ToLower() ||
-                        o.HierarchyObjectAliases.FirstOrDefault(a => a.Value.ToLower() == point.Name.ToLower()) != null);
-
-                    if (pointObj == null)
-                    {
-                        var entity = new HierarchyObject
-                        {
-                            Name = point.Name,
-                            Description = $"Code: {point.Info.Code}. Lab: {point.Info.Laboratory}. Synced by TextyOrgUaWaterService", //save in different db field
-                            OwnerId = User.Identity.Name,
-                            ObjectTypeId = null //point
-                        };
-                        await _dbContext.HierarchyObjectContext.Add(entity, riverId);
-                        pointId = entity.Id;
-                    }
-                    else
-                    {
-                        pointId = pointObj.Id;
-                    }
-
+                    Guid pointId = await GetObjectIdAndCreateWhetherDoesNotExist(point.Name, serviceDescription, riverObject);
                     foreach (var value in point.Values)
                     {
                         var entity = new NumberCharacteristicValue
@@ -147,15 +77,129 @@ namespace OpenDataStorage.API.Management
                             Value = value.Value,
                             OwnerId = User.Identity.Name,
                             SubjectOfMonitoring = SubjectOfMonitoringConstants.CLEAR_WATER
-                            //value.Id -- save in different field
                         };
-
                         await _dbContext.CharacteristicValueDbSetManager.Create(entity);
                     }
                 }
             }
 
+            return Request.CreateResponse(HttpStatusCode.Created);
+        }
+
+        [Route("UploadSacmigDataFile")]
+        [HttpPost]
+        [WebApiAuthorize(Roles = RolesHelper.DATA_SYNC_GROUP)]
+        public async Task<HttpResponseMessage> UploadDataFile(Guid objectId)
+        {
+            var obj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Id == objectId);
+            if (obj == null) return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Object not found");
+
+            if (HttpContext.Current.Request.Files.Count > 0)
+            {
+                foreach (string fileName in HttpContext.Current.Request.Files)
+                {
+                    var file = HttpContext.Current.Request.Files[fileName];
+                    if(file.ContentType == "application/vnd.ms-excel" || 
+                        file.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    {
+                        try
+                        {
+                            var parser = new SacmigFileParser();
+                            var data = parser.Parse(file.InputStream);
+
+                            //check characteristics
+                            var characteristicsNames = data.GetCharacteristiNames();
+                            var serviceDescription = "synced from Sacmig file format";
+                            var characteristicsMap = await MapCharateristicsNamesAndCreateWhetherDoesNotExist(characteristicsNames, serviceDescription);
+
+                            //save values
+                            foreach (var characteristic in characteristicsNames)
+                            {
+                                foreach (var value in data.GetCharacteristicValues(characteristic))
+                                {
+                                    value.CharacteristicId = characteristicsMap[characteristic];
+                                    value.HierarchyObjectId = objectId;
+                                    value.OwnerId = User.Identity.Name;
+                                    await _dbContext.CharacteristicValueDbSetManager.Create(value);
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        private async Task<Guid> GetObjectIdAndCreateWhetherDoesNotExist(string objectName, string serviceDescription, HierarchyObject rootObject = null)
+        {
+            var obj = await _dbContext.HierarchyObjectContext.Entities
+                .Include(o => o.HierarchyObjectAliases)
+                .FirstOrDefaultAsync(o => o.Name.ToLower() == objectName.ToLower() ||
+                    o.HierarchyObjectAliases.FirstOrDefault(a => a.Value.ToLower() == objectName.ToLower()) != null);
+
+            if (obj == null)
+            {
+                if (rootObject == null)
+                {
+                    rootObject = await _dbContext.HierarchyObjectContext.Entities.SingleAsync(o => o.Level == 0);
+                }
+
+                await _dbContext.ReloadFromDb(rootObject);
+                var entity = new HierarchyObject
+                {
+                    Name = objectName,
+                    Description = serviceDescription,
+                    OwnerId = User.Identity.Name,
+                    ObjectTypeId = null
+                };
+                return await _dbContext.HierarchyObjectContext.Add(entity, rootObject.Id);
+            }
+            else
+            {
+                return obj.Id;
+            }
+        }
+
+        private async Task<Dictionary<string, Guid>> MapCharateristicsNamesAndCreateWhetherDoesNotExist(IEnumerable<string> characteristicsNames, 
+            string serviceDescription, Characteristic rootCharacteristic = null)
+        {
+            var characteristicMap = new Dictionary<string, Guid>();
+
+            foreach (var characteristicName in characteristicsNames)
+            {
+                var characteristic = await _dbContext.CharacteristicContext.Entities
+                       .Include(c => c.CharacteristicAliases)
+                       .FirstOrDefaultAsync(c => c.Name.ToLower() == characteristicName.ToLower() ||
+                           c.CharacteristicAliases.FirstOrDefault(a => a.Value.ToLower() == characteristicName.ToLower()) != null);
+
+                if (characteristic == null)
+                {
+                    if (rootCharacteristic == null)
+                    {
+                        rootCharacteristic = await _dbContext.CharacteristicContext.Entities.SingleAsync(o => o.Level == 0);
+                    }
+                    await _dbContext.ReloadFromDb(rootCharacteristic);
+
+                    var entity = new Characteristic
+                    {
+                        Name = characteristicName,
+                        Description = serviceDescription,
+                        OwnerId = User.Identity.Name,
+                        EntityType = EntityType.File,
+                        CharacteristicType = CharacteristicType.Number
+                    };
+                    characteristicMap[characteristicName] = await _dbContext.CharacteristicContext.Add(entity, rootCharacteristic.Id);
+                }
+                else
+                {
+                    characteristicMap[characteristicName] = characteristic.Id;
+                }
+            }
+            return characteristicMap;
         }
     }
 }
