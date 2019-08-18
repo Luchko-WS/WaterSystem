@@ -3,11 +3,11 @@
 
     angular
         .module('MainApp')
-        .controller('ServiceSyncCtrl', ServiceSyncCtrl);
+        .controller('DataSyncCtrl', DataSyncCtrl);
 
-    ServiceSyncCtrl.$inject = ['$uibModal', 'ServiceSyncService', 'MessageService'];
+    DataSyncCtrl.$inject = ['$uibModal', 'DataSyncService', 'MessageService'];
 
-    function ServiceSyncCtrl($uibModal, ServiceSyncService, MessageService) {
+    function DataSyncCtrl($uibModal, DataSyncService, MessageService) {
         var vm = this;
 
         vm.sync = sync;
@@ -20,7 +20,7 @@
 
         function sync() {
             vm.loaded = false;
-            ServiceSyncService.sync()
+            DataSyncService.sync()
                 .success(function (data) {
                     vm.loaded = true;
                 })

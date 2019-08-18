@@ -17,9 +17,9 @@ using System.Web.Http;
 
 namespace OpenDataStorage.API.Management
 {
-    [RoutePrefix("api/SystemManagement")]
+    [RoutePrefix("api/DataSynch")]
     [WebApiAuthorize(Roles = IdentityConstants.Roles.SYSADMIN_ROLE)]
-    public class SystemManagementController : BaseApiController
+    public class DataSynchManagementController : BaseApiController
     {
         [Route("SyncWithTextyOrgUaWaterService")]
         [HttpPost]

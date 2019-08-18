@@ -44,7 +44,7 @@
                             <ul class="dropdown-menu">
                                 @if (OpenDataStorage.Helpers.RolesHelper.IsInDataSyncGroup(User))
                                 {
-                                    <li>@Html.ActionLink(Lexicon.ServiceSync, "Index", "ServiceSync")</li>
+                                    <li>@Html.ActionLink(Lexicon.ServiceSync, "Index", "DataSync")</li>
                                 }
                                 @if (OpenDataStorage.Helpers.RolesHelper.IsInUsersManagerGroup(User))
                                 {

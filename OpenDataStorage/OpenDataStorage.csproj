@@ -218,7 +218,7 @@
     <Compile Include="API\HierarchyObjectController.cs" />
     <Compile Include="API\CharacteristicController.cs" />
     <Compile Include="API\LanguageController.cs" />
-    <Compile Include="API\Management\SystemManagementController.cs" />
+    <Compile Include="API\Management\DataSyncManagementController.cs" />
     <Compile Include="API\Management\UsersManagementController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -259,7 +259,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\ServiceSyncController.cs" />
+    <Compile Include="Controllers\DataSyncController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -410,8 +410,8 @@
     <None Include="Scripts\libs\jquery\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\app\Reports\ReportsService.js" />
     <Content Include="Scripts\app\Reports\ReportCtrl.js" />
-    <Content Include="Scripts\app\Administration\ServiceSync\ServiceSyncService.js" />
-    <Content Include="Scripts\app\Administration\ServiceSync\ServiceSyncCtrl.js" />
+    <Content Include="Scripts\app\Administration\DataSync\DataSyncService.js" />
+    <Content Include="Scripts\app\Administration\DataSync\DataSyncCtrl.js" />
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\libs\jquery\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\libs\bootstrap\bootstrap-treeview.js" />
@@ -539,7 +539,7 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\HierarchyObject\SelectObject.cshtml" />
     <Content Include="Views\ObjectType\SelectType.cshtml" />
-    <Content Include="Views\ServiceSync\Index.cshtml" />
+    <Content Include="Views\DataSync\Index.cshtml" />
     <Content Include="Views\Account\ChangePasswordForUser.cshtml" />
     <Content Include="Views\Account\ManageUserRoles.cshtml" />
     <Content Include="Views\Account\ManageUsers.cshtml" />

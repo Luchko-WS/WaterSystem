@@ -3,11 +3,11 @@
 
     angular
         .module('MainApp')
-        .factory('ServiceSyncService', ServiceSyncService);
+        .factory('DataSyncService', DataSyncService);
 
-    ServiceSyncService.$inject = ['$http'];
+    DataSyncService.$inject = ['$http'];
 
-    function ServiceSyncService($http) {
+    function DataSyncService($http) {
         var _service = {
             sync: _sync
         };
@@ -16,7 +16,7 @@
         function _sync() {
             return $http({
                 method: 'POST',
-                url: '/api/SystemManagement/SyncWithTextyOrgUaWaterService'
+                url: '/api/DataSynch/SyncWithTextyOrgUaWaterService'
             });
         }
     }
