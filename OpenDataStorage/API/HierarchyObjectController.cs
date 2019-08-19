@@ -29,7 +29,7 @@ namespace OpenDataStorage.API
                 var ids = await _dbContext.HierarchyObjectContext.Entities
                     .Include(e => e.HierarchyObjectAliases)
                     .Where(e => e.Name.ToLower().Contains(vm.Name.ToLower()) || 
-                        e.HierarchyObjectAliases.FirstOrDefault(a => a.Value.ToLower().Contains(vm.Name.ToLower())) != null)
+                        e.HierarchyObjectAliases.Any(a => a.Value.ToLower().Contains(vm.Name.ToLower())))
                     .Select(e => e.Id).ToListAsync();
 
                 var results = new List<HierarchyObject>();

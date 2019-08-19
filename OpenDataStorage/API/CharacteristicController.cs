@@ -28,7 +28,7 @@ namespace OpenDataStorage.API
                 var ids = await _dbContext.CharacteristicContext.Entities
                     .Include(e => e.CharacteristicAliases)
                     .Where(e => e.Name.ToLower().Contains(vm.Name.ToLower()) ||
-                        e.CharacteristicAliases.FirstOrDefault(a => a.Value.ToLower().Contains(vm.Name.ToLower())) != null)
+                        e.CharacteristicAliases.Any(a => a.Value.ToLower().Contains(vm.Name.ToLower())))
                     .Select(e => e.Id).ToListAsync();
 
                 var results = new List<Characteristic>();

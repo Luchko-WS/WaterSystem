@@ -47,7 +47,7 @@ namespace OpenDataStorage.API
 
             if (types != null && types.Any())
             {
-                objects = objects.Where(o => types.FirstOrDefault(t => t.Id == o.ObjectTypeId) != null).ToList();
+                objects = objects.Where(o => types.Any(t => t.Id == o.ObjectTypeId)).ToList();
             }
 
             ICollection<Characteristic> characteristics = null;
@@ -60,11 +60,11 @@ namespace OpenDataStorage.API
             ICollection<NumberCharacteristicValue> data = values
                 .Where(v => v.ValueType == CharacteristicType.Number && 
                     v.CreationDate.HasValue &&
-                    objects.FirstOrDefault(o => o.Id == v.HierarchyObjectId) != null)
+                    objects.Any(o => o.Id == v.HierarchyObjectId))
                 .Cast<NumberCharacteristicValue>().ToList();
             if(characteristics != null && characteristics.Any())
             {
-                data = data.Where(v => characteristics.FirstOrDefault(c => c.Id == v.CharacteristicId) != null).ToList();
+                data = data.Where(v => characteristics.Any(c => c.Id == v.CharacteristicId)).ToList();
             }
 
             if (vm != null)

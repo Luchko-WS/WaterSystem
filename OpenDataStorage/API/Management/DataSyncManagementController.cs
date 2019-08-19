@@ -174,7 +174,7 @@ namespace OpenDataStorage.API.Management
                 var characteristic = await _dbContext.CharacteristicContext.Entities
                        .Include(c => c.CharacteristicAliases)
                        .FirstOrDefaultAsync(c => c.Name.ToLower() == characteristicName.ToLower() ||
-                           c.CharacteristicAliases.FirstOrDefault(a => a.Value.ToLower() == characteristicName.ToLower()) != null);
+                           c.CharacteristicAliases.Any(a => a.Value.ToLower() == characteristicName.ToLower()));
 
                 if (characteristic == null)
                 {
