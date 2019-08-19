@@ -5,52 +5,58 @@
 <div class="page-with-extra-navbar">
     <div ng-controller="HierarchyObjectCtrl as vm">
         <async-page-with-loader is-loaded="vm.objLoaded">
-            <h2 ng-bind="vm.obj.name"></h2>
-
-            <div class="row">
-                <label class="control-label col-md-2">@Lexicon.Name</label>
-                <div class="col-md-10">
-                    <span ng-bind="vm.obj.name"></span>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h2 ng-bind="vm.obj.name"></h2>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="control-label col-md-2">@Lexicon.Name</label>
+                        <div class="col-md-10">
+                            <span ng-bind="vm.obj.name"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-md-2">ID</label>
+                        <div class="col-md-10">
+                            <span ng-bind="vm.obj.id"></span>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="vm.obj.description">
+                        <label class="control-label col-md-2">@Lexicon.Description</label>
+                        <div class="col-md-10">
+                            <span ng-bind="vm.obj.description"></span>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="vm.obj.objectType">
+                        <label class="control-label col-md-2">@Lexicon.ObjectType</label>
+                        <div class="col-md-10">
+                            <span ng-bind="vm.obj.objectType.name"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-md-2">@Lexicon.Aliases</label>
+                        <div class="col-md-9">
+                            <span ng-if="vm.obj.aliasesList" ng-bind="vm.obj.aliasesList"></span>
+                            @if (OpenDataStorage.Helpers.RolesHelper.IsInDataManagerGroup(User))
+                            {
+                                <a class="btn btn-sm btn-default" title="@Lexicon.EditAliases" ng-href="/Alias/ObjectAliases/{{vm.obj.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            }
+                        </div>
+                    </div>
+                    @*<div class="row">
+                        <label class="control-label col-md-2">@Lexicon.Owner</label>
+                        <div class="col-md-10">
+                            <span ng-bind="vm.obj.ownerId"></span>
+                        </div>
+                    </div>*@
                 </div>
             </div>
-            <div class="row">
-                <label class="control-label col-md-2">ID</label>
-                <div class="col-md-10">
-                    <span ng-bind="vm.obj.id"></span>
-                </div>
-            </div>
-            <div class="row" ng-if="vm.obj.description">
-                <label class="control-label col-md-2">@Lexicon.Description</label>
-                <div class="col-md-10">
-                    <span ng-bind="vm.obj.description"></span>
-                </div>
-            </div>
-            <div class="row" ng-if="vm.obj.objectType">
-                <label class="control-label col-md-2">@Lexicon.ObjectType</label>
-                <div class="col-md-10">
-                    <span ng-bind="vm.obj.objectType.name"></span>
-                </div>
-            </div>
-            <div class="row">
-                <label class="control-label col-md-2">@Lexicon.Aliases</label>
-                <div class="col-md-9">
-                    <span ng-if="vm.obj.aliasesList" ng-bind="vm.obj.aliasesList"></span>
-                    @if (OpenDataStorage.Helpers.RolesHelper.IsInDataManagerGroup(User))
-                    {
-                        <a class="btn btn-sm btn-default" title="@Lexicon.EditAliases" ng-href="/Alias/ObjectAliases/{{vm.obj.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    }
-                </div>
-            </div>
-            @*<div class="row">
-            <label class="control-label col-md-2">@Lexicon.Owner</label>
-            <div class="col-md-10">
-                <span ng-bind="vm.obj.ownerId"></span>
-            </div>
-        </div>*@
 
             @if (OpenDataStorage.Helpers.RolesHelper.IsInDataManagerGroup(User))
             {
                 <button class="btn btn-primary" ng-click="vm.edit()">@Lexicon.Edit</button>
+                <a class="btn btn-warning" ng-href="/DataSync/ImportDataFromFile/{{vm.obj.id}}">@Lexicon.ImportDataFile</a>
                 <button class="btn btn-danger" ng-click="vm.remove()">@Lexicon.Remove</button>
             }
         </async-page-with-loader>
@@ -59,6 +65,7 @@
             <async-page-with-loader is-loaded="dataCtrl.loaded">
                 <div class="row">
                     <table-view ng-model="dataCtrl.data"
+                                ng-if="dataCtrl.enableEditing || dataCtrl.data.length != 0"
                                 @*filter-callback="0"*@
                                 edit-callback="dataCtrl.edit"
                                 remove-callback="dataCtrl.remove"

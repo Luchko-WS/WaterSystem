@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = Lexicon.ImportDataFile;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Lexicon.ImportDataFile</h2>
+
+<div ng-controller="ImportDataFromFileCtrl as vm">
+    <async-page-with-loader is-loaded="vm.loaded">
+        <form ng-submit="vm.uploadFile()">
+            <label for="file-upload" class="btn btn-default file-upload-label">
+                <i class="glyphicon glyphicon-upload"></i> @Lexicon.Select
+            </label>
+            <input id="file-upload" type="file" file-model="vm.file" class="file-upload-control"
+                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+            <input class="btn btn-primary" type="submit" value="@Lexicon.Import" />
+        </form>
+    </async-page-with-loader>
+</div>
+
+@section Scripts{
+    <script>
+        window.app.constant('common', {
+            id: '@ViewBag.Id'
+        });
+    </script>
+}

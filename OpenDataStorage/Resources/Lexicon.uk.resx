@@ -495,4 +495,10 @@
   <data name="NoData" xml:space="preserve">
     <value>Немає даних</value>
   </data>
+  <data name="ImportDataFile" xml:space="preserve">
+    <value>Імпортувати файл з даними</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Імпортувати</value>
+  </data>
 </root>

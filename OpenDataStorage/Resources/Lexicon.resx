@@ -466,6 +466,12 @@
   <data name="RemoveObjectQuestion" xml:space="preserve">
     <value>Do you want to remove this object?</value>
   </data>
+  <data name="ImportDataFile" xml:space="preserve">
+    <value>Import data file</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
   <!--Value-->
   <data name="Value" xml:space="preserve">
     <value>Value</value>

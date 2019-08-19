@@ -484,6 +484,24 @@ namespace OpenDataStorage.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import.
+        /// </summary>
+        public static string Import {
+            get {
+                return ResourceManager.GetString("Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import data file.
+        /// </summary>
+        public static string ImportDataFile {
+            get {
+                return ResourceManager.GetString("ImportDataFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect password..
         /// </summary>
         public static string IncorrectPassword {

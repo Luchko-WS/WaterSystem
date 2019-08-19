@@ -86,10 +86,10 @@ namespace OpenDataStorage.API.Management
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 
-        [Route("UploadSacmigDataFile")]
+        [Route("UploadSacmigDataFile/{objectId}")]
         [HttpPost]
         [WebApiAuthorize(Roles = RolesHelper.DATA_SYNC_GROUP)]
-        public async Task<HttpResponseMessage> UploadDataFile(Guid objectId)
+        public async Task<HttpResponseMessage> UploadDataFile([FromUri]Guid objectId)
         {
             var obj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Id == objectId);
             if (obj == null) return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Object not found");
@@ -99,7 +99,7 @@ namespace OpenDataStorage.API.Management
                 foreach (string fileName in HttpContext.Current.Request.Files)
                 {
                     var file = HttpContext.Current.Request.Files[fileName];
-                    if(file.ContentType == "application/vnd.ms-excel" || 
+                    if (file.ContentType == "application/vnd.ms-excel" || 
                         file.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                     {
                         try
