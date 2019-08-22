@@ -7,14 +7,6 @@
             isLoaded: '='
         },
         restrict: 'E',
-        template:
-            '<div>' +
-                '<div ng-if= "!isLoaded" style = "text-align: center; margin-top: 50px; margin-bottom: 50px" >' +
-                     '<img style="height: 80px" src="/Content/images/ajax-loader.gif" />' +
-                '</div>' +
-                '<div ng-if="isLoaded">' +
-                    '<div ng-transclude></div>' +
-                '</div>' +
-            '</div>'
+        templateUrl: "/Templates/DirectivesTemplates/AsyncPageWithLoader.html"
     };
 });

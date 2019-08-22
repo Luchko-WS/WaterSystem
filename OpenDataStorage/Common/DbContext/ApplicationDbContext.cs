@@ -42,19 +42,7 @@ namespace OpenDataStorage.Common.DbContext
 
         public async Task SaveDbChangesAsync()
         {
-            using (var transaction = this.Database.BeginTransaction())
-            {
-                try
-                {
-                    await this.SaveChangesAsync();
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw ex;
-                }
-            }
+            await this.SaveChangesAsync();
         }
 
         public async Task ReloadFromDb(object entity)

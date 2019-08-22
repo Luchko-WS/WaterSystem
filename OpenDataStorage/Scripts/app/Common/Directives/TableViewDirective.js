@@ -36,7 +36,7 @@
             removeCallback: '=',
             enableEditing: '='
         },
-        restrict: 'AE',
+        restrict: 'E',
         templateUrl: "/Templates/DirectivesTemplates/TableView.html"
     };
 });

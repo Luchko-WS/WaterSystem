@@ -15,7 +15,7 @@ namespace OpenDataStorage.Controllers
 
         [HttpGet]
         [Authorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
-        public ActionResult ImportDataFromFile(Guid id)
+        public ActionResult ImportDataFromFile(Guid? id)
         {
             ViewBag.Id = id;
             return View();

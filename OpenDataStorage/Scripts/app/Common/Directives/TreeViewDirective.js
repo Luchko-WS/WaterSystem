@@ -201,7 +201,7 @@
             nodeSelectedCallback: '=',
             nodeUnselectedCallback: '='
         },
-        restrict: 'AE',
-        template: '<div id="tree" style="overflow-x:auto; overflow-y:auto; max-height: 450px;"></div>'
+        restrict: 'E',
+        templateUrl: "/Templates/DirectivesTemplates/TreeView.html"
     };
 });

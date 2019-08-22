@@ -7,14 +7,45 @@
 
 <div ng-controller="ImportDataFromFileCtrl as vm">
     <async-page-with-loader is-loaded="vm.loaded">
-        <form ng-submit="vm.uploadFile()">
-            <label for="file-upload" class="btn btn-default file-upload-label">
-                <i class="glyphicon glyphicon-upload"></i> @Lexicon.Select
-            </label>
-            <input id="file-upload" type="file" file-model="vm.file" class="file-upload-control"
-                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-            <input class="btn btn-primary" type="submit" value="@Lexicon.Import" />
-        </form>
+        <async-page-with-loader is-loaded="vm.objectsLoaded">
+            <form name="_form">
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Lexicon.Object</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="@Lexicon.Object" ng-model="vm.object.name" ng-required="true" readonly />
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-primary" ng-click="vm.showTree=!vm.showTree;"><span ng-class="vm.showTree ? 'glyphicon glyphicon-triangle-top' : 'glyphicon glyphicon-triangle-bottom'" /></button>
+                                        <button class="btn btn-danger" title="@Lexicon.Remove" ng-click="vm.showTree = false; vm.object = null"><span class="glyphicon glyphicon-remove" /></button>
+                                    </div>
+                                    <tree-view ng-if="vm.showTree" ng-model="vm.objectsTree"
+                                               config="vm.treeConfig"
+                                               node-selected-callback="vm.nodeSelectedCallback"
+                                               node-unselected-callback="vm.nodeUnselectedCallback">
+                                    </tree-view>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Lexicon.File</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="@Lexicon.File" ng-model="vm.file.name" ng-required="true" readonly />
+                                    <div class="input-group-btn">
+                                        <file-select ng-model="vm.file" file-filter="'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <input class="btn btn-primary" ng-disabled="_form.$invalid" ng-click="vm.uploadFile()" value="@Lexicon.Import" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </async-page-with-loader>
     </async-page-with-loader>
 </div>
 

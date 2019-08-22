@@ -1,0 +1,8 @@
+﻿<div>
+    <label for="file-upload" class="btn btn-default file-upload-label">
+        {{'select' | translate}}
+    </label>
+    <input id="file-upload" type="file" style="display: none"
+           onchange="angular.element(this).scope().changeCallback(this)"
+           accept="{{fileFilter}}" />
+</div>

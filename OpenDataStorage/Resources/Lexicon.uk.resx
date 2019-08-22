@@ -501,4 +501,7 @@
   <data name="Import" xml:space="preserve">
     <value>Імпортувати</value>
   </data>
+  <data name="File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
 </root>

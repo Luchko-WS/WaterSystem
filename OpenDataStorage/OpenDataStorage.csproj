@@ -391,7 +391,7 @@
     <Content Include="Scripts\app\Characteristic\CharacterisitcTreeCtrl.js" />
     <Content Include="Scripts\app\Common\Controllers\CreateEditModelCtrl.js" />
     <Content Include="Scripts\app\Common\Controllers\MessageCtrl.js" />
-    <Content Include="Scripts\app\Common\Directives\FileModelDirective.js" />
+    <Content Include="Scripts\app\Common\Directives\FileSelectDirective.js" />
     <Content Include="Scripts\app\Common\Directives\TableViewDirective.js" />
     <Content Include="Scripts\app\Common\Directives\TreeViewDirective.js" />
     <Content Include="Scripts\app\Common\Services\AppConstantsService.js" />
@@ -483,7 +483,11 @@
     <Content Include="Scripts\libs\jquery\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\libs\modernizr-2.8.3.js" />
     <Content Include="Scripts\libs\sitemap.xml" />
+    <Content Include="Templates\DirectivesTemplates\AsyncPageWithLoader.html" />
+    <Content Include="Templates\DirectivesTemplates\ExtraBootstrapNavbar.html" />
+    <Content Include="Templates\DirectivesTemplates\FileSelect.html" />
     <Content Include="Templates\DirectivesTemplates\TableView.html" />
+    <Content Include="Templates\DirectivesTemplates\TreeView.html" />
     <Content Include="Templates\MessageServiceDialogWindows\CustomDialogWindow.html" />
     <Content Include="Templates\MessageServiceDialogWindows\OkDialogWindow.html" />
     <Content Include="Templates\MessageServiceDialogWindows\YesNoDialogWindow.html" />
