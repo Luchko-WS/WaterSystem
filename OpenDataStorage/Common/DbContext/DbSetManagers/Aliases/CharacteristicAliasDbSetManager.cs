@@ -9,16 +9,10 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers.Aliases
     public class CharacteristicAliasDbSetManager : BaseDbSetManager<CharacteristicAlias>, ICharacteristicAliasDbSetManager
     {
         protected readonly Func<Task> _saveChangesFunction;
-        public CharacteristicAliasDbSetManager(DbSet<CharacteristicAlias> entities, Func<Task> SaveChangesFunction)
-            : base(entities)
+        public CharacteristicAliasDbSetManager(DbSet<CharacteristicAlias> entities, IApplicationDbContextBase dbContext)
+            : base(entities, dbContext)
         {
-            _saveChangesFunction = SaveChangesFunction;
             TableName = "CharacteristicAliases";
-        }
-
-        protected override async Task SaveChanges()
-        {
-            await _saveChangesFunction?.Invoke();
         }
 
         protected override IQueryable<CharacteristicAlias> IncludeDependencies(IQueryable<CharacteristicAlias> query)

@@ -9,10 +9,9 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
     public class CharacteristicValueDbSetManager<T> : BaseDbSetManager<BaseCharacteristicValue>, ICharacteristicValueDbSetManager where T : BaseCharacteristicValue
     {
         protected readonly Func<Task> _saveChangesFunction;
-        public CharacteristicValueDbSetManager(DbSet<BaseCharacteristicValue> entities, Func<Task> SaveChangesFunction)
-            : base(entities)
+        public CharacteristicValueDbSetManager(DbSet<BaseCharacteristicValue> entities, IApplicationDbContextBase dbContext)
+            : base(entities, dbContext)
         {
-            _saveChangesFunction = SaveChangesFunction;
             TableName = "CharacteristicValues";
         }
 
@@ -36,11 +35,6 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
         {
             ValidateDateInterval(entity);
             return base.Update(entity);
-        }
-
-        protected override async Task SaveChanges()
-        {
-            await _saveChangesFunction?.Invoke();
         }
 
         protected override IQueryable<BaseCharacteristicValue> IncludeDependencies(IQueryable<BaseCharacteristicValue> query)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OpenDataStorage.Common.DbContext.DbSetManagers;
@@ -12,7 +11,7 @@ using OpenDataStorageCore.Entities.NestedSets;
 
 namespace OpenDataStorage.Common.DbContext
 {
-    public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+    public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext, IDbContainer
     {
         private INestedSetsObjectContext<HierarchyObject> _objectDbSetManager;
         private INestedSetsFSContext<Characteristic> _characteristicDbSetManager;
@@ -27,12 +26,12 @@ namespace OpenDataStorage.Common.DbContext
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>());
             Configuration.ProxyCreationEnabled = false;
 
-            _objectDbSetManager = new HierarchyObjectDbContextManager(HierarchyObjects, this.Database);
-            _characteristicDbSetManager = new CharacteristicDbSetManager(Characteristics, this.Database);
-            _objectTypeDbSetManager = new ObjectTypeDbSetManager(ObjectTypes, this.Database);
-            _characteristicValueDbSetManager = new CharacteristicValueDbSetManager<BaseCharacteristicValue>(CharacteristicValues, this.SaveDbChangesAsync);
-            _characteristicAliasDbSetManager = new CharacteristicAliasDbSetManager(CharacteristicAliases, this.SaveDbChangesAsync);
-            _hierarchyObjectAliasDbSetManager = new HierarchyObjectAliasDbSetManager(HierarchyObjectAliases, this.SaveDbChangesAsync);
+            _objectDbSetManager = new HierarchyObjectDbContextManager(HierarchyObjects, this);
+            _characteristicDbSetManager = new CharacteristicDbSetManager(Characteristics, this);
+            _objectTypeDbSetManager = new ObjectTypeDbSetManager(ObjectTypes, this);
+            _characteristicValueDbSetManager = new CharacteristicValueDbSetManager<BaseCharacteristicValue>(CharacteristicValues, this);
+            _characteristicAliasDbSetManager = new CharacteristicAliasDbSetManager(CharacteristicAliases, this);
+            _hierarchyObjectAliasDbSetManager = new HierarchyObjectAliasDbSetManager(HierarchyObjectAliases, this);
         }
 
         public static ApplicationDbContext Create()
@@ -40,14 +39,19 @@ namespace OpenDataStorage.Common.DbContext
             return new ApplicationDbContext();
         }
 
-        public async Task SaveDbChangesAsync()
-        {
-            await this.SaveChangesAsync();
-        }
-
-        public async Task ReloadFromDb(object entity)
+        public async Task ReloadEntityFromDb(object entity)
         {
             await this.Entry(entity).ReloadAsync();
+        }
+
+        public DbContextTransaction BeginTransaction()
+        {
+            return this.Database.BeginTransaction();
+        }
+
+        async Task IApplicationDbContextBase.SaveDbChangesAsync()
+        {
+            await this.SaveChangesAsync();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -99,8 +103,6 @@ namespace OpenDataStorage.Common.DbContext
                 .WithMany(o => o.HierarchyObjectAliases)
                 .HasForeignKey(v => v.HierarchyObjectId)
                 .WillCascadeOnDelete(true);
-
-            base.OnModelCreating(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }

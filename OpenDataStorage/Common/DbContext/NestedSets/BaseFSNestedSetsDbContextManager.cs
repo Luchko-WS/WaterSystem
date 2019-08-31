@@ -7,8 +7,8 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 {
     public abstract class BaseFSNestedSetsDbSetManager<T> : BaseNestedSetsDbSetManager<T>, INestedSetsFSContext<T> where T : NestedSetsFSEntity
     {
-        public BaseFSNestedSetsDbSetManager(DbSet<T> dbSet, Database database)
-            : base(dbSet, database) { }
+        public BaseFSNestedSetsDbSetManager(DbSet<T> dbSet, IDbContainer dbContainer)
+            : base(dbSet, dbContainer) { }
 
         public override async Task<Guid> Add(T entity, Guid parentId)
         {

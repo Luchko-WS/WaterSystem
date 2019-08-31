@@ -5,8 +5,8 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 {
     public class ObjectTypeDbSetManager : BaseFSNestedSetsDbSetManager<ObjectType>
     {
-        public ObjectTypeDbSetManager(DbSet<ObjectType> entities, Database database)
-            : base(entities, database)
+        public ObjectTypeDbSetManager(DbSet<ObjectType> entities, IDbContainer dbContainer)
+            : base(entities, dbContainer)
         {
             TableName = "ObjectTypes";
         }

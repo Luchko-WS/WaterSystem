@@ -2,11 +2,12 @@
 using OpenDataStorage.Common.DbContext.DbSetManagers.Aliases;
 using OpenDataStorage.Common.DbContext.NestedSets;
 using OpenDataStorageCore.Entities.NestedSets;
+using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext
 {
-    public interface IApplicationDbContext
+    public interface IApplicationDbContext : IApplicationDbContextBase
     {
         INestedSetsObjectContext<HierarchyObject> HierarchyObjectContext { get; }
 
@@ -20,8 +21,8 @@ namespace OpenDataStorage.Common.DbContext
 
         IHierarchyObjectAliasDbSetManager HierarchyObjectAliasDbSetManager { get; }
 
-        Task ReloadFromDb(object entity);
+        Task ReloadEntityFromDb(object entity);
 
-        Task SaveDbChangesAsync();
+        DbContextTransaction BeginTransaction();
     }
 }

@@ -10,10 +10,11 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
     public abstract class BaseDbSetManager<T> : IDbSetManager<T> where T : BaseEntity
     {
         protected readonly DbSet<T> _dbSet;
+        protected readonly IApplicationDbContextBase _dbContext;
 
         public string TableName { get; protected set; }
 
-        public BaseDbSetManager(DbSet<T> dbSet)
+        public BaseDbSetManager(DbSet<T> dbSet, IApplicationDbContextBase dbContext)
         {
             _dbSet = dbSet;
         }
@@ -64,7 +65,10 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
             await SaveChanges();
         }
 
-        abstract protected Task SaveChanges();
+        protected async Task SaveChanges()
+        {
+            await _dbContext.SaveDbChangesAsync();
+        }
 
         abstract protected IQueryable<T> IncludeDependencies(IQueryable<T> query);
     }

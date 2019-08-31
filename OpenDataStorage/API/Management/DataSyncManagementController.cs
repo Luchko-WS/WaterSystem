@@ -29,57 +29,69 @@ namespace OpenDataStorage.API.Management
             var service = new TextyOrgUaWaterService();
             var data = await service.GetData();
 
-            //characteristics
-            var characteristicsNames = data.Select(i => i.Key).Distinct(StringComparer.InvariantCultureIgnoreCase);
-            var serviceDescription = "Synced by TextyOrgUaWaterService";
-            var characteristicMap = await MapCharateristicsNamesAndCreateWhetherDoesNotExist(characteristicsNames, serviceDescription);
-
-            //objects
-            var objects = data.GroupBy(i => i.River, StringComparer.InvariantCultureIgnoreCase)
-                .Select(group => new
-                {
-                    Points = group.GroupBy(p => p.Name, StringComparer.InvariantCultureIgnoreCase)
-                        .Select(group2 => new
-                        {
-                            Name = group2.Key,
-                            Info = new
-                            {
-                                Code = group2.FirstOrDefault().Code,
-                                Laboratory = group2.FirstOrDefault().Laboratory
-                            },
-                            Values = group2.Select(v => new
-                            {
-                                Id = v.Id,
-                                Date = v.Date,
-                                Key = v.Key,
-                                Value = v.Value
-                            })
-                        }),
-                    River = group.Key
-                });
-
-            var rootObject = await _dbContext.HierarchyObjectContext.Entities.SingleAsync(o => o.Level == 0);
-            foreach(var river in objects)
+            using (var transaction = _dbContext.BeginTransaction())
             {
-                Guid riverId = await GetObjectIdAndCreateWhetherDoesNotExist(river.River, serviceDescription, rootObject);
-                var riverObject = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Id == riverId);
-
-                foreach(var point in river.Points)
+                try
                 {
-                    Guid pointId = await GetObjectIdAndCreateWhetherDoesNotExist(point.Name, serviceDescription, riverObject);
-                    foreach (var value in point.Values)
-                    {
-                        var entity = new NumberCharacteristicValue
+                    //characteristics
+                    var characteristicsNames = data.Select(i => i.Key).Distinct(StringComparer.InvariantCultureIgnoreCase);
+                    var serviceDescription = "Synced by TextyOrgUaWaterService";
+                    var characteristicMap = await MapCharateristicsNamesAndCreateWhetherDoesNotExist(characteristicsNames, serviceDescription);
+
+                    //objects
+                    var objects = data.GroupBy(i => i.River, StringComparer.InvariantCultureIgnoreCase)
+                        .Select(group => new
                         {
-                            CharacteristicId = characteristicMap[value.Key],
-                            HierarchyObjectId = pointId,
-                            CreationDate = value.Date,
-                            Value = value.Value,
-                            OwnerId = User.Identity.Name,
-                            SubjectOfMonitoring = SubjectOfMonitoringConstants.CLEAR_WATER
-                        };
-                        await _dbContext.CharacteristicValueDbSetManager.Create(entity);
+                            Points = group.GroupBy(p => p.Name, StringComparer.InvariantCultureIgnoreCase)
+                                .Select(group2 => new
+                                {
+                                    Name = group2.Key,
+                                    Info = new
+                                    {
+                                        Code = group2.FirstOrDefault().Code,
+                                        Laboratory = group2.FirstOrDefault().Laboratory
+                                    },
+                                    Values = group2.Select(v => new
+                                    {
+                                        Id = v.Id,
+                                        Date = v.Date,
+                                        Key = v.Key,
+                                        Value = v.Value
+                                    })
+                                }),
+                            River = group.Key
+                        });
+
+                    var rootObject = await _dbContext.HierarchyObjectContext.Entities.SingleAsync(o => o.Level == 0);
+                    foreach (var river in objects)
+                    {
+                        Guid riverId = await GetObjectIdAndCreateWhetherDoesNotExist(river.River, serviceDescription, rootObject);
+                        var riverObject = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Id == riverId);
+
+                        foreach (var point in river.Points)
+                        {
+                            Guid pointId = await GetObjectIdAndCreateWhetherDoesNotExist(point.Name, serviceDescription, riverObject);
+                            foreach (var value in point.Values)
+                            {
+                                var entity = new NumberCharacteristicValue
+                                {
+                                    CharacteristicId = characteristicMap[value.Key],
+                                    HierarchyObjectId = pointId,
+                                    CreationDate = value.Date,
+                                    Value = value.Value,
+                                    OwnerId = User.Identity.Name,
+                                    SubjectOfMonitoring = SubjectOfMonitoringConstants.CLEAR_WATER
+                                };
+                                await _dbContext.CharacteristicValueDbSetManager.Create(entity);
+                            }
+                        }
                     }
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
                 }
             }
 
@@ -112,15 +124,26 @@ namespace OpenDataStorage.API.Management
                             var serviceDescription = "synced from Sacmig file format";
                             var characteristicsMap = await MapCharateristicsNamesAndCreateWhetherDoesNotExist(characteristicsNames, serviceDescription);
 
-                            //save values
-                            foreach (var characteristic in characteristicsNames)
+                            using (var transaction = _dbContext.BeginTransaction())
                             {
-                                foreach (var value in data.GetCharacteristicValues(characteristic))
+                                try
                                 {
-                                    value.CharacteristicId = characteristicsMap[characteristic];
-                                    value.HierarchyObjectId = objectId;
-                                    value.OwnerId = User.Identity.Name;
-                                    await _dbContext.CharacteristicValueDbSetManager.Create(value);
+                                    //save values
+                                    foreach (var characteristic in characteristicsNames)
+                                    {
+                                        foreach (var value in data.GetCharacteristicValues(characteristic))
+                                        {
+                                            value.CharacteristicId = characteristicsMap[characteristic];
+                                            value.HierarchyObjectId = objectId;
+                                            value.OwnerId = User.Identity.Name;
+                                            await _dbContext.CharacteristicValueDbSetManager.Create(value);
+                                        }
+                                    }
+                                    transaction.Commit();
+                                }
+                                catch
+                                {
+                                    transaction.Rollback();
                                 }
                             }
                         }
@@ -148,7 +171,7 @@ namespace OpenDataStorage.API.Management
                     rootObject = await _dbContext.HierarchyObjectContext.Entities.SingleAsync(o => o.Level == 0);
                 }
 
-                await _dbContext.ReloadFromDb(rootObject);
+                await _dbContext.ReloadEntityFromDb(rootObject);
                 var entity = new HierarchyObject
                 {
                     Name = objectName,
@@ -182,7 +205,7 @@ namespace OpenDataStorage.API.Management
                     {
                         rootCharacteristic = await _dbContext.CharacteristicContext.Entities.SingleAsync(o => o.Level == 0);
                     }
-                    await _dbContext.ReloadFromDb(rootCharacteristic);
+                    await _dbContext.ReloadEntityFromDb(rootCharacteristic);
 
                     var entity = new Characteristic
                     {

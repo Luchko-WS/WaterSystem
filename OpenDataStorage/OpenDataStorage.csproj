@@ -236,6 +236,8 @@
     <Compile Include="Common\DbContext\DbSetManagers\Aliases\ICharacteristicAliasDbSetManager.cs" />
     <Compile Include="Common\DbContext\DbSetManagers\ICharacteristicValueDbSetManager.cs" />
     <Compile Include="Common\DbContext\DbSetManagers\IDbSetManager.cs" />
+    <Compile Include="Common\DbContext\IApplicationDbContextBase.cs" />
+    <Compile Include="Common\DbContext\IDbContainer.cs" />
     <Compile Include="Common\DbContext\NestedSets\BaseFSNestedSetsDbContextManager.cs" />
     <Compile Include="Common\DbContext\NestedSets\BaseNestedSetsDbContextManager.cs" />
     <Compile Include="Common\DbContext\NestedSets\CharacteristicDbContextManager.cs" />

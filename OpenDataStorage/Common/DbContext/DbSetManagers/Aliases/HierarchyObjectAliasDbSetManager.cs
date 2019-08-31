@@ -9,16 +9,10 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers.Aliases
     public class HierarchyObjectAliasDbSetManager : BaseDbSetManager<HierarchyObjectAlias>, IHierarchyObjectAliasDbSetManager
     {
         protected readonly Func<Task> _saveChangesFunction;
-        public HierarchyObjectAliasDbSetManager(DbSet<HierarchyObjectAlias> entities, Func<Task> SaveChangesFunction)
-            : base(entities)
+        public HierarchyObjectAliasDbSetManager(DbSet<HierarchyObjectAlias> entities, IApplicationDbContextBase dbContext)
+            : base(entities, dbContext)
         {
-            _saveChangesFunction = SaveChangesFunction;
             TableName = "HierarchyObjectAliases";
-        }
-
-        protected override async Task SaveChanges()
-        {
-            await _saveChangesFunction?.Invoke();
         }
 
         protected override IQueryable<HierarchyObjectAlias> IncludeDependencies(IQueryable<HierarchyObjectAlias> query)
