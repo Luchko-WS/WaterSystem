@@ -27,7 +27,7 @@
                 </tree-view>
                 
                 <button class="btn btn-success" ng-click="vm.showDetails(vm.state.currentNode)" ng-if="vm.state.currentNode">@Lexicon.Open</button>
-                @if (OpenDataStorage.Helpers.RolesHelper.IsManagerGroup(User))
+                @if (OpenDataStorage.Helpers.RolesHelper.IsInDataManagerGroup(User))
                 {
                     <button class="btn btn-primary" ng-click="vm.create()" ng-if="vm.state.currentNode">@Lexicon.Create</button>
                     <button class="btn btn-warning" ng-click="vm.edit()" ng-if="vm.state.currentNode">@Lexicon.Edit</button>

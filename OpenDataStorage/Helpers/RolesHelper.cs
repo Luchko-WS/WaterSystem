@@ -33,6 +33,7 @@ namespace OpenDataStorage.Helpers
             return
                 user.IsInRole(IdentityConstants.Roles.SYSADMIN_ROLE) ||
                 user.IsInRole(IdentityConstants.Roles.USERS_MANAGER_ROLE) ||
+                user.IsInRole(IdentityConstants.Roles.DATA_MANAGER_ROLE) ||
                 user.IsInRole(IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE) ||
                 user.IsInRole(IdentityConstants.Roles.TECH_SUPPORT_ROLE);
         }
@@ -50,7 +51,6 @@ namespace OpenDataStorage.Helpers
             return
                 user.IsInRole(IdentityConstants.Roles.SYSADMIN_ROLE) ||
                 user.IsInRole(IdentityConstants.Roles.DATA_MANAGER_ROLE) ||
-                user.IsInRole(IdentityConstants.Roles.DATA_SYNC_MANAGER_ROLE) ||
                 user.IsInRole(IdentityConstants.Roles.TECH_SUPPORT_ROLE);
         }
 

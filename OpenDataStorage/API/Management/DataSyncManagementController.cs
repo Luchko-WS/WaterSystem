@@ -18,12 +18,11 @@ using System.Web.Http;
 namespace OpenDataStorage.API.Management
 {
     [RoutePrefix("api/DataSynch")]
-    [WebApiAuthorize(Roles = IdentityConstants.Roles.SYSADMIN_ROLE)]
+    [WebApiAuthorize(Roles = RolesHelper.DATA_SYNC_GROUP)]
     public class DataSynchManagementController : BaseApiController
     {
         [Route("SyncWithTextyOrgUaWaterService")]
         [HttpPost]
-        [WebApiAuthorize(Roles = RolesHelper.DATA_SYNC_GROUP)]
         public async Task<HttpResponseMessage> SyncWithTextyOrgUaWaterService()
         {
             var service = new TextyOrgUaWaterService();
@@ -100,7 +99,6 @@ namespace OpenDataStorage.API.Management
 
         [Route("UploadSacmigDataFile/{objectId}")]
         [HttpPost]
-        [WebApiAuthorize(Roles = RolesHelper.DATA_SYNC_GROUP)]
         public async Task<HttpResponseMessage> UploadDataFile([FromUri]Guid objectId)
         {
             var obj = await _dbContext.HierarchyObjectContext.Entities.FirstOrDefaultAsync(o => o.Id == objectId);

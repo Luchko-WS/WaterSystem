@@ -35,7 +35,9 @@
                             <li>@Html.ActionLink(Lexicon.Report, "Index", "Report")</li>
                         </ul>
                     </li>
-                    @if (Request.IsAuthenticated && OpenDataStorage.Helpers.RolesHelper.IsManagerGroup(User))
+                    @if (Request.IsAuthenticated &&
+                        OpenDataStorage.Helpers.RolesHelper.IsInDataSyncGroup(User) ||
+                        OpenDataStorage.Helpers.RolesHelper.IsInUsersManagerGroup(User))
                     {
                         <li>
                             <a href="" data-toggle="dropdown">
