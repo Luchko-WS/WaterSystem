@@ -61,10 +61,6 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task Update(T entity)
         {
-            await UpdateInternal(entity);
-        }
-        protected async Task UpdateInternal(T entity)
-        {
             using (var transaction = _dbContainer.Database.BeginTransaction())
             {
                 try
@@ -118,10 +114,6 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task Remove(T entity)
         {
-            await RemoveInternal(entity);
-        }
-        protected async Task RemoveInternal(T entity)
-        {
             bool isRootObject = entity.Level == 0;
             //the root object does not contain any child object
             if (isRootObject && (entity.RightKey - entity.LeftKey == 1)) return;
@@ -145,10 +137,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
         #region Nested Sets Relation
         public virtual async Task<T> GetNode(Guid id, params Expression<Func<T, object>>[] includedPath)
         {
-            var query = GetNodeQuery(id);
-            query = includedPath.Aggregate(query, (current, p) => current.Include(p));
-            
-            var node = await query.FirstOrDefaultAsync();
+            var node = await AggregateQuery(GetNodeQuery(id), includedPath).FirstOrDefaultAsync();
             if (node == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
@@ -162,9 +151,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task<ICollection<T>> GetTree(params Expression<Func<T, object>>[] includedPath)
         {
-            var query = GetTreeQuery();
-            query = includedPath.Aggregate(query, (current, p) => current.Include(p));
-            return await query.ToListAsync();
+            return await AggregateQuery(GetTreeQuery(), includedPath).ToListAsync();
         }
         private IQueryable<T> GetTreeQuery()
         {
@@ -173,16 +160,12 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task<ICollection<T>> GetChildNodes(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
         {
-            var node = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
-            if (node == null)
+            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
+            if (entity == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetChildNodes(node, includeItself, includedPath);
-        }
-        private async Task<ICollection<T>> GetChildNodes(T entity, bool includeItself, params Expression<Func<T, object>>[] includedPath)
-        {
-            return await GetChildNodesQuery(entity, includeItself).ToListAsync();
+            return await AggregateQuery(GetChildNodesQuery(entity, includeItself), includedPath).ToListAsync();
         }
         private IQueryable<T> GetChildNodesQuery(T entity, bool includeItself)
         {
@@ -194,16 +177,12 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task<T> GetParentNode(Guid id, params Expression<Func<T, object>>[] includedPath)
         {
-            var node = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
-            if (node == null)
+            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
+            if (entity == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetParentNode(node, includedPath);
-        }
-        private async Task<T> GetParentNode(T entity, params Expression<Func<T, object>>[] includedPath)
-        {
-            return await GetParentNodeQuery(entity).FirstOrDefaultAsync();
+            return await AggregateQuery(GetParentNodeQuery(entity), includedPath).FirstOrDefaultAsync();
         }
         private IQueryable<T> GetParentNodeQuery(T entity)
         {
@@ -212,16 +191,12 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
         public virtual async Task<ICollection<T>> GetParentNodes(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
         {
-            var node = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
-            if (node == null)
+            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
+            if (entity == null)
             {
                 throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
             }
-            return await GetParentNodes(node, includeItself, includedPath);
-        }
-        private async Task<ICollection<T>> GetParentNodes(T entity, bool includeItself, params Expression<Func<T, object>>[] includedPath)
-        {
-            return await GetRootNodesQuery(entity, includeItself).ToListAsync();
+            return await AggregateQuery(GetRootNodesQuery(entity, includeItself), includedPath).ToListAsync();
         }
         private IQueryable<T> GetRootNodesQuery(T entity, bool includeItself)
         {
@@ -230,6 +205,11 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
                     (e.LeftKey < entity.LeftKey && e.RightKey > entity.RightKey && e.Level < entity.Level)
                     || (includeItself && e.Id == entity.Id))
                 .OrderBy(e => e.LeftKey);
+        }
+
+        private IQueryable<T> AggregateQuery(IQueryable<T> query, Expression<Func<T, object>>[] includedPath)
+        {
+            return includedPath.Aggregate(query, (current, p) => current.Include(p));
         }
 
         #endregion
