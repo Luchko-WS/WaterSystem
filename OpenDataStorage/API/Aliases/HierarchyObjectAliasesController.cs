@@ -1,4 +1,5 @@
 ﻿using OpenDataStorage.Common.Attributes;
+using OpenDataStorage.Common.DbContext.DbSetManagers.Aliases;
 using OpenDataStorage.Helpers;
 using OpenDataStorageCore.Entities.Aliases;
 using System;
@@ -15,17 +16,14 @@ namespace OpenDataStorage.API.Aliases
     [WebApiAuthorize(Roles = RolesHelper.DATA_MANAGEMENT_GROUP)]
     public class HierarchyObjectAliasesController : BaseAliasesController<HierarchyObjectAlias>
     {
-        public HierarchyObjectAliasesController()
-        {
-            _dbSetManager = _dbContext.HierarchyObjectAliasDbSetManager;
-        }
-        
+        protected override IAliasDbSetManager<HierarchyObjectAlias> _DbSetManager => _dbContext.HierarchyObjectAliasDbSetManager;
+
         [AllowAnonymous]
         [Route("Get/{id}")]
         [HttpGet]
         public async Task<HierarchyObjectAlias> Get(Guid id)
         {
-            return await base.GetInner(id);
+            return await base.GetInternal(id);
         }
 
         [AllowAnonymous]
@@ -33,7 +31,7 @@ namespace OpenDataStorage.API.Aliases
         [HttpGet]
         public async Task<dynamic> GetAliasesForObject(Guid id)
         {
-            return await _dbSetManager.GetAllQuery()
+            return await _DbSetManager.GetAllQuery()
                 .Where(a => a.HierarchyObjectId == id)
                 .OrderBy(a => a.Value)
                 .ToListAsync();
@@ -53,7 +51,7 @@ namespace OpenDataStorage.API.Aliases
                     OwnerId = User.Identity.Name,
                     Value = vm.Value
                 };
-                return await base.CreateInner(entity);
+                return await base.CreateInternal(entity);
             }
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"Object {objectId} not found");
         }
@@ -62,14 +60,14 @@ namespace OpenDataStorage.API.Aliases
         [HttpPut]
         public async Task<HttpResponseMessage> Update(HierarchyObjectAlias entity)
         {
-            return await UpdateInner(entity);
+            return await UpdateInternal(entity);
         }
 
         [Route("Delete/{id}")]
         [HttpDelete]
         public async Task<HttpResponseMessage> Delete(Guid id)
         {
-            return await base.DeleteInner(id);
+            return await base.DeleteInternal(id);
         }
     }
 }

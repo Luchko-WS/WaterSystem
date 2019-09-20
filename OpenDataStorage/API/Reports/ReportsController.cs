@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
-namespace OpenDataStorage.API
+namespace OpenDataStorage.API.Reports
 {
     [RoutePrefix("api/Reports")]
     public class ReportsController : BaseApiController

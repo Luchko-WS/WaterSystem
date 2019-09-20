@@ -9,11 +9,11 @@ namespace OpenDataStorage.Common.DbContext
 {
     public interface IApplicationDbContext : IApplicationDbContextBase
     {
-        INestedSetsObjectContext<HierarchyObject> HierarchyObjectContext { get; }
+        INestedSetsDbSetManager<HierarchyObject> HierarchyObjectContext { get; }
 
-        INestedSetsFSContext<Characteristic> CharacteristicContext { get; }
+        INestedSetsDbSetManager<Characteristic> CharacteristicContext { get; }
 
-        INestedSetsFSContext<ObjectType> ObjectTypeContext { get; }
+        INestedSetsDbSetManager<ObjectType> ObjectTypeContext { get; }
 
         ICharacteristicValueDbSetManager CharacteristicValueDbSetManager { get; }
 

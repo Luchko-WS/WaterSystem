@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext.NestedSets
 {
-    public abstract class BaseNestedSetsDbSetManager<T> : INestedSetsObjectContext<T> where T : NestedSetsEntity
+    public abstract class BaseNestedSetsDbSetManager<T> : INestedSetsDbSetManager<T> where T : NestedSetsEntity
     {
         protected DbSet<T> _dbSet;
         protected IDbContainer _dbContainer;

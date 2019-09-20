@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OpenDataStorage.Common.DbContext.NestedSets
 {
-    public abstract class BaseFSNestedSetsDbSetManager<T> : BaseNestedSetsDbSetManager<T>, INestedSetsFSContext<T> where T : NestedSetsFSEntity
+    public abstract class BaseFSNestedSetsDbSetManager<T> : BaseNestedSetsDbSetManager<T> where T : NestedSetsFSEntity
     {
         public BaseFSNestedSetsDbSetManager(DbSet<T> dbSet, IDbContainer dbContainer)
             : base(dbSet, dbContainer) { }

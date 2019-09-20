@@ -13,9 +13,9 @@ namespace OpenDataStorage.Common.DbContext
 {
     public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext, IDbContainer
     {
-        private INestedSetsObjectContext<HierarchyObject> _objectDbSetManager;
-        private INestedSetsFSContext<Characteristic> _characteristicDbSetManager;
-        private INestedSetsFSContext<ObjectType> _objectTypeDbSetManager;
+        private INestedSetsDbSetManager<HierarchyObject> _objectDbSetManager;
+        private INestedSetsDbSetManager<Characteristic> _characteristicDbSetManager;
+        private INestedSetsDbSetManager<ObjectType> _objectTypeDbSetManager;
         private ICharacteristicValueDbSetManager _characteristicValueDbSetManager;
         private ICharacteristicAliasDbSetManager _characteristicAliasDbSetManager;
         private IHierarchyObjectAliasDbSetManager _hierarchyObjectAliasDbSetManager;
@@ -119,11 +119,11 @@ namespace OpenDataStorage.Common.DbContext
 
         public DbSet<HierarchyObjectAlias> HierarchyObjectAliases { get; set; }
 
-        INestedSetsObjectContext<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbSetManager;
+        INestedSetsDbSetManager<HierarchyObject> IApplicationDbContext.HierarchyObjectContext => this._objectDbSetManager;
 
-        INestedSetsFSContext<Characteristic> IApplicationDbContext.CharacteristicContext => this._characteristicDbSetManager;
+        INestedSetsDbSetManager<Characteristic> IApplicationDbContext.CharacteristicContext => this._characteristicDbSetManager;
 
-        INestedSetsFSContext<ObjectType> IApplicationDbContext.ObjectTypeContext => this._objectTypeDbSetManager;
+        INestedSetsDbSetManager<ObjectType> IApplicationDbContext.ObjectTypeContext => this._objectTypeDbSetManager;
 
         ICharacteristicValueDbSetManager IApplicationDbContext.CharacteristicValueDbSetManager => this._characteristicValueDbSetManager;
 
