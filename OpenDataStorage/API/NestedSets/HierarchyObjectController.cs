@@ -52,7 +52,9 @@ namespace OpenDataStorage.API.NestedSets
         [AllowAnonymous]
         public async Task<HttpResponseMessage> GetSubTree([FromUri]HierarchyObjectViewModel vm)
         {
-            return await GetSubTreeInternal(vm.Id);
+            return await GetSubTreeInternal(vm.Id, 
+                e => e.ObjectType, 
+                e => e.HierarchyObjectAliases);
         }
 
         [Route("Get/{hierarchyObjectId}")]
@@ -60,7 +62,9 @@ namespace OpenDataStorage.API.NestedSets
         [AllowAnonymous]
         public async Task<HttpResponseMessage> Get([FromUri]Guid hierarchyObjectId)
         {
-            return await GetInternal<HierarchyObjectViewModel>(hierarchyObjectId);
+            return await GetInternal<HierarchyObjectViewModel>(hierarchyObjectId,
+                e => e.ObjectType,
+                e => e.HierarchyObjectAliases);
         }
 
         [Route("Create/{parentId}")]

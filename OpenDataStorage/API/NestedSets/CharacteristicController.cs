@@ -52,7 +52,8 @@ namespace OpenDataStorage.API.NestedSets
         [AllowAnonymous]
         public async Task<HttpResponseMessage> GetSubTree([FromUri]CharacteristicViewModel vm)
         {
-            return await GetSubTreeInternal(vm.Id);
+            return await GetSubTreeInternal(vm.Id,
+                e => e.CharacteristicAliases);
         }
 
         [Route("Get/{id}")]
@@ -60,7 +61,8 @@ namespace OpenDataStorage.API.NestedSets
         [AllowAnonymous]
         public async Task<HttpResponseMessage> Get([FromUri]Guid id)
         {
-            return await GetInternal<CharacteristicViewModel>(id);
+            return await GetInternal<CharacteristicViewModel>(id,
+                e => e.CharacteristicAliases);
         }
 
         [Route("Create/{parentFolderId}")]
