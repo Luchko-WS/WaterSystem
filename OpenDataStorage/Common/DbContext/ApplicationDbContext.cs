@@ -1,9 +1,10 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
-using OpenDataStorage.Common.DbContext.DbSetManagers;
-using OpenDataStorage.Common.DbContext.DbSetManagers.Aliases;
-using OpenDataStorage.Common.DbContext.NestedSets;
+using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
+using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.CharacteristicValues;
+using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers;
+using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core;
 using OpenDataStorageCore.Entities;
 using OpenDataStorageCore.Entities.Aliases;
 using OpenDataStorageCore.Entities.CharacteristicValues;
@@ -17,8 +18,8 @@ namespace OpenDataStorage.Common.DbContext
         private INestedSetsDbSetManager<Characteristic> _characteristicDbSetManager;
         private INestedSetsDbSetManager<ObjectType> _objectTypeDbSetManager;
         private ICharacteristicValueDbSetManager _characteristicValueDbSetManager;
-        private ICharacteristicAliasDbSetManager _characteristicAliasDbSetManager;
-        private IHierarchyObjectAliasDbSetManager _hierarchyObjectAliasDbSetManager;
+        private IAliasDbSetManager<CharacteristicAlias> _characteristicAliasDbSetManager;
+        private IAliasDbSetManager<HierarchyObjectAlias> _hierarchyObjectAliasDbSetManager;
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -26,7 +27,7 @@ namespace OpenDataStorage.Common.DbContext
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>());
             Configuration.ProxyCreationEnabled = false;
 
-            _objectDbSetManager = new HierarchyObjectDbContextManager(HierarchyObjects, this);
+            _objectDbSetManager = new HierarchyObjectDbSetManager(HierarchyObjects, this);
             _characteristicDbSetManager = new CharacteristicDbSetManager(Characteristics, this);
             _objectTypeDbSetManager = new ObjectTypeDbSetManager(ObjectTypes, this);
             _characteristicValueDbSetManager = new CharacteristicValueDbSetManager<BaseCharacteristicValue>(CharacteristicValues, this);
@@ -127,9 +128,9 @@ namespace OpenDataStorage.Common.DbContext
 
         ICharacteristicValueDbSetManager IApplicationDbContext.CharacteristicValueDbSetManager => this._characteristicValueDbSetManager;
 
-        ICharacteristicAliasDbSetManager IApplicationDbContext.CharacteristicAliasDbSetManager => this._characteristicAliasDbSetManager;
+        IAliasDbSetManager<CharacteristicAlias> IApplicationDbContext.CharacteristicAliasDbSetManager => this._characteristicAliasDbSetManager;
 
-        IHierarchyObjectAliasDbSetManager IApplicationDbContext.HierarchyObjectAliasDbSetManager => this._hierarchyObjectAliasDbSetManager;
+        IAliasDbSetManager<HierarchyObjectAlias> IApplicationDbContext.HierarchyObjectAliasDbSetManager => this._hierarchyObjectAliasDbSetManager;
     }
 }
  

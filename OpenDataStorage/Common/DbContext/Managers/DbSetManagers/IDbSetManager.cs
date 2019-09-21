@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext.DbSetManagers
+namespace OpenDataStorage.Common.DbContext.Managers.DbSetManagers
 {
     public interface IDbSetManager<T> where T : BaseEntity
     {

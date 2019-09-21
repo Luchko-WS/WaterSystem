@@ -3,14 +3,14 @@ using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext.NestedSets
+namespace OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core
 {
-    public abstract class ExtendedFSNestedSetsDbSetManaget<T> : BaseFSNestedSetsDbSetManager<T> where T : NestedSetsFSEntity
+    public abstract class ExtendedFSNestedSetsDbSetManaget<T> : FSNestedSetsDbSetManager<T> where T : NestedSetsFSEntity
     {
-        public ExtendedFSNestedSetsDbSetManaget(DbSet<T> entities, IDbContainer dbContainer) 
-            : base(entities, dbContainer) { }
+        public ExtendedFSNestedSetsDbSetManaget(DbSet<T> entities, IDbContainer dbContainer, string tableName) 
+            : base(entities, dbContainer, tableName) { }
 
-        public override async Task<Guid> Add(T entity, Guid parentId)
+        public override async Task<Guid> Create(T entity, Guid parentId)
         {
             var parentNode = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
             if (parentNode == null)
@@ -21,7 +21,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             {
                 throw new ArgumentException(string.Format("Cannot create child folder in entity {0} in {1} table.", parentId, TableName));
             }
-            return await AddInternal(entity, parentNode);
+            return await ExecuteCreate(entity, parentNode);
         }
 
         public override async Task Move(Guid id, Guid parentId)
@@ -40,7 +40,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             {
                 throw new ArgumentException(string.Format("Cannot create child folder in entity {0} in {1} table.", parentId, TableName));
             }
-            await MoveInternal(entity, parentNode);
+            await ExecuteMove(entity, parentNode);
         }
     }
 }

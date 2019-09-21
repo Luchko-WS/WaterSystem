@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace OpenDataStorage.Common.DbContext.DbSetManagers
+namespace OpenDataStorage.Common.DbContext.Managers.DbSetManagers.CharacteristicValues
 {
     public interface ICharacteristicValueDbSetManager : IDbSetManager<BaseCharacteristicValue>
     {

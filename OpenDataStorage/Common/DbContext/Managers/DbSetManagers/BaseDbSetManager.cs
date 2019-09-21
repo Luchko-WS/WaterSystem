@@ -5,18 +5,21 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext.DbSetManagers
+namespace OpenDataStorage.Common.DbContext.Managers.DbSetManagers
 {
     public abstract class BaseDbSetManager<T> : IDbSetManager<T> where T : BaseEntity
     {
         protected readonly DbSet<T> _dbSet;
         protected readonly IApplicationDbContextBase _dbContext;
+        protected readonly string _tableName;
 
-        public string TableName { get; protected set; }
+        public string TableName => this._tableName;
 
-        public BaseDbSetManager(DbSet<T> dbSet, IApplicationDbContextBase dbContext)
+        public BaseDbSetManager(DbSet<T> dbSet, IApplicationDbContextBase dbContext, string tableName)
         {
             _dbSet = dbSet;
+            _dbContext = dbContext;
+            _tableName = tableName;
         }
 
         public virtual IQueryable<T> GetAllQuery(bool includeAll = true)
@@ -42,7 +45,7 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
             var dbEntity = await _dbSet.FirstOrDefaultAsync(e => e.Id == entity.Id);
             if (dbEntity == null)
             {
-                throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", entity.Id, TableName));
+                throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", entity.Id, _tableName));
             }
             Mapper.MapProperties(entity, dbEntity, (prop) =>
             {
@@ -59,7 +62,7 @@ namespace OpenDataStorage.Common.DbContext.DbSetManagers
             var entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
             if (entity == null)
             {
-                throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", id, TableName));
+                throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", id, _tableName));
             }
             _dbSet.Remove(entity);
             await SaveChanges();

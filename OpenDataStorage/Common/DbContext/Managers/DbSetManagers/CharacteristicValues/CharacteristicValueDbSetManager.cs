@@ -4,16 +4,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext.DbSetManagers
+namespace OpenDataStorage.Common.DbContext.Managers.DbSetManagers.CharacteristicValues
 {
     public class CharacteristicValueDbSetManager<T> : BaseDbSetManager<BaseCharacteristicValue>, ICharacteristicValueDbSetManager where T : BaseCharacteristicValue
     {
         protected readonly Func<Task> _saveChangesFunction;
         public CharacteristicValueDbSetManager(DbSet<BaseCharacteristicValue> entities, IApplicationDbContextBase dbContext)
-            : base(entities, dbContext)
-        {
-            TableName = "CharacteristicValues";
-        }
+            : base(entities, dbContext, "CharacteristicValues") { }
 
         public IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId, bool includeAll = true)
         {

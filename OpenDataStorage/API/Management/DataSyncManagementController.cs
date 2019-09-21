@@ -177,7 +177,7 @@ namespace OpenDataStorage.API.Management
                     OwnerId = User.Identity.Name,
                     ObjectTypeId = null
                 };
-                return await _dbContext.HierarchyObjectContext.Add(entity, rootObject.Id);
+                return await _dbContext.HierarchyObjectContext.Create(entity, rootObject.Id);
             }
             else
             {
@@ -213,7 +213,7 @@ namespace OpenDataStorage.API.Management
                         EntityType = EntityType.File,
                         CharacteristicType = CharacteristicType.Number
                     };
-                    characteristicMap[characteristicName] = await _dbContext.CharacteristicContext.Add(entity, rootCharacteristic.Id);
+                    characteristicMap[characteristicName] = await _dbContext.CharacteristicContext.Create(entity, rootCharacteristic.Id);
                 }
                 else
                 {

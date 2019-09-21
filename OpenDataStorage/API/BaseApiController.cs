@@ -14,7 +14,7 @@ using System.Web.Http;
 namespace OpenDataStorage.API
 {
     [WebApiAuthorize]
-    public class BaseApiController : ApiController
+    public abstract class BaseApiController : ApiController
     {
         private string _language;
         private ResourceSet _lexicon;

@@ -3,14 +3,14 @@ using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext.NestedSets
+namespace OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core
 {
-    public abstract class BaseFSNestedSetsDbSetManager<T> : BaseNestedSetsDbSetManager<T> where T : NestedSetsFSEntity
+    public abstract class FSNestedSetsDbSetManager<T> : NestedSetsDbSetManager<T> where T : NestedSetsFSEntity
     {
-        public BaseFSNestedSetsDbSetManager(DbSet<T> dbSet, IDbContainer dbContainer)
-            : base(dbSet, dbContainer) { }
+        public FSNestedSetsDbSetManager(DbSet<T> dbSet, IDbContainer dbContainer, string tableName)
+            : base(dbSet, dbContainer, tableName) { }
 
-        public override async Task<Guid> Add(T entity, Guid parentId)
+        public override async Task<Guid> Create(T entity, Guid parentId)
         {
             var parentNode = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
             if (parentNode == null)
@@ -21,7 +21,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             {
                 throw new ArgumentException(string.Format("Node with id = {0} is not a folder in {1} table.", parentId, TableName));
             }
-            return await AddInternal(entity, parentNode);
+            return await ExecuteCreate(entity, parentNode);
         }
 
         public override async Task Move(Guid id, Guid parentId)
@@ -40,7 +40,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             {
                 throw new ArgumentException(string.Format("Node with id = {0} is not a folder in {1} table.", parentId, TableName));
             }
-            await MoveInternal(entity, parentNode);
+            await ExecuteMove(entity, parentNode);
         }
     }
 }

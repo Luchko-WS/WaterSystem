@@ -1,6 +1,6 @@
 ﻿using OpenDataStorage.Common;
 using OpenDataStorage.Common.Attributes;
-using OpenDataStorage.Common.DbContext.NestedSets;
+using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.ViewModels.HierarchyObjectViewModels;
 using OpenDataStorageCore.Entities.NestedSets;

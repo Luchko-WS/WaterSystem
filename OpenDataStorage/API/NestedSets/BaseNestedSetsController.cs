@@ -1,5 +1,5 @@
 ﻿using OpenDataStorage.Common;
-using OpenDataStorage.Common.DbContext.NestedSets;
+using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core;
 using OpenDataStorage.ViewModels.CharacteristicViewModel;
 using OpenDataStorageCore.Entities.NestedSets;
 using System;
@@ -53,7 +53,7 @@ namespace OpenDataStorage.API.NestedSets
         {
             try
             {
-                await _DbSetManager.Add(entity, parentId);
+                await _DbSetManager.Create(entity, parentId);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace OpenDataStorage.API.NestedSets
                 var entity = await _DbSetManager.Entities.FirstOrDefaultAsync(e => e.Id == id);
                 var parent = await _DbSetManager.GetParentNode(id);
 
-                await _DbSetManager.Remove(entity);
+                await _DbSetManager.Delete(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, parent);
             }
             catch (Exception ex)

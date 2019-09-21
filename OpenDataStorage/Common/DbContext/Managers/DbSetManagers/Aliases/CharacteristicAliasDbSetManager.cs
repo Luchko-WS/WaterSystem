@@ -4,16 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using OpenDataStorageCore.Entities.Aliases;
 
-namespace OpenDataStorage.Common.DbContext.DbSetManagers.Aliases
+namespace OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases
 {
-    public class CharacteristicAliasDbSetManager : BaseDbSetManager<CharacteristicAlias>, ICharacteristicAliasDbSetManager
+    public class CharacteristicAliasDbSetManager : BaseDbSetManager<CharacteristicAlias>, IAliasDbSetManager<CharacteristicAlias>
     {
         protected readonly Func<Task> _saveChangesFunction;
         public CharacteristicAliasDbSetManager(DbSet<CharacteristicAlias> entities, IApplicationDbContextBase dbContext)
-            : base(entities, dbContext)
-        {
-            TableName = "CharacteristicAliases";
-        }
+            : base(entities, dbContext, "CharacteristicAliases") { }
 
         protected override IQueryable<CharacteristicAlias> IncludeDependencies(IQueryable<CharacteristicAlias> query)
         {

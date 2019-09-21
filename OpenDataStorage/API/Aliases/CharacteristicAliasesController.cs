@@ -1,5 +1,5 @@
 ﻿using OpenDataStorage.Common.Attributes;
-using OpenDataStorage.Common.DbContext.DbSetManagers.Aliases;
+using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
 using OpenDataStorage.Helpers;
 using OpenDataStorageCore.Entities.Aliases;
 using System;

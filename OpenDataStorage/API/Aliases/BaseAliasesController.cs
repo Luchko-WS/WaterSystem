@@ -1,4 +1,4 @@
-﻿using OpenDataStorage.Common.DbContext.DbSetManagers.Aliases;
+﻿using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
 using OpenDataStorageCore.Entities.Aliases;
 using System;
 using System.Data.Entity;

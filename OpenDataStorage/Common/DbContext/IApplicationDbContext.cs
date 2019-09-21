@@ -1,6 +1,7 @@
-﻿using OpenDataStorage.Common.DbContext.DbSetManagers;
-using OpenDataStorage.Common.DbContext.DbSetManagers.Aliases;
-using OpenDataStorage.Common.DbContext.NestedSets;
+﻿using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
+using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.CharacteristicValues;
+using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core;
+using OpenDataStorageCore.Entities.Aliases;
 using OpenDataStorageCore.Entities.NestedSets;
 using System.Data.Entity;
 using System.Threading.Tasks;
@@ -17,9 +18,9 @@ namespace OpenDataStorage.Common.DbContext
 
         ICharacteristicValueDbSetManager CharacteristicValueDbSetManager { get; }
 
-        ICharacteristicAliasDbSetManager CharacteristicAliasDbSetManager { get; }
+        IAliasDbSetManager<CharacteristicAlias> CharacteristicAliasDbSetManager { get; }
 
-        IHierarchyObjectAliasDbSetManager HierarchyObjectAliasDbSetManager { get; }
+        IAliasDbSetManager<HierarchyObjectAlias> HierarchyObjectAliasDbSetManager { get; }
 
         Task ReloadEntityFromDb(object entity);
 

@@ -3,39 +3,24 @@ using OpenDataStorageCore.Entities;
 using OpenDataStorageCore.Entities.NestedSets;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext.NestedSets
+namespace OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core
 {
-    public abstract class BaseNestedSetsDbSetManager<T> : INestedSetsDbSetManager<T> where T : NestedSetsEntity
+    public abstract class BaseSqlNestedSetsDbManager<T> where T : NestedSetsEntity
     {
-        protected DbSet<T> _dbSet;
-        protected IDbContainer _dbContainer;
+        protected readonly IDbContainer _dbContainer;
+        protected readonly string _tableName;
 
-        public string TableName { get; protected set; }
-
-        public BaseNestedSetsDbSetManager(DbSet<T> dbSet, IDbContainer dbContainer)
+        public BaseSqlNestedSetsDbManager(IDbContainer dbContainer, string tableName)
         {
             _dbContainer = dbContainer;
-            _dbSet = dbSet;
+            _tableName = tableName;
         }
 
-        public IQueryable<T> Entities => this._dbSet;
-
-        public virtual async Task<Guid> Add(T entity, Guid parentId)
-        {
-            var parentNode = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
-            if (parentNode == null)
-            {
-                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
-            }
-            return await AddInternal(entity, parentNode);
-        }
-        protected async Task<Guid> AddInternal(T entity, NestedSetsEntity parentNode)
+        protected async Task<Guid> ExecuteCreate(T entity, NestedSetsEntity parentNode)
         {
             entity.LeftKey = parentNode.RightKey;
             entity.RightKey = parentNode.RightKey + 1;
@@ -59,7 +44,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             }
         }
 
-        public virtual async Task Update(T entity)
+        protected async Task ExecuteUpdate(T entity)
         {
             using (var transaction = _dbContainer.Database.BeginTransaction())
             {
@@ -76,25 +61,11 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             }
         }
 
-        public virtual async Task Move(Guid id, Guid parentId)
-        {
-            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
-            if (entity == null)
-            {
-                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
-            }
-            var parentEntity = await _dbSet.FirstOrDefaultAsync(f => f.Id == parentId);
-            if (parentEntity == null)
-            {
-                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", parentId, TableName));
-            }
-            await MoveInternal(entity, parentEntity);
-        }
-        protected async Task MoveInternal(T entity, NestedSetsEntity parentEntity)
+        protected async Task ExecuteMove(T entity, NestedSetsEntity parentEntity)
         {
             if (parentEntity.LeftKey > entity.LeftKey && parentEntity.RightKey < entity.RightKey)
             {
-                throw new ArgumentException(string.Format("Could move node {0} in child node {1} in {2} table.", entity.Id, parentEntity.Id, TableName));
+                throw new ArgumentException(string.Format("Could move node {0} in child node {1} in {2} table.", entity.Id, parentEntity.Id, _tableName));
             }
 
             using (var transaction = _dbContainer.Database.BeginTransaction())
@@ -112,7 +83,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             }
         }
 
-        public virtual async Task Remove(T entity)
+        protected async Task ExecuteDelete(T entity)
         {
             bool isRootObject = entity.Level == 0;
             //the root object does not contain any child object
@@ -134,92 +105,12 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             }
         }
 
-        #region Nested Sets Relation
-        public virtual async Task<T> GetNode(Guid id, params Expression<Func<T, object>>[] includedPath)
-        {
-            var node = await AggregateQuery(GetNodeQuery(id), includedPath).FirstOrDefaultAsync();
-            if (node == null)
-            {
-                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
-            }
-            return node;
-        }
-        private IQueryable<T> GetNodeQuery(Guid id)
-        {
-            return _dbSet.Where(e => e.Id == id);
-        }
-
-        public virtual async Task<ICollection<T>> GetTree(params Expression<Func<T, object>>[] includedPath)
-        {
-            return await AggregateQuery(GetTreeQuery(), includedPath).ToListAsync();
-        }
-        private IQueryable<T> GetTreeQuery()
-        {
-            return _dbSet.OrderBy(n => n.LeftKey);
-        }
-
-        public virtual async Task<ICollection<T>> GetChildNodes(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
-        {
-            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
-            if (entity == null)
-            {
-                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
-            }
-            return await AggregateQuery(GetChildNodesQuery(entity, includeItself), includedPath).ToListAsync();
-        }
-        private IQueryable<T> GetChildNodesQuery(T entity, bool includeItself)
-        {
-            return _dbSet
-               .Where(e => e.LeftKey >= entity.LeftKey && e.RightKey <= entity.RightKey
-                || (includeItself && e.Id == entity.Id))
-               .OrderBy(n => n.LeftKey);
-        }
-
-        public virtual async Task<T> GetParentNode(Guid id, params Expression<Func<T, object>>[] includedPath)
-        {
-            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
-            if (entity == null)
-            {
-                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
-            }
-            return await AggregateQuery(GetParentNodeQuery(entity), includedPath).FirstOrDefaultAsync();
-        }
-        private IQueryable<T> GetParentNodeQuery(T entity)
-        {
-            return _dbSet.Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
-        }
-
-        public virtual async Task<ICollection<T>> GetParentNodes(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
-        {
-            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
-            if (entity == null)
-            {
-                throw new ArgumentException(string.Format("Node with id = {0} not found in {1} table.", id, TableName));
-            }
-            return await AggregateQuery(GetRootNodesQuery(entity, includeItself), includedPath).ToListAsync();
-        }
-        private IQueryable<T> GetRootNodesQuery(T entity, bool includeItself)
-        {
-            return _dbSet
-                .Where(e =>
-                    (e.LeftKey < entity.LeftKey && e.RightKey > entity.RightKey && e.Level < entity.Level)
-                    || (includeItself && e.Id == entity.Id))
-                .OrderBy(e => e.LeftKey);
-        }
-
-        private IQueryable<T> AggregateQuery(IQueryable<T> query, Expression<Func<T, object>>[] includedPath)
-        {
-            return includedPath.Aggregate(query, (current, p) => current.Include(p));
-        }
-
-        #endregion
-
-        #region Protected methods
+        #region SQL methods
 
         private async Task ExecutePreInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = instance.RightKey };
-            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
+            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + _tableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
         }
 
         private async Task<Guid> ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
@@ -243,7 +134,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             }
 
             var commandText = string.Format(@"INSERT INTO {0} ({1}) VALUES ({2})",
-                TableName, string.Join(",", columns), string.Join(",", parameters));
+                _tableName, string.Join(",", columns), string.Join(",", parameters));
             await _dbContainer.Database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
             return instance.Id;
         }
@@ -261,7 +152,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             var expressions = sqlParameters.Select(p => p.ParameterName + "= @" + p.ParameterName).ToList();
 
             var commandText = string.Format(@"UPDATE {0} SET {1} WHERE Id='{2}'",
-                TableName, string.Join(",", expressions), instance.Id.ToString());
+                _tableName, string.Join(",", expressions), instance.Id.ToString());
             await _dbContainer.Database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
         }
 
@@ -276,7 +167,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             var parentLevelParam = new SqlParameter { ParameterName = "ParentLevel", Value = parent.Level };
 
             await _dbContainer.Database
-                .ExecuteSqlCommandAsync("exec dbo." + TableName + "MoveNestedSetsNode @NodeLeftKey, @NodeRightKey, @NodeLevel, @ParentLeftKey, @ParentRightKey, @ParentLevel", 
+                .ExecuteSqlCommandAsync("exec dbo." + _tableName + "MoveNestedSetsNode @NodeLeftKey, @NodeRightKey, @NodeLevel, @ParentLeftKey, @ParentRightKey, @ParentLevel", 
                     nodeLeftKeyParam, nodeRightKeyParam, nodeLevelParam, parentLeftKeyParam, parentRightKeyParam, parentLevelParam);
         }
 
@@ -285,7 +176,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
             var op = isRootObject
                 ? @"DELETE FROM {0} WHERE LeftKey > {1} AND RightKey < {2}"
                 : @"DELETE FROM {0} WHERE LeftKey >= {1} AND RightKey <= {2}";
-            var commandText = string.Format(op, TableName, instance.LeftKey, instance.RightKey);
+            var commandText = string.Format(op, _tableName, instance.LeftKey, instance.RightKey);
             await _dbContainer.Database.ExecuteSqlCommandAsync(commandText);
         }
 
@@ -296,7 +187,7 @@ namespace OpenDataStorage.Common.DbContext.NestedSets
 
             var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = lefrKey };
             var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = rightKey };
-            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + TableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
+            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + _tableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
         }
 
         #endregion
