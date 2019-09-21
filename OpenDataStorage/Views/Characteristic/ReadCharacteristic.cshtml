@@ -36,10 +36,10 @@
                         <input class="form-control" value="{{vm.model.node.characteristicType | characteristicTypeToString | translate}}" disabled />
                     </div>
                 </div>
-                <div class="form-group" ng-if="vm.obj.aliasesList">
+                <div class="form-group" ng-if="vm.model.node.aliasesList">
                     <label class="control-label col-md-3">@Lexicon.Aliases</label>
                     <div class="col-md-9">
-                        <span ng-bind="vm.obj.aliasesList"></span>
+                        <span ng-bind="vm.model.node.aliasesList"></span>
                     </div>
                 </div>
             </div>

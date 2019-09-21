@@ -23,7 +23,7 @@ namespace OpenDataStorage.API.NestedSets
         [Route("GetTree")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ICollection<Characteristic>> GetTree([FromUri]CharacteristicFilterViewModel vm)
+        public async Task<ICollection<CharacteristicViewModel>> GetTree([FromUri]CharacteristicFilterViewModel vm)
         {
             if (vm != null && !string.IsNullOrEmpty(vm.Name))
             {
@@ -38,13 +38,15 @@ namespace OpenDataStorage.API.NestedSets
                 {
                     if (!results.Any(e => e.Id == id))
                     {
-                        var branch = await _dbContext.CharacteristicContext.GetParentNodes(id, includeItself: true);
+                        var branch = await _dbContext.CharacteristicContext.GetParentNodes(id, true, e => e.CharacteristicAliases);
                         results = results.Union(branch).ToList();
                     }
                 }
-                return results.OrderBy(e => e.LeftKey).ToList();
+                return results.OrderBy(e => e.LeftKey).Select(e => Mapper.CreateInstanceAndMapProperties<CharacteristicViewModel>(e)).ToList();
             }
-            return await _dbContext.CharacteristicContext.GetTree();
+
+            var res = await _dbContext.CharacteristicContext.GetTree(e => e.CharacteristicAliases);
+            return res.Select(e => Mapper.CreateInstanceAndMapProperties<CharacteristicViewModel>(e)).ToList();
         }
 
         [Route("GetSubTree")]

@@ -35,7 +35,7 @@
                 <div class="form-group" ng-if="vm.model.mode == 'edit'">
                     <label class="control-label col-md-3">@Lexicon.Aliases</label>
                     <div class="col-md-9">
-                        <span ng-bind="vm.obj.aliasesList"></span>
+                        <span ng-bind="vm.model.node.aliasesList"></span>
                         <a class="btn btn-sm btn-default" title="@Lexicon.EditAliases" ng-href="/Alias/CharacteristicAliases/{{vm.model.node.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
                     </div>
                 </div>
