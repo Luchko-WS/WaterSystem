@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{85B2DEAC-4129-48C2-8809-AFCAD1DB67F8}</ProjectGuid>
+    <ProjectGuid>{95D094CB-6D02-45AE-B4C4-00B5CAB14A81}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SyncOpenDateServices</RootNamespace>
-    <AssemblyName>SyncOpenDateServices</AssemblyName>
+    <RootNamespace>OpenDataStorage.Common</RootNamespace>
+    <AssemblyName>OpenDataStorage.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,15 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,22 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SacmigFormat\SacmigFileData.cs" />
-    <Compile Include="SacmigFormat\SacmigFileParser.cs" />
-    <Compile Include="IStreamParser.cs" />
-    <Compile Include="TextyOrgUaWater\TextyOrgUaWaterRow.cs" />
-    <Compile Include="TextyOrgUaWater\TextyOrgUaWaterService.cs" />
-    <Compile Include="TextyOrgUaWater\TextyOrgUaWaterServiceParser.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenDataStorage.Core\OpenDataStorage.Core\OpenDataStorage.Core.csproj">
-      <Project>{0A729AF8-691B-4761-9CF4-D135E9F635D4}</Project>
-      <Name>OpenDataStorage.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

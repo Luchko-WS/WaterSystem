@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using OpenDataStorage.Common.DbContext;
+using OpenDataStorage.Common;
 using OpenDataStorageCore.Entities;
 
 namespace OpenDataStorage

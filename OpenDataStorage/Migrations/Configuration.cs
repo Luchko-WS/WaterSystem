@@ -2,7 +2,8 @@ namespace OpenDataStorage.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using OpenDataStorage.Common.DbContext;
+    using OpenDataStorage.Common;
+    using OpenDataStorage.Core.DataAccessLayer.DbContext;
     using OpenDataStorage.Helpers;
     using OpenDataStorageCore.Constants;
     using OpenDataStorageCore.Entities;
@@ -146,8 +147,8 @@ namespace OpenDataStorage.Migrations
 
         private void AddConstraintsToHierarchyObjectsTable(ApplicationDbContext context)
         {
-            var hierarchyObjectsTableName = ((IApplicationDbContext)context).HierarchyObjectContext.TableName;
-            var typesTableName = ((IApplicationDbContext)context).ObjectTypeContext.TableName;
+            var hierarchyObjectsTableName = ((IOpenDataStorageDbContext)context).HierarchyObjectContext.TableName;
+            var typesTableName = ((IOpenDataStorageDbContext)context).ObjectTypeContext.TableName;
 
             var primaryKey = ReflectionHelper.GetPropName((ObjectType t) => t.Id);
             var foreignKey = ReflectionHelper.GetPropName((HierarchyObject o) => o.ObjectTypeId);
@@ -159,7 +160,7 @@ namespace OpenDataStorage.Migrations
 
         private void PrepateStoredProceduresForHierarchyObjects(ApplicationDbContext context)
         {
-            string tableName = ((IApplicationDbContext)context).HierarchyObjectContext.TableName;
+            string tableName = ((IOpenDataStorageDbContext)context).HierarchyObjectContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
             CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
             CreateStoredProcedureMoveNestedSetsNode(context, tableName);
@@ -167,7 +168,7 @@ namespace OpenDataStorage.Migrations
 
         private void PrepateStoredProceduresForCharacteristics(ApplicationDbContext context)
         {
-            string tableName = ((IApplicationDbContext)context).CharacteristicContext.TableName;
+            string tableName = ((IOpenDataStorageDbContext)context).CharacteristicContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
             CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
             CreateStoredProcedureMoveNestedSetsNode(context, tableName);
@@ -175,7 +176,7 @@ namespace OpenDataStorage.Migrations
 
         private void PrepateStoredProceduresForObjectsTypes(ApplicationDbContext context)
         {
-            string tableName = ((IApplicationDbContext)context).ObjectTypeContext.TableName;
+            string tableName = ((IOpenDataStorageDbContext)context).ObjectTypeContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
             CreateStoredProcedurePostRemoveNestedSetsNode(context, tableName);
             CreateStoredProcedureMoveNestedSetsNode(context, tableName);

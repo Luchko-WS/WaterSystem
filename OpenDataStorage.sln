@@ -5,13 +5,21 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDataStorage", "OpenDataStorage\OpenDataStorage.csproj", "{48DA2A1E-EB91-4203-9565-39596FDC66E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDataStorageCore", "OpenDataStorageCore\OpenDataStorageCore.csproj", "{0A729AF8-691B-4761-9CF4-D135E9F635D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDataStorage.Core", "OpenDataStorage.Core\OpenDataStorage.Core\OpenDataStorage.Core.csproj", "{0A729AF8-691B-4761-9CF4-D135E9F635D4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0AF187E1-B6E5-4D6A-840A-84E92E9FB928}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesSyncTests", "Tests\ServicesSyncTests\ServicesSyncTests.csproj", "{964D81F1-473C-419F-8614-44ADE455992B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncOpenDateServices", "SyncOpenDateServices\SyncOpenDateServices.csproj", "{85B2DEAC-4129-48C2-8809-AFCAD1DB67F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDataStorage.Core.DataAccessLayer", "OpenDataStorage.Core\OpenDataStorage.Core.DataAccessLayer\OpenDataStorage.Core.DataAccessLayer.csproj", "{A62C517A-6626-4A9F-B193-D8BE61F47116}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDataStorage.Common", "OpenDataStorage.Common\OpenDataStorage.Common\OpenDataStorage.Common.csproj", "{95D094CB-6D02-45AE-B4C4-00B5CAB14A81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenDataStorage.Core", "OpenDataStorage.Core", "{02BA354F-D7DA-4E46-868D-0B8F713D342B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenDataStorage.Common", "OpenDataStorage.Common", "{00640214-1F5E-435C-86D5-2F1E39762301}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +43,23 @@ Global
 		{85B2DEAC-4129-48C2-8809-AFCAD1DB67F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85B2DEAC-4129-48C2-8809-AFCAD1DB67F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85B2DEAC-4129-48C2-8809-AFCAD1DB67F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A62C517A-6626-4A9F-B193-D8BE61F47116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A62C517A-6626-4A9F-B193-D8BE61F47116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A62C517A-6626-4A9F-B193-D8BE61F47116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A62C517A-6626-4A9F-B193-D8BE61F47116}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95D094CB-6D02-45AE-B4C4-00B5CAB14A81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95D094CB-6D02-45AE-B4C4-00B5CAB14A81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95D094CB-6D02-45AE-B4C4-00B5CAB14A81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95D094CB-6D02-45AE-B4C4-00B5CAB14A81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{0A729AF8-691B-4761-9CF4-D135E9F635D4} = {02BA354F-D7DA-4E46-868D-0B8F713D342B}
 		{964D81F1-473C-419F-8614-44ADE455992B} = {0AF187E1-B6E5-4D6A-840A-84E92E9FB928}
+		{A62C517A-6626-4A9F-B193-D8BE61F47116} = {02BA354F-D7DA-4E46-868D-0B8F713D342B}
+		{95D094CB-6D02-45AE-B4C4-00B5CAB14A81} = {00640214-1F5E-435C-86D5-2F1E39762301}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A37C649-92EC-4B7C-AF5A-D50DDC88EF86}
