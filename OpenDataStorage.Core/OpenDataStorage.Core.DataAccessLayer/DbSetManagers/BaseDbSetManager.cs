@@ -46,11 +46,11 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers
             return IncludeAllDependencies(query);
         }
 
-        public abstract Task<Guid> Create(T entity);
+        public abstract Task<Guid> CreateAsync(T entity);
 
-        public abstract Task Update(T entity);
+        public abstract Task UpdateAsync(T entity);
 
-        public abstract Task Delete(Guid id);
+        public abstract Task DeleteAsync(Guid id);
 
         protected abstract IQueryable<T> IncludeAllDependencies(IQueryable<T> query);
 

@@ -19,17 +19,17 @@ namespace OpenDataStorage.Common
             _dbContext = dbContext;
         }
 
-        public override async Task<Guid> Create(T entity)
+        public override async Task<Guid> CreateAsync(T entity)
         {
             entity.Id = Guid.NewGuid();
 
             _dbSet.Add(entity);
-            await SaveChanges();
+            await SaveChangesAsync();
 
             return entity.Id;
         }
 
-        public override async Task Update(T entity)
+        public override async Task UpdateAsync(T entity)
         {
             var dbEntity = await _dbSet.FirstOrDefaultAsync(e => e.Id == entity.Id);
             if (dbEntity == null)
@@ -43,10 +43,10 @@ namespace OpenDataStorage.Common
                     || (value == null && !(value is Nullable)));
                 return !invalid;
             });
-            await SaveChanges();
+            await SaveChangesAsync();
         }
 
-        public override async Task Delete(Guid id)
+        public override async Task DeleteAsync(Guid id)
         {
             var entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
             if (entity == null)
@@ -54,10 +54,10 @@ namespace OpenDataStorage.Common
                 throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", id, _tableName));
             }
             _dbSet.Remove(entity);
-            await SaveChanges();
+            await SaveChangesAsync();
         }
 
-        protected async Task SaveChanges()
+        protected async Task SaveChangesAsync()
         {
             await _dbContext.SaveDbChangesAsync();
         }

@@ -40,7 +40,7 @@ namespace OpenDataStorage.API.Data
         {
             try
             {
-                await _dbContext.CharacteristicValueDbSetManager.Delete(id);
+                await _dbContext.CharacteristicValueDbSetManager.DeleteAsync(id);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace OpenDataStorage.API.Data
         {
             try
             {
-                await _dbContext.CharacteristicValueDbSetManager.Create(value);
+                await _dbContext.CharacteristicValueDbSetManager.CreateAsync(value);
                 return Request.CreateResponse(HttpStatusCode.OK, value);
             }
             catch (Exception ex)
@@ -66,7 +66,7 @@ namespace OpenDataStorage.API.Data
         {
             try
             {
-                await _dbContext.CharacteristicValueDbSetManager.Update(value);
+                await _dbContext.CharacteristicValueDbSetManager.UpdateAsync(value);
                 return Request.CreateResponse(HttpStatusCode.OK, value);
             }
             catch (Exception ex)

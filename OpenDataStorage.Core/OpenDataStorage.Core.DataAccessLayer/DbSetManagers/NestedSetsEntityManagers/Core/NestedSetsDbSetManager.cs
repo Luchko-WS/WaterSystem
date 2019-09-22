@@ -11,30 +11,30 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
         public NestedSetsDbSetManager(DbSet<T> dbSet, IDbContainer dbContainer, string tableName)
             : base(dbSet, dbContainer, tableName) { }
 
-        public override Task<Guid> Create(T entity)
+        public override Task<Guid> CreateAsync(T entity)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Use CreateAsync(T entity, Guid parentId) instead");
         }
 
-        public override async Task<Guid> Create(T entity, Guid parentId)
+        public override async Task<Guid> CreateAsync(T entity, Guid parentId)
         {
             var parentNode = await CheckAndGetEntityByIdAsync(parentId);
             return await ExecuteCreateAsync(entity, parentNode);
         }
 
-        public override async Task Update(T entity)
+        public override async Task UpdateAsync(T entity)
         {
             await ExecuteUpdateAsync(entity);
         }
 
-        public override async Task Move(Guid id, Guid parentId)
+        public override async Task MoveAsync(Guid id, Guid parentId)
         {
             var entity = await CheckAndGetEntityByIdAsync(id);
             var parentEntity = await CheckAndGetEntityByIdAsync(parentId);
             await ExecuteMoveAsync(entity, parentEntity);
         }
 
-        public override async Task Delete(Guid id)
+        public override async Task DeleteAsync(Guid id)
         {
             var entity = await CheckAndGetEntityByIdAsync(id);
             await ExecuteDeleteAsync(entity);

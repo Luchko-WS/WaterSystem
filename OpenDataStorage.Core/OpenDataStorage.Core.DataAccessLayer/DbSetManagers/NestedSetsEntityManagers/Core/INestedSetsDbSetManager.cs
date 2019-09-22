@@ -8,20 +8,20 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
 {
     public interface INestedSetsDbSetManager<T> : IDbSetManager<T> where T : NestedSetsEntity
     {
-        Task<Guid> Create(T entity, Guid parentId);
+        Task<Guid> CreateAsync(T entity, Guid parentId);
 
-        Task Move(Guid entityId, Guid parentId);
+        Task MoveAsync(Guid entityId, Guid parentId);
 
-        Task<ICollection<T>> GetChildren(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath);
+        Task<ICollection<T>> GetChildrenAsync(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath);
 
-        Task<ICollection<T>> GetChildrenWithAllDependencies(Guid id, bool includeItself = false);
+        Task<ICollection<T>> GetChildrenWithAllDependenciesAsync(Guid id, bool includeItself = false);
 
-        Task<T> GetParent(Guid id, params Expression<Func<T, object>>[] includedPath);
+        Task<T> GetParentAsync(Guid id, params Expression<Func<T, object>>[] includedPath);
 
-        Task<T> GetParentWithAllDependencies(Guid id);
+        Task<T> GetParentWithAllDependenciesAsync(Guid id);
 
-        Task<ICollection<T>> GetParents(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath);
+        Task<ICollection<T>> GetParentsAsync(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath);
 
-        Task<ICollection<T>> GetParentsWithAllDependencies(Guid id, bool includeItself = false);
+        Task<ICollection<T>> GetParentsWithAllDependenciesAsync(Guid id, bool includeItself = false);
     }
 }

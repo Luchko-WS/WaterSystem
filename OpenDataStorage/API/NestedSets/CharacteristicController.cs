@@ -38,7 +38,7 @@ namespace OpenDataStorage.API.NestedSets
                 {
                     if (!results.Any(e => e.Id == id))
                     {
-                        var branch = await _dbContext.CharacteristicContext.GetParentsWithAllDependencies(id, true);
+                        var branch = await _dbContext.CharacteristicContext.GetParentsWithAllDependenciesAsync(id, true);
                         results = results.Union(branch).ToList();
                     }
                 }

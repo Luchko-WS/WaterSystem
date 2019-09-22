@@ -32,13 +32,13 @@ namespace OpenDataStorage.API.Reports
             ICollection<ObjectType> types = null;
             if(vm != null && vm.TypeId.HasValue)
             {
-                types = await _dbContext.ObjectTypeContext.GetChildren(vm.TypeId.Value, true);
+                types = await _dbContext.ObjectTypeContext.GetChildrenAsync(vm.TypeId.Value, true);
             }
 
             ICollection<HierarchyObject> objects = null;
             if (vm != null && vm.ObjectId.HasValue)
             {
-                objects = await _dbContext.HierarchyObjectContext.GetChildren(vm.ObjectId.Value, true);
+                objects = await _dbContext.HierarchyObjectContext.GetChildrenAsync(vm.ObjectId.Value, true);
             }
             else
             {
@@ -53,7 +53,7 @@ namespace OpenDataStorage.API.Reports
             ICollection<Characteristic> characteristics = null;
             if(vm != null && vm.CharacterisitcId.HasValue)
             {
-                characteristics = await _dbContext.CharacteristicContext.GetChildren(vm.CharacterisitcId.Value, true);
+                characteristics = await _dbContext.CharacteristicContext.GetChildrenAsync(vm.CharacterisitcId.Value, true);
             }
 
             ICollection<BaseCharacteristicValue> values = await _dbContext.CharacteristicValueDbSetManager.GetAllQueryWithAllDependencies().ToListAsync();

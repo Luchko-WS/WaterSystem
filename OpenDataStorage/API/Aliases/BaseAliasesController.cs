@@ -25,7 +25,7 @@ namespace OpenDataStorage.API.Aliases
 
             try
             {
-                await _DbSetManager.Create(entity);
+                await _DbSetManager.CreateAsync(entity);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace OpenDataStorage.API.Aliases
 
             try
             {
-                await _DbSetManager.Update(entity);
+                await _DbSetManager.UpdateAsync(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace OpenDataStorage.API.Aliases
         {
             try
             {
-                await _DbSetManager.Delete(id);
+                await _DbSetManager.DeleteAsync(id);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)

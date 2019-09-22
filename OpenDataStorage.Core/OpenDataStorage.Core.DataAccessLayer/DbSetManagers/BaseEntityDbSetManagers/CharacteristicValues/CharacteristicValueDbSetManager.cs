@@ -34,16 +34,16 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetMana
             return base.GetAllQuery(includedPath).Where(e => e.HierarchyObjectId == objectId);
         }
 
-        public override Task<Guid> Create(BaseCharacteristicValue entity)
+        public override Task<Guid> CreateAsync(BaseCharacteristicValue entity)
         {
             ValidateDateInterval(entity);
-            return base.Create(entity);
+            return base.CreateAsync(entity);
         }
 
-        public override Task Update(BaseCharacteristicValue entity)
+        public override Task UpdateAsync(BaseCharacteristicValue entity)
         {
             ValidateDateInterval(entity);
-            return base.Update(entity);
+            return base.UpdateAsync(entity);
         }
 
         protected override IQueryable<BaseCharacteristicValue> IncludeAllDependencies(IQueryable<BaseCharacteristicValue> query)

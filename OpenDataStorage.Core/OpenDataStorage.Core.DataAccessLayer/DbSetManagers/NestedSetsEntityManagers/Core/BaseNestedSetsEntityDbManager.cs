@@ -23,17 +23,17 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
             _dbContainer = dbContainer;
         }
 
-        public abstract Task<Guid> Create(T entity, Guid parentId);
+        public abstract Task<Guid> CreateAsync(T entity, Guid parentId);
 
-        public abstract Task Move(Guid entityId, Guid parentId);
+        public abstract Task MoveAsync(Guid entityId, Guid parentId);
 
-        public virtual async Task<ICollection<T>> GetChildren(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
+        public virtual async Task<ICollection<T>> GetChildrenAsync(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
         {
             var entity = await CheckAndGetEntityByIdAsync(id);
             return await AggregateQuery(GetChildrenQuery(entity, includeItself), includedPath).ToListAsync();
         }
 
-        public virtual async Task<ICollection<T>> GetChildrenWithAllDependencies(Guid id, bool includeItself = false)
+        public virtual async Task<ICollection<T>> GetChildrenWithAllDependenciesAsync(Guid id, bool includeItself = false)
         {
             var entity = await CheckAndGetEntityByIdAsync(id);
             return await IncludeAllDependencies(GetChildrenQuery(entity, includeItself)).ToListAsync();
@@ -47,13 +47,13 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
                .OrderBy(n => n.LeftKey);
         }
 
-        public virtual async Task<T> GetParent(Guid id, params Expression<Func<T, object>>[] includedPath)
+        public virtual async Task<T> GetParentAsync(Guid id, params Expression<Func<T, object>>[] includedPath)
         {
             var entity = await CheckAndGetEntityByIdAsync(id);
             return await AggregateQuery(GetParentQuery(entity), includedPath).FirstOrDefaultAsync();
         }
 
-        public virtual async Task<T> GetParentWithAllDependencies(Guid id)
+        public virtual async Task<T> GetParentWithAllDependenciesAsync(Guid id)
     {
             var entity = await CheckAndGetEntityByIdAsync(id);
             return await IncludeAllDependencies(GetParentQuery(entity)).FirstOrDefaultAsync();
@@ -65,13 +65,13 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
                 .Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
         }
 
-        public virtual async Task<ICollection<T>> GetParents(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
+        public virtual async Task<ICollection<T>> GetParentsAsync(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
         {
             var entity = await CheckAndGetEntityByIdAsync(id);
             return await AggregateQuery(GetRootNodesQuery(entity, includeItself), includedPath).ToListAsync();
         }
 
-        public virtual async Task<ICollection<T>> GetParentsWithAllDependencies(Guid id, bool includeItself = false)
+        public virtual async Task<ICollection<T>> GetParentsWithAllDependenciesAsync(Guid id, bool includeItself = false)
         {
             var entity = await CheckAndGetEntityByIdAsync(id);
             return await IncludeAllDependencies(GetRootNodesQuery(entity, includeItself)).ToListAsync();

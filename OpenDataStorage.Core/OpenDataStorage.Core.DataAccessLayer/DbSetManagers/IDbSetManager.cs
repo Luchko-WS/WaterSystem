@@ -20,10 +20,10 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers
 
         IQueryable<T> GetAllQueryWithAllDependencies();
 
-        Task<Guid> Create(T entity);
+        Task<Guid> CreateAsync(T entity);
 
-        Task Update(T entity);
+        Task UpdateAsync(T entity);
 
-        Task Delete(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }
