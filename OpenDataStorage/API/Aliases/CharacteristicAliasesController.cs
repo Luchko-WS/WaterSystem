@@ -1,5 +1,5 @@
 ﻿using OpenDataStorage.Common.Attributes;
-using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
+using OpenDataStorage.Common.DbContext.DbSetManagers.BaseEntityDbSetManagers.Aliases;
 using OpenDataStorage.Helpers;
 using OpenDataStorageCore.Entities.Aliases;
 using System;
@@ -31,7 +31,7 @@ namespace OpenDataStorage.API.Aliases
         [HttpGet]
         public async Task<dynamic> GetAliasesForCharacteristic(Guid id)
         {
-            return await _DbSetManager.GetAllQuery()
+            return await _DbSetManager.GetAllQueryWithAllDependencies()
                 .Where(a => a.CharacteristicId == id)
                 .OrderBy(a => a.Value)
                 .ToListAsync();

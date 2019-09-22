@@ -32,17 +32,17 @@ namespace OpenDataStorage.API.Reports
             ICollection<ObjectType> types = null;
             if(vm != null && vm.TypeId.HasValue)
             {
-                types = await _dbContext.ObjectTypeContext.GetChildNodes(vm.TypeId.Value, true);
+                types = await _dbContext.ObjectTypeContext.GetChildren(vm.TypeId.Value, true);
             }
 
             ICollection<HierarchyObject> objects = null;
             if (vm != null && vm.ObjectId.HasValue)
             {
-                objects = await _dbContext.HierarchyObjectContext.GetChildNodes(vm.ObjectId.Value, true);
+                objects = await _dbContext.HierarchyObjectContext.GetChildren(vm.ObjectId.Value, true);
             }
             else
             {
-                objects = await _dbContext.HierarchyObjectContext.GetTree();
+                objects = await _dbContext.HierarchyObjectContext.GetAllQuery().ToListAsync();
             }
 
             if (types != null && types.Any())
@@ -53,10 +53,10 @@ namespace OpenDataStorage.API.Reports
             ICollection<Characteristic> characteristics = null;
             if(vm != null && vm.CharacterisitcId.HasValue)
             {
-                characteristics = await _dbContext.CharacteristicContext.GetChildNodes(vm.CharacterisitcId.Value, true);
+                characteristics = await _dbContext.CharacteristicContext.GetChildren(vm.CharacterisitcId.Value, true);
             }
 
-            ICollection<BaseCharacteristicValue> values = await _dbContext.CharacteristicValueDbSetManager.GetAllQuery().ToListAsync();
+            ICollection<BaseCharacteristicValue> values = await _dbContext.CharacteristicValueDbSetManager.GetAllQueryWithAllDependencies().ToListAsync();
             ICollection<NumberCharacteristicValue> data = values
                 .Where(v => v.ValueType == CharacteristicType.Number && 
                     v.CreationDate.HasValue &&

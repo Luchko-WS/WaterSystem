@@ -21,7 +21,7 @@ namespace OpenDataStorage.API.Data
         [AllowAnonymous]
         public async Task<dynamic> GetDataForObject([FromUri]Guid id)
         {
-            var data = await _dbContext.CharacteristicValueDbSetManager.GetAllForObjectQuery(id).ToListAsync();
+            var data = await _dbContext.CharacteristicValueDbSetManager.GetAllForObjectQueryWithAllDependencies(id).ToListAsync();
             return data.Select(v => v.ConvertToViewModelIfExists());
         }
 
@@ -30,7 +30,7 @@ namespace OpenDataStorage.API.Data
         [AllowAnonymous]
         public async Task<dynamic> Get([FromUri]Guid id)
         {
-            var data = await _dbContext.CharacteristicValueDbSetManager.GetEntityQuery(id).FirstOrDefaultAsync();
+            var data = await _dbContext.CharacteristicValueDbSetManager.GetQueryWithAllDependencies(id).FirstOrDefaultAsync();
             return data.ConvertToViewModelIfExists();
         }
 

@@ -1,5 +1,5 @@
 ﻿using OpenDataStorage.Common;
-using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core;
+using OpenDataStorage.Common.DbContext.DbSetManagers.NestedSetsEntityManagers.Core;
 using OpenDataStorage.ViewModels.CharacteristicViewModel;
 using OpenDataStorageCore.Entities.NestedSets;
 using System;
@@ -28,7 +28,7 @@ namespace OpenDataStorage.API.NestedSets
         {
             try
             {
-                var res = await _DbSetManager.GetChildNodes(id, true, includedPath);
+                var res = await _DbSetManager.GetChildren(id, true, includedPath);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace OpenDataStorage.API.NestedSets
         {
             try
             {
-                var entity = await _DbSetManager.GetNode(id, includedPath);
+                var entity = await _DbSetManager.GetQuery(id, includedPath).FirstOrDefaultAsync();
                 var res = Mapper.CreateInstanceAndMapProperties<TRes>(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
@@ -96,10 +96,8 @@ namespace OpenDataStorage.API.NestedSets
         {
             try
             {
-                var entity = await _DbSetManager.Entities.FirstOrDefaultAsync(e => e.Id == id);
-                var parent = await _DbSetManager.GetParentNode(id);
-
-                await _DbSetManager.Delete(entity);
+                var parent = await _DbSetManager.GetParent(id);
+                await _DbSetManager.Delete(id);
                 return Request.CreateResponse(HttpStatusCode.OK, parent);
             }
             catch (Exception ex)

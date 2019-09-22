@@ -3,24 +3,100 @@ using OpenDataStorageCore.Entities;
 using OpenDataStorageCore.Entities.NestedSets;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core
+namespace OpenDataStorage.Common.DbContext.DbSetManagers.NestedSetsEntityManagers.Core
 {
-    public abstract class BaseSqlNestedSetsDbManager<T> where T : NestedSetsEntity
+    public abstract class BaseNestedSetsEntityDbManager<T> : BaseDbSetManager<T>, INestedSetsDbSetManager<T> where T : NestedSetsEntity
     {
         protected readonly IDbContainer _dbContainer;
-        protected readonly string _tableName;
 
-        public BaseSqlNestedSetsDbManager(IDbContainer dbContainer, string tableName)
+        public BaseNestedSetsEntityDbManager(DbSet<T> dbSet, IDbContainer dbContainer, string tableName)
+            : base(dbSet, tableName)
         {
             _dbContainer = dbContainer;
-            _tableName = tableName;
         }
 
-        protected async Task<Guid> ExecuteCreate(T entity, NestedSetsEntity parentNode)
+        public abstract Task<Guid> Create(T entity, Guid parentId);
+
+        public abstract Task Move(Guid entityId, Guid parentId);
+
+        public virtual async Task<ICollection<T>> GetChildren(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
+        {
+            var entity = await CheckAndGetEntityByIdAsync(id);
+            return await AggregateQuery(GetChildrenQuery(entity, includeItself), includedPath).ToListAsync();
+        }
+
+        public virtual async Task<ICollection<T>> GetChildrenWithAllDependencies(Guid id, bool includeItself = false)
+        {
+            var entity = await CheckAndGetEntityByIdAsync(id);
+            return await IncludeAllDependencies(GetChildrenQuery(entity, includeItself)).ToListAsync();
+        }
+
+        private IQueryable<T> GetChildrenQuery(T entity, bool includeItself)
+        {
+            return _dbSet.AsNoTracking()
+               .Where(e => e.LeftKey >= entity.LeftKey && e.RightKey <= entity.RightKey
+                || (includeItself && e.Id == entity.Id))
+               .OrderBy(n => n.LeftKey);
+        }
+
+        public virtual async Task<T> GetParent(Guid id, params Expression<Func<T, object>>[] includedPath)
+        {
+            var entity = await CheckAndGetEntityByIdAsync(id);
+            return await AggregateQuery(GetParentQuery(entity), includedPath).FirstOrDefaultAsync();
+        }
+
+        public virtual async Task<T> GetParentWithAllDependencies(Guid id)
+    {
+            var entity = await CheckAndGetEntityByIdAsync(id);
+            return await IncludeAllDependencies(GetParentQuery(entity)).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<T> GetParentQuery(T entity)
+        {
+            return _dbSet.AsNoTracking()
+                .Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
+        }
+
+        public virtual async Task<ICollection<T>> GetParents(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
+        {
+            var entity = await CheckAndGetEntityByIdAsync(id);
+            return await AggregateQuery(GetRootNodesQuery(entity, includeItself), includedPath).ToListAsync();
+        }
+
+        public virtual async Task<ICollection<T>> GetParentsWithAllDependencies(Guid id, bool includeItself = false)
+        {
+            var entity = await CheckAndGetEntityByIdAsync(id);
+            return await IncludeAllDependencies(GetRootNodesQuery(entity, includeItself)).ToListAsync();
+        }
+
+        private IQueryable<T> GetRootNodesQuery(T entity, bool includeItself)
+        {
+            return _dbSet.AsNoTracking()
+                .Where(e =>
+                    (e.LeftKey < entity.LeftKey && e.RightKey > entity.RightKey && e.Level < entity.Level)
+                    || (includeItself && e.Id == entity.Id))
+                .OrderBy(e => e.LeftKey);
+        }
+
+        public override IQueryable<T> GetAllQuery(params Expression<Func<T, object>>[] includedPath)
+        {
+            return base.GetAllQuery(includedPath).OrderBy(n => n.LeftKey);
+        }
+
+        public override IQueryable<T> GetAllQueryWithAllDependencies()
+        {
+            return base.GetAllQueryWithAllDependencies().OrderBy(n => n.LeftKey);
+        }
+
+        #region Protected methods
+
+        protected async Task<Guid> ExecuteCreateAsync(T entity, NestedSetsEntity parentNode)
         {
             entity.LeftKey = parentNode.RightKey;
             entity.RightKey = parentNode.RightKey + 1;
@@ -44,7 +120,7 @@ namespace OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core
             }
         }
 
-        protected async Task ExecuteUpdate(T entity)
+        protected async Task ExecuteUpdateAsync(T entity)
         {
             using (var transaction = _dbContainer.Database.BeginTransaction())
             {
@@ -61,7 +137,7 @@ namespace OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core
             }
         }
 
-        protected async Task ExecuteMove(T entity, NestedSetsEntity parentEntity)
+        protected async Task ExecuteMoveAsync(T entity, NestedSetsEntity parentEntity)
         {
             if (parentEntity.LeftKey > entity.LeftKey && parentEntity.RightKey < entity.RightKey)
             {
@@ -83,7 +159,7 @@ namespace OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core
             }
         }
 
-        protected async Task ExecuteDelete(T entity)
+        protected async Task ExecuteDeleteAsync(T entity)
         {
             bool isRootObject = entity.Level == 0;
             //the root object does not contain any child object
@@ -104,6 +180,18 @@ namespace OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core
                 }
             }
         }
+
+        protected async Task<T> CheckAndGetEntityByIdAsync(Guid id)
+        {
+            var entity = await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
+            if (entity == null)
+            {
+                throw new ArgumentException(string.Format("Entity with id = {0} not found in {1} table.", id, TableName));
+            }
+            return entity;
+        }
+
+        #endregion
 
         #region SQL methods
 
@@ -191,5 +279,6 @@ namespace OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core
         }
 
         #endregion
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿using OpenDataStorage.Common;
 using OpenDataStorage.Common.Attributes;
-using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core;
+using OpenDataStorage.Common.DbContext.DbSetManagers.NestedSetsEntityManagers.Core;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.ViewModels.CharacteristicViewModel;
 using OpenDataStorageCore.Entities.NestedSets;
@@ -38,14 +38,14 @@ namespace OpenDataStorage.API.NestedSets
                 {
                     if (!results.Any(e => e.Id == id))
                     {
-                        var branch = await _dbContext.CharacteristicContext.GetParentNodes(id, true, e => e.CharacteristicAliases);
+                        var branch = await _dbContext.CharacteristicContext.GetParentsWithAllDependencies(id, true);
                         results = results.Union(branch).ToList();
                     }
                 }
                 return results.OrderBy(e => e.LeftKey).Select(e => Mapper.CreateInstanceAndMapProperties<CharacteristicViewModel>(e)).ToList();
             }
 
-            var res = await _dbContext.CharacteristicContext.GetTree(e => e.CharacteristicAliases);
+            var res = await _dbContext.CharacteristicContext.GetAllQueryWithAllDependencies().ToListAsync();
             return res.Select(e => Mapper.CreateInstanceAndMapProperties<CharacteristicViewModel>(e)).ToList();
         }
 

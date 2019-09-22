@@ -5,42 +5,29 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OpenDataStorage.Common.DbContext.Managers.DbSetManagers
+namespace OpenDataStorage.Common.DbContext.DbSetManagers.BaseEntityDbSetManagers
 {
-    public abstract class BaseDbSetManager<T> : IDbSetManager<T> where T : BaseEntity
+    public abstract class BaseEntityDbSetManager<T> : BaseDbSetManager<T> where T : BaseEntity
     {
-        protected readonly DbSet<T> _dbSet;
         protected readonly IApplicationDbContextBase _dbContext;
-        protected readonly string _tableName;
 
-        public string TableName => this._tableName;
-
-        public BaseDbSetManager(DbSet<T> dbSet, IApplicationDbContextBase dbContext, string tableName)
+        public BaseEntityDbSetManager(DbSet<T> dbSet, IApplicationDbContextBase dbContext, string tableName)
+            : base(dbSet, tableName)
         {
-            _dbSet = dbSet;
             _dbContext = dbContext;
-            _tableName = tableName;
         }
 
-        public virtual IQueryable<T> GetAllQuery(bool includeAll = true)
+        public override async Task<Guid> Create(T entity)
         {
-            var query = _dbSet.AsNoTracking();
-            return includeAll ? IncludeDependencies(query) : query;
-        }
+            entity.Id = Guid.NewGuid();
 
-        public virtual IQueryable<T> GetEntityQuery(Guid id, bool includeAll = true)
-        {
-            var query = _dbSet.AsNoTracking().Where(e => e.Id == id);
-            return includeAll ? IncludeDependencies(query) : query;
-        }
-
-        public virtual async Task Create(T entity)
-        {
             _dbSet.Add(entity);
             await SaveChanges();
+
+            return entity.Id;
         }
 
-        public virtual async Task Update(T entity)
+        public override async Task Update(T entity)
         {
             var dbEntity = await _dbSet.FirstOrDefaultAsync(e => e.Id == entity.Id);
             if (dbEntity == null)
@@ -57,7 +44,7 @@ namespace OpenDataStorage.Common.DbContext.Managers.DbSetManagers
             await SaveChanges();
         }
 
-        public virtual async Task Delete(Guid id)
+        public override async Task Delete(Guid id)
         {
             var entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
             if (entity == null)
@@ -72,7 +59,5 @@ namespace OpenDataStorage.Common.DbContext.Managers.DbSetManagers
         {
             await _dbContext.SaveDbChangesAsync();
         }
-
-        abstract protected IQueryable<T> IncludeDependencies(IQueryable<T> query);
     }
 }

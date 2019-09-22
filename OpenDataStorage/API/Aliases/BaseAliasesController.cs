@@ -1,4 +1,4 @@
-﻿using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
+﻿using OpenDataStorage.Common.DbContext.DbSetManagers.BaseEntityDbSetManagers.Aliases;
 using OpenDataStorageCore.Entities.Aliases;
 using System;
 using System.Data.Entity;
@@ -15,7 +15,7 @@ namespace OpenDataStorage.API.Aliases
 
         protected async Task<T> GetInternal(Guid id)
         {
-            return await _DbSetManager.GetEntityQuery(id).FirstOrDefaultAsync();
+            return await _DbSetManager.GetQueryWithAllDependencies(id).FirstOrDefaultAsync();
         }
 
         protected async Task<HttpResponseMessage> CreateInternal(T entity)
@@ -65,7 +65,7 @@ namespace OpenDataStorage.API.Aliases
 
         private async Task<HttpResponseMessage> CheckDuplicates(string value)
         {
-            var alias = await _DbSetManager.GetAllQuery().Where(a => a.Value.Equals(value, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefaultAsync();
+            var alias = await _DbSetManager.GetAllQueryWithAllDependencies().Where(a => a.Value.Equals(value, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefaultAsync();
             if (alias != null) return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, $"Aliase is exist. Id = {alias.Id}");
             return null;
         }

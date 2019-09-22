@@ -1,6 +1,6 @@
-﻿using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
-using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.CharacteristicValues;
-using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core;
+﻿using OpenDataStorage.Common.DbContext.DbSetManagers.BaseEntityDbSetManagers.Aliases;
+using OpenDataStorage.Common.DbContext.DbSetManagers.BaseEntityDbSetManagers.CharacteristicValues;
+using OpenDataStorage.Common.DbContext.DbSetManagers.NestedSetsEntityManagers.Core;
 using OpenDataStorageCore.Entities.Aliases;
 using OpenDataStorageCore.Entities.NestedSets;
 using System.Data.Entity;

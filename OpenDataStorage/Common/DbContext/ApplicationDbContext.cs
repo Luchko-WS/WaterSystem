@@ -1,10 +1,10 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
-using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
-using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.CharacteristicValues;
-using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers;
-using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core;
+using OpenDataStorage.Common.DbContext.DbSetManagers.BaseEntityDbSetManagers.Aliases;
+using OpenDataStorage.Common.DbContext.DbSetManagers.BaseEntityDbSetManagers.CharacteristicValues;
+using OpenDataStorage.Common.DbContext.DbSetManagers.NestedSetsEntityManagers;
+using OpenDataStorage.Common.DbContext.DbSetManagers.NestedSetsEntityManagers.Core;
 using OpenDataStorageCore.Entities;
 using OpenDataStorageCore.Entities.Aliases;
 using OpenDataStorageCore.Entities.CharacteristicValues;
