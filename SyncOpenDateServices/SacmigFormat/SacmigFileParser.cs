@@ -19,8 +19,11 @@ namespace SyncOpenDateServices.SacmigFormat
             var endRow = workSheet.Dimension.End.Row;
             var endColumn = workSheet.Dimension.End.Column;
 
+            var data = new SacmigFileData
+            {
+                SubjectOfMonitoring = workSheet.Cells[startRow++, 1].Value.ToString()
+            };
             var keys = ParseHeader(workSheet, startRow, startColumn, endColumn);
-            var data = new SacmigFileData();
             for (int rowId = startRow + 1; rowId <= endRow; rowId++)
             {
                 try

@@ -13,6 +13,8 @@ namespace SyncOpenDateServices.SacmigFormat
             _characteristicValues = new Dictionary<string, List<NumberCharacteristicValue>>();
         }
 
+        public string SubjectOfMonitoring { get; set; }
+
         public void AddCharacteristicValue(string characteristicName, double value, DateTime startDate, DateTime? endDate = null)
         {
             if(!_characteristicValues.ContainsKey(characteristicName))
@@ -26,7 +28,8 @@ namespace SyncOpenDateServices.SacmigFormat
                 IsTimeIntervalValue = isInterval,
                 CreationDate = startDate,
                 EndCreationDate = isInterval ? endDate : null,
-                Value = value
+                Value = value,
+                SubjectOfMonitoring = SubjectOfMonitoring
             };
             _characteristicValues[characteristicName].Add(entity);
         }

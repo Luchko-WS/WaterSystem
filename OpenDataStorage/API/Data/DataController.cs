@@ -22,7 +22,7 @@ namespace OpenDataStorage.API.Data
         public async Task<dynamic> GetDataForObject([FromUri]Guid id)
         {
             var data = await _dbContext.CharacteristicValueDbSetManager.GetAllForObjectQueryWithAllDependencies(id).ToListAsync();
-            return data.Select(v => v.ConvertToViewModelIfExists());
+            return data.Select(v => v.ConvertToViewModelIfExists()).OrderBy(v => v.CreationDate);
         }
 
         [Route("Get/{id}")]
