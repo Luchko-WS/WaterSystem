@@ -20,12 +20,12 @@
                                         <button class="btn btn-primary" ng-click="vm.showTree=!vm.showTree;"><span ng-class="vm.showTree ? 'glyphicon glyphicon-triangle-top' : 'glyphicon glyphicon-triangle-bottom'" /></button>
                                         <button class="btn btn-danger" title="@Lexicon.Remove" ng-click="vm.showTree = false; vm.object = null"><span class="glyphicon glyphicon-remove" /></button>
                                     </div>
-                                    <tree-view ng-if="vm.showTree" ng-model="vm.objectsTree"
-                                               config="vm.treeConfig"
-                                               node-selected-callback="vm.nodeSelectedCallback"
-                                               node-unselected-callback="vm.nodeUnselectedCallback">
-                                    </tree-view>
                                 </div>
+                                <tree-view ng-if="vm.showTree" ng-model="vm.objectsTree"
+                                           config="vm.treeConfig"
+                                           node-selected-callback="vm.nodeSelectedCallback"
+                                           node-unselected-callback="vm.nodeUnselectedCallback">
+                                </tree-view>
                             </div>
                         </div>
                         <div class="form-group">
