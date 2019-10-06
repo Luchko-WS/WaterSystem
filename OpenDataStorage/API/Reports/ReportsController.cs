@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml;
 using OpenDataStorage.ViewModels.ReportsViewModel;
-using OpenDataStorageCore.Entities.CharacteristicValues;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.CharacteristicValues;
+using OpenDataStorage.Core.Entities.NestedSets;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

@@ -1,27 +1,24 @@
-namespace OpenDataStorage.Migrations
+namespace OpenDataStorage.Core.DataAccessLayer.DbContext
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using OpenDataStorage.Common;
-    using OpenDataStorage.Core.DataAccessLayer.DbContext;
-    using OpenDataStorage.Helpers;
-    using OpenDataStorageCore.Constants;
-    using OpenDataStorageCore.Entities;
-    using OpenDataStorageCore.Entities.NestedSets;
+    using OpenDataStorage.Core.Constants;
+    using OpenDataStorage.Core.Entities;
+    using OpenDataStorage.Core.Entities.NestedSets;
     using System;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+    internal sealed class OpenDataStorageDbInitializer : DbMigrationsConfiguration<OpenDataStorageDbContext>
     {
-        public Configuration()
+        public OpenDataStorageDbInitializer()
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-            MigrationsDirectory = @"Migrations";
         }
 
-        protected override void Seed(ApplicationDbContext context)
+        protected override void Seed(OpenDataStorageDbContext context)
         {
             PrepateStoredProceduresForCharacteristics(context);
             PrepateStoredProceduresForHierarchyObjects(context);
@@ -34,7 +31,7 @@ namespace OpenDataStorage.Migrations
             CreateRootObjects(context);
         }
 
-        private void CreateRootObjects(ApplicationDbContext context)
+        private void CreateRootObjects(OpenDataStorageDbContext context)
         {
             if (!context.Characteristics.Any(c => c.Level == 0))
             {
@@ -75,7 +72,7 @@ namespace OpenDataStorage.Migrations
             }
         }
 
-        private void CreateUserRoles(ApplicationDbContext context)
+        private void CreateUserRoles(OpenDataStorageDbContext context)
         {
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
@@ -117,7 +114,7 @@ namespace OpenDataStorage.Migrations
             }
         }
 
-        private void CreateAdminUser(ApplicationDbContext context)
+        private void CreateAdminUser(OpenDataStorageDbContext context)
         {
             if (!context.Users.Any(u => u.UserName == IdentityConstants.Admin.USER_NAME))
             {
@@ -145,7 +142,7 @@ namespace OpenDataStorage.Migrations
             }
         }
 
-        private void AddConstraintsToHierarchyObjectsTable(ApplicationDbContext context)
+        private void AddConstraintsToHierarchyObjectsTable(OpenDataStorageDbContext context)
         {
             var hierarchyObjectsTableName = ((IOpenDataStorageDbContext)context).HierarchyObjectContext.TableName;
             var typesTableName = ((IOpenDataStorageDbContext)context).ObjectTypeContext.TableName;
@@ -158,7 +155,7 @@ namespace OpenDataStorage.Migrations
             context.Database.ExecuteSqlCommand($"ALTER TABLE [dbo].[{hierarchyObjectsTableName}] ADD CONSTRAINT [{constraintName}] FOREIGN KEY ([{foreignKey}]) REFERENCES [dbo].[{typesTableName}] ([{primaryKey}]) ON DELETE SET NULL");
         }
 
-        private void PrepateStoredProceduresForHierarchyObjects(ApplicationDbContext context)
+        private void PrepateStoredProceduresForHierarchyObjects(OpenDataStorageDbContext context)
         {
             string tableName = ((IOpenDataStorageDbContext)context).HierarchyObjectContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
@@ -166,7 +163,7 @@ namespace OpenDataStorage.Migrations
             CreateStoredProcedureMoveNestedSetsNode(context, tableName);
         }
 
-        private void PrepateStoredProceduresForCharacteristics(ApplicationDbContext context)
+        private void PrepateStoredProceduresForCharacteristics(OpenDataStorageDbContext context)
         {
             string tableName = ((IOpenDataStorageDbContext)context).CharacteristicContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
@@ -174,7 +171,7 @@ namespace OpenDataStorage.Migrations
             CreateStoredProcedureMoveNestedSetsNode(context, tableName);
         }
 
-        private void PrepateStoredProceduresForObjectsTypes(ApplicationDbContext context)
+        private void PrepateStoredProceduresForObjectsTypes(OpenDataStorageDbContext context)
         {
             string tableName = ((IOpenDataStorageDbContext)context).ObjectTypeContext.TableName;
             CreateStoredProcedurePreCreateNestedSetsNode(context, tableName);
@@ -182,7 +179,7 @@ namespace OpenDataStorage.Migrations
             CreateStoredProcedureMoveNestedSetsNode(context, tableName);
         }
 
-        private void CreateStoredProcedurePreCreateNestedSetsNode(ApplicationDbContext context, string tableName)
+        private void CreateStoredProcedurePreCreateNestedSetsNode(OpenDataStorageDbContext context, string tableName)
         {
             string procedureName = string.Format("{0}PreCreateNestedSetsNode", tableName);
 
@@ -198,7 +195,7 @@ namespace OpenDataStorage.Migrations
             END", procedureName, tableName));
         }
 
-        private void CreateStoredProcedurePostRemoveNestedSetsNode(ApplicationDbContext context, string tableName)
+        private void CreateStoredProcedurePostRemoveNestedSetsNode(OpenDataStorageDbContext context, string tableName)
         {
             string procedureName = string.Format("{0}PostRemoveNestedSetsNode", tableName);
 
@@ -215,7 +212,7 @@ namespace OpenDataStorage.Migrations
             END", procedureName, tableName));
         }
 
-        private void CreateStoredProcedureMoveNestedSetsNode(ApplicationDbContext context, string tableName)
+        private void CreateStoredProcedureMoveNestedSetsNode(OpenDataStorageDbContext context, string tableName)
         {
             string procedureName = string.Format("{0}MoveNestedSetsNode", tableName);
 

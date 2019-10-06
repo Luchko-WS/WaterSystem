@@ -1,7 +1,7 @@
 ﻿using OpenDataStorage.Common;
 using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityManagers.Core;
 using OpenDataStorage.ViewModels.CharacteristicViewModel;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.NestedSets;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

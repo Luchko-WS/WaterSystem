@@ -1,6 +1,6 @@
 ﻿using OpenDataStorage.Core.DataAccessLayer.DbContext;
 using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityManagers.Core;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.NestedSets;
 using System.Data.Entity;
 using System.Linq;
 

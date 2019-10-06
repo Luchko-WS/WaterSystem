@@ -7,8 +7,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using OpenDataStorage.Common.Attributes;
-using OpenDataStorageCore.Entities.CharacteristicValues;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.CharacteristicValues;
+using OpenDataStorage.Core.Entities.NestedSets;
 
 namespace OpenDataStorage.API.Data
 {

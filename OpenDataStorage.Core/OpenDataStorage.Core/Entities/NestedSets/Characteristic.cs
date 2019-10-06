@@ -1,8 +1,8 @@
-﻿using OpenDataStorageCore.Attributes;
-using OpenDataStorageCore.Entities.Aliases;
+﻿using OpenDataStorage.Core.Attributes;
+using OpenDataStorage.Core.Entities.Aliases;
 using System.Collections.Generic;
 
-namespace OpenDataStorageCore.Entities.NestedSets
+namespace OpenDataStorage.Core.Entities.NestedSets
 {
     public class Characteristic : NestedSetsFSEntity
     {

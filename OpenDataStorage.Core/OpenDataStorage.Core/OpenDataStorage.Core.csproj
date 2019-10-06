@@ -7,8 +7,8 @@
     <ProjectGuid>{0A729AF8-691B-4761-9CF4-D135E9F635D4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenDataStorageCore</RootNamespace>
-    <AssemblyName>OpenDataStorageCore</AssemblyName>
+    <RootNamespace>OpenDataStorage.Core</RootNamespace>
+    <AssemblyName>OpenDataStorage.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

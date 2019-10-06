@@ -1,6 +1,6 @@
 ﻿using OpenDataStorage.Common;
 using OpenDataStorage.Core.DataAccessLayer.DbContext;
-using OpenDataStorageCore.Entities.CharacteristicValues;
+using OpenDataStorage.Core.Entities.CharacteristicValues;
 using System;
 using System.Data.Entity;
 using System.Linq;

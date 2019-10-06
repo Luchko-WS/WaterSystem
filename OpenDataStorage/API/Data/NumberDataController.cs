@@ -5,8 +5,8 @@ using System.Web.Http;
 using OpenDataStorage.ViewModels.CharacteristicValueViewModel;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.Common.Attributes;
-using OpenDataStorageCore.Entities.NestedSets;
-using OpenDataStorageCore.Entities.CharacteristicValues;
+using OpenDataStorage.Core.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.CharacteristicValues;
 
 namespace OpenDataStorage.API.Data
 {

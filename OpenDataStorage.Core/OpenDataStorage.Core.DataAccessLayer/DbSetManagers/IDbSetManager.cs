@@ -1,4 +1,4 @@
-﻿using OpenDataStorageCore.Entities;
+﻿using OpenDataStorage.Core.Entities;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

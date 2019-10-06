@@ -1,8 +1,8 @@
-﻿using OpenDataStorageCore.Entities.Aliases;
+﻿using OpenDataStorage.Core.Entities.Aliases;
 using System;
 using System.Collections.Generic;
 
-namespace OpenDataStorageCore.Entities.NestedSets
+namespace OpenDataStorage.Core.Entities.NestedSets
 {
     public class HierarchyObject : NestedSetsEntity
     {

@@ -1,7 +1,7 @@
-﻿using OpenDataStorageCore.Entities.NestedSets;
+﻿using OpenDataStorage.Core.Entities.NestedSets;
 using System;
 
-namespace OpenDataStorageCore.Entities.Aliases
+namespace OpenDataStorage.Core.Entities.Aliases
 {
     public class CharacteristicAlias : BaseAlias
     {

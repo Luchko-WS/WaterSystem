@@ -2,7 +2,7 @@
 using System.Linq;
 using OpenDataStorage.Common;
 using OpenDataStorage.Core.DataAccessLayer.DbContext;
-using OpenDataStorageCore.Entities.Aliases;
+using OpenDataStorage.Core.Entities.Aliases;
 
 namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers.Aliases
 {

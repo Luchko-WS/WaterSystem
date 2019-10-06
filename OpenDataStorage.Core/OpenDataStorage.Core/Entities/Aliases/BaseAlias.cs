@@ -1,4 +1,4 @@
-﻿namespace OpenDataStorageCore.Entities.Aliases
+﻿namespace OpenDataStorage.Core.Entities.Aliases
 {
     public class BaseAlias : BaseEntity
     {

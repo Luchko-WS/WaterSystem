@@ -1,5 +1,5 @@
 ﻿using OpenDataStorage.Core.DataAccessLayer.DbContext;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.NestedSets;
 using System;
 using System.Data.Entity;
 using System.Threading.Tasks;

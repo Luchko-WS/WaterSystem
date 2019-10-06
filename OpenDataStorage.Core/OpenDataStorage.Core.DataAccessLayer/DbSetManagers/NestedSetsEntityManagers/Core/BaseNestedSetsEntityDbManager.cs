@@ -1,8 +1,8 @@
 ﻿using OpenDataStorage.Common;
 using OpenDataStorage.Core.DataAccessLayer.DbContext;
-using OpenDataStorageCore.Attributes;
-using OpenDataStorageCore.Entities;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Attributes;
+using OpenDataStorage.Core.Entities;
+using OpenDataStorage.Core.Entities.NestedSets;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

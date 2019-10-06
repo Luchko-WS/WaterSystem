@@ -1,8 +1,8 @@
 ﻿using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers.Aliases;
 using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers.CharacteristicValues;
 using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityManagers.Core;
-using OpenDataStorageCore.Entities.Aliases;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.Aliases;
+using OpenDataStorage.Core.Entities.NestedSets;
 using System.Data.Entity;
 using System.Threading.Tasks;
 

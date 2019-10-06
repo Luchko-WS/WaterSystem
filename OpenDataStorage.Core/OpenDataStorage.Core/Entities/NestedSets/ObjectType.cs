@@ -1,4 +1,4 @@
-﻿namespace OpenDataStorageCore.Entities.NestedSets
+﻿namespace OpenDataStorage.Core.Entities.NestedSets
 {
     public class ObjectType : NestedSetsFSEntity
     {

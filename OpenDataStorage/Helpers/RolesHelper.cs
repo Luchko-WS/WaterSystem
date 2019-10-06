@@ -1,4 +1,4 @@
-﻿using OpenDataStorageCore.Constants;
+﻿using OpenDataStorage.Core.Constants;
 using System.Security.Principal;
 
 namespace OpenDataStorage.Helpers

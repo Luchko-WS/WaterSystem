@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenDataStorageCore.Attributes
+namespace OpenDataStorage.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = true)]
     public class IgnoreWhenUpdateAttribute : Attribute

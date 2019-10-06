@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenDataStorageCore.Entities
+namespace OpenDataStorage.Core.Entities
 {
     public class BaseEntity
     {

@@ -1,4 +1,4 @@
-﻿namespace OpenDataStorageCore.Constants
+﻿namespace OpenDataStorage.Core.Constants
 {
     public class IdentityConstants
     {

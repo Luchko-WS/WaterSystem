@@ -1,4 +1,4 @@
-﻿using OpenDataStorageCore.Entities.CharacteristicValues;
+﻿using OpenDataStorage.Core.Entities.CharacteristicValues;
 using System;
 using System.Collections.Generic;
 

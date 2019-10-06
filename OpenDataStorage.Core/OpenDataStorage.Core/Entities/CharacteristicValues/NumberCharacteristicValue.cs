@@ -1,6 +1,6 @@
-﻿using OpenDataStorageCore.Entities.NestedSets;
+﻿using OpenDataStorage.Core.Entities.NestedSets;
 
-namespace OpenDataStorageCore.Entities.CharacteristicValues
+namespace OpenDataStorage.Core.Entities.CharacteristicValues
 {
     public class NumberCharacteristicValue : BaseCharacteristicValue
     {

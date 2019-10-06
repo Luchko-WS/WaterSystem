@@ -3,7 +3,7 @@ using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityManagers.Core;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.ViewModels.HierarchyObjectViewModels;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.NestedSets;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

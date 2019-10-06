@@ -5,10 +5,10 @@ using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers
 using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers.CharacteristicValues;
 using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityManagers;
 using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityManagers.Core;
-using OpenDataStorageCore.Entities;
-using OpenDataStorageCore.Entities.Aliases;
-using OpenDataStorageCore.Entities.CharacteristicValues;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities;
+using OpenDataStorage.Core.Entities.Aliases;
+using OpenDataStorage.Core.Entities.CharacteristicValues;
+using OpenDataStorage.Core.Entities.NestedSets;
 
 namespace OpenDataStorage.Core.DataAccessLayer.DbContext
 {
@@ -24,6 +24,7 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbContext
         public OpenDataStorageDbContext(string nameOrConnectionString, bool throwIfV1Schema)
             : base(nameOrConnectionString, throwIfV1Schema)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<OpenDataStorageDbContext, OpenDataStorageDbInitializer>());
             Configuration.ProxyCreationEnabled = false;
 
             _objectDbSetManager = new HierarchyObjectDbSetManager(HierarchyObjects, this);

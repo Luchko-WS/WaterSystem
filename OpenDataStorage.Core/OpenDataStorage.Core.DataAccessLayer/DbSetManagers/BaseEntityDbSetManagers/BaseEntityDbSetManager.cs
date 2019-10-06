@@ -1,7 +1,7 @@
 ﻿using OpenDataStorage.Core.DataAccessLayer.DbContext;
 using OpenDataStorage.Core.DataAccessLayer.DbSetManagers;
-using OpenDataStorageCore.Attributes;
-using OpenDataStorageCore.Entities;
+using OpenDataStorage.Core.Attributes;
+using OpenDataStorage.Core.Entities;
 using System;
 using System.Data.Entity;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using OpenDataStorageCore.Entities.NestedSets;
+﻿using OpenDataStorage.Core.Entities.NestedSets;
 using System.Linq;
 
 namespace OpenDataStorage.ViewModels.HierarchyObjectViewModels
