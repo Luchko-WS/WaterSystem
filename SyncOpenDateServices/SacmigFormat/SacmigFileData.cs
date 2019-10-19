@@ -17,7 +17,7 @@ namespace SyncOpenDateServices.SacmigFormat
 
         public void AddCharacteristicValue(string characteristicName, double value, DateTime startDate, DateTime? endDate = null)
         {
-            if(!_characteristicValues.ContainsKey(characteristicName))
+            if (!_characteristicValues.ContainsKey(characteristicName))
             {
                 _characteristicValues[characteristicName] = new List<NumberCharacteristicValue>();
             }
