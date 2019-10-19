@@ -1,8 +1,8 @@
 ﻿using OpenDataStorage.Common.Attributes;
 using OpenDataStorage.Helpers;
-using OpenDataStorageCore.Constants;
-using OpenDataStorageCore.Entities.CharacteristicValues;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Constants;
+using OpenDataStorage.Core.Entities.CharacteristicValues;
+using OpenDataStorage.Core.Entities.NestedSets;
 using SyncOpenDateServices.SacmigFormat;
 using SyncOpenDateServices.TextyOrgUaWater;
 using System;
@@ -81,7 +81,7 @@ namespace OpenDataStorage.API.Management
                                     OwnerId = User.Identity.Name,
                                     SubjectOfMonitoring = SubjectOfMonitoringConstants.CLEAR_WATER
                                 };
-                                await _dbContext.CharacteristicValueDbSetManager.Create(entity);
+                                await _dbContext.CharacteristicValueDbSetManager.CreateAsync(entity);
                             }
                         }
                     }
@@ -134,7 +134,7 @@ namespace OpenDataStorage.API.Management
                                             value.CharacteristicId = characteristicsMap[characteristic];
                                             value.HierarchyObjectId = objectId;
                                             value.OwnerId = User.Identity.Name;
-                                            await _dbContext.CharacteristicValueDbSetManager.Create(value);
+                                            await _dbContext.CharacteristicValueDbSetManager.CreateAsync(value);
                                         }
                                     }
                                     transaction.Commit();
@@ -177,7 +177,7 @@ namespace OpenDataStorage.API.Management
                     OwnerId = User.Identity.Name,
                     ObjectTypeId = null
                 };
-                return await _dbContext.HierarchyObjectContext.Create(entity, rootObject.Id);
+                return await _dbContext.HierarchyObjectContext.CreateAsync(entity, rootObject.Id);
             }
             else
             {
@@ -213,7 +213,7 @@ namespace OpenDataStorage.API.Management
                         EntityType = EntityType.File,
                         CharacteristicType = CharacteristicType.Number
                     };
-                    characteristicMap[characteristicName] = await _dbContext.CharacteristicContext.Create(entity, rootCharacteristic.Id);
+                    characteristicMap[characteristicName] = await _dbContext.CharacteristicContext.CreateAsync(entity, rootCharacteristic.Id);
                 }
                 else
                 {

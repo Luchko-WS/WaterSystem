@@ -1,9 +1,9 @@
 ﻿using OpenDataStorage.Common;
 using OpenDataStorage.Common.Attributes;
-using OpenDataStorage.Common.DbContext.Managers.NestedSetsManagers.Core;
+using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityManagers.Core;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.ViewModels.ObjectTypeViewModels;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.NestedSets;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -36,13 +36,13 @@ namespace OpenDataStorage.API.NestedSets
                 {
                     if (!results.Any(e => e.Id == id))
                     {
-                        var branch = await _dbContext.ObjectTypeContext.GetParentNodes(id, includeItself: true);
+                        var branch = await _dbContext.ObjectTypeContext.GetParentsWithAllDependenciesAsync(id, includeItself: true);
                         results = results.Union(branch).ToList();
                     }
                 }
                 return results.OrderBy(e => e.LeftKey).ToList();
             }
-            return await _dbContext.ObjectTypeContext.GetTree();
+            return await _dbContext.ObjectTypeContext.GetAllQueryWithAllDependencies().ToListAsync();
         }
 
         [Route("GetSubTree")]

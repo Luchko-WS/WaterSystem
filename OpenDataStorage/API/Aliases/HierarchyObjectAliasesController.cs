@@ -1,7 +1,7 @@
 ﻿using OpenDataStorage.Common.Attributes;
-using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
+using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers.Aliases;
 using OpenDataStorage.Helpers;
-using OpenDataStorageCore.Entities.Aliases;
+using OpenDataStorage.Core.Entities.Aliases;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -31,7 +31,7 @@ namespace OpenDataStorage.API.Aliases
         [HttpGet]
         public async Task<dynamic> GetAliasesForObject(Guid id)
         {
-            return await _DbSetManager.GetAllQuery()
+            return await _DbSetManager.GetAllQueryWithAllDependencies()
                 .Where(a => a.HierarchyObjectId == id)
                 .OrderBy(a => a.Value)
                 .ToListAsync();

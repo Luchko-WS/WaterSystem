@@ -10,8 +10,8 @@ using OpenDataStorage.Common;
 using OpenDataStorage.Helpers;
 using OpenDataStorage.Resources;
 using OpenDataStorage.ViewModels.AccountViewModels;
-using OpenDataStorageCore.Constants;
-using OpenDataStorageCore.Entities;
+using OpenDataStorage.Core.Constants;
+using OpenDataStorage.Core.Entities;
 
 namespace OpenDataStorage.Controllers
 {

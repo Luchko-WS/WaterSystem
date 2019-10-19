@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using OpenDataStorage.Common;
 using OpenDataStorage.Common.Attributes;
-using OpenDataStorage.Common.DbContext;
+using OpenDataStorage.Core.DataAccessLayer.DbContext;
 using OpenDataStorage.Resources;
 using System.Globalization;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace OpenDataStorage.API
         private string _language;
         private ResourceSet _lexicon;
 
-        protected readonly IApplicationDbContext _dbContext;
+        protected readonly IOpenDataStorageDbContext _dbContext;
 
         protected BaseApiController()
         {

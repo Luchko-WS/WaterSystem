@@ -1,5 +1,5 @@
 ﻿using OpenDataStorage.Common;
-using OpenDataStorageCore.Entities.CharacteristicValues;
+using OpenDataStorage.Core.Entities.CharacteristicValues;
 
 namespace OpenDataStorage.Helpers
 {

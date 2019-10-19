@@ -228,27 +228,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Common\Attributes\WebApiAuthorize.cs" />
-    <Compile Include="Common\DbContext\Managers\DbSetManagers\Aliases\HierarchyObjectAliasDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\DbSetManagers\Aliases\CharacteristicAliasDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\DbSetManagers\BaseDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\DbSetManagers\CharacteristicValues\CharacteristicValueDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\DbSetManagers\Aliases\IAliasDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\DbSetManagers\CharacteristicValues\ICharacteristicValueDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\DbSetManagers\IDbSetManager.cs" />
-    <Compile Include="Common\DbContext\IApplicationDbContextBase.cs" />
-    <Compile Include="Common\DbContext\IDbContainer.cs" />
-    <Compile Include="Common\DbContext\Managers\NestedSetsManagers\Core\BaseNestedSetsDbManager.cs" />
-    <Compile Include="Common\DbContext\Managers\NestedSetsManagers\Core\ExtendedFSNestedSetsDbSetManaget.cs" />
-    <Compile Include="Common\DbContext\Managers\NestedSetsManagers\Core\FSNestedSetsDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\NestedSetsManagers\CharacteristicDbSetManager.cs" />
-    <Compile Include="Common\DbContext\IApplicationDbContext.cs" />
-    <Compile Include="Common\DbContext\Managers\NestedSetsManagers\HierarchyObjectDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\NestedSetsManagers\Core\INestedSetsDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\NestedSetsManagers\Core\NestedSetsDbSetManager.cs" />
-    <Compile Include="Common\DbContext\Managers\NestedSetsManagers\ObjectTypeDbSetManager.cs" />
     <Compile Include="Common\ILogger.cs" />
     <Compile Include="Common\LanguageManager.cs" />
-    <Compile Include="Common\Mapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AliasController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -268,13 +249,12 @@
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\RolesHelper.cs" />
     <Compile Include="Helpers\SelectedListHelper.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Resources\Lexicon.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Lexicon.resx</DependentUpon>
     </Compile>
-    <Compile Include="Common\DbContext\ApplicationDbContext.cs" />
+    <Compile Include="Common\ApplicationDbContext.cs" />
     <Compile Include="Resources\Lexicon.en.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -568,9 +548,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenDataStorageCore\OpenDataStorageCore.csproj">
+    <ProjectReference Include="..\OpenDataStorage.Common\OpenDataStorage.Common\OpenDataStorage.Common.csproj">
+      <Project>{95d094cb-6d02-45ae-b4c4-00b5cab14a81}</Project>
+      <Name>OpenDataStorage.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenDataStorage.Core\OpenDataStorage.Core.DataAccessLayer\OpenDataStorage.Core.DataAccessLayer.csproj">
+      <Project>{A62C517A-6626-4A9F-B193-D8BE61F47116}</Project>
+      <Name>OpenDataStorage.Core.DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenDataStorage.Core\OpenDataStorage.Core\OpenDataStorage.Core.csproj">
       <Project>{0a729af8-691b-4761-9cf4-d135e9f635d4}</Project>
-      <Name>OpenDataStorageCore</Name>
+      <Name>OpenDataStorage.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SyncOpenDateServices\SyncOpenDateServices.csproj">
       <Project>{85b2deac-4129-48c2-8809-afcad1db67f8}</Project>

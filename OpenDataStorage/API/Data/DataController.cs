@@ -7,8 +7,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using OpenDataStorage.Common.Attributes;
-using OpenDataStorageCore.Entities.CharacteristicValues;
-using OpenDataStorageCore.Entities.NestedSets;
+using OpenDataStorage.Core.Entities.CharacteristicValues;
+using OpenDataStorage.Core.Entities.NestedSets;
 
 namespace OpenDataStorage.API.Data
 {
@@ -21,7 +21,7 @@ namespace OpenDataStorage.API.Data
         [AllowAnonymous]
         public async Task<dynamic> GetDataForObject([FromUri]Guid id)
         {
-            var data = await _dbContext.CharacteristicValueDbSetManager.GetAllForObjectQuery(id).ToListAsync();
+            var data = await _dbContext.CharacteristicValueDbSetManager.GetAllForObjectQueryWithAllDependencies(id).ToListAsync();
             return data.Select(v => v.ConvertToViewModelIfExists()).OrderBy(v => v.CreationDate);
         }
 
@@ -30,7 +30,7 @@ namespace OpenDataStorage.API.Data
         [AllowAnonymous]
         public async Task<dynamic> Get([FromUri]Guid id)
         {
-            var data = await _dbContext.CharacteristicValueDbSetManager.GetEntityQuery(id).FirstOrDefaultAsync();
+            var data = await _dbContext.CharacteristicValueDbSetManager.GetQueryWithAllDependencies(id).FirstOrDefaultAsync();
             return data.ConvertToViewModelIfExists();
         }
 
@@ -40,7 +40,7 @@ namespace OpenDataStorage.API.Data
         {
             try
             {
-                await _dbContext.CharacteristicValueDbSetManager.Delete(id);
+                await _dbContext.CharacteristicValueDbSetManager.DeleteAsync(id);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace OpenDataStorage.API.Data
         {
             try
             {
-                await _dbContext.CharacteristicValueDbSetManager.Create(value);
+                await _dbContext.CharacteristicValueDbSetManager.CreateAsync(value);
                 return Request.CreateResponse(HttpStatusCode.OK, value);
             }
             catch (Exception ex)
@@ -66,7 +66,7 @@ namespace OpenDataStorage.API.Data
         {
             try
             {
-                await _dbContext.CharacteristicValueDbSetManager.Update(value);
+                await _dbContext.CharacteristicValueDbSetManager.UpdateAsync(value);
                 return Request.CreateResponse(HttpStatusCode.OK, value);
             }
             catch (Exception ex)

@@ -1,5 +1,5 @@
-﻿using OpenDataStorage.Common.DbContext.Managers.DbSetManagers.Aliases;
-using OpenDataStorageCore.Entities.Aliases;
+﻿using OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers.Aliases;
+using OpenDataStorage.Core.Entities.Aliases;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace OpenDataStorage.API.Aliases
 
         protected async Task<T> GetInternal(Guid id)
         {
-            return await _DbSetManager.GetEntityQuery(id).FirstOrDefaultAsync();
+            return await _DbSetManager.GetQueryWithAllDependencies(id).FirstOrDefaultAsync();
         }
 
         protected async Task<HttpResponseMessage> CreateInternal(T entity)
@@ -25,7 +25,7 @@ namespace OpenDataStorage.API.Aliases
 
             try
             {
-                await _DbSetManager.Create(entity);
+                await _DbSetManager.CreateAsync(entity);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace OpenDataStorage.API.Aliases
 
             try
             {
-                await _DbSetManager.Update(entity);
+                await _DbSetManager.UpdateAsync(entity);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace OpenDataStorage.API.Aliases
         {
             try
             {
-                await _DbSetManager.Delete(id);
+                await _DbSetManager.DeleteAsync(id);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace OpenDataStorage.API.Aliases
 
         private async Task<HttpResponseMessage> CheckDuplicates(string value)
         {
-            var alias = await _DbSetManager.GetAllQuery().Where(a => a.Value.Equals(value, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefaultAsync();
+            var alias = await _DbSetManager.GetAllQueryWithAllDependencies().Where(a => a.Value.Equals(value, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefaultAsync();
             if (alias != null) return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, $"Aliase is exist. Id = {alias.Id}");
             return null;
         }
