@@ -54,10 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\StoredProceduresManager.cs" />
     <Compile Include="DbContext\IDbContextBase.cs" />
     <Compile Include="DbContext\IOpenDataStorageDbContext.cs" />
     <Compile Include="DbContext\OpenDataStorageDbContext.cs" />
-    <Compile Include="DbContext\OpenDataStorageDbInitializer.cs" />
+    <Compile Include="Common\DbInitializer.cs" />
     <Compile Include="DbSetManagers\BaseDbSetManager.cs" />
     <Compile Include="DbSetManagers\BaseEntityDbSetManagers\Aliases\CharacteristicAliasDbSetManager.cs" />
     <Compile Include="DbSetManagers\BaseEntityDbSetManagers\Aliases\HierarchyObjectAliasDbSetManager.cs" />

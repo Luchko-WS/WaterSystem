@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using OpenDataStorage.Core.DataAccessLayer.Common;
 
 namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityManagers.Core
 {
@@ -200,7 +201,9 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
         private async Task ExecutePreInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = instance.RightKey };
-            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + _tableName + "PreCreateNestedSetsNode @RightKey", rightKeyParam);
+            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + 
+                StoredProceduresManager.Instance.GetPreCreateNestedSetsNodeSpName(this) + " @RightKey",
+                rightKeyParam);
         }
 
         private async Task<Guid> ExecuteInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
@@ -257,7 +260,9 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
             var parentLevelParam = new SqlParameter { ParameterName = "ParentLevel", Value = parent.Level };
 
             await _dbContainer.Database
-                .ExecuteSqlCommandAsync("exec dbo." + _tableName + "MoveNestedSetsNode @NodeLeftKey, @NodeRightKey, @NodeLevel, @ParentLeftKey, @ParentRightKey, @ParentLevel", 
+                .ExecuteSqlCommandAsync("exec dbo." + 
+                    StoredProceduresManager.Instance.GetMoveNestedSetsNodeSpName(this) + 
+                    " @NodeLeftKey, @NodeRightKey, @NodeLevel, @ParentLeftKey, @ParentRightKey, @ParentLevel", 
                     nodeLeftKeyParam, nodeRightKeyParam, nodeLevelParam, parentLeftKeyParam, parentRightKeyParam, parentLevelParam);
         }
 
@@ -277,7 +282,9 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
 
             var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = lefrKey };
             var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = rightKey };
-            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + _tableName + "PostRemoveNestedSetsNode @LeftKey, @RightKey", leftKeyParam, rightKeyParam);
+            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + 
+                StoredProceduresManager.Instance.GetPostRemoveNestedSetsNodeSpName(this) + " @LeftKey, @RightKey",
+                leftKeyParam, rightKeyParam);
         }
 
         #endregion
