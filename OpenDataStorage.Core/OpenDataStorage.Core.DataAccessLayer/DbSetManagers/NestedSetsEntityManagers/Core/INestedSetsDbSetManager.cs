@@ -12,7 +12,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
 
         Task MoveAsync(Guid entityId, Guid parentId);
 
-        Task<ICollection<T>> GetChildrenAsync(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath);
+        Task<ICollection<T>> GetChildrenAsync(Guid id, bool includeItself = false,
+            params Expression<Func<T, object>>[] includedPath);
 
         Task<ICollection<T>> GetChildrenWithAllDependenciesAsync(Guid id, bool includeItself = false);
 
@@ -20,7 +21,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
 
         Task<T> GetParentWithAllDependenciesAsync(Guid id);
 
-        Task<ICollection<T>> GetParentsAsync(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath);
+        Task<ICollection<T>> GetParentsAsync(Guid id, bool includeItself = false,
+            params Expression<Func<T, object>>[] includedPath);
 
         Task<ICollection<T>> GetParentsWithAllDependenciesAsync(Guid id, bool includeItself = false);
     }

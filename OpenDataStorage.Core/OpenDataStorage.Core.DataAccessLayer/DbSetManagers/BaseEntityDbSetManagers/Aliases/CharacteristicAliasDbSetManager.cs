@@ -6,7 +6,8 @@ using OpenDataStorage.Core.Entities.Aliases;
 
 namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers.Aliases
 {
-    public class CharacteristicAliasDbSetManager : BaseEntityDbSetManager<CharacteristicAlias>, IAliasDbSetManager<CharacteristicAlias>
+    public class CharacteristicAliasDbSetManager : BaseEntityDbSetManager<CharacteristicAlias>,
+        IAliasDbSetManager<CharacteristicAlias>
     {
         public CharacteristicAliasDbSetManager(DbSet<CharacteristicAlias> entities, IDbContextBase dbContext)
             : base(entities, dbContext, "CharacteristicAliases") { }

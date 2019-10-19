@@ -14,7 +14,8 @@ using OpenDataStorage.Core.DataAccessLayer.Common;
 
 namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityManagers.Core
 {
-    public abstract class BaseNestedSetsEntityDbManager<T> : BaseDbSetManager<T>, INestedSetsDbSetManager<T> where T : NestedSetsEntity
+    public abstract class BaseNestedSetsEntityDbManager<T> : BaseDbSetManager<T>,
+        INestedSetsDbSetManager<T> where T : NestedSetsEntity
     {
         protected readonly IDbContainer _dbContainer;
 
@@ -28,7 +29,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
 
         public abstract Task MoveAsync(Guid entityId, Guid parentId);
 
-        public virtual async Task<ICollection<T>> GetChildrenAsync(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
+        public virtual async Task<ICollection<T>> GetChildrenAsync(Guid id, bool includeItself = false,
+            params Expression<Func<T, object>>[] includedPath)
         {
             var entity = await CheckAndGetEntityByIdAsync(id);
             return await AggregateQuery(GetChildrenQuery(entity, includeItself), includedPath).ToListAsync();
@@ -55,7 +57,7 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
         }
 
         public virtual async Task<T> GetParentWithAllDependenciesAsync(Guid id)
-    {
+        {
             var entity = await CheckAndGetEntityByIdAsync(id);
             return await IncludeAllDependencies(GetParentQuery(entity)).FirstOrDefaultAsync();
         }
@@ -66,7 +68,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
                 .Where(e => e.LeftKey <= entity.LeftKey && e.RightKey >= entity.RightKey && e.Level == entity.Level - 1);
         }
 
-        public virtual async Task<ICollection<T>> GetParentsAsync(Guid id, bool includeItself = false, params Expression<Func<T, object>>[] includedPath)
+        public virtual async Task<ICollection<T>> GetParentsAsync(Guid id, bool includeItself = false,
+            params Expression<Func<T, object>>[] includedPath)
         {
             var entity = await CheckAndGetEntityByIdAsync(id);
             return await AggregateQuery(GetRootNodesQuery(entity, includeItself), includedPath).ToListAsync();
@@ -144,7 +147,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
         {
             if (parentEntity.LeftKey > entity.LeftKey && parentEntity.RightKey < entity.RightKey)
             {
-                throw new ArgumentException(string.Format("Could move node {0} in child node {1} in {2} table.", entity.Id, parentEntity.Id, _tableName));
+                throw new ArgumentException(string.Format("Could move node {0} in child node {1} in {2} table.",
+                    entity.Id, parentEntity.Id, _tableName));
             }
 
             using (var transaction = _dbContainer.Database.BeginTransaction())
@@ -201,7 +205,7 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
         private async Task ExecutePreInsertSqlCommand<NS>(NS instance) where NS : NestedSetsEntity
         {
             var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = instance.RightKey };
-            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + 
+            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." +
                 StoredProceduresManager.Instance.GetPreCreateNestedSetsNodeSpName(this) + " @RightKey",
                 rightKeyParam);
         }
@@ -249,7 +253,7 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
             await _dbContainer.Database.ExecuteSqlCommandAsync(commandText, sqlParameters.ToArray());
         }
 
-        private async Task ExecuteMoveSqlCommand<NS>(NS entity, NS parent) where NS: NestedSetsEntity
+        private async Task ExecuteMoveSqlCommand<NS>(NS entity, NS parent) where NS : NestedSetsEntity
         {
             var nodeLeftKeyParam = new SqlParameter { ParameterName = "NodeLeftKey", Value = entity.LeftKey };
             var nodeRightKeyParam = new SqlParameter { ParameterName = "NodeRightKey", Value = entity.RightKey };
@@ -260,9 +264,9 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
             var parentLevelParam = new SqlParameter { ParameterName = "ParentLevel", Value = parent.Level };
 
             await _dbContainer.Database
-                .ExecuteSqlCommandAsync("exec dbo." + 
-                    StoredProceduresManager.Instance.GetMoveNestedSetsNodeSpName(this) + 
-                    " @NodeLeftKey, @NodeRightKey, @NodeLevel, @ParentLeftKey, @ParentRightKey, @ParentLevel", 
+                .ExecuteSqlCommandAsync("exec dbo." +
+                    StoredProceduresManager.Instance.GetMoveNestedSetsNodeSpName(this) +
+                    " @NodeLeftKey, @NodeRightKey, @NodeLevel, @ParentLeftKey, @ParentRightKey, @ParentLevel",
                     nodeLeftKeyParam, nodeRightKeyParam, nodeLevelParam, parentLeftKeyParam, parentRightKeyParam, parentLevelParam);
         }
 
@@ -282,7 +286,7 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
 
             var leftKeyParam = new SqlParameter { ParameterName = "LeftKey", Value = lefrKey };
             var rightKeyParam = new SqlParameter { ParameterName = "RightKey", Value = rightKey };
-            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." + 
+            await _dbContainer.Database.ExecuteSqlCommandAsync("exec dbo." +
                 StoredProceduresManager.Instance.GetPostRemoveNestedSetsNodeSpName(this) + " @LeftKey, @RightKey",
                 leftKeyParam, rightKeyParam);
         }

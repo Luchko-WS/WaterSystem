@@ -6,7 +6,8 @@ using OpenDataStorage.Core.Entities.Aliases;
 
 namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers.Aliases
 {
-    public class HierarchyObjectAliasDbSetManager : BaseEntityDbSetManager<HierarchyObjectAlias>, IAliasDbSetManager<HierarchyObjectAlias>
+    public class HierarchyObjectAliasDbSetManager : BaseEntityDbSetManager<HierarchyObjectAlias>,
+        IAliasDbSetManager<HierarchyObjectAlias>
     {
         public HierarchyObjectAliasDbSetManager(DbSet<HierarchyObjectAlias> entities, IDbContextBase dbContext)
             : base(entities, dbContext, "HierarchyObjectAliases") { }

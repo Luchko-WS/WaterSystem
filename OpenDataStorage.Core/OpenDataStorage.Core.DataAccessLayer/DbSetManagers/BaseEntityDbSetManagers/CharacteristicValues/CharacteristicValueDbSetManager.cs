@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetManagers.CharacteristicValues
 {
-    public class CharacteristicValueDbSetManager<T> : BaseEntityDbSetManager<BaseCharacteristicValue>, ICharacteristicValueDbSetManager where T : BaseCharacteristicValue
+    public class CharacteristicValueDbSetManager<T> : BaseEntityDbSetManager<BaseCharacteristicValue>,
+        ICharacteristicValueDbSetManager where T : BaseCharacteristicValue
     {
         public CharacteristicValueDbSetManager(DbSet<BaseCharacteristicValue> entities, IDbContextBase dbContext)
             : base(entities, dbContext, "CharacteristicValues") { }
@@ -19,7 +20,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetMana
             return base.GetAllQueryWithAllDependencies().Where(e => e.CharacteristicId == characteristicId);
         }
 
-        public IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId, params Expression<Func<BaseCharacteristicValue, object>>[] includedPath)
+        public IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId,
+            params Expression<Func<BaseCharacteristicValue, object>>[] includedPath)
         {
             return base.GetAllQuery(includedPath).Where(e => e.CharacteristicId == characteristicId);
         }
@@ -29,7 +31,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetMana
             return base.GetAllQueryWithAllDependencies().Where(e => e.HierarchyObjectId == objectId);
         }
 
-        public IQueryable<BaseCharacteristicValue> GetAllForObjectQuery(Guid objectId, params Expression<Func<BaseCharacteristicValue, object>>[] includedPath)
+        public IQueryable<BaseCharacteristicValue> GetAllForObjectQuery(Guid objectId,
+            params Expression<Func<BaseCharacteristicValue, object>>[] includedPath)
         {
             return base.GetAllQuery(includedPath).Where(e => e.HierarchyObjectId == objectId);
         }
@@ -55,8 +58,10 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetMana
         {
             if (value.IsTimeIntervalValue)
             {
-                if (!value.CreationDate.HasValue || !value.EndCreationDate.HasValue) throw new ArgumentException("Begin or end date value is missing for interval");
-                if (value.CreationDate > value.EndCreationDate) throw new ArgumentException("Begin date cannot be greater than end date in interval");
+                if (!value.CreationDate.HasValue || !value.EndCreationDate.HasValue)
+                    throw new ArgumentException("Begin or end date value is missing for interval");
+                if (value.CreationDate > value.EndCreationDate)
+                    throw new ArgumentException("Begin date cannot be greater than end date in interval");
             }
         }
     }

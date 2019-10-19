@@ -9,10 +9,12 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.BaseEntityDbSetMana
     {
         IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQueryWithAllDependencies(Guid characteristicId);
 
-        IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId, params Expression<Func<BaseCharacteristicValue, object>>[] includedPath);
+        IQueryable<BaseCharacteristicValue> GetAllForCharacteristicQuery(Guid characteristicId,
+            params Expression<Func<BaseCharacteristicValue, object>>[] includedPath);
 
         IQueryable<BaseCharacteristicValue> GetAllForObjectQueryWithAllDependencies(Guid objectId);
 
-        IQueryable<BaseCharacteristicValue> GetAllForObjectQuery(Guid objectId, params Expression<Func<BaseCharacteristicValue, object>>[] includedPath);
+        IQueryable<BaseCharacteristicValue> GetAllForObjectQuery(Guid objectId,
+            params Expression<Func<BaseCharacteristicValue, object>>[] includedPath);
     }
 }

@@ -16,7 +16,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
             var parentNode = await CheckAndGetEntityByIdAsync(parentId);
             if (parentNode.EntityType != EntityType.Folder)
             {
-                throw new ArgumentException(string.Format("Entity with id = {0} is not a folder in {1} table.", parentId, TableName));
+                throw new ArgumentException(string.Format("Entity with id = {0} is not a folder in {1} table.",
+                    parentId, TableName));
             }
             return await ExecuteCreateAsync(entity, parentNode);
         }
@@ -27,7 +28,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
             var parentNode = await CheckAndGetEntityByIdAsync(parentId);
             if (parentNode.EntityType != EntityType.Folder)
             {
-                throw new ArgumentException(string.Format("Node with id = {0} is not a folder in {1} table.", parentId, TableName));
+                throw new ArgumentException(string.Format("Node with id = {0} is not a folder in {1} table.",
+                    parentId, TableName));
             }
             await ExecuteMoveAsync(entity, parentNode);
         }

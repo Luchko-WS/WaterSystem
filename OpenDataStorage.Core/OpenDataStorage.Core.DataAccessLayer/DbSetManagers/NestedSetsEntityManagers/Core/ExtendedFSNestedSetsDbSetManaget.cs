@@ -8,7 +8,7 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
 {
     public abstract class ExtendedFSNestedSetsDbSetManaget<T> : FSNestedSetsDbSetManager<T> where T : NestedSetsFSEntity
     {
-        public ExtendedFSNestedSetsDbSetManaget(DbSet<T> entities, IDbContainer dbContainer, string tableName) 
+        public ExtendedFSNestedSetsDbSetManaget(DbSet<T> entities, IDbContainer dbContainer, string tableName)
             : base(entities, dbContainer, tableName) { }
 
         public override async Task<Guid> CreateAsync(T entity, Guid parentId)
@@ -16,7 +16,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
             var parentNode = await CheckAndGetEntityByIdAsync(parentId);
             if (entity.EntityType == EntityType.Folder && parentNode.EntityType == EntityType.File)
             {
-                throw new ArgumentException(string.Format("Cannot create child folder in entity {0} in {1} table.", parentId, TableName));
+                throw new ArgumentException(string.Format("Cannot create child folder in entity {0} in {1} table.",
+                    parentId, TableName));
             }
             return await ExecuteCreateAsync(entity, parentNode);
         }
@@ -27,7 +28,8 @@ namespace OpenDataStorage.Core.DataAccessLayer.DbSetManagers.NestedSetsEntityMan
             var parentNode = await CheckAndGetEntityByIdAsync(parentId);
             if (entity.EntityType == EntityType.Folder && parentNode.EntityType == EntityType.File)
             {
-                throw new ArgumentException(string.Format("Cannot create child folder in entity {0} in {1} table.", parentId, TableName));
+                throw new ArgumentException(string.Format("Cannot create child folder in entity {0} in {1} table.",
+                    parentId, TableName));
             }
             await ExecuteMoveAsync(entity, parentNode);
         }
