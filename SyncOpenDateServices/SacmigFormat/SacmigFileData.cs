@@ -1,4 +1,5 @@
-﻿using OpenDataStorage.Core.Entities.CharacteristicValues;
+﻿using Newtonsoft.Json;
+using OpenDataStorage.Core.Entities.CharacteristicValues;
 using System;
 using System.Collections.Generic;
 
@@ -6,12 +7,15 @@ namespace SyncOpenDateServices.SacmigFormat
 {
     public class SacmigFileData
     {
+        [JsonProperty]
         private readonly Dictionary<string, List<NumberCharacteristicValue>> _characteristicValues;
 
         public SacmigFileData()
         {
             _characteristicValues = new Dictionary<string, List<NumberCharacteristicValue>>();
         }
+
+        public string ObjectName { get; set; }
 
         public string SubjectOfMonitoring { get; set; }
 
@@ -40,7 +44,7 @@ namespace SyncOpenDateServices.SacmigFormat
                 _characteristicValues[characteristicName] : null;
         }
 
-        public IEnumerable<string> GetCharacteristiNames()
+        public IEnumerable<string> GetCharacteristicsNames()
         {
             return _characteristicValues.Keys;
         }

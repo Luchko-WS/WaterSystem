@@ -118,7 +118,7 @@ namespace OpenDataStorage.API.Management
                             var data = parser.Parse(file.InputStream);
 
                             //check characteristics
-                            var characteristicsNames = data.GetCharacteristiNames();
+                            var characteristicsNames = data.GetCharacteristicsNames();
                             var serviceDescription = "synced from Sacmig file format";
                             var characteristicsMap = await MapCharateristicsNamesAndCreateWhetherDoesNotExist(characteristicsNames, serviceDescription);
 

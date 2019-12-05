@@ -14,14 +14,15 @@ namespace SyncOpenDateServices.SacmigFormat
             ExcelPackage excelDocument = new ExcelPackage(stream);
             ExcelWorksheet workSheet = excelDocument.Workbook.Worksheets.First();
 
-            var startRow = workSheet.Dimension.Start.Row;
-            var startColumn = workSheet.Dimension.Start.Column;
+            var startRow = 1;
+            var startColumn = 1;
             var endRow = workSheet.Dimension.End.Row;
             var endColumn = workSheet.Dimension.End.Column;
 
             var data = new SacmigFileData
             {
-                SubjectOfMonitoring = workSheet.Cells[startRow++, 1].Value.ToString()
+                ObjectName = workSheet.Cells[startRow++, 1].Value?.ToString(),
+                SubjectOfMonitoring = workSheet.Cells[startRow++, 1].Value?.ToString()
             };
             var keys = ParseHeader(workSheet, startRow, startColumn, endColumn);
             for (int rowId = startRow + 1; rowId <= endRow; rowId++)

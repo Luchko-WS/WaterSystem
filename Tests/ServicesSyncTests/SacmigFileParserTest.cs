@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using SyncOpenDateServices.SacmigFormat;
 
 namespace ServicesSyncTests
@@ -10,10 +12,24 @@ namespace ServicesSyncTests
         [TestMethod]
         public void GetDataTest()
         {
-            var stream = File.Open("test.xlsx", FileMode.Open);
-            var parser = new SacmigFileParser();
-            var data = parser.Parse(stream);
-            stream.Close();
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    SacmigFileData data;
+                    using (var stream = File.Open(openFileDialog.FileName, FileMode.Open))
+                    {
+                        var parser = new SacmigFileParser();
+                        data = parser.Parse(stream);
+                    }
+
+                    var sz = JsonConvert.SerializeObject(data);
+                    using (var sw = new StreamWriter($"{openFileDialog.SafeFileName}.json"))
+                    {
+                        sw.WriteLine(sz);
+                    }
+                }
+            }
         }
     }
 }
