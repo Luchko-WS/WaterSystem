@@ -1,10 +1,13 @@
-﻿namespace OpenDataStorage.Core.Entities.NestedSets
+﻿using OpenDataStorage.Core.Attributes;
+
+namespace OpenDataStorage.Core.Entities.NestedSets
 {
     public class NestedSetsFSEntity: NestedSetsEntity
     {
         public NestedSetsFSEntity() : base()
         { }
 
+        [IgnoreWhenUpdate]
         public EntityType EntityType { get; set; }
     }
 
